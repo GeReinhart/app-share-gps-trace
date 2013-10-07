@@ -74,7 +74,7 @@ main() {
       trail.title ="update title" ;
       return persitence.saveOrUpdateTrail(trail);
     }).then((savedTrail){
-      expect(savedTrail.title, "update title") ;    
+      expect(savedTrail.title, "update title2") ;    
     });
   }); 
 
