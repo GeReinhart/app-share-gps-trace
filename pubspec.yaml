@@ -1,0 +1,7 @@
+name: dart_trails
+author: gerald reinhart
+description: Sharing gps trace files
+dependencies:
+  browser: any
+  mongo_dart: any
+  unittest: any

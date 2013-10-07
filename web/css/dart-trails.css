@@ -1,0 +1,51 @@
+
+
+.space-north-west {
+	z-index: 100 ;
+	
+	background-color: #CED5F2;
+
+    border-bottom-width: 1px;
+	border-bottom-color: black;
+	border-bottom-style: solid;
+    border-right-width: 1px;
+	border-right-color: black;
+	border-right-style: solid;
+
+}
+
+.space-north-east {
+	z-index: 100 ;
+		
+	background-color: #CDF7CE;
+
+	border-bottom-width: 1px;
+	border-bottom-color: black;
+	border-bottom-style: solid;	
+}
+
+.space-south-west {
+	z-index: 100 ;
+		
+	background-color: #F0EE90;
+
+    border-right-width: 1px;
+	border-right-color: black;
+	border-right-style: solid;	
+	
+}
+
+.space-south-east {
+	z-index: 100 ;
+		
+	background-color: #F5C4B5;
+	
+}
+
+.space-center {
+	z-index: 101 ;
+	
+	background-color: red;
+}
+
+
