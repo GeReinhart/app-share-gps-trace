@@ -1,0 +1,44 @@
+
+//////////////////////////////////////////////////////////////////////////////////////
+// NETWORK SOLUTIONS : DNS
+//
+// Bought la-boussole.info domain
+
+//////////////////////////////////////////////////////////////////////////////////////
+// GITHUB : source managment
+//
+// https://github.com/GeReinhart/dart-trails
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+// DRONE : continuous integration
+//
+// https://drone.io/github.com/GeReinhart/dart-trails
+
+
+// Get the ssh deployment key  from https://drone.io/github.com/GeReinhart/dart-trails/admin/deployments#/edit/heroku/0
+// Add it to https://dashboard.heroku.com/account SSH Keys
+
+//////////////////////////////////////////////////////////////////////////////////////
+// HEROKU : application hosting
+//
+// https://dashboard.heroku.com/apps/la-boussole
+// deployed to http://la-boussole.herokuapp.com
+//
+// Application setup
+wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+heroku login
+
+heroku create la-boussole -s cedar
+heroku addons:add mongolab --app la-boussole
+heroku domains:add www.la-boussole.info
+
+// Setup the Dart environment
+heroku config:add BUILDPACK_URL=https://github.com/selkhateeb/heroku-buildpack-dart.git --app la-boussole
+heroku labs:enable user-env-compile --app la-boussole
+heroku config:set DART_SDK_URL=https://github.com/selkhateeb/heroku-vagrant-dart-build/releases/download/0.7.3.1_r274 --app la-boussole
+
+// Mongo db connection
+mongo ds049558.mongolab.com:49558/heroku_app18544190 -u la-boussole-user -p dev38
+

@@ -37,10 +37,18 @@ packages:
     description: path
     source: hosted
     version: "0.7.3+1"
+  rikulo_commons:
+    description: rikulo_commons
+    source: hosted
+    version: "0.8.7"
   stack_trace:
     description: stack_trace
     source: hosted
     version: "0.7.3+1"
+  stream:
+    description: stream
+    source: hosted
+    version: "0.8.3+3"
   unittest:
     description: unittest
     source: hosted
