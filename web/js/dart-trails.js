@@ -12,11 +12,13 @@ function Layout(  spaceNorthWestSelectorParam, spaceNorthEastSelectorParam, spac
 	var documentHeight ; 
 	var centerRight ;
 	var centerTop ;
+	var centerSize ;
 	
-	this.organizeSpaces = function( documentWidthParam, documentHeightParam, centerRightParam , centerTopParam){
+	this.organizeSpaces = function( documentWidthParam, documentHeightParam, centerRightParam , centerTopParam, centerSizeParam){
 		
 		centerRight = centerRightParam ;
 		centerTop = centerTopParam ;
+		centerSize = centerSizeParam ;
 		documentWidth = documentWidthParam ;
 		documentHeight = documentHeightParam; 
 		
@@ -47,13 +49,13 @@ function Layout(  spaceNorthWestSelectorParam, spaceNorthEastSelectorParam, spac
 		$(spaceSouthEastSelector).css('height',(documentHeight - centerTop-1) );	
 	
 		$(spaceCenterSelector).css('position','absolute');
-		$(spaceCenterSelector).css('right',(centerRight  - 50 /2   +1 ) );
-		$(spaceCenterSelector).css('top',  (centerTop    - 50 /2 + 1) );
-		$(spaceCenterSelector).css('width', 50  );		
-		$(spaceCenterSelector).css('height',50 );	
+		$(spaceCenterSelector).css('right',(centerRight  - centerSize /2    ) );
+		$(spaceCenterSelector).css('top',  (centerTop    - centerSize /2    ) );
+		$(spaceCenterSelector).css('width', centerSize  );		
+		$(spaceCenterSelector).css('height',centerSize );	
 	}
 	
-	this.updateSpaces = function(documentWidthParam, documentHeightParam){
+	    this.updateSpaces = function(documentWidthParam, documentHeightParam){
 		this.organizeSpaces(documentWidthParam, documentHeightParam, centerRight, centerTop);
 	}
 	

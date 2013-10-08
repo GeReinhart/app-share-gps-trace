@@ -3,7 +3,7 @@
 .space-north-west {
 	z-index: 100 ;
 	
-	background-color: #CED5F2;
+	background-color: white;
 
     border-bottom-width: 1px;
 	border-bottom-color: black;
@@ -17,7 +17,7 @@
 .space-north-east {
 	z-index: 100 ;
 		
-	background-color: #CDF7CE;
+	background-color: white;
 
 	border-bottom-width: 1px;
 	border-bottom-color: black;
@@ -27,7 +27,7 @@
 .space-south-west {
 	z-index: 100 ;
 		
-	background-color: #F0EE90;
+	background-color: white;
 
     border-right-width: 1px;
 	border-right-color: black;
@@ -38,14 +38,14 @@
 .space-south-east {
 	z-index: 100 ;
 		
-	background-color: #F5C4B5;
+	background-color: white;
 	
 }
 
 .space-center {
 	z-index: 101 ;
 	
-	background-color: red;
+	
 }
 
 

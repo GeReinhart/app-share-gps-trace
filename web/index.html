@@ -10,20 +10,17 @@
 </head>
 <body>
 
-	<div class="space-north-west"  > Space North West </div>
-	<div class="space-north-east"  > Space North East </div>
-	<div class="space-south-west"  > Space South West </div>
-	<div class="space-south-east"  > Space South East </div>
-	<div class="space-center"       >&nbsp;           </div>
+	<div class="space-north-west"  > &nbsp; </div>
+	<div class="space-north-east"  > &nbsp; </div>
+	<div class="space-south-west"  > &nbsp; </div>
+	<div class="space-south-east"  > &nbsp; </div>
+	<div class="space-center" ><img height="200" width="200"  src="img/compass.png"/></div>
 
 
 
    <script>
 		var boussoleLayout = new Layout(".space-north-west", ".space-north-east", ".space-south-west", ".space-south-east", ".space-center") ;
-
-		$( window ).load(function() {
-			boussoleLayout.organizeSpaces(document.width,  document.height , document.width * 0.5 , document.height * 0.5  );
-		});   
+		boussoleLayout.organizeSpaces(document.width,  document.height , document.width * 0.5 , document.height * 0.5, 200  );
 		
 		$( window ).resize(function() {
 			boussoleLayout.updateSpaces(document.width,  document.height  );
