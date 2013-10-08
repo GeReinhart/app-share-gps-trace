@@ -14,13 +14,13 @@
 	<div class="space-north-east"  > &nbsp; </div>
 	<div class="space-south-west"  > &nbsp; </div>
 	<div class="space-south-east"  > &nbsp; </div>
-	<div class="space-center" ><img height="200" width="200"  src="img/compass.png"/></div>
+	<div class="space-center" ><img  src="img/compass_275.png"/></div>
 
 
 
    <script>
 		var boussoleLayout = new Layout(".space-north-west", ".space-north-east", ".space-south-west", ".space-south-east", ".space-center") ;
-		boussoleLayout.organizeSpaces(document.width,  document.height , document.width * 0.5 , document.height * 0.5, 200  );
+		boussoleLayout.organizeSpaces(document.width,  document.height , document.width * 0.5 , document.height * 0.5, 275  );
 		
 		$( window ).resize(function() {
 			boussoleLayout.updateSpaces(document.width,  document.height  );

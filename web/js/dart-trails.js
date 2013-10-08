@@ -49,8 +49,8 @@ function Layout(  spaceNorthWestSelectorParam, spaceNorthEastSelectorParam, spac
 		$(spaceSouthEastSelector).css('height',(documentHeight - centerTop-1) );	
 	
 		$(spaceCenterSelector).css('position','absolute');
-		$(spaceCenterSelector).css('right',(centerRight  - centerSize /2    ) );
-		$(spaceCenterSelector).css('top',  (centerTop    - centerSize /2    ) );
+		$(spaceCenterSelector).css('right',(centerRight  - centerSize /2 +2   ) );
+		$(spaceCenterSelector).css('top',  (centerTop    - centerSize /2      ) );
 		$(spaceCenterSelector).css('width', centerSize  );		
 		$(spaceCenterSelector).css('height',centerSize );	
 	}
