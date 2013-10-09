@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
  <head>
-	<title>La Boussole</title>
+	 <title>La Boussole</title>
+	 <link rel="shortcut icon" type="image/x-icon" href="img/compass_275.png" ><link>	 
 	 <link href="css/bootstrap.css"  rel="stylesheet" media="screen" ><link>
 	 <link href="css/dart-trails.css" rel="stylesheet" media="screen" ><link>
 	 <script src="http://code.jquery.com/jquery.js"></script>
@@ -14,13 +15,13 @@
 	<div class="space-north-east"  > &nbsp; </div>
 	<div class="space-south-west"  > &nbsp; </div>
 	<div class="space-south-east"  > &nbsp; </div>
-	<div class="space-center" ><img  src="img/compass_275.png"/></div>
+	<div class="space-center" ><a href="about.html"><img   height="180px" width="180px" src="img/compass_275.png"></img></a></div>
 
 
 
    <script>
 		var boussoleLayout = new Layout(".space-north-west", ".space-north-east", ".space-south-west", ".space-south-east", ".space-center") ;
-		boussoleLayout.organizeSpaces(window.innerWidth,  window.innerHeight , window.innerWidth * 0.5 , window.innerHeight * 0.5, 275  );
+		boussoleLayout.organizeSpaces(window.innerWidth,  window.innerHeight , window.innerWidth * 0.5 , window.innerHeight * 0.5, 180  );
 		
 		$( window ).resize(function() {
 			boussoleLayout.updateSpaces(window.innerWidth,  window.innerHeight  );
