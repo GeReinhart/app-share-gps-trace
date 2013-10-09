@@ -10,6 +10,12 @@ abstract class PersistenceLayer{
   Future<Trail>  getTrailById(String id) ;
 
   Future<Trail> saveOrUpdateTrail(Trail trail) ;
+  
+  Future<List<User>> getUsers();
+  
+  Future<User> getUserById(String id);
+  
+  Future<User> saveOrUpdateUser(User user);
 }
 
 
@@ -17,23 +23,12 @@ class MongoPersistence implements PersistenceLayer{
   
   Db _mongodb;
   DbCollection _trailCollection;
+  DbCollection _userCollection;
   
   MongoPersistence(mongoUrl){
     _mongodb = new Db(mongoUrl);
     _trailCollection = _mongodb.collection('trails');
-  }
-
-  Future<Trail> getTrailById(String id) {
-    return _mongodb.open()
-          .then((_){
-            return _trailCollection.findOne(where.eq("_id", id));
-          })
-          .then((jsonTrail) {
-            return new Trail.fromJson(jsonTrail);
-          })
-          .whenComplete((){
-            _mongodb.close();
-          });
+    _userCollection = _mongodb.collection('users');
   }
 
   Future<List<Trail>> getTrailsByCreator(String creator) {
@@ -55,9 +50,21 @@ class MongoPersistence implements PersistenceLayer{
           });
   }
 
+  Future<Trail> getTrailById(String id) {
+    return _mongodb.open()
+          .then((_){
+            return _trailCollection.findOne(where.eq("_id", id));
+          })
+          .then((jsonTrail) {
+            return new Trail.fromJson(jsonTrail);
+          })
+          .whenComplete((){
+            _mongodb.close();
+          });
+  }
+  
   Future<Trail> saveOrUpdateTrail(Trail trail) {
     
-
     return _mongodb.open()
           .then((_){
 
@@ -76,7 +83,58 @@ class MongoPersistence implements PersistenceLayer{
               _mongodb.close();
           });
   }
+  
+  Future<List<User>> getUsers() {
+    
+    List<User> users = new List();
+    
+    return _mongodb.open()
+          .then((_){
+              return _userCollection.find().forEach((jsonUser){
+                User user = new User.fromJson(jsonUser);
+                users.add(user);
+              });
+          })
+         .then((_) {
+              return users;
+          })
+          .whenComplete((){
+              _mongodb.close();
+          });
+  }
+
+  Future<User> getUserById(String id) {
+    return _mongodb.open()
+          .then((_){
+            return _userCollection.findOne(where.eq("_id", id));
+          })
+          .then((jsonUser) {
+            return new User.fromJson(jsonUser);
+          })
+          .whenComplete((){
+            _mongodb.close();
+          });
+  }
+  
+  Future<User> saveOrUpdateUser(User user) {
+    
+    return _mongodb.open()
+        .then((_){
+
+          if(user.id == null){
+            user.id = new ObjectId().toString();
+            return _userCollection.insert(user.toJson()) ;
+          }else{
+            return _userCollection.update(where.eq("_id", user.id),   user.toJson());
+          }
+          
+        })
+          .then((savedUser) {
+            return user;
+          })
+          .whenComplete((){
+              _mongodb.close();
+          });
+  }
+  
 }
-
-
-

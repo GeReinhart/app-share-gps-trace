@@ -26,6 +26,37 @@ class Trail {
   Map toJson() {
     return {'_id': id,'creator': creator, 'title': title, 'traceFile': traceFile, 'description': description};
   }
-  
 
+}
+
+class User {
+  
+  String id;
+
+  String login;
+
+  String encryptedPassword;
+  
+  String firstName;
+  
+  String lastName ;
+  
+  User(this.login, this.encryptedPassword, this.firstName, this.lastName);
+  
+  User.withId(this.id,this.login, this.encryptedPassword, this.firstName, this.lastName);
+  
+  User.fromJson(Map map) {
+    id = map['_id'];
+    login = map['login'];
+    encryptedPassword = map['encryptedPassword'];
+    firstName = map['firstName'];
+    lastName = map['lastName'];
+  }
+  
+  Map toJson() {
+    return {'_id': id,'login': login, 'encryptedPassword': encryptedPassword, 
+      'firstName': firstName, 'lastName': lastName};
+  }
+  
+  
 }
