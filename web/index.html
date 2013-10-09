@@ -20,10 +20,10 @@
 
    <script>
 		var boussoleLayout = new Layout(".space-north-west", ".space-north-east", ".space-south-west", ".space-south-east", ".space-center") ;
-		boussoleLayout.organizeSpaces(document.width,  document.height , document.width * 0.5 , document.height * 0.5, 275  );
+		boussoleLayout.organizeSpaces(window.innerWidth,  window.innerHeight , window.innerWidth * 0.5 , window.innerHeight * 0.5, 275  );
 		
 		$( window ).resize(function() {
-			boussoleLayout.updateSpaces(document.width,  document.height  );
+			boussoleLayout.updateSpaces(window.innerWidth,  window.innerHeight  );
 		});   
    </script>
    
