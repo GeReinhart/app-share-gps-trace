@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+ <head>
+     <meta charset="utf-8">
+	 <title>La Boussole - maquette</title>
+	 <link rel="shortcut icon" type="image/x-icon" href="img/compass_275.png" ><link>	 
+	 <link href="css/bootstrap.css"  rel="stylesheet" media="screen" ><link>
+	 <link href="css/dart-trails.css" rel="stylesheet" media="screen" ><link>
+	 <script src="http://code.jquery.com/jquery.js"></script>
+	 <script src="js/bootstrap.min.js"></script>
+	 <script src="js/dart-trails.js"></script>
+</head>
+<body>
+
+	<div class="space-north-west"  > 
+	
+	<h1>La montée du Moucherotte</h1>
+	<h2>Le topo</h2>
+	<p>Longer l'ancien téléski, puis monter droit au-dessus dans la trouée de la forêt (ancienne piste de ski: pente plus soutenue et vernes en train de repousser).
+		A 1410m, l'ancienne piste part à gauche par une route qui contourne la montagne versant Grenoble (plat...). Cette route passe un semblant de défilé rocheux, puis traverse vers le S et monte en lacets vers le sommet (relais radio).
+		Les derniers lacets peuvent être coupés.
+		Les ruines de l'hôtel qui donnait autrefois du "caractère" au sommet ont été détruites.</p>
+	 </div>
+	<div class="space-north-east"  > 
+		  <img style="margin-top: 80px" src="img/mock_elevation.jpg"></img> 
+    </div>
+	<div class="space-south-west"  > 
+	       <img  width="800px"  src="img/mock_map.jpg"></img> 
+	</div>
+	<div class="space-south-east"  >
+	       <img    src="img/mock_picture.png"></img>
+	</div>
+	<div class="space-center" ><a href="index.html">
+	       <img   height="180px" width="180px" src="img/compass_275.png"></img></a>
+	</div>
+
+   <script>
+		var boussoleLayout = new Layout(".space-north-west", ".space-north-east", ".space-south-west", ".space-south-east", ".space-center") ;
+		boussoleLayout.organizeSpaces(window.innerWidth,  window.innerHeight , window.innerWidth * 0.15 , window.innerHeight * 0.3, 180  );
+		
+		$( window ).resize(function() {
+			boussoleLayout.updateSpaces(window.innerWidth,  window.innerHeight  );
+		});   
+   </script>
+   
+
+   <script src="packages/browser/dart.js"></script>
+</body>
+</html>
