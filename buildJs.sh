@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 rm -rf out
 mkdir out
 cp -r web/* out
