@@ -6,10 +6,7 @@
 	 <link rel="shortcut icon" type="image/x-icon" href="img/compass_275.png" ><link>
 	 <link href="css/bootstrap.css"  rel="stylesheet" media="screen" ><link>
 	 <link href="css/dart-trails.css" rel="stylesheet" media="screen" ><link>
-   <script src="js/jquery-2.0.3.min.js"></script>
-	 <script src="js/bootstrap.min.js"></script>
-	 <script src="js/dart-trails.js"></script>
-   <script src="js/google-analytics.js"></script>	 
+     <script src="js/google-analytics.js"></script>	 
 </head>
 <body>
 <div class="spaces" >
@@ -18,12 +15,12 @@
 		<h1>La boussole</h1>
 		<h2>Partager vos traces GPS</h2>
         <p>Que ce soit pour aller marcher en famille, randonner en montagne ou courir dans les bois c&apos;est toujours plus confortable de suivre notre gps. 
-        Le but de <em>la-boussole</em> est de vous proposer une mani&egrave;re innovante de choisir la trace GPS qu'il vous faut.</p>
+        Le but de <em>la-boussole</em> est de vous proposer une manière innovante de choisir la trace GPS qu'il vous faut.</p>
         <p>
-        <ul>Fonctionnalit&eacute;es pr&eacute;vues :
+        <ul>Fonctionnalitées prévues :
           <li>Visualiser la trace GPS sur une carte Top25.</li>
-          <li>Visualiser le d&eacute;nivel&eacute; sur un graphique int&eacute;ractif.</li>          
-          <li>Rechercher les traces pr&egrave;s de chez moi.</li>
+          <li>Visualiser le dénivelé sur un graphique intéractif.</li>          
+          <li>Rechercher les traces près de chez moi.</li>
           <li>Proposer une variante.</li>
           <li>...</li>
         </ul>
@@ -38,25 +35,25 @@
 	  <div class="inner-space" >
      <h2>Vue technique</h2>
 	   <ul>
-	      <li><em>la-boussole</em> est bas&eacute;e sur le nouveau <a href="https://www.dartlang.org/">language Dart</a> :
+	      <li><em>la-boussole</em> est basée sur le nouveau <a href="https://www.dartlang.org/">language Dart</a> :
 	         <ul>
-	           <li>platforme permettant d'utiliser le m&ecirc;me language cot&eacute; serveur et cot&eacute; navigateur.</li>
-	           <li>langage moderne exploitant les retours d'exp&eacute;riences des "vieux" languages.</li>
+	           <li>platforme permettant d'utiliser le même language coté serveur et coté navigateur.</li>
+	           <li>langage moderne exploitant les retours d'expériences des "vieux" languages.</li>
 	         </ul>
 	      </li>         
-	      <li><em>la-boussole</em> est construite, deploy&eacute;e et heberg&eacute;e gr&acirc;ce des services performants disponibles sur le web :
+	      <li><em>la-boussole</em> est construite, deployée et hebergée grâce des services performants disponibles sur le web :
 	         <ul>
 	           <li><a href="https://github.com/GeReinhart/dart-trails">GitHub.org</a> pour la gestion des sources.</li>
-	           <li><a href="https://drone.io/github.com/GeReinhart/dart-trails">Drone.io</a> pour l'int&eacute;gration continue et le deployement continu.</li>
-	           <li><a href="https://devcenter.heroku.com/">Heroku.com</a> pour l'h&eacute;bergement de l'application.</li>  
+	           <li><a href="https://drone.io/github.com/GeReinhart/dart-trails">Drone.io</a> pour l'intégration continue et le deployement continu.</li>
+	           <li><a href="https://devcenter.heroku.com/">Heroku.com</a> pour l'hébergement de l'application.</li>  
 	         </ul>
 	      </li>
-	      <li>l'architecture de <em>la-boussole</em> est bas&eacute;e sur :  
+	      <li>l'architecture de <em>la-boussole</em> est basée sur :  
 	         <ul>	      
-	           <li><a href="http://www.mongodb.org/">MongoDB</a> pour le stockage de donn&eacute;es h&eacute;t&eacute;rog&egrave;nes.</li>
+	           <li><a href="http://www.mongodb.org/">MongoDB</a> pour le stockage de données hétérogènes.</li>
 	           <li>Platforme Dart avec les librairies : <a href="https://github.com/vadimtsushko/objectory">objectory</a>, <a href="http://rikulo.org/">rikulo</a>...</li>
 	           <li><a href="http://api.ign.fr/services#web">GeoPortail API</a> pour naviguer sur les fameuses cartes Top25.</li>
-	           <li><a href="https://www.dartlang.org/docs/dart-up-and-running/contents/ch04-tools-dart2js.html">Javascript compil&eacute;</a> depuis le code Dart.</li>
+	           <li><a href="https://www.dartlang.org/docs/dart-up-and-running/contents/ch04-tools-dart2js.html">Javascript compilé</a> depuis le code Dart.</li>
 	           <li><a href="https://www.dartlang.org/polymer-dart">WebComponent sur Polymer</a>: c'est l'avenir du Web.</li>
 	         </ul>
 	      </li>
@@ -65,20 +62,10 @@
 	  </div>
 	</div>
 
-	<div class="space-center" ><a href="mock1.html"><img height="180px" width="180px" src="img/compass_275.png"/></a></div>
+	<div class="space-center" ><a href="mock.html"><img height="180px" width="180px" src="img/compass_275.png"/></a></div>
 </div>
 
-
-   <script>
-		var boussoleLayout = new Layout(".space-north-west", ".space-north-east", ".space-south-west", ".space-south-east", ".space-center") ;
-		boussoleLayout.organizeSpaces(window.innerWidth,  window.innerHeight , window.innerWidth * 0.5 , window.innerHeight * 0.5, 180  );
-		
-		$( window ).resize(function() {
-			boussoleLayout.updateSpaces(window.innerWidth,  window.innerHeight  );
-		});   
-   </script>
-   
-
+   <script type="application/dart" src="index.dart"></script>
    <script src="packages/browser/dart.js"></script>
 </body>
 </html>

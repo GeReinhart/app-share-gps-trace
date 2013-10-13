@@ -6,3 +6,4 @@ dependencies:
   mongo_dart: any
   unittest: any
   stream: any
+  html5_dnd: any

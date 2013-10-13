@@ -17,10 +17,14 @@ packages:
     description: crypto
     source: hosted
     version: "0.6.21+3"
+  html5_dnd:
+    description: html5_dnd
+    source: hosted
+    version: "0.3.4"
   logging:
     description: logging
     source: hosted
-    version: "0.6.21+3"
+    version: "0.8.1"
   meta:
     description: meta
     source: hosted
@@ -28,7 +32,7 @@ packages:
   mongo_dart:
     description: mongo_dart
     source: hosted
-    version: "0.1.28"
+    version: "0.1.30"
   mongo_dart_query:
     description: mongo_dart_query
     source: hosted
