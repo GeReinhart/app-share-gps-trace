@@ -1,6 +1,6 @@
 
 h1{
-	margin-letext-align:leftft: 80px;
+	margin-text-align-left: 80px;
 	margin-top: 30px;
 	font-size: x-large;
 	
@@ -71,34 +71,65 @@ ul li {
 
 .space-north-west {
   border-bottom-width: 1px;
-	border-bottom-color: black;
-	border-bottom-style: solid;
+  border-bottom-color: black;
+  border-bottom-style: solid;
   border-right-width: 1px;
-	border-right-color: black;
-	border-right-style: solid;
+  border-right-color: black;
+  border-right-style: solid;
+
+  /* Initial values */
+  position: absolute;
+  right: 608.5px;
+  width: 606.5px;
+  height: 344px;
 
 }
 
 
 .space-north-east {
-	border-bottom-width: 1px;
-	border-bottom-color: black;
-	border-bottom-style: solid;	
+  border-bottom-width: 1px;
+  border-bottom-color: black;
+  border-bottom-style: solid;	
+
+  /* Initial values */
+  position: absolute;
+  right: 0px;
+  width: 607.5px;
+  height: 344px;
 }
 
 .space-south-west {
   border-right-width: 1px;
-	border-right-color: black;
-	border-right-style: solid;	
+  border-right-color: black;
+  border-right-style: solid;	
+
+  /* Initial values */
+  position: absolute;
+  right: 608.5px;
+  top: 345px;
+  width: 606.5px;
+  height: 340px;
 }
 
 .space-south-east {
-	
+
+  /* Initial values */
+  position: absolute;
+  right: 0px;
+  top: 345px;
+  width: 607.5px;
+  height: 340px;  
 }
 
 .space-center {
-	z-index: 101 ;
-	
+  z-index: 101 ;
+
+  /* Initial values */
+  position: absolute;
+  right: 519.5px;
+  top: 254px;
+  width: 180px;
+  height: 180px;
 	
 }
 
