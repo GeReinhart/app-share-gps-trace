@@ -17,10 +17,6 @@ packages:
     description: crypto
     source: hosted
     version: "0.6.21+3"
-  html5_dnd:
-    description: html5_dnd
-    source: hosted
-    version: "0.3.4"
   logging:
     description: logging
     source: hosted

@@ -1,5 +1,4 @@
 import 'dart:html';
-import 'package:html5_dnd/html5_dnd.dart';
 
 class SpacesLayout{
   
@@ -14,8 +13,8 @@ class SpacesLayout{
   double centerTop = (window.innerHeight * 0.5) ;
   int centerSize = 180 ;
   
-  MouseEvent _currentPosition ;
-  var _moveCenter = false ;
+  MouseEvent _startMovingCenterPosition ;
+  var _movingCenter = false;
   
   SpacesLayout(this.spaces, this.spaceElements, this.spaceNW, this.spaceNE, this.spaceSW,
                this.spaceSE, this.spaceCenter, this.centerSize ){
@@ -29,44 +28,62 @@ class SpacesLayout{
     
     window.onLoad.listen(updateSpaces);
     window.onResize.listen(updateSpaces);
-    
-    window.onMouseMove.listen((mouseEvent) {
-      _currentPosition = mouseEvent ;
-      if(_moveCenter){
-        _moveCenter = false ; 
-        
-        double centerRightComputed = (window.innerWidth -  _currentPosition.client.x + centerSize /2 ).toDouble()   ;
-        double centerTopComputed   =  (_currentPosition.client.y - centerSize/2 ).toDouble()  ;
-        
-        if (centerRightComputed < centerSize /2 ){
-          centerRight = (centerSize/2).toDouble() ;
-        }else{
-          centerRight = centerRightComputed;
-        }
-        if ( centerTopComputed >  window.innerHeight - centerSize /2  ){
-          centerTop = (window.innerHeight - centerSize /2).toDouble()  ;       
-        }else{
-          centerTop = centerTopComputed ;
-        }
-        organizeSpaces();
+
+    query(spaceCenter).onMouseDown.listen((mouseEvent) {
+      _startMovingCenterPosition = mouseEvent ;
+      _movingCenter = true ;
+    });
+
+    query(spaceCenter).onMouseLeave.listen((mouseEvent) {
+      if (_movingCenter){
+        _movingCenter = false;
+        _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
+      }
+    });
+
+    query(spaceCenter).onMouseUp.listen((mouseEvent) {
+      if (_movingCenter){
+        _movingCenter = false;
+        _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
+      }
+    });
+
+    window.onMouseOver.listen((mouseEvent) {
+      if (_movingCenter){
+        _movingCenter = false;
+        _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
       }
     });
     
-    DraggableGroup dragGroup = new DraggableGroup();
-    dragGroup.installAll(queryAll(spaceCenter));
-    DropzoneGroup dropGroup = new DropzoneGroup();
-    dropGroup.installAll(queryAll(spaceElements));
-    dropGroup.accept.add(dragGroup);
-    
-    dropGroup.onDrop.listen(
-        (DropzoneEvent event) { 
-          _moveCenter = true ;
-        }
-    );
-    
+    window.onMouseUp.listen((mouseEvent) {
+      if (_movingCenter){
+        _movingCenter = false;
+        _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
+      }
+    });
+
+
+
     
   }
-
+  
+  void _moveCenter(Point start, Point end){
+    double centerRightComputed =   -end.x + start.x  + centerRight ;
+    double centerTopComputed   =  end.y - start.y  + centerTop ;  ;
+    
+    if (centerRightComputed < centerSize /2 ){
+      centerRight = (centerSize/2).toDouble() ;
+    }else{
+      centerRight = centerRightComputed;
+    }
+    if ( centerTopComputed >  window.innerHeight - centerSize /2  ){
+      centerTop = (window.innerHeight - centerSize /2).toDouble()  ;       
+    }else{
+      centerTop = centerTopComputed ;
+    }
+    organizeSpaces();
+  }
+  
   void updateSpaces(Event event){
     organizeSpaces();
   }
