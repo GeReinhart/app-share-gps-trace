@@ -32,6 +32,7 @@ class SpacesLayout{
     query(spaceCenter).onMouseDown.listen((mouseEvent) {
       _startMovingCenterPosition = mouseEvent ;
       _movingCenter = true ;
+      query(spaceCenter + " a img").attributes["src"] = "img/compass_275_red.png";
     });
 
     query(spaceCenter).onMouseLeave.listen((mouseEvent) {
@@ -124,6 +125,7 @@ class SpacesLayout{
     ..style.top = (centerTop    - centerSize /2      ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = centerSize.toString()+ "px" ;  
+    query(spaceCenter + " a img").attributes["src"] = "img/compass_275.png";
   }
 }
 
