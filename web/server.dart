@@ -7,6 +7,9 @@ import "dart:async";
 import "package:rikulo_security/security.dart";
 import "package:rikulo_security/plugin.dart";
 
+import  "../lib/persistence.dart";
+import  "../lib/aaa.dart";
+
 part "rsp/login.rsp.dart";
 part "rsp/index.rsp.dart";
 part "rsp/about.rsp.dart";
@@ -26,40 +29,34 @@ class TrailsServer{
   
   void start(){
     
-    //1. you have to implement [Authenticator]. For sake of description, we use a dummy one
-    final authenticator = new DummyAuthenticator()
-    ..addUser("john", "123", ["user"])
-    ..addUser("admin", "123", ["user", "admin"]);
-
-  //2. you can use [SimpleAccessControl] or implements your own
-  final accessControl = new SimpleAccessControl({
-    "/.*": ["user", "admin"]
-  });
-
-  //3. instantiate [Security]
-  final security = new Security(authenticator, accessControl);
-
-  //4. start Stream server
-  new StreamServer(
-      uriMapping: {
-        "/": index, 
-        "/login": login, 
-        "/about": about, 
-        "/mock": mock,         
-        "/s_login": security.login,
-        "/s_logout": security.logout
-      },
-/*      filterMapping: {
-        "/.*": security.filter
-      },*/
-      errorMapping: {
-        "404": "/404.html"
-      }
-  ).start(address:host, port:port);
+    String mongoDbUri = Platform.environment['MONGO_DB_URI'] ;
+    PersistenceLayer persistenceLayer = new MongoPersistence(mongoDbUri);
+    Crypto crypto = new Crypto();
     
-    
-    
-    //new StreamServer().start(address:host, port:port);
+    final authenticator = new Authentication(persistenceLayer,crypto) ;
+
+    final accessControl = new SimpleAccessControl({
+      "/.*": ["user", "admin"]
+    });
+  
+    final security = new Security(authenticator, accessControl);
+  
+    new StreamServer(
+        uriMapping: {
+          "/": index, 
+          "/login": login, 
+          "/about": about, 
+          "/mock": mock,         
+          "/s_login": security.login,
+          "/s_logout": security.logout
+        },
+        /* filterMapping: {
+          "/.*": security.filter
+        },*/
+        errorMapping: {
+          "404": "/404.html"
+        }
+    ).start(address:host, port:port);
   }
   
   

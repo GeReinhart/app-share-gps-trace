@@ -7,3 +7,4 @@ dependencies:
   unittest: any
   stream: any
   rikulo_security: any
+  crypto: any
