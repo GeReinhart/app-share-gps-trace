@@ -9,6 +9,6 @@ git config --global user.email "support@drone.io"
 git config --global user.name "Drone Server"
 git status 
 
-git add web/index.dart.*
+git add web/client/index.dart.*
 git commit -m "add compiled files"
 

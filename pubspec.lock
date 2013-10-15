@@ -41,6 +41,10 @@ packages:
     description: rikulo_commons
     source: hosted
     version: "0.8.7"
+  rikulo_security:
+    description: rikulo_security
+    source: hosted
+    version: "0.6.0"
   stack_trace:
     description: stack_trace
     source: hosted

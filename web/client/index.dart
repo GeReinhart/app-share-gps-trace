@@ -1,4 +1,4 @@
-import './client/spaces.dart';
+import 'spaces.dart';
 
 const spaces = ".spaces" ;
 const spaceElements = ".space" ;

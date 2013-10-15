@@ -1,10 +1,6 @@
-import "package:stream/stream.dart";
-
-
-const HOST = "127.0.0.1";
-const int PORT = 9090;
+import 'server.dart';
 
 void main() {
-  new StreamServer().start(address:HOST, port:PORT);
+  new TrailsServer("127.0.0.1", 9090).start();
 }
 
