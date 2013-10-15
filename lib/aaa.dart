@@ -14,9 +14,9 @@ class Authentication extends Authenticator {
   Future login(HttpConnect connect, String login, String password) {
     String encryptedPassword = _crypto.encryptPassword(password);
     
-    print("Try login "+login+" with "+password+" encrypted " + encryptedPassword) ;
+    //print("Try login "+login+" with "+password+" encrypted " + encryptedPassword) ;
     
-    return _persistenceLayer.getUserByCredential(login, password)
+    return _persistenceLayer.getUserByCredential(login, encryptedPassword)
               .then((user){
                   if (user== null){
                     throw new AuthenticationException("Bad login or bad password");

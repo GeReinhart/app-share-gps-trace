@@ -26,7 +26,7 @@ Future login(HttpConnect connect) { //#2
   <div class="spaces" >
     <div class="space space-north-west"  > 
     
-        <h1>Login</h1>
+        <h1>Connection</h1>
 """); //#2
 
   if (request.uri.queryParameters["retry"] != null) { //if#20
@@ -42,7 +42,7 @@ Future login(HttpConnect connect) { //#2
           <div class="form-group">
             <input name="s_password" type="password" class="form-control" id="password" placeholder="Mot de passe">
           </div>        
-          <button type="submit" class="btn btn-default">Login</button>
+          <button type="submit" class="btn btn-default">Se connecter</button>
         </form>    
     
     </div>
