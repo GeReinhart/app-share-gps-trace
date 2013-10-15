@@ -26,7 +26,7 @@ Future index(HttpConnect connect) { //#2
   <div class="spaces" >
     <div class="space space-north-west"  > """); //#2
 
-  response.write(Rsp.nnx(currentUser(request.session) != null ? currentUser(request.session): "Anonyme")); //#17
+  response.write(Rsp.nnx(currentUser(request.session) != null ? currentUser(request.session).login: "Anonyme")); //#17
 
 
   response.write(""" </div>

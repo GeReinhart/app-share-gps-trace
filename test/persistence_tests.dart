@@ -126,7 +126,27 @@ main() {
           });
           
           
-        }) 
+        })
+        
+        .then((_){
+          
+          return persitence.getUserByCredential("Man", "lakdssdgdgjgghkldsjag").then((user) {
+            print("Test get by Credential");
+            expect(user.login, "Man") ;   
+          });
+          
+          
+        })         
+        
+        .then((_){
+          
+          return persitence.getUserByCredential("Man", "lakdssd").then((user) {
+            print("Test get by Credential no user");
+            expect(user, null) ;   
+          });
+          
+          
+        })         
         
         .whenComplete((){
           print("close db");

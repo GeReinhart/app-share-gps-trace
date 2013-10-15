@@ -12,6 +12,8 @@ abstract class PersistenceLayer{
   Future<Trail> saveOrUpdateTrail(Trail trail) ;
   
   Future<List<User>> getUsers();
+
+  Future<User> getUserByCredential(String login, String password);
   
   Future<User> getUserById(String id);
   
@@ -103,6 +105,24 @@ class MongoPersistence implements PersistenceLayer{
           });
   }
 
+  Future<User> getUserByCredential(String login, String password) {
+    return _mongodb.open()
+          .then((_){
+            return _userCollection.findOne(where.eq("login", login)
+                                            .and(where.eq("encryptedPassword", password)));
+          })
+          .then((jsonUser) {
+            if (jsonUser == null){
+              return null ;
+            }else{
+              return new User.fromJson(jsonUser);
+            }
+          })
+          .whenComplete((){
+            _mongodb.close();
+          });
+  }
+  
   Future<User> getUserById(String id) {
     return _mongodb.open()
           .then((_){
