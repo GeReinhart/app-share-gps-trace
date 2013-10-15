@@ -1,3 +1,4 @@
+[:page partOf="trails"]
 <!DOCTYPE html>
 
 <html>
@@ -13,15 +14,15 @@
   <body>   
   
   <div class="spaces" >
-    <div class="space space-north-west"  > &nbsp; </div>
+    <div class="space space-north-west"  > [=currentUser(request.session) != null ? currentUser(request.session): "Anonyme"] </div>
     <div class="space space-north-east"  > &nbsp; </div>
     <div class="space space-south-west"  > &nbsp; </div>
     <div class="space space-south-east"  > &nbsp; </div>
-    <div class="space-center" ><a href="about.html"><img   height="180px" width="180px" src="img/compass_275.png"></img></a></div>
+    <div class="space-center" ><a href="/about"><img   height="180px" width="180px" src="img/compass_275.png"></img></a></div>
   </div>
 
 
-    <script type="application/dart" src="index.dart"></script>
+    <script type="application/dart" src="client/index.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
