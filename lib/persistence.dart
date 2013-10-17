@@ -1,6 +1,7 @@
 
+
 import 'package:mongo_dart/mongo_dart.dart';
-import '../lib/model.dart';
+import '../lib/models.dart';
 import 'dart:async';
 
 abstract class PersistenceLayer{
@@ -13,6 +14,8 @@ abstract class PersistenceLayer{
   
   Future<List<User>> getUsers();
 
+  Future<User> getUserByLogin(String login);
+  
   Future<User> getUserByCredential(String login, String password);
   
   Future<User> getUserById(String id);
@@ -105,6 +108,23 @@ class MongoPersistence implements PersistenceLayer{
           });
   }
 
+  Future<User> getUserByLogin(String login){
+    return _mongodb.open()
+          .then((_){
+            return _userCollection.findOne(where.eq("login", login));
+          })
+          .then((jsonUser) {
+            if (jsonUser == null){
+              return null ;
+            }else{
+              return new User.fromJson(jsonUser);
+            }
+          })
+          .whenComplete((){
+            _mongodb.close();
+          });    
+  }
+  
   Future<User> getUserByCredential(String login, String password) {
     return _mongodb.open()
           .then((_){

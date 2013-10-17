@@ -1,7 +1,7 @@
 import 'package:mongo_dart/mongo_dart.dart';
 import 'dart:async';
 import 'package:unittest/unittest.dart';
-import '../lib/model.dart' ;
+import '../lib/models.dart' ;
 import '../lib/persistence.dart' ;
 
 const String mongoUrl = "mongodb://127.0.0.1/test-trails-persitence" ;
@@ -127,6 +127,28 @@ main() {
           
           
         })
+        
+        .then((_){
+          
+          return persitence.getUserByLogin("Man").then((user) {
+            print("Test get by login");
+            expect(user.login, "Man") ;   
+          });
+          
+          
+        })         
+        
+        .then((_){
+          
+          return persitence.getUserByLogin("Manu").then((user) {
+            print("Test get by login no user");
+            expect(user, null) ;   
+          });
+          
+          
+        })         
+        
+        
         
         .then((_){
           

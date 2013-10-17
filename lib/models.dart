@@ -1,4 +1,5 @@
 
+
 class Trail {
   
   String id;
@@ -42,6 +43,8 @@ class User {
   String lastName ;
   
   User(this.login, this.encryptedPassword, this.firstName, this.lastName);
+
+  User.withLogin(this.login, this.encryptedPassword);
   
   User.withId(this.id,this.login, this.encryptedPassword, this.firstName, this.lastName);
   
