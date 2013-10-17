@@ -168,8 +168,10 @@ class MongoPersistence implements PersistenceLayer{
             return _userCollection.update(where.eq("_id", user.id),   user.toJson());
           }
           
-        })
-          .then((savedUser) {
+        }).catchError((e) {
+          print("Unable to register ${user.toJson()}: ${e}"); 
+          return user;                         
+        }).then((savedUser) {
             return user;
           })
           .whenComplete((){

@@ -39,7 +39,9 @@ class TrailsServer{
   }
   
   void createApplicationContext(){
-    String mongoDbUri = Platform.environment['MONGO_DB_URI'] ;
+    //String mongoDbUri = Platform.environment['MONGO_DB_URI'] ;
+    
+    String mongoDbUri = "mongodb://la-boussole-app:FD0LzbFp6t7KJ75@ds049558.mongolab.com:49558/heroku_app18544190" ;
     PersistenceLayer _persistenceLayer = new MongoPersistence(mongoDbUri);
     Crypto _crypto = new Crypto();
     _trailController = new TrailController(_persistenceLayer,_crypto) ;
