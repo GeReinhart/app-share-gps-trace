@@ -56,7 +56,7 @@ Future register(HttpConnect connect) { //#2
   </div>
 
 
-    <script type="application/dart" src="client/register.dart"></script>
+    <script type="application/dart" src="client/index.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
