@@ -3,7 +3,8 @@ author: gerald reinhart
 description: Sharing gps trace files
 dependencies:
   browser: any
-  mongo_dart: any
+  mongo_dart:
+    git: git://github.com/vadimtsushko/mongo_dart.git
   unittest: any
   stream: any
   rikulo_security: any

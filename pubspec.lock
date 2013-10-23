@@ -26,9 +26,12 @@ packages:
     source: hosted
     version: "0.6.21+3"
   mongo_dart:
-    description: mongo_dart
-    source: hosted
-    version: "0.1.30"
+    description:
+      ref: null
+      resolved-ref: "7553beeaaa63d5afaf5b96192094321dc030e8b0"
+      url: "git://github.com/vadimtsushko/mongo_dart.git"
+    source: git
+    version: "0.1.31-dev"
   mongo_dart_query:
     description: mongo_dart_query
     source: hosted
