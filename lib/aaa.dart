@@ -8,24 +8,23 @@ import "persistence.dart";
 
 class Authentication extends Authenticator {
   
-  PersistenceLayer _persistenceLayer ;
+  PersistenceLayer _persistence ;
   Crypto _crypto ;
   
-  Authentication(this._persistenceLayer, this._crypto);
+  Authentication(this._persistence, this._crypto);
   
   Future login(HttpConnect connect, String login, String password) {
-    String encryptedPassword = _crypto.encryptPassword(password);
-    
-    //print("Try login "+login+" with "+password+" encrypted " + encryptedPassword) ;
-    
-    return _persistenceLayer.getUserByCredential(login, encryptedPassword)
-              .then((user){
-                  if (user== null){
-                    throw new AuthenticationException("Bad login or bad password");
-                  }else{
-                      return new Future.value(user) ;
-                  }
-               }) ;
+    String encryptedPassword = _crypto.encryptPassword(password);    
+    return  _persistence.getUserByCredential(login, encryptedPassword)
+        .then((user){
+          if (user== null){
+            print("# Authentication failed for '${login}'");
+            throw new AuthenticationException("Bad login or bad password");
+          }else{
+            print("# Authentication success for '${login}'");
+            return new Future.value(user) ;
+          }
+        }) ;
   }
 }
 

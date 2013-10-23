@@ -27,12 +27,13 @@ Future login(HttpConnect connect) { //#2
     <div class="space space-north-west"  > 
     
         <h1>Connection</h1>
+        
 """); //#2
 
-  if (request.uri.queryParameters["retry"] != null) { //if#20
+  if (request.uri.queryParameters["retry"] != null) { //if#21
 
     response.write("""        <div class="text-warning">Mauvais login ou mot de passe.</div>
-"""); //#21
+"""); //#22
   } //if
 
   response.write("""        <form role="form"  action="/s_login" method="post" accept-charset="UTF-8">
@@ -43,8 +44,8 @@ Future login(HttpConnect connect) { //#2
             <input name="s_password" type="password" class="form-control" id="password" placeholder="Mot de passe">
           </div>        
           <button type="submit" class="btn btn-default">Se connecter</button>
-        </form>    
-    
+        </form>
+
     </div>
     <div class="space space-north-east"  > &nbsp; </div>
     <div class="space space-south-west"  > &nbsp; </div>
@@ -57,7 +58,7 @@ Future login(HttpConnect connect) { //#2
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#23
+"""); //#24
 
   return Rsp.nnf();
 }

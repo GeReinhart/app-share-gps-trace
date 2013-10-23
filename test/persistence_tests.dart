@@ -44,6 +44,11 @@ main() {
           
         })
             
+        
+        .then((_){
+          return persitence.open();    
+        })
+        
         .then((_){
           
           return persitence.getTrailsByCreator("Gex").then((trails) {
@@ -173,6 +178,7 @@ main() {
         .whenComplete((){
           print("close db");
           db.close();
+          persitence.close();
         });
     
     

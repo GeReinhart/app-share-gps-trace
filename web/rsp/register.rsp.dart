@@ -27,27 +27,20 @@ Future register(HttpConnect connect) { //#2
     <div class="space space-north-west"  > 
     
         <h1>Enregistrement</h1>
-"""); //#2
 
-  if (request.uri.queryParameters["retry"] != null) { //if#20
-
-    response.write("""        <div class="text-warning">Mauvais login ou mot de passe.</div>
-"""); //#21
-  } //if
-
-  response.write("""        <form id="registerForm" role="form"  action="/s_register" method="post" accept-charset="UTF-8">
-          <div class="form-group">
-            <input name="s_login" type="text" class="form-control" id="s_login" placeholder="Login">
+          <div class="form-group form-login">
+            <input  type="text" class="form-control input-login"  placeholder="Login">
           </div>
-          <div class="form-group">
-            <input name="s_password" type="password" class="form-control" id="s_password" placeholder="Mot de passe">
+          <div class="form-group form-password">
+            <input  type="password" class="form-control input-password"  placeholder="Mot de passe">
           </div>        
-          <div class="form-group">
-            <input name="s_passwordConfirm" type="password" class="form-control" id="s_passwordConfirm" placeholder="Confirmation mot de passe">
+          <div class="form-group form-passwordConfirm">
+            <input  type="password" class="form-control input-passwordConfirm"  placeholder="Confirmation mot de passe">
           </div>    
-          <button id="registerSubmit" type="submit" class="btn btn-default">S'enregister</button>
-        </form>    
-    
+          <div class="form-group">
+              <button  type="submit" class="btn btn-default btn-submit-register">S'enregister</button>
+              <div class="text-warning  form-error-message" ></div>
+          </div>    
     </div>
     <div class="space space-north-east"  > &nbsp; </div>
     <div class="space space-south-west"  > &nbsp; </div>
@@ -56,11 +49,11 @@ Future register(HttpConnect connect) { //#2
   </div>
 
 
-    <script type="application/dart" src="client/index.dart"></script>
+    <script type="application/dart" src="client/register.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#23
+"""); //#2
 
   return Rsp.nnf();
 }

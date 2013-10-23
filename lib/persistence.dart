@@ -6,6 +6,10 @@ import 'dart:async';
 
 abstract class PersistenceLayer{
   
+  Future<Db> open();
+
+  void close();
+  
   Future<List<Trail>>  getTrailsByCreator(String creator) ;
 
   Future<Trail>  getTrailById(String id) ;
@@ -36,147 +40,113 @@ class MongoPersistence implements PersistenceLayer{
     _userCollection = _mongodb.collection('users');
   }
 
+  Future open(){
+    if (!_mongodb.connection.connected){
+      print("# Open db connection");
+      return _mongodb.open();
+    }else{
+      return  new Future.value(_mongodb.connection);
+    }
+  }
+
+  void close(){
+    return _mongodb.close();
+  }
+  
   Future<List<Trail>> getTrailsByCreator(String creator) {
     
     List<Trail> trails = new List();
     
-    return _mongodb.open()
-          .then((_){
-              return _trailCollection.find(where.eq("creator", creator)).forEach((jsonTrail){
+    return _trailCollection.find(where.eq("creator", creator)).forEach((jsonTrail){
                 Trail trail = new Trail.fromJson(jsonTrail);
                 trails.add(trail);
+              })
+             .then((_) {
+                  return trails;
               });
-          })
-         .then((_) {
-              return trails;
-          })
-          .whenComplete((){
-              _mongodb.close();
-          });
   }
 
   Future<Trail> getTrailById(String id) {
-    return _mongodb.open()
-          .then((_){
-            return _trailCollection.findOne(where.eq("_id", id));
-          })
+    return _trailCollection.findOne(where.eq("_id", id))
           .then((jsonTrail) {
             return new Trail.fromJson(jsonTrail);
-          })
-          .whenComplete((){
-            _mongodb.close();
           });
   }
   
   Future<Trail> saveOrUpdateTrail(Trail trail) {
     
-    return _mongodb.open()
-          .then((_){
-
-            if(trail.id == null){
+      if(trail.id == null){
               trail.id = new ObjectId().toString();
-              return _trailCollection.insert(trail.toJson()) ;
-            }else{
-              return _trailCollection.update(where.eq("_id", trail.id),   trail.toJson());
-            }
-              
-          })
-         .then((savedTrail) {
-              return trail;
-          })
-          .whenComplete((){
-              _mongodb.close();
-          });
+              return _trailCollection.insert(trail.toJson()).then((_){
+                  return trail;
+              });
+      }else{
+              return _trailCollection.update(where.eq("_id", trail.id),   trail.toJson())
+                        .then((_) {
+                            return trail;
+                          });
+      }
   }
   
   Future<List<User>> getUsers() {
     
     List<User> users = new List();
     
-    return _mongodb.open()
-          .then((_){
-              return _userCollection.find().forEach((jsonUser){
+    return _userCollection.find().forEach((jsonUser){
                 User user = new User.fromJson(jsonUser);
                 users.add(user);
-              });
-          })
-         .then((_) {
-              return users;
-          })
-          .whenComplete((){
-              _mongodb.close();
-          });
+              })
+           .then((_) {
+                return users;
+            });
   }
 
   Future<User> getUserByLogin(String login){
-    return _mongodb.open()
-          .then((_){
-            return _userCollection.findOne(where.eq("login", login));
-          })
-          .then((jsonUser) {
-            if (jsonUser == null){
-              return null ;
-            }else{
-              return new User.fromJson(jsonUser);
-            }
-          })
-          .whenComplete((){
-            _mongodb.close();
-          });    
+    return _userCollection.findOne(where.eq("login", login))
+              .then((jsonUser) {
+                if (jsonUser == null){
+                  return null ;
+                }else{
+                  return new User.fromJson(jsonUser);
+                }
+              });    
   }
   
   Future<User> getUserByCredential(String login, String password) {
-    return _mongodb.open()
-          .then((_){
-            return _userCollection.findOne(where.eq("login", login)
-                                            .and(where.eq("encryptedPassword", password)));
-          })
-          .then((jsonUser) {
-            if (jsonUser == null){
-              return null ;
-            }else{
-              return new User.fromJson(jsonUser);
-            }
-          })
-          .whenComplete((){
-            _mongodb.close();
-          });
+    return _userCollection.findOne(where.eq("login", login)
+                                            .and(where.eq("encryptedPassword", password)))
+                .then((jsonUser) {
+                  if (jsonUser == null){
+                    return null ;
+                  }else{
+                    return new User.fromJson(jsonUser);
+                  }
+                });
   }
   
   Future<User> getUserById(String id) {
-    return _mongodb.open()
-          .then((_){
-            return _userCollection.findOne(where.eq("_id", id));
-          })
+    return _userCollection.findOne(where.eq("_id", id))
           .then((jsonUser) {
             return new User.fromJson(jsonUser);
-          })
-          .whenComplete((){
-            _mongodb.close();
           });
   }
   
   Future<User> saveOrUpdateUser(User user) {
     
-    return _mongodb.open()
-        .then((_){
-
-          if(user.id == null){
+    if(user.id == null){
             user.id = new ObjectId().toString();
-            return _userCollection.insert(user.toJson()) ;
-          }else{
-            return _userCollection.update(where.eq("_id", user.id),   user.toJson());
-          }
-          
-        }).catchError((e) {
-          print("Unable to register ${user.toJson()}: ${e}"); 
-          return user;                         
-        }).then((savedUser) {
-            return user;
-          })
-          .whenComplete((){
-              _mongodb.close();
-          });
+            return _userCollection.insert(user.toJson()).then((_){
+                return user;
+            });
+    }else{
+            return _userCollection.update(where.eq("_id", user.id),   user.toJson())
+               .catchError((e) {
+                      print("Unable to register ${user.toJson()}: ${e}"); 
+                      return user;                         
+               }).then((savedUser) {
+                      return user;
+              });
+    }
   }
   
 }

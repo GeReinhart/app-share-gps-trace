@@ -5,12 +5,8 @@ import "package:stream/stream.dart";
 import "dart:io";
 import "dart:async";
 import "package:rikulo_security/security.dart";
-import "package:rikulo_security/plugin.dart";
 
-import "package:rikulo_commons/io.dart" show HttpUtil;
 
-import  "../lib/forms.dart";
-import  "../lib/models.dart";
 import  "../lib/persistence.dart";
 import  "../lib/aaa.dart";
 import  "../lib/controllers.dart";
@@ -20,6 +16,7 @@ part "rsp/register.rsp.dart";
 part "rsp/index.rsp.dart";
 part "rsp/about.rsp.dart";
 part "rsp/mock.rsp.dart";
+
 
 class TrailsServer{
   
@@ -39,10 +36,11 @@ class TrailsServer{
   }
   
   void createApplicationContext(){
-    //String mongoDbUri = Platform.environment['MONGO_DB_URI'] ;
-    
-    String mongoDbUri = "mongodb://la-boussole-app:FD0LzbFp6t7KJ75@ds049558.mongolab.com:49558/heroku_app18544190" ;
+    String mongoDbUri = Platform.environment['MONGO_DB_URI'] ;
+    print ("Db: "+mongoDbUri);
+
     PersistenceLayer _persistenceLayer = new MongoPersistence(mongoDbUri);
+    _persistenceLayer.open();
     Crypto _crypto = new Crypto();
     _trailController = new TrailController(_persistenceLayer,_crypto) ;
   }
@@ -54,7 +52,7 @@ class TrailsServer{
           "/": index, 
 
           "/register": register, 
-          "/s_register": _trailController.register,
+          "/as_register": _trailController.aRegister,
 
           "/login": login, 
           "/s_login": _trailController.login,
