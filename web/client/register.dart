@@ -2,14 +2,19 @@
 
 import "dart:html";
 import "dart:convert";
+import 'package:bootjack/bootjack.dart';
 
 import "index.dart";
 import "spaces.dart";
 import "forms.dart";
 
-
 void main() {
   SpacesLayout layout = new SpacesLayout(spaces,spaceElements,spaceNW,spaceNE,spaceSW,spaceSE,spaceCenter,180);
+  
+  Modal.use();
+  Transition.use();
+  
+  
   
   query(".btn-submit-register").onClick.listen((e) {
 
@@ -21,7 +26,7 @@ void main() {
 
         RegisterForm form = new RegisterForm.fromMap(JSON.decode(request.responseText));
         if (form.success){
-          query(".space-south-west").text = "Bienvenue !";
+          Modal.wire( query("#register-success") ).show() ;
         }else {
           var message = query(".form-error-message");
           switch (form.error) {
@@ -48,5 +53,11 @@ void main() {
                                            query(".input-passwordConfirm").value);
     request.send(JSON.encode(form.toJson()));
   });
+  
+  query(".btn-login").onClick.listen((e) {
+    window.location.href = window.location.href.replaceFirst("/register", "/login");
+  });
+  
+  
 }
 
