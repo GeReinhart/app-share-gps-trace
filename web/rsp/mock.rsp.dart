@@ -47,17 +47,22 @@ Future mock(HttpConnect connect) { //#2
 	       <div class="align-middle"><img  width="400px" src="img/mock_picture.png"></img></div>
        </div>
 	</div>
-	<div class="space-center" ><a href="/login">
-	       <img   height="180px" width="180px" src="img/compass_275.png"></img></a>
-	</div>
-</div>
+"""); //#2
+
+  return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#40
+
+    return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#41
+
+      response.write("""</div>
 
    
     <script type="application/dart" src="client/index.dart"></script>
     <script src="packages/browser/dart.js"></script>
 </body>
 </html>
-"""); //#2
+"""); //#42
 
-  return Rsp.nnf();
+      return Rsp.nnf();
+    }); //end-of-include
+  }); //end-of-include
 }

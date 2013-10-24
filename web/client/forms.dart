@@ -1,6 +1,5 @@
 
 
-
 class LoginForm{
   String login;
   String password;

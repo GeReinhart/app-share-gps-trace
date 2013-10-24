@@ -9,3 +9,4 @@ dependencies:
   stream: any
   rikulo_security: any
   crypto: any
+  bootjack: any
