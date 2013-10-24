@@ -45,15 +45,22 @@ Future register(HttpConnect connect) { //#2
     <div class="space space-north-east"  > &nbsp; </div>
     <div class="space space-south-west"  > &nbsp; </div>
     <div class="space space-south-east"  > &nbsp; </div>
-    <div class="space-center" ><a href="/about"><img   height="180px" width="180px" src="img/compass_275.png"></img></a></div>
-  </div>
+"""); //#2
+
+  return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#38
+
+    return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#39
+
+      response.write("""  </div>
 
 
     <script type="application/dart" src="client/register.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#2
+"""); //#40
 
-  return Rsp.nnf();
+      return Rsp.nnf();
+    }); //end-of-include
+  }); //end-of-include
 }

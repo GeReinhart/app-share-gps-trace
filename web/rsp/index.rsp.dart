@@ -16,32 +16,32 @@ Future index(HttpConnect connect) { //#2
    <meta charset="utf-8">   
 	 <title>La Boussole</title>
 	 <link rel="shortcut icon" type="image/x-icon" href="img/compass_275.png" ><link>	
-     <link href="css/bootstrap.css"  rel="stylesheet" media="screen" ><link>   
+     <link rel="stylesheet" href="packages/bootjack/css/bootstrap.css"><link>  
      <link href="css/dart-trails.css" rel="stylesheet" media="screen" ><link>
      <script src="js/google-analytics.js"></script>  
   </head>
- 
   <body>   
   
   <div class="spaces" >
-    <div class="space space-north-west"  > """); //#2
-
-  response.write(Rsp.nnx(currentUser(request.session) != null ? currentUser(request.session).login: "Anonyme")); //#17
-
-
-  response.write(""" </div>
+    <div class="space space-north-west"  > &nbsp; </div>
     <div class="space space-north-east"  > &nbsp; </div>
     <div class="space space-south-west"  > &nbsp; </div>
     <div class="space space-south-east"  > &nbsp; </div>
-    <div class="space-center" ><a href="/about"><img   height="180px" width="180px" src="img/compass_275.png"></img></a></div>
-  </div>
+"""); //#2
 
+  return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#20
+
+    return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#21
+
+      response.write("""  </div>
 
     <script type="application/dart" src="client/index.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#17
+"""); //#22
 
-  return Rsp.nnf();
+      return Rsp.nnf();
+    }); //end-of-include
+  }); //end-of-include
 }

@@ -5,6 +5,10 @@ packages:
     description: args
     source: hosted
     version: "0.6.21+3"
+  bootjack:
+    description: bootjack
+    source: hosted
+    version: "0.6.1+1"
   browser:
     description: browser
     source: hosted
@@ -17,6 +21,10 @@ packages:
     description: crypto
     source: hosted
     version: "0.6.21+3"
+  dquery:
+    description: dquery
+    source: hosted
+    version: "0.5.3+1"
   logging:
     description: logging
     source: hosted

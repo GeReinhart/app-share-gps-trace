@@ -6,21 +6,20 @@
    <meta charset="utf-8">   
 	 <title>La Boussole</title>
 	 <link rel="shortcut icon" type="image/x-icon" href="img/compass_275.png" ><link>	
-     <link href="css/bootstrap.css"  rel="stylesheet" media="screen" ><link>   
+     <link rel="stylesheet" href="packages/bootjack/css/bootstrap.css"><link>  
      <link href="css/dart-trails.css" rel="stylesheet" media="screen" ><link>
      <script src="js/google-analytics.js"></script>  
   </head>
- 
   <body>   
   
   <div class="spaces" >
-    <div class="space space-north-west"  > [=currentUser(request.session) != null ? currentUser(request.session).login: "Anonyme"] </div>
+    <div class="space space-north-west"  > &nbsp; </div>
     <div class="space space-north-east"  > &nbsp; </div>
     <div class="space space-south-west"  > &nbsp; </div>
     <div class="space space-south-east"  > &nbsp; </div>
-    <div class="space-center" ><a href="/about"><img   height="180px" width="180px" src="img/compass_275.png"></img></a></div>
+    [:include center/]
+    [:include menu/]
   </div>
-
 
     <script type="application/dart" src="client/index.dart"></script>
     <script src="packages/browser/dart.js"></script>

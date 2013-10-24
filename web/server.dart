@@ -16,7 +16,8 @@ part "rsp/register.rsp.dart";
 part "rsp/index.rsp.dart";
 part "rsp/about.rsp.dart";
 part "rsp/mock.rsp.dart";
-
+part "rsp/templates/menu.rsp.dart";
+part "rsp/templates/center.rsp.dart";
 
 class TrailsServer{
   
@@ -56,8 +57,10 @@ class TrailsServer{
 
           "/login": login, 
           "/s_login": _trailController.login,
-          "/s_logout": _trailController.logout,
 
+          "/s_logout": _trailController.logout,
+          "/logout": index,
+          
           "/about": about, 
           "/mock": mock 
         

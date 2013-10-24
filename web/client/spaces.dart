@@ -1,3 +1,5 @@
+
+
 import 'dart:html';
 
 class SpacesLayout{
@@ -9,6 +11,7 @@ class SpacesLayout{
   String spaceSW  ;
   String spaceSE  ;
   String spaceCenter  ;
+  String spaceMenu =".space-menu";
   double centerRight = (window.innerWidth * 0.5) ;
   double centerTop = (window.innerHeight * 0.5) ;
   int centerSize = 180 ;
@@ -17,7 +20,7 @@ class SpacesLayout{
   var _movingCenter = false;
   
   SpacesLayout(this.spaces, this.spaceElements, this.spaceNW, this.spaceNE, this.spaceSW,
-               this.spaceSE, this.spaceCenter, this.centerSize ){
+               this.spaceSE, this.spaceCenter, this.centerSize){
     _init();
   }
   
@@ -64,7 +67,22 @@ class SpacesLayout{
     });
 
 
-
+    query(spaceCenter).onMouseOver.listen((mouseEvent) {
+      var menu = query(spaceMenu);
+      if ( menu.style.zIndex == "99" ){
+        menu.style.zIndex = "102" ;
+        menu.classes.add("open") ;
+      }
+    });
+    
+    query(spaceMenu).onMouseLeave.listen((mouseEvent) {
+      var menu = query(spaceMenu);
+      if ( menu.style.zIndex != "99" ){
+        menu.style.zIndex = "99" ;
+        menu.classes.remove("open") ;
+      }
+    });
+    
     
   }
   
@@ -126,6 +144,14 @@ class SpacesLayout{
     ..style.width = centerSize.toString()+ "px"
     ..style.height = centerSize.toString()+ "px" ;  
     query(spaceCenter + " a img").attributes["src"] = "img/compass_275.png";
+
+    query(spaceMenu)
+    ..style.zIndex = "99"
+    ..style.position = 'absolute'
+    ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
+    ..style.top = (centerTop+1  + centerSize /6 ).toString()+ "px" 
+    ..style.width = centerSize.toString()+ "px"
+    ..style.height = "0px" ;   
   }
 }
 
