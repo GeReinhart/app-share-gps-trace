@@ -12,13 +12,12 @@ Future about(HttpConnect connect) { //#2
   response.write("""<!DOCTYPE html>
 <html>
  <head>
-   <meta charset="utf-8">  
-	 <title>La Boussole</title>
-	 <link rel="shortcut icon" type="image/x-icon" href="img/compass_275.png" ><link>
-	 <link href="css/bootstrap.css"  rel="stylesheet" media="screen" ><link>
-	 <link href="css/dart-trails.css" rel="stylesheet" media="screen" ><link>
-     <script src="js/google-analytics.js"></script>	 
-</head>
+	 <title>La Boussole - Le projet</title>
+"""); //#2
+
+  return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#6
+
+    response.write("""</head>
 <body>
 <div class="spaces" >
 	<div class="space space-north-west"  >
@@ -72,21 +71,22 @@ Future about(HttpConnect connect) { //#2
 	   </ul> 
 	  </div>
 	</div>
-"""); //#2
+"""); //#7
 
-  return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#65
+    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#61
 
-    return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#66
+      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#62
 
-      response.write("""</div>
+        response.write("""</div>
 
    <script type="application/dart" src="client/index.dart"></script>
    <script src="packages/browser/dart.js"></script>
 </body>
 </html>
-"""); //#67
+"""); //#63
 
-      return Rsp.nnf();
+        return Rsp.nnf();
+      }); //end-of-include
     }); //end-of-include
   }); //end-of-include
 }

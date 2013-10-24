@@ -13,13 +13,12 @@ Future login(HttpConnect connect) { //#2
 
 <html>
  <head>
-   <meta charset="utf-8">   
-	 <title>La Boussole</title>
-	 <link rel="shortcut icon" type="image/x-icon" href="img/compass_275.png" ><link>	
-     <link href="css/bootstrap.css"  rel="stylesheet" media="screen" ><link>   
-     <link href="css/dart-trails.css" rel="stylesheet" media="screen" ><link>
-     <script src="js/google-analytics.js"></script>  
-  </head>
+	 <title>La Boussole - Connection</title>
+"""); //#2
+
+  return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#7
+
+    response.write("""  </head>
  
   <body>   
   
@@ -28,15 +27,15 @@ Future login(HttpConnect connect) { //#2
     
         <h1>Connection</h1>
         
-"""); //#2
+"""); //#8
 
-  if (request.uri.queryParameters["retry"] != null) { //if#21
+    if (request.uri.queryParameters["retry"] != null) { //if#17
 
-    response.write("""        <div class="text-warning">Mauvais login ou mot de passe.</div>
-"""); //#22
-  } //if
+      response.write("""        <div class="text-warning">Mauvais login ou mot de passe.</div>
+"""); //#18
+    } //if
 
-  response.write("""        <form role="form"  action="/s_login" method="post" accept-charset="UTF-8">
+    response.write("""        <form role="form"  action="/s_login" method="post" accept-charset="UTF-8">
           <div class="form-group">
             <input name="s_username" type="text" class="form-control" id="login" placeholder="Login">
           </div>
@@ -50,22 +49,23 @@ Future login(HttpConnect connect) { //#2
     <div class="space space-north-east"  > &nbsp; </div>
     <div class="space space-south-west"  > &nbsp; </div>
     <div class="space space-south-east"  > &nbsp; </div>
-"""); //#24
+"""); //#20
 
-  return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#38
+    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#34
 
-    return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#39
+      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#35
 
-      response.write("""  </div>
+        response.write("""  </div>
 
 
     <script type="application/dart" src="client/index.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#40
+"""); //#36
 
-      return Rsp.nnf();
+        return Rsp.nnf();
+      }); //end-of-include
     }); //end-of-include
   }); //end-of-include
 }
