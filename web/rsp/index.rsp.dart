@@ -22,15 +22,31 @@ Future index(HttpConnect connect) { //#2
   <body>   
   
   <div class="spaces" >
-    <div class="space space-north-west"  > &nbsp; </div>
+    <div class="space space-north-west"  >
+    
+        <p class="text-warning">Cette application est actuellement en construction.</p>
+        <div class="main-welcome"   >
+           <div>
+            <h1>La boussole</h1>
+            <h2>Partager vos traces GPS</h2>
+            <p>Que ce soit pour aller marcher en famille, randonner en montagne ou courir dans les bois c&apos;est toujours plus confortable de suivre notre gps. 
+            Le but de <em>la-boussole</em> est de vous proposer une manière innovante de partager et de rechercher la trace GPS qu'il vous faut.</p>
+            <p>
+            <p>Comme dans la vraie vie, vous pouvez utiliser la boussole de cette application pour naviguer dans le site mais également pour agrandir la partie de la page qui vous intéresse en déplaçant celle-ci. Essayez !</p>
+            <p>
+          </div>
+        </div>    
+    </div>
     <div class="space space-north-east"  > &nbsp; </div>
-    <div class="space space-south-west"  > &nbsp; </div>
+    <div class="space space-south-west"  > 
+
+    </div>
     <div class="space space-south-east"  > &nbsp; </div>
 """); //#8
 
-    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#16
+    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#32
 
-      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#17
+      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#33
 
         response.write("""  </div>
 
@@ -38,7 +54,7 @@ Future index(HttpConnect connect) { //#2
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#18
+"""); //#34
 
         return Rsp.nnf();
       }); //end-of-include

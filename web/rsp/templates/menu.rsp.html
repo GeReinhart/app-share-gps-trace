@@ -1,16 +1,16 @@
 [:page partOf="trails"]
     <div class="space-menu"  >
         <ul role="menu" class="dropdown-menu open" id="menu">
-          <li role="presentation" class="dropdown-header">Profil [=currentUser(request.session) != null ? "de " + currentUser(request.session).login: ""]</li>
-          [:if currentUser(request.session) != null]
-            <li role="presentation"><a href="/logout" tabindex="-1" role="menuitem">Déconnection</a></li>
-          [:else]
-            <li role="presentation"><a href="/login" tabindex="-1" role="menuitem">Connection</a></li>
-            <li role="presentation"><a href="/register" tabindex="-1" role="menuitem">Enregistrement</a></li>
-          [/if]
-          <li class="divider" role="presentation"></li>
           <li role="presentation" class="dropdown-header">A propos</li>
-          <li role="presentation"><a href="/about" tabindex="-1" role="menuitem">Le projet</a></li>
           <li role="presentation"><a href="/mock" tabindex="-1" role="menuitem">Maquette</a></li>
+          <li class="divider" role="presentation"></li>
+          <li role="presentation" class="dropdown-header">Compte [=currentUser(request.session) != null ? "de " + currentUser(request.session).login: ""]</li>
+          [:if currentUser(request.session) != null]
+            <li role="presentation"><a href="/logout" tabindex="-1" role="menuitem">Se déconnecter</a></li>
+          [:else]
+            <li role="presentation"><a href="/login" tabindex="-1" role="menuitem">Se connecter</a></li>
+            <li role="presentation"><a href="/register" tabindex="-1" role="menuitem">S'enregistrer</a></li>
+          [/if]
+
         </ul>
     </div>

@@ -14,9 +14,7 @@ const spaceMenu = ".space-menu" ;
 const spaceCenter = ".space-center" ;
 
 
-
 void main() {
-
   Dropdown.use();
   SpacesLayout layout = new SpacesLayout(spaces,spaceElements,spaceNW,spaceNE,spaceSW,spaceSE,spaceCenter,180);
 }
