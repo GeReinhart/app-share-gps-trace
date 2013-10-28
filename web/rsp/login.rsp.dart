@@ -10,59 +10,48 @@ Future login(HttpConnect connect) { //#2
   Rsp.init(connect, "text/html; charset=utf-8");
 
   response.write("""<!DOCTYPE html>
-
 <html>
  <head>
 	 <title>La Boussole - Connection</title>
 """); //#2
 
-  return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#7
+  return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#6
 
     response.write("""  </head>
- 
   <body>   
-  
-  <div class="spaces" >
-    <div class="space space-north-west"  > 
-    
-        <h1>Connection</h1>
-        
-"""); //#8
+"""); //#7
 
-    if (request.uri.queryParameters["retry"] != null) { //if#17
+    var _0 = new StringBuffer(); _cs_.add(connect); //var#10
+    connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
-      response.write("""        <div class="text-warning">Mauvais login ou mot de passe.</div>
-"""); //#18
-    } //if
+    response.write("""        <h1>Connection</h1>
+"""); //#11
 
-    response.write("""        <form role="form"  action="/s_login" method="post" accept-charset="UTF-8">
-          <div class="form-group">
-            <input name="s_username" type="text" class="form-control" id="login" placeholder="Login">
-          </div>
-          <div class="form-group">
-            <input name="s_password" type="password" class="form-control" id="password" placeholder="Mot de passe">
-          </div>        
-          <button type="submit" class="btn btn-default">Se connecter</button>
-        </form>
+    return Rsp.nnf(loginForm(new HttpConnect.chain(connect))).then((_) { //include#12
 
-    </div>
-    <div class="space space-north-east"  > &nbsp; </div>
-    <div class="space space-south-west"  > &nbsp; </div>
-    <div class="space space-south-east"  > &nbsp; </div>
-"""); //#20
+      connect = _cs_.removeLast(); response = connect.response;
 
-    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#34
+      var _1 = new StringBuffer(); _cs_.add(connect); //var#14
+      connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
-      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#35
+      connect = _cs_.removeLast(); response = connect.response;
 
-        response.write("""  </div>
+      var _2 = new StringBuffer(); _cs_.add(connect); //var#15
+      connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
+      connect = _cs_.removeLast(); response = connect.response;
 
-    <script type="application/dart" src="client/index.dart"></script>
+      var _3 = new StringBuffer(); _cs_.add(connect); //var#16
+      connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+
+      connect = _cs_.removeLast(); response = connect.response;
+
+      return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+
+        response.write("""    <script type="application/dart" src="client/login.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
-</html>
-"""); //#36
+</html>"""); //#18
 
         return Rsp.nnf();
       }); //end-of-include

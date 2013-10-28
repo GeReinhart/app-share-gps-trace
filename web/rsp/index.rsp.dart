@@ -10,22 +10,40 @@ Future index(HttpConnect connect) { //#2
   Rsp.init(connect, "text/html; charset=utf-8");
 
   response.write("""<!DOCTYPE html>
-
 <html>
  <head>
-	 <title>La Boussole</title>
+     <title>La Boussole</title>
 """); //#2
 
-  return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#7
+  return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#6
 
     response.write("""  </head>
   <body>   
-  
-  <div class="spaces" >
-    <div class="space space-north-west"  >
-    
-        <p class="text-warning">Cette application est actuellement en construction.</p>
-        <div class="main-welcome"   >
+"""); //#7
+
+    var _0 = new StringBuffer(); _cs_.add(connect); //var#10
+    connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
+
+    response.write("""        
+        <div class="form-group">
+           <button  type="submit" class="btn btn-default btn-login">Se connecter</button>
+           <button  type="submit" class="btn btn-default btn-register">S'enregister</button>
+           <div class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
+        </div>
+        
+"""); //#11
+
+    connect = _cs_.removeLast(); response = connect.response;
+
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#19
+    connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
+
+    connect = _cs_.removeLast(); response = connect.response;
+
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#20
+    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+
+    response.write("""        <div class="main-welcome"   >
            <div>
             <h1>La boussole</h1>
             <h2>Partager vos traces GPS</h2>
@@ -35,29 +53,24 @@ Future index(HttpConnect connect) { //#2
             <p>Comme dans la vraie vie, vous pouvez utiliser la boussole de cette application pour naviguer dans le site mais également pour agrandir la partie de la page qui vous intéresse en déplaçant celle-ci. Essayez !</p>
             <p>
           </div>
-        </div>    
-    </div>
-    <div class="space space-north-east"  > &nbsp; </div>
-    <div class="space space-south-west"  > 
+        </div>      
+"""); //#21
 
-    </div>
-    <div class="space space-south-east"  > &nbsp; </div>
-"""); //#8
+    connect = _cs_.removeLast(); response = connect.response;
 
-    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#32
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#33
+    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#33
+    connect = _cs_.removeLast(); response = connect.response;
 
-        response.write("""  </div>
+    return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-    <script type="application/dart" src="client/index.dart"></script>
+      response.write("""    <script type="application/dart" src="client/index.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
-</html>
-"""); //#34
+</html>"""); //#35
 
-        return Rsp.nnf();
-      }); //end-of-include
+      return Rsp.nnf();
     }); //end-of-include
   }); //end-of-include
 }

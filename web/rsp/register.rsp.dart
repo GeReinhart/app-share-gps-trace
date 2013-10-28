@@ -10,21 +10,22 @@ Future register(HttpConnect connect) { //#2
   Rsp.init(connect, "text/html; charset=utf-8");
 
   response.write("""<!DOCTYPE html>
-
 <html>
  <head>
-	 <title>La Boussole - Enregistrement</title>
+     <title>La Boussole - Enregistrement</title>
 """); //#2
 
-  return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#7
+  return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#6
 
     response.write("""  </head>
- 
   <body>   
-  
-  <div class="spaces" >
-    <div class="space space-north-west"  > 
-    
+"""); //#7
+
+    var _0 = new StringBuffer(); _cs_.add(connect); //var#10
+    connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
+
+    response.write("""
+
         <h1>Enregistrement</h1>
 
           <div class="form-group form-login">
@@ -39,20 +40,31 @@ Future register(HttpConnect connect) { //#2
           <div class="form-group">
               <button  type="submit" class="btn btn-default btn-submit-register">S'enregister</button>
               <div class="text-warning  form-error-message" ></div>
-          </div>    
-    </div>
-    <div class="space space-north-east"  > &nbsp; </div>
-    <div class="space space-south-west"  > &nbsp; </div>
-    <div class="space space-south-east"  > &nbsp; </div>
-"""); //#8
+          </div>
 
-    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#34
+"""); //#11
 
-      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#35
+    connect = _cs_.removeLast(); response = connect.response;
 
-        response.write("""  </div>
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#29
+    connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
+    connect = _cs_.removeLast(); response = connect.response;
 
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#30
+    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+
+    connect = _cs_.removeLast(); response = connect.response;
+
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#31
+    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+
+    connect = _cs_.removeLast(); response = connect.response;
+
+    return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+
+      response.write("""    
+    
     <div id="register-success" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -67,17 +79,27 @@ Future register(HttpConnect connect) { //#2
           </div>
         </div>
       </div>
-    </div>
-
-
+    </div>    
+    
+    
     <script type="application/dart" src="client/register.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#36
 
-        return Rsp.nnf();
-      }); //end-of-include
+
+
+
+
+
+
+
+
+
+
+"""); //#33
+
+      return Rsp.nnf();
     }); //end-of-include
   }); //end-of-include
 }

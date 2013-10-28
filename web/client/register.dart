@@ -1,23 +1,17 @@
-
-
 import "dart:html";
 import "dart:convert";
 import 'package:bootjack/bootjack.dart';
 
-import "index.dart";
 import "spaces.dart";
 import "forms.dart";
 
 void main() {
-  SpacesLayout layout = new SpacesLayout(spaces,spaceElements,spaceNW,spaceNE,spaceSW,spaceSE,spaceCenter,180);
+  SpacesLayout layout = new SpacesLayout(180,15,70);
   
-  Dropdown.use();
   Modal.use();
   Transition.use();
   
-  
-  
-  query(".btn-submit-register").onClick.listen((e) {
+  querySelector(".btn-submit-register").onClick.listen((e) {
 
     HttpRequest request = new HttpRequest();
     
@@ -27,9 +21,9 @@ void main() {
 
         RegisterForm form = new RegisterForm.fromMap(JSON.decode(request.responseText));
         if (form.success){
-          Modal.wire( query("#register-success") ).show() ;
+          Modal.wire( querySelector("#register-success") ).show() ;
         }else {
-          var message = query(".form-error-message");
+          var message = querySelector(".form-error-message");
           switch (form.error) {
             case REGISTER_ERROR_LOGIN_EXISTS:
               message.text = "Le login existe déjà" ;
@@ -49,13 +43,13 @@ void main() {
     });
 
     request.open("POST",  "/as_register", async: false);
-    RegisterForm form =  new  RegisterForm( query(".input-login").value,
-                                            query(".input-password").value,
-                                           query(".input-passwordConfirm").value);
+    RegisterForm form =  new  RegisterForm( querySelector(".input-login").value,
+                                            querySelector(".input-password").value,
+                                            querySelector(".input-passwordConfirm").value);
     request.send(JSON.encode(form.toJson()));
   });
   
-  query(".btn-login").onClick.listen((e) {
+  querySelector(".btn-login").onClick.listen((e) {
     window.location.href = window.location.href.replaceFirst("/register", "/login");
   });
   

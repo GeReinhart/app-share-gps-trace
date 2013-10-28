@@ -1,21 +1,15 @@
-
-
 import 'spaces.dart';
-import 'package:bootjack/bootjack.dart';
-
-
-const spaces = ".spaces" ;
-const spaceElements = ".space" ;
-const spaceNW = ".space-north-west" ;
-const spaceNE = ".space-north-east" ;
-const spaceSW = ".space-south-west" ;
-const spaceSE = ".space-south-east" ;
-const spaceMenu = ".space-menu" ;
-const spaceCenter = ".space-center" ;
-
+import "dart:html";
 
 void main() {
-  Dropdown.use();
-  SpacesLayout layout = new SpacesLayout(spaces,spaceElements,spaceNW,spaceNE,spaceSW,spaceSE,spaceCenter,180);
+  SpacesLayout layout = new SpacesLayout(180,15,15);
+  
+  querySelector(".btn-login").onClick.listen((e) {
+    window.location.href = "/login";
+  });
+  
+  querySelector(".btn-register").onClick.listen((e) {
+    window.location.href = "/register";
+  });
 }
 

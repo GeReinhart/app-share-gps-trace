@@ -1,31 +1,42 @@
 
 
 import 'dart:html';
+import 'package:bootjack/bootjack.dart';
+
 
 class SpacesLayout{
   
-  String spaces ;
-  String spaceElements  ;
-  String spaceNW  ;
-  String spaceNE  ;
-  String spaceSW  ;
-  String spaceSE  ;
-  String spaceCenter  ;
-  String spaceMenu =".space-menu";
-  double centerRight = (window.innerWidth * 0.5) ;
-  double centerTop = (window.innerHeight * 0.5) ;
-  int centerSize = 180 ;
+  String spaces = ".spaces" ;
+  String spaceElements  = ".space"  ;
+  String spaceNW  = ".space-north-west";
+  String spaceNE  = ".space-north-east";
+  String spaceSW  = ".space-south-west";
+  String spaceSE  = ".space-south-east" ;
+  String spaceCenter = ".space-center"  ;
+  String spaceMenu = ".space-menu";
+  
+  int centerRightPercentPosition ;
+  int centerTopPercentPosition;
+  int centerSize ;
+
+  double centerRight ;
+  double centerTop ;
   
   MouseEvent _startMovingCenterPosition ;
   var _movingCenter = false;
   
-  SpacesLayout(this.spaces, this.spaceElements, this.spaceNW, this.spaceNE, this.spaceSW,
-               this.spaceSE, this.spaceCenter, this.centerSize){
+  SpacesLayout(this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
+    
+    centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
+    centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
     _init();
   }
   
   
   void _init(){
+    
+    
+    Dropdown.use();
     
     organizeSpaces();
     
@@ -149,7 +160,7 @@ class SpacesLayout{
     ..style.zIndex = "99"
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top = (centerTop+1  + centerSize /6 ).toString()+ "px" 
+    ..style.top =  centerTopPercentPosition<50 ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize *5/6 ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = "0px" ;   
   }
