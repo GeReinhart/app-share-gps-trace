@@ -4,7 +4,6 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:math' as Math ;
 
-
 class Trace {
  
   List<TracePoint> _points = new List<TracePoint> ();
@@ -18,8 +17,32 @@ class Trace {
   
   Trace();
 
-  Trace.fromGpxFileContent(String gpxFileContext){
-    XmlElement myXmlTree = XML.parse(gpxFileContext);
+  Trace.fromGpxFileContent(String gpxFileContent){
+    _loadFromContent( gpxFileContent );
+  }
+  
+  static Future<Trace> fromGpxFile(File gpxFile){
+    return gpxFile.readAsString().then((content) => new Trace.fromGpxFileContent(content));
+  }
+  
+  static Future<Trace> fromGpxUrl(String gpxUrl){
+    
+    DateTime now = new DateTime.now();
+    String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
+    print(tempFile) ;
+    return new HttpClient().getUrl(Uri.parse(gpxUrl))
+      .then((HttpClientRequest request) => request.close())
+        .then((HttpClientResponse response) => response.pipe(new File(tempFile).openWrite())).then((_) {
+          File gpxFile = new File(tempFile);
+          return Trace.fromGpxFile(gpxFile);
+        } ).whenComplete((){
+          new File(tempFile).delete();
+        } );
+  }  
+  
+  void  _loadFromContent( String gpxFileContent ){
+    
+    XmlElement myXmlTree = XML.parse(gpxFileContent);
     XmlCollection<XmlNode> trkptNodes = myXmlTree.queryAll("trkpt") ;
         
     TracePoint previousPoint = null;
@@ -63,17 +86,11 @@ class Trace {
     this._distanceDown = _distanceDown.round() ;
   }
   
-  static Future<Trace> fromGpxFile(File gpxFile){
-    return gpxFile.readAsString().then((content) => new Trace.fromGpxFileContent(content));
-  }
-
-  
   /* 
   Distance http://www.movable-type.co.uk/scripts/latlong.html
  
   Distance in meters
   */
-  
   static double distance(TracePoint start, TracePoint end){
     
     double R = 6371.0; 

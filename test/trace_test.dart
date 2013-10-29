@@ -57,6 +57,24 @@ main() {
     double distance = Trace.distance(start, end) ;
     expect(distance.round(), equals(5607));
   });
- 
+  
+  
+  test('Load gpx url', () {
+    String url ="https://s3-eu-west-1.amazonaws.com/la-boussole-files/test-console/16186.gpx";
+    Trace.fromGpxUrl(url).then((trace){
+      expect(trace.length, equals(27539));   
+      expect(trace.up, equals(958));
+      expect(trace.down, equals(959));
+      expect(trace.distanceUp, equals(13553));
+      expect(trace.distanceDown, equals(13986));
+      expect( (trace.inclinationUp * 100).round()  , equals(7));
+      expect( (trace.inclinationDown * 100).round()  , equals(7));      
+    });
+
+    
+  });
+  
+  
+  
 }
 
