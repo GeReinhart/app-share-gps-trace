@@ -9,3 +9,4 @@ dependencies:
   rikulo_security: any
   crypto: any
   bootjack: any
+  xml: any
