@@ -34,9 +34,8 @@ class SpacesLayout{
   
   
   void _init(){
-    
-    
-    Dropdown.use();
+   // To be put back when bootjack is stable 
+   // Dropdown.use();
     
     organizeSpaces();
     

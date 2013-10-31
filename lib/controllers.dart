@@ -1,4 +1,7 @@
 
+
+library trails;
+
 import "dart:io";
 import "dart:async";
 import "dart:convert";
@@ -11,6 +14,17 @@ import  "../web/shared/forms.dart";
 import  "models.dart";
 import  "persistence.dart";
 import  "aaa.dart";
+import  "trace.dart";
+
+part "../web/rsp/login.rsp.dart";
+part "../web/rsp/register.rsp.dart";
+part "../web/rsp/index.rsp.dart";
+part "../web/rsp/mock.rsp.dart";
+part "../web/rsp/traceAnalysisView.rsp.dart" ;
+part "../web/rsp/templates/spaces.rsp.dart";
+part "../web/rsp/templates/menu.rsp.dart";
+part "../web/rsp/templates/center.rsp.dart";
+part "../web/rsp/templates/loginForm.rsp.dart";
 
 class TrailController{
   
@@ -66,7 +80,6 @@ class TrailController{
           return JSON.decode(data); 
    });
   
-  
   Future _writeFormIntoResponse(HttpResponse response, form){
     response
       ..headers.contentType = contentTypes["json"]
@@ -80,6 +93,19 @@ class TrailController{
   
   Future logout(HttpConnect connect) {
     return _security.logout(connect);
+  }
+  
+  
+  Future traceAnalysis(HttpConnect connect) {
+    Map<String,String>  params = new Map.from(connect.request.uri.queryParameters);
+    if( !params.containsKey("gpxFileUrl")  ){
+      return traceAnalysisView(connect);
+    }else{
+      String gpxFileUrl = params["gpxFileUrl"];
+      return Trace.fromGpxUrl(gpxFileUrl).then((trace){
+        return traceAnalysisView(connect, trace:trace);
+      });
+    }
   }
   
 }
