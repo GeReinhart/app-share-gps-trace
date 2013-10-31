@@ -1,0 +1,36 @@
+[:page partOf="trails" args="trace"]
+<!DOCTYPE html>
+<html>
+ <head>
+	 <title>La Boussole - Connection</title>
+     [:include "/rsp/templates/assetsimports.html"/]   
+  </head>
+  <body>   
+    [:include spaces]
+      [:var nw]
+        <h1>Analyse d'une trace gpx</h1>
+
+        <form role="form"  action="/trace.analysis" method="get" accept-charset="UTF-8">
+          <div class="form-group">
+            <input name="gpxFileUrl" type="text" class="form-control" id="gpxFileUrl" placeholder="Url du fichier gpx">
+          </div>
+          <button type="submit" class="btn btn-default">Analyser</button>
+        </form>
+
+
+      [/var]
+      [:var ne /]
+      [:var sw /]
+      [:var se ]
+         
+        [:if trace != null]
+           <h2>Statistics</h2>
+           <div>Longueur : [=trace.length] metres</div>
+        [/if]
+         
+      [/var]
+    [/include]  
+    <script type="application/dart" src="client/traceAnalysis.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+  </body>
+</html>

@@ -61,6 +61,8 @@ class TrailsServer{
 
           "/s_logout": _trailController.logout,
           "/logout":  _trailController.logout,
+
+          "/trace.analysis": _trailController.traceAnalysis,          
           
           "/mock": mock 
         
