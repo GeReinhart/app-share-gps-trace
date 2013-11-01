@@ -12,7 +12,7 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
   response.write("""<!DOCTYPE html>
 <html>
  <head>
-	 <title>La Boussole - Connection</title>
+	 <title>La Boussole - Analyse de trace</title>
 """); //#2
 
   return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#6
@@ -41,42 +41,75 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
     var _1 = new StringBuffer(); _cs_.add(connect); //var#22
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
+    response.write("""         <div id="visualization" ></div> 
+"""); //#23
+
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#23
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#25
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#24
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#26
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""         
-"""); //#25
+"""); //#27
 
-    if (trace != null) { //if#26
+    if (trace != null) { //if#28
 
       response.write("""           <h2>Statistics</h2>
-           <div>Longueur : """); //#27
+           <div>"""); //#29
 
-      response.write(Rsp.nnx(trace.length)); //#28
+      response.write(Rsp.nnx((trace.length/1000).truncate())); //#30
 
 
-      response.write(""" metres</div>
-"""); //#28
+      response.write(""" km """); //#30
+
+      response.write(Rsp.nnx(trace.length- (trace.length/1000).truncate()*1000)); //#30
+
+
+      response.write(""" m de distance</div>
+
+           <div>"""); //#30
+
+      response.write(Rsp.nnx(trace.up)); //#32
+
+
+      response.write(""" mètres de dénivelé positif</div>
+
+           <div>"""); //#32
+
+      response.write(Rsp.nnx(trace.inclinationUp)); //#34
+
+
+      response.write(""" % d'inclinaison moyenne en monté</div>
+
+           <div>"""); //#34
+
+      response.write(Rsp.nnx(trace.difficulty)); //#36
+
+
+      response.write(""" points de difficulté</div>
+
+"""); //#36
     } //if
 
     response.write("""         
-"""); //#30
+"""); //#39
 
     connect = _cs_.removeLast(); response = connect.response;
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-      response.write("""    <script type="application/dart" src="client/traceAnalysis.dart"></script>
+      response.write("""    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="application/dart" src="client/traceAnalysis.dart"></script>
     <script src="packages/browser/dart.js"></script>
+    <script src="packages/browser/interop.js"></script>
   </body>
-</html>"""); //#33
+</html>"""); //#42
 
       return Rsp.nnf();
     }); //end-of-include

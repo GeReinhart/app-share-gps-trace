@@ -7,14 +7,21 @@ import 'dart:math' as Math ;
 class Trace {
  
   List<TracePoint> _points = new List<TracePoint> ();
+  List<DistanceInclination> _distancesByInclination = new List<DistanceInclination> ();
+  
+  num _distanceUp = 0 ; // in meters  > 2% inclination
+  num _upRelatedToDistanceUp =0 ; // in meters 
+  num _distanceFlat ; // in meters
+  num _distanceDown ; // in meters < 2% inclination
+  num _downRelatedToDistanceDown =0 ; // in meters 
+  
+  num _averageInclinationUp ; // in percentage
+  num _averageInclinationDown ; // in percentage
+  
   num _length = 0;  // in meters
   num _down = 0 ; // in meters
   num _up = 0 ; // in meters
 
-  num _distanceDown = 0 ; // in meters
-  num _distanceUp = 0 ; // in meters
-
-  
   Trace();
 
   Trace.fromGpxFileContent(String gpxFileContent){
@@ -47,6 +54,14 @@ class Trace {
         
     TracePoint previousPoint = null;
     num traceLength = 0.0;
+    _distanceUp = 0.0;
+    _upRelatedToDistanceUp = 0.0;
+    _distanceDown = 0.0;
+    _distanceFlat = 0.0;
+    _downRelatedToDistanceDown = 0.0;
+    
+    Map<String,DistanceInclination> distancesByInclinationMap = new Map<String,DistanceInclination>();
+    
     for (var iter = trkptNodes.iterator; iter.moveNext();) {
       XmlNode trkptNode = iter.current;
       XmlElement trkptElement = (trkptNode as XmlElement);
@@ -60,30 +75,55 @@ class Trace {
       }
       
       num currentDistance = 0;
+      num currentElevetionDiff = 0;
       if (previousPoint != null){
         currentDistance = distance(previousPoint,currentPoint) ;
-        
+        currentElevetionDiff = currentPoint.elevetion - previousPoint.elevetion ;
         if ( previousPoint.elevetion <   currentPoint.elevetion ){
-          _up += (currentPoint.elevetion - previousPoint.elevetion ) ;
-          _distanceUp += currentDistance ;
+          _up += currentElevetionDiff ;
         }else{
-          _down += (previousPoint.elevetion -  currentPoint.elevetion) ;
-          _distanceDown += currentDistance ;
+          _down -= currentElevetionDiff ;
         }
-        
+
+        if ( currentDistance > 0  ){
+          int  inclination =   (Math.tan(  currentElevetionDiff/currentDistance ) * 100).round() ;
+          
+          if( inclination > 2 ){
+            _distanceUp += currentDistance ;
+            _upRelatedToDistanceUp += currentElevetionDiff;
+          }else if (inclination < -2 ){
+            _distanceDown += currentDistance ;
+            _downRelatedToDistanceDown -= currentElevetionDiff ;
+          }else{
+            _distanceFlat += currentDistance ;
+          }
+          
+          
+          if (  !distancesByInclinationMap.containsKey(inclination.toString()) ){
+            distancesByInclinationMap[inclination.toString()] =  new DistanceInclination(inclination.toDouble(),currentDistance);
+          }else{
+            distancesByInclinationMap[inclination.toString()].incDistance(currentDistance) ; 
+          }
+        }
       }
+      
+      
       traceLength += currentDistance;
       currentPoint.distance = traceLength ;
       previousPoint= currentPoint;
       
       _points.add(currentPoint) ;
     }
+
+    for (int i = -100; i <= 100; i++) {
+      if (distancesByInclinationMap.containsKey(i.toString())){
+        _distancesByInclination.add(distancesByInclinationMap[i.toString()]);
+      }
+    }
     
     this._length = traceLength.round();
     this._up = _up.round();
     this._down = _down.round();
-    this._distanceUp = _distanceUp.round() ;
-    this._distanceDown = _distanceDown.round() ;
   }
   
   /* 
@@ -110,6 +150,8 @@ class Trace {
   
   List<TracePoint> get points => _points;
   
+  List<DistanceInclination>  get inclinations => _distancesByInclination;
+  
   TracePoint get startPoint =>  _points.isNotEmpty ? _points.first : null ;
   
   num get length => _length ;
@@ -117,20 +159,49 @@ class Trace {
   num get down => _down ;
   
   num get up => _up ;
+
+  num get distanceUp =>   _distanceUp.round() ;
   
-  num get distanceDown => _distanceDown ;
-
-  num get distanceUp => _distanceUp ;
-
+  num get distanceFlat => _distanceFlat.round() ;
+  
+  num get distanceDown => _distanceDown.round() ;
+  
+  num get inclinationUp { 
+    if(_distanceUp == 0){
+      return 0;
+    }
+    return (Math.tan(  _upRelatedToDistanceUp/_distanceUp ) * 100).round() ;
+  }
+  
   num get inclinationDown {
-    return Math.tan(_up /_distanceDown );
-  }
-
-  num get inclinationUp {
-    return Math.tan(_up /_distanceUp );
+    if(_distanceDown == 0){
+      return 0;
+    }    
+   return (Math.tan(  _downRelatedToDistanceDown/_distanceDown ) * 100).round() ; 
   }
   
+  static const double FLAT_INCLINATION_WEIGHT = 1/1000 ;
+  static const double DOWN_INCLINATION_WEIGHT = 1/1000 / 5 * 1 ; 
+  static const double UP_INCLINATION_WEIGHT   = 1/1000 / 5 * 3 ;
   
+  int get difficulty {
+    double currentDifficulty = 0.toDouble();
+    for (var di in _distancesByInclination) {
+      
+      double loopDifficulty = 0.toDouble();
+      if ( di.inclination >=  -2 &&  di.inclination <=  2 ){
+        loopDifficulty = di.distance * FLAT_INCLINATION_WEIGHT ;
+      }else if ( di.inclination < 0 ){
+        loopDifficulty = (di.distance * FLAT_INCLINATION_WEIGHT) +  ( di.distance *  (-di.inclination) * DOWN_INCLINATION_WEIGHT ) ;
+      }else{
+        loopDifficulty = (di.distance * FLAT_INCLINATION_WEIGHT) +  ( di.distance *  di.inclination * UP_INCLINATION_WEIGHT ) ;
+      }
+      
+      currentDifficulty += loopDifficulty ;
+    }
+    return currentDifficulty.round() ;
+  }
+ 
 }
 
 
@@ -148,5 +219,26 @@ class TracePoint{
   String toString(){
     return latitute.toString() +"/"+longitude.toString() + " e:"+elevetion.toString()+"m d:"+ distance.toString()+"km";
   }
+  
+}
+
+class DistanceInclination{
+  
+  double _inclination; // in %
+  double _distance; // in meters
+  
+  DistanceInclination(this._inclination,this._distance);
+  
+  void incDistance(currentDistance) {
+    _distance+= currentDistance ;
+  }
+  
+  int get inclination => _inclination.round() ;
+  int get distance => _distance.round() ;
+ 
+  String toString(){
+    return inclination.toString() +"% on "+distance.toString() + "m";
+  }
+ 
   
 }
