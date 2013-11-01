@@ -20,9 +20,22 @@ main() {
       expect(trace.startPoint.longitude, equals(5.719580050));    
       expect(trace.startPoint.elevetion, equals(238));
       
+      expect( trace.inclinations.length, equals(6)   );
+      expect( trace.inclinations[0].toString(), equals("-3% on 49m")   );
+      expect( trace.inclinations[1].toString(), equals("-2% on 696m")   );
+      expect( trace.inclinations[2].toString(), equals("-1% on 2013m")   );
+      expect( trace.inclinations[3].toString(), equals("0% on 5019m")   );
+      expect( trace.inclinations[4].toString(), equals("1% on 329m")   );
+      expect( trace.inclinations[5].toString(), equals("2% on 118m")   );
+
+      expect(trace.difficulty, equals(8));
       expect(trace.length, equals(8224));
-      expect( (trace.inclinationUp * 100).round()  , equals(1));
-      expect( (trace.inclinationDown * 100).round()  , equals(0)); 
+      expect(trace.down, equals(35));
+      expect(trace.distanceUp, equals(0));
+      expect(trace.distanceFlat, equals(8176));
+      expect(trace.distanceDown, equals(49));
+      expect(trace.inclinationUp, equals(0));
+      expect(trace.inclinationDown, equals(3));
     });
     
     file = new File("test/resources/16231.gpx");
@@ -30,10 +43,6 @@ main() {
       expect(trace.length, equals(35855));   
       expect(trace.up, equals(1316));
       expect(trace.down, equals(1316));
-      expect(trace.distanceUp, equals(18104));
-      expect(trace.distanceDown, equals(17751));
-      expect( (trace.inclinationUp * 100).round()  , equals(7));
-      expect( (trace.inclinationDown * 100).round()  , equals(7));      
     });
 
     file = new File("test/resources/12645.gpx");
@@ -41,13 +50,7 @@ main() {
       expect(trace.length, equals(21966));   
       expect(trace.up, equals(1031));
       expect(trace.down, equals(1591));
-      expect(trace.distanceUp, equals(8723));
-      expect(trace.distanceDown, equals(13242));
-      expect( (trace.inclinationUp * 100).round()  , equals(12));
-      expect( (trace.inclinationDown * 100).round()  , equals(8));      
     });
-    
-    
   });
  
  
@@ -65,16 +68,7 @@ main() {
       expect(trace.length, equals(27539));   
       expect(trace.up, equals(958));
       expect(trace.down, equals(959));
-      expect(trace.distanceUp, equals(13553));
-      expect(trace.distanceDown, equals(13986));
-      expect( (trace.inclinationUp * 100).round()  , equals(7));
-      expect( (trace.inclinationDown * 100).round()  , equals(7));      
     });
-
-    
   });
   
-  
-  
 }
-
