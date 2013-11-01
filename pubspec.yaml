@@ -10,3 +10,4 @@ dependencies:
   crypto: any
   bootjack: any
   xml: any
+  js: any 
