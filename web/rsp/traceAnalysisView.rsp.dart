@@ -66,7 +66,12 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
         response.write(Rsp.nnx(point.distance.round())); //#37
 
 
-        response.write(""",   3000,       """); //#37
+        response.write(""",   """); //#37
+
+        response.write(Rsp.nnx(trace.upperPoint.elevetion.round() + 500)); //#37
+
+
+        response.write(""",       """); //#37
 
         response.write(Rsp.nnx(point.elevetion.round())); //#37
 
@@ -80,7 +85,6 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
     
             var options = {
                            "curveType": "function",
-                           "width": 800, "height": 400,
                            "vAxis": {"maxValue": 10},
                            "series": [
                                       {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
@@ -148,65 +152,65 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
     response.write("""         
          
          
-"""); //#107
+"""); //#106
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#111
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#110
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     response.write("""      
-"""); //#112
+"""); //#111
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#114
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#113
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""         
-"""); //#115
+"""); //#114
 
-    if (trace != null) { //if#116
+    if (trace != null) { //if#115
 
       response.write("""           <h2>Statistics</h2>
-           <div>"""); //#117
+           <div>"""); //#116
 
-      response.write(Rsp.nnx((trace.length/1000).truncate())); //#118
+      response.write(Rsp.nnx((trace.length/1000).truncate())); //#117
 
 
-      response.write(""" km """); //#118
+      response.write(""" km """); //#117
 
-      response.write(Rsp.nnx(trace.length- (trace.length/1000).truncate()*1000)); //#118
+      response.write(Rsp.nnx(trace.length- (trace.length/1000).truncate()*1000)); //#117
 
 
       response.write(""" m de distance</div>
 
-           <div>"""); //#118
+           <div>"""); //#117
 
-      response.write(Rsp.nnx(trace.up)); //#120
+      response.write(Rsp.nnx(trace.up)); //#119
 
 
       response.write(""" mètres de dénivelé positif</div>
 
-           <div>"""); //#120
+           <div>"""); //#119
 
-      response.write(Rsp.nnx(trace.inclinationUp)); //#122
+      response.write(Rsp.nnx(trace.inclinationUp)); //#121
 
 
       response.write(""" % d'inclinaison moyenne en monté</div>
 
-           <div>"""); //#122
+           <div>"""); //#121
 
-      response.write(Rsp.nnx(trace.difficulty)); //#124
+      response.write(Rsp.nnx(trace.difficulty)); //#123
 
 
       response.write(""" points de difficulté</div>
 
-"""); //#124
+"""); //#123
     } //if
 
     response.write("""         
-"""); //#127
+"""); //#126
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -216,7 +220,7 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
     <script type="application/dart" src="client/traceAnalysis.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
-</html>"""); //#130
+</html>"""); //#129
 
       return Rsp.nnf();
     }); //end-of-include

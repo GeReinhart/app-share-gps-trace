@@ -9,6 +9,9 @@ class Trace {
   List<TracePoint> _points = new List<TracePoint> ();
   List<DistanceInclination> _distancesByInclination = new List<DistanceInclination> ();
   
+  TracePoint _upperPoint ;
+  TracePoint _lowerPoint ;
+  
   num _distanceUp = 0 ; // in meters  > 2% inclination
   num _upRelatedToDistanceUp =0 ; // in meters 
   num _distanceFlat ; // in meters
@@ -76,9 +79,22 @@ class Trace {
       
       num currentDistance = 0;
       num currentElevetionDiff = 0;
-      if (previousPoint != null){
+      
+      if (previousPoint == null  ){
+        _upperPoint = currentPoint;
+        _lowerPoint = currentPoint;
+      }
+      else{
         currentDistance = distance(previousPoint,currentPoint) ;
         currentElevetionDiff = currentPoint.elevetion - previousPoint.elevetion ;
+
+        if( currentPoint.elevetion > _upperPoint.elevetion ){
+          _upperPoint = currentPoint;
+        }
+        if( currentPoint.elevetion < _lowerPoint.elevetion ){
+          _lowerPoint = currentPoint;
+        }
+        
         if ( previousPoint.elevetion <   currentPoint.elevetion ){
           _up += currentElevetionDiff ;
         }else{
@@ -149,6 +165,10 @@ class Trace {
   
   
   List<TracePoint> get points => _points;
+
+  TracePoint get upperPoint => _upperPoint;
+
+  TracePoint get lowerPoint => _lowerPoint;
   
   List<DistanceInclination>  get inclinations => _distancesByInclination;
   

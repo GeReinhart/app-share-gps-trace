@@ -34,14 +34,13 @@
                                                               ['x', 'Altitude', 'Altitude'  ],
 
                                                               [:for point in trace.points]
-                                                              [  [=point.distance.round()],   3000,       [=point.elevetion.round()],            ],
+                                                              [  [=point.distance.round()],   [=trace.upperPoint.elevetion.round() + 500],       [=point.elevetion.round()],            ],
                                                               [/for]
                                                               
                                                               ]);
     
             var options = {
                            "curveType": "function",
-                           "width": 800, "height": 400,
                            "vAxis": {"maxValue": 10},
                            "series": [
                                       {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
