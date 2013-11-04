@@ -44,72 +44,179 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
     response.write("""         <div id="visualization" ></div> 
 """); //#23
 
+    if (trace != null) { //if#24
+
+      response.write("""        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+          google.load("visualization", "1", {packages:["corechart"]});
+          google.setOnLoadCallback(drawChart);
+          function drawChart() {
+            
+            
+            
+            var data = google.visualization.arrayToDataTable([
+                                                              ['x', 'Altitude', 'Altitude'  ],
+
+"""); //#25
+
+      for (var point in trace.points) { //for#36
+
+        response.write("""                                                              [  """); //#37
+
+        response.write(Rsp.nnx(point.distance.round())); //#37
+
+
+        response.write(""",   3000,       """); //#37
+
+        response.write(Rsp.nnx(point.elevetion.round())); //#37
+
+
+        response.write(""",            ],
+"""); //#37
+      } //for
+
+      response.write("""                                                              
+                                                              ]);
+    
+            var options = {
+                           "curveType": "function",
+                           "width": 800, "height": 400,
+                           "vAxis": {"maxValue": 10},
+                           "series": [
+                                      {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                                      {"color": '#C2A385',   "lineWidth": 1, "areaOpacity": 1,  "visibleInLegend": false}
+                                      ]
+            };
+    
+            var chart = new google.visualization.AreaChart(document.getElementById('visualization'));
+            chart.draw(data, options);
+          }
+          
+/*
+          void drawVisualization() {
+          
+          var gviz = js.context.google.visualization;
+          
+          // Create and populate the data table.
+          var listData = [
+          ['x', 'Altitude', 'Altitude', 'Altitude','Altitude','Altitude',  ],
+          [  1,   4000,       300,       299,       299,      299,      ],
+          [  2,   4000,       600,       599,       599,      599,      ],
+          [  3,   4000,      1200,      1199,      1199,      999,      ],
+          [  4,   4000,      2200,      2199,      1999,      999,      ],
+          [  5,   4000,      2100,      2099,      1999,      999,      ],
+          [  6,   4000,      2100,      2099,      1999,      999,      ],
+          [  7,   4000,      2400,      2399,      1999,      999,      ],
+          [  8,   4000,      1200,      1199,      1199,      999,      ],
+          [  9,   4000,       600,       599,       599,      599,      ],
+          [ 10,   4000,      1000,       999,       999,      999,      ],
+          [ 11,   4000,       900,       899,       899,      899,      ],
+          [ 12,   4000,      1000,       999,       999,      999,      ],
+          [ 13,   4000,       300,       299,       299,      299,      ],
+          [ 25,   4000,       300,       299,       299,      299,      ]
+          ];
+    
+    var arrayData = js.array(listData);
+
+    var tableData = gviz.arrayToDataTable(arrayData);
+    
+    var options = js.map({
+      "curveType": "function",
+      "width": 500, "height": 400,
+      "vAxis": {"maxValue": 10},
+      "series": [
+               {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+               {"color": 'black',   "lineWidth": 1, "areaOpacity": 0,  "visibleInLegend": false},
+               {"color": 'white',   "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+               {"color": '#C2A385', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+               {"color": '#A3C266', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false}
+               ]
+    });
+
+    // Create and draw the visualization.
+    var chart = new js.Proxy(gviz.AreaChart, querySelector('#visualization'));
+    chart.draw(tableData, options);
+
+}
+*/
+          
+          
+        </script>
+"""); //#39
+    } //if
+
+    response.write("""         
+         
+         
+"""); //#107
+
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#25
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#111
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
+    response.write("""      
+"""); //#112
+
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#26
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#114
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""         
-"""); //#27
+"""); //#115
 
-    if (trace != null) { //if#28
+    if (trace != null) { //if#116
 
       response.write("""           <h2>Statistics</h2>
-           <div>"""); //#29
+           <div>"""); //#117
 
-      response.write(Rsp.nnx((trace.length/1000).truncate())); //#30
+      response.write(Rsp.nnx((trace.length/1000).truncate())); //#118
 
 
-      response.write(""" km """); //#30
+      response.write(""" km """); //#118
 
-      response.write(Rsp.nnx(trace.length- (trace.length/1000).truncate()*1000)); //#30
+      response.write(Rsp.nnx(trace.length- (trace.length/1000).truncate()*1000)); //#118
 
 
       response.write(""" m de distance</div>
 
-           <div>"""); //#30
+           <div>"""); //#118
 
-      response.write(Rsp.nnx(trace.up)); //#32
+      response.write(Rsp.nnx(trace.up)); //#120
 
 
       response.write(""" mètres de dénivelé positif</div>
 
-           <div>"""); //#32
+           <div>"""); //#120
 
-      response.write(Rsp.nnx(trace.inclinationUp)); //#34
+      response.write(Rsp.nnx(trace.inclinationUp)); //#122
 
 
       response.write(""" % d'inclinaison moyenne en monté</div>
 
-           <div>"""); //#34
+           <div>"""); //#122
 
-      response.write(Rsp.nnx(trace.difficulty)); //#36
+      response.write(Rsp.nnx(trace.difficulty)); //#124
 
 
       response.write(""" points de difficulté</div>
 
-"""); //#36
+"""); //#124
     } //if
 
     response.write("""         
-"""); //#39
+"""); //#127
 
     connect = _cs_.removeLast(); response = connect.response;
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
       response.write("""    
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="application/dart" src="client/traceAnalysis.dart"></script>
     <script src="packages/browser/dart.js"></script>
-    <script src="packages/browser/interop.js"></script>
   </body>
-</html>"""); //#42
+</html>"""); //#130
 
       return Rsp.nnf();
     }); //end-of-include
