@@ -11,6 +11,7 @@ import "package:rikulo_security/plugin.dart";
 import "package:rikulo_commons/convert.dart" ;
 
 import  "../web/shared/forms.dart";
+import  "../web/client/renderers.dart";
 import  "models.dart";
 import  "persistence.dart";
 import  "aaa.dart";
@@ -102,8 +103,9 @@ class TrailController{
       return traceAnalysisView(connect);
     }else{
       String gpxFileUrl = params["gpxFileUrl"];
-      return Trace.fromGpxUrl(gpxFileUrl).then((trace){
-        return traceAnalysisView(connect, trace:trace);
+      return TraceAnalysis.fromGpxUrl(gpxFileUrl).then((traceAnalysis){
+        TraceAnalysisRenderer renderer = new TraceAnalysisRenderer.fromTraceAnalysis(traceAnalysis);
+        return traceAnalysisView(connect, traceAnalysisRenderer:renderer);
       });
     }
   }

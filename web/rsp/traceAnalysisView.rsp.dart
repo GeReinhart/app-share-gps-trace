@@ -3,7 +3,7 @@
 part of trails;
 
 /** Template, traceAnalysisView, for rendering the view. */
-Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
+Future traceAnalysisView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
@@ -44,7 +44,7 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
     response.write("""         <div id="visualization" ></div> 
 """); //#23
 
-    if (trace != null) { //if#24
+    if (traceAnalysisRenderer != null) { //if#24
 
       response.write("""        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
@@ -59,7 +59,7 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
 
 """); //#25
 
-      for (var point in trace.points) { //for#36
+      for (var point in traceAnalysisRenderer.points) { //for#36
 
         response.write("""                                                              [  """); //#37
 
@@ -68,7 +68,7 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
 
         response.write(""",   """); //#37
 
-        response.write(Rsp.nnx(trace.upperPoint.elevetion.round() + 500)); //#37
+        response.write(Rsp.nnx(traceAnalysisRenderer.upperPoint.elevetion.round() + 500)); //#37
 
 
         response.write(""",       """); //#37
@@ -170,38 +170,38 @@ Future traceAnalysisView(HttpConnect connect, {trace}) { //#2
     response.write("""         
 """); //#114
 
-    if (trace != null) { //if#115
+    if (traceAnalysisRenderer != null) { //if#115
 
       response.write("""           <h2>Statistics</h2>
            <div>"""); //#116
 
-      response.write(Rsp.nnx((trace.length/1000).truncate())); //#117
+      response.write(Rsp.nnx((traceAnalysisRenderer.length/1000).truncate())); //#117
 
 
       response.write(""" km """); //#117
 
-      response.write(Rsp.nnx(trace.length- (trace.length/1000).truncate()*1000)); //#117
+      response.write(Rsp.nnx(traceAnalysisRenderer.length- (traceAnalysisRenderer.length/1000).truncate()*1000)); //#117
 
 
       response.write(""" m de distance</div>
 
            <div>"""); //#117
 
-      response.write(Rsp.nnx(trace.up)); //#119
+      response.write(Rsp.nnx(traceAnalysisRenderer.up)); //#119
 
 
       response.write(""" mètres de dénivelé positif</div>
 
            <div>"""); //#119
 
-      response.write(Rsp.nnx(trace.inclinationUp)); //#121
+      response.write(Rsp.nnx(traceAnalysisRenderer.inclinationUp)); //#121
 
 
       response.write(""" % d'inclinaison moyenne en monté</div>
 
            <div>"""); //#121
 
-      response.write(Rsp.nnx(trace.difficulty)); //#123
+      response.write(Rsp.nnx(traceAnalysisRenderer.difficulty)); //#123
 
 
       response.write(""" points de difficulté</div>

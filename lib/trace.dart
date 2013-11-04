@@ -4,7 +4,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:math' as Math ;
 
-class Trace {
+class TraceAnalysis {
  
   List<TracePoint> _points = new List<TracePoint> ();
   List<DistanceInclination> _distancesByInclination = new List<DistanceInclination> ();
@@ -25,17 +25,17 @@ class Trace {
   num _down = 0 ; // in meters
   num _up = 0 ; // in meters
 
-  Trace();
+  TraceAnalysis();
 
-  Trace.fromGpxFileContent(String gpxFileContent){
+  TraceAnalysis.fromGpxFileContent(String gpxFileContent){
     _loadFromContent( gpxFileContent );
   }
   
-  static Future<Trace> fromGpxFile(File gpxFile){
-    return gpxFile.readAsString().then((content) => new Trace.fromGpxFileContent(content));
+  static Future<TraceAnalysis> fromGpxFile(File gpxFile){
+    return gpxFile.readAsString().then((content) => new TraceAnalysis.fromGpxFileContent(content));
   }
   
-  static Future<Trace> fromGpxUrl(String gpxUrl){
+  static Future<TraceAnalysis> fromGpxUrl(String gpxUrl){
     
     DateTime now = new DateTime.now();
     String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
@@ -44,7 +44,7 @@ class Trace {
       .then((HttpClientRequest request) => request.close())
         .then((HttpClientResponse response) => response.pipe(new File(tempFile).openWrite())).then((_) {
           File gpxFile = new File(tempFile);
-          return Trace.fromGpxFile(gpxFile);
+          return TraceAnalysis.fromGpxFile(gpxFile);
         } ).whenComplete((){
           new File(tempFile).delete();
         } );

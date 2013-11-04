@@ -1,4 +1,4 @@
-[:page partOf="trails" args="trace"]
+[:page partOf="trails" args="traceAnalysisRenderer"]
 <!DOCTYPE html>
 <html>
  <head>
@@ -21,7 +21,7 @@
       [/var]
       [:var ne ]
          <div id="visualization" ></div> 
-      [:if trace != null]    
+      [:if traceAnalysisRenderer != null]    
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
           google.load("visualization", "1", {packages:["corechart"]});
@@ -33,8 +33,8 @@
             var data = google.visualization.arrayToDataTable([
                                                               ['x', 'Altitude', 'Altitude'  ],
 
-                                                              [:for point in trace.points]
-                                                              [  [=point.distance.round()],   [=trace.upperPoint.elevetion.round() + 500],       [=point.elevetion.round()],            ],
+                                                              [:for point in traceAnalysisRenderer.points]
+                                                              [  [=point.distance.round()],   [=traceAnalysisRenderer.upperPoint.elevetion.round() + 500],       [=point.elevetion.round()],            ],
                                                               [/for]
                                                               
                                                               ]);
@@ -112,15 +112,15 @@
       [/var]
       [:var se ]
          
-        [:if trace != null]
+        [:if traceAnalysisRenderer != null]
            <h2>Statistics</h2>
-           <div>[=(trace.length/1000).truncate()] km [=trace.length- (trace.length/1000).truncate()*1000] m de distance</div>
+           <div>[=(traceAnalysisRenderer.length/1000).truncate()] km [=traceAnalysisRenderer.length- (traceAnalysisRenderer.length/1000).truncate()*1000] m de distance</div>
 
-           <div>[=trace.up] mètres de dénivelé positif</div>
+           <div>[=traceAnalysisRenderer.up] mètres de dénivelé positif</div>
 
-           <div>[=trace.inclinationUp] % d'inclinaison moyenne en monté</div>
+           <div>[=traceAnalysisRenderer.inclinationUp] % d'inclinaison moyenne en monté</div>
 
-           <div>[=trace.difficulty] points de difficulté</div>
+           <div>[=traceAnalysisRenderer.difficulty] points de difficulté</div>
 
         [/if]
          
