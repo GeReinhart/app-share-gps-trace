@@ -1,0 +1,51 @@
+[:page partOf="trails" args="traceAnalysisRenderer"]
+
+      <div id="traceProfile" ></div> 
+      [:if traceAnalysisRenderer != null]    
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript">
+          google.load("visualization", "1", {packages:["corechart"]});
+          google.setOnLoadCallback(drawChart);
+          function drawChart() {
+            
+            
+            
+            var data = google.visualization.arrayToDataTable([
+                                                              ['x', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ],
+
+                                                              [:for point in traceAnalysisRenderer.points]
+                                                              [  [=point.distanceInMeters],   [=traceAnalysisRenderer.skyElevetionInMeters], [=point.elevetionInMeters], [=point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters)], [=point.scatteredInMeters], [=point.thornyInMeters], [=point.leafyInMeters], [=point.meadowInMeters]           ],
+                                                              [/for]
+                                                              
+                                                              ]);
+                                                                  
+                                                                  
+            /*
+            
+            chartArea:{left:20,top:0,width:"50%",height:"75%"}
+            
+                                       "width" : 200,
+                                       "height" : 100,
+            */
+                                                                  
+    
+            var options = {
+
+                           "curveType": "function",
+                           "vAxis": {"maxValue": 10},
+                           "series": [
+                                      {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                                      {"color": 'black', "lineWidth": 1, "areaOpacity": 1,  "visibleInLegend": false},
+                                      {"color": 'white', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                                      {"color": '#C2A385', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                                      {"color": '#4C8033', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                                      {"color": '#99FF66', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                                      {"color": '#FFE066', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false}
+                                      ]
+            };
+    
+            var chart = new google.visualization.AreaChart(document.getElementById('traceProfile'));
+            chart.draw(data, options);
+          }
+        </script>
+        [/if]      

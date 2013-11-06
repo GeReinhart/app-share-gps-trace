@@ -4,10 +4,10 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:math' as Math ;
 
-class Trace {
+class TraceAnalysis {
  
   List<TracePoint> _points = new List<TracePoint> ();
-  List<DistanceInclination> _distancesByInclination = new List<DistanceInclination> ();
+  List<DistanceInclinationElevetion> _distancesByInclination = new List<DistanceInclinationElevetion> ();
   
   TracePoint _upperPoint ;
   TracePoint _lowerPoint ;
@@ -25,18 +25,19 @@ class Trace {
   num _down = 0 ; // in meters
   num _up = 0 ; // in meters
 
-  Trace();
+  String gpxUrl ;
+  
+  TraceAnalysis();
 
-  Trace.fromGpxFileContent(String gpxFileContent){
+  TraceAnalysis.fromGpxFileContent(String gpxFileContent){
     _loadFromContent( gpxFileContent );
   }
   
-  static Future<Trace> fromGpxFile(File gpxFile){
-    return gpxFile.readAsString().then((content) => new Trace.fromGpxFileContent(content));
+  static Future<TraceAnalysis> fromGpxFile(File gpxFile){
+    return gpxFile.readAsString().then((content) => new TraceAnalysis.fromGpxFileContent(content));
   }
   
-  static Future<Trace> fromGpxUrl(String gpxUrl){
-    
+  static Future<TraceAnalysis> fromGpxUrl(String gpxUrl){
     DateTime now = new DateTime.now();
     String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
     print(tempFile) ;
@@ -44,7 +45,10 @@ class Trace {
       .then((HttpClientRequest request) => request.close())
         .then((HttpClientResponse response) => response.pipe(new File(tempFile).openWrite())).then((_) {
           File gpxFile = new File(tempFile);
-          return Trace.fromGpxFile(gpxFile);
+          return TraceAnalysis.fromGpxFile(gpxFile).then((traceAnalysis){
+            traceAnalysis.gpxUrl = gpxUrl ;
+            return traceAnalysis;
+          });
         } ).whenComplete((){
           new File(tempFile).delete();
         } );
@@ -63,14 +67,14 @@ class Trace {
     _distanceFlat = 0.0;
     _downRelatedToDistanceDown = 0.0;
     
-    Map<String,DistanceInclination> distancesByInclinationMap = new Map<String,DistanceInclination>();
+    Map<String,DistanceInclinationElevetion> distancesByInclinationMap = new Map<String,DistanceInclinationElevetion>();
     
     for (var iter = trkptNodes.iterator; iter.moveNext();) {
       XmlNode trkptNode = iter.current;
       XmlElement trkptElement = (trkptNode as XmlElement);
       
       TracePoint currentPoint = new TracePoint();
-      currentPoint.latitute =  double.parse( trkptElement.attributes["lat"] );
+      currentPoint.latitude =  double.parse( trkptElement.attributes["lat"] );
       currentPoint.longitude =  double.parse( trkptElement.attributes["lon"] );
       XmlCollection<XmlNode> eleNodes = trkptElement.query("ele") ;
       if (eleNodes.length > 0){
@@ -116,7 +120,7 @@ class Trace {
           
           
           if (  !distancesByInclinationMap.containsKey(inclination.toString()) ){
-            distancesByInclinationMap[inclination.toString()] =  new DistanceInclination(inclination.toDouble(),currentDistance);
+            distancesByInclinationMap[inclination.toString()] =  new DistanceInclinationElevetion(inclination.toDouble(),currentDistance,currentPoint.elevetion);
           }else{
             distancesByInclinationMap[inclination.toString()].incDistance(currentDistance) ; 
           }
@@ -150,10 +154,10 @@ class Trace {
   static double distance(TracePoint start, TracePoint end){
     
     double R = 6371.0; 
-    double dLat = ( end.latitute   - start.latitute  ) * Math.PI / 180; 
+    double dLat = ( end.latitude   - start.latitude  ) * Math.PI / 180; 
     double dLon = ( end.longitude  - start.longitude ) * Math.PI / 180;
-    double lat1 = (                  start.latitute  ) * Math.PI / 180; 
-    double lat2 = (                    end.latitute  ) * Math.PI / 180; 
+    double lat1 = (                  start.latitude  ) * Math.PI / 180; 
+    double lat2 = (                    end.latitude  ) * Math.PI / 180; 
     
     double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
         Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
@@ -170,7 +174,7 @@ class Trace {
 
   TracePoint get lowerPoint => _lowerPoint;
   
-  List<DistanceInclination>  get inclinations => _distancesByInclination;
+  List<DistanceInclinationElevetion>  get inclinations => _distancesByInclination;
   
   TracePoint get startPoint =>  _points.isNotEmpty ? _points.first : null ;
   
@@ -206,7 +210,7 @@ class Trace {
   
   int get difficulty {
     double currentDifficulty = 0.toDouble();
-    for (var di in _distancesByInclination) {
+    for (DistanceInclinationElevetion di in _distancesByInclination) {
       
       double loopDifficulty = 0.toDouble();
       if ( di.inclination >=  -2 &&  di.inclination <=  2 ){
@@ -217,7 +221,11 @@ class Trace {
         loopDifficulty = (di.distance * FLAT_INCLINATION_WEIGHT) +  ( di.distance *  di.inclination * UP_INCLINATION_WEIGHT ) ;
       }
       
-      currentDifficulty += loopDifficulty ;
+      double elevetionFactor = 1.0 ;
+      if (di.elevetion > 1000){
+        elevetionFactor = di.elevetion / 1000 ; 
+      }
+      currentDifficulty += (loopDifficulty * elevetionFactor) ;
     }
     return currentDifficulty.round() ;
   }
@@ -227,27 +235,28 @@ class Trace {
 
 class TracePoint{
   
-  double latitute;
+  double latitude;
   double longitude;
   double elevetion; // in meters
   double distance; // in meters
   
   TracePoint();
   
-  TracePoint.basic(this.latitute,this.longitude);
+  TracePoint.basic(this.latitude,this.longitude);
   
   String toString(){
-    return latitute.toString() +"/"+longitude.toString() + " e:"+elevetion.toString()+"m d:"+ distance.toString()+"km";
+    return latitude.toString() +"/"+longitude.toString() + " e:"+elevetion.toString()+"m d:"+ distance.toString()+"km";
   }
   
 }
 
-class DistanceInclination{
+class DistanceInclinationElevetion{
   
   double _inclination; // in %
   double _distance; // in meters
+  double _elevetion; 
   
-  DistanceInclination(this._inclination,this._distance);
+  DistanceInclinationElevetion(this._inclination,this._distance,this._elevetion);
   
   void incDistance(currentDistance) {
     _distance+= currentDistance ;
@@ -255,6 +264,7 @@ class DistanceInclination{
   
   int get inclination => _inclination.round() ;
   int get distance => _distance.round() ;
+  int get elevetion => _elevetion.round() ;
  
   String toString(){
     return inclination.toString() +"% on "+distance.toString() + "m";

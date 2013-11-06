@@ -6,7 +6,7 @@ main() {
   
  test('Load gpx file', () {
     File file = new File("test/resources/12590.gpx");
-    Trace.fromGpxFile(file).then((trace){
+    TraceAnalysis.fromGpxFile(file).then((trace){
       expect(trace.points.length, equals(158));
       expect(trace.points[0].latitute, equals(45.140394900));    
       expect(trace.points[0].longitude, equals(5.719580050));    
@@ -39,14 +39,14 @@ main() {
     });
     
     file = new File("test/resources/16231.gpx");
-    Trace.fromGpxFile(file).then((trace){
+    TraceAnalysis.fromGpxFile(file).then((trace){
       expect(trace.length, equals(35855));   
       expect(trace.up, equals(1316));
       expect(trace.down, equals(1316));
     });
 
     file = new File("test/resources/12645.gpx");
-    Trace.fromGpxFile(file).then((trace){
+    TraceAnalysis.fromGpxFile(file).then((trace){
       expect(trace.length, equals(21966));   
       expect(trace.up, equals(1031));
       expect(trace.down, equals(1591));
@@ -57,14 +57,14 @@ main() {
   test('Calculate distance between 2 points', () {
     TracePoint start =new TracePoint.basic(45.140394900,5.719580050);
     TracePoint end =new TracePoint.basic(45.190577800,5.726594030);
-    double distance = Trace.distance(start, end) ;
+    double distance = TraceAnalysis.distance(start, end) ;
     expect(distance.round(), equals(5607));
   });
   
   
   test('Load gpx url', () {
     String url ="https://s3-eu-west-1.amazonaws.com/la-boussole-files/test-console/16186.gpx";
-    Trace.fromGpxUrl(url).then((trace){
+    TraceAnalysis.fromGpxUrl(url).then((trace){
       expect(trace.length, equals(27539));   
       expect(trace.up, equals(958));
       expect(trace.down, equals(959));

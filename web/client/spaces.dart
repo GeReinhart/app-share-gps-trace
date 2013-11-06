@@ -1,7 +1,8 @@
 
 
 import 'dart:html';
-import 'package:bootjack/bootjack.dart';
+import 'dart:async';
+//import 'package:bootjack/bootjack.dart';
 
 
 class SpacesLayout{
@@ -22,8 +23,12 @@ class SpacesLayout{
   double centerRight ;
   double centerTop ;
   
+  SpacesPositions postions ;
+  
   MouseEvent _startMovingCenterPosition ;
   var _movingCenter = false;
+  
+  StreamController centerMovedController = new StreamController.broadcast();
   
   SpacesLayout(this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
     
@@ -32,6 +37,7 @@ class SpacesLayout{
     _init();
   }
   
+  Stream get centerMoved => centerMovedController.stream;
   
   void _init(){
    // To be put back when bootjack is stable 
@@ -42,20 +48,20 @@ class SpacesLayout{
     window.onLoad.listen(updateSpaces);
     window.onResize.listen(updateSpaces);
 
-    query(spaceCenter).onMouseDown.listen((mouseEvent) {
+    querySelector(spaceCenter).onMouseDown.listen((mouseEvent) {
       _startMovingCenterPosition = mouseEvent ;
       _movingCenter = true ;
-      query(spaceCenter + " a img").attributes["src"] = "assets/img/compass_275_red.png";
+      querySelector(spaceCenter + " a img").attributes["src"] = "assets/img/compass_275_red.png";
     });
 
-    query(spaceCenter).onMouseLeave.listen((mouseEvent) {
+    querySelector(spaceCenter).onMouseLeave.listen((mouseEvent) {
       if (_movingCenter){
         _movingCenter = false;
         _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
       }
     });
 
-    query(spaceCenter).onMouseUp.listen((mouseEvent) {
+    querySelector(spaceCenter).onMouseUp.listen((mouseEvent) {
       if (_movingCenter){
         _movingCenter = false;
         _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
@@ -77,16 +83,16 @@ class SpacesLayout{
     });
 
 
-    query(spaceCenter).onMouseOver.listen((mouseEvent) {
-      var menu = query(spaceMenu);
+    querySelector(spaceCenter).onMouseOver.listen((mouseEvent) {
+      var menu = querySelector(spaceMenu);
       if ( menu.style.zIndex == "99" ){
         menu.style.zIndex = "102" ;
         menu.classes.add("open") ;
       }
     });
     
-    query(spaceMenu).onMouseLeave.listen((mouseEvent) {
-      var menu = query(spaceMenu);
+    querySelector(spaceMenu).onMouseLeave.listen((mouseEvent) {
+      var menu = querySelector(spaceMenu);
       if ( menu.style.zIndex != "99" ){
         menu.style.zIndex = "99" ;
         menu.classes.remove("open") ;
@@ -119,53 +125,103 @@ class SpacesLayout{
   
   void organizeSpaces(){
 
-    query(spaceNW) 
-    ..style.position = 'absolute'
-    ..style.right = (centerRight+1).toString() + "px" 
-    ..style.top = "Opx" 
-    ..style.width = (window.innerWidth - centerRight-1).toString() + "px"
-    ..style.height = centerTop.toString() + "px" ;
-
-    query(spaceNE)
-    ..style.position = 'absolute'
-    ..style.right = "0px"
-    ..style.top = "Opx" 
-    ..style.width = centerRight.toString() + "px"
-    ..style.height = centerTop.toString() + "px";
-
-    query(spaceSW)
-    ..style.position = 'absolute'
-    ..style.right = (centerRight+1).toString() + "px"
-    ..style.top = (centerTop+1).toString() + "px"
-    ..style.width =  ( window.innerWidth - centerRight-1 ).toString() + "px"
-    ..style.height =   ( window.innerHeight - centerTop-1 ).toString() + "px" ;  
+    postions = new SpacesPositions();
+    postions.spaceNW_Right = centerRight+1 ;
+    postions.spaceNW_Top = 0.0 ;
+    postions.spaceNW_Width = window.innerWidth - centerRight-1 ;
+    postions.spaceNW_Height = centerTop ;
     
-    query(spaceSE)
+    querySelector(spaceNW) 
     ..style.position = 'absolute'
-    ..style.right = "0px"
-    ..style.top = (centerTop+1).toString()+ "px" 
-    ..style.width = centerRight.toString()+ "px"
-    ..style.height = ( window.innerHeight - centerTop-1 ).toString() + "px" ;  
+    ..style.right  = (postions.spaceNW_Right).toString() + "px" 
+    ..style.top    = (postions.spaceNW_Top).toString() + "px" 
+    ..style.width  = (postions.spaceNW_Width).toString() + "px"
+    ..style.height = (postions.spaceNW_Height).toString() + "px" ;
+
+    postions.spaceNE_Right = 0.0 ;
+    postions.spaceNE_Top = 0.0 ;
+    postions.spaceNE_Width = centerRight ;
+    postions.spaceNE_Height = centerTop ;    
     
-    query(spaceCenter)
+    querySelector(spaceNE)
+    ..style.position = 'absolute'
+    ..style.right  = (postions.spaceNE_Right).toString() + "px" 
+    ..style.top    = (postions.spaceNE_Top).toString() + "px" 
+    ..style.width  = (postions.spaceNE_Width).toString() + "px"
+    ..style.height = (postions.spaceNE_Height).toString() + "px" ;
+
+    postions.spaceSW_Right = centerRight+1 ;
+    postions.spaceSW_Top = centerTop+1 ;
+    postions.spaceSW_Width = window.innerWidth - centerRight-1 ;
+    postions.spaceSW_Height = window.innerHeight - centerTop-1  ;       
+    
+    querySelector(spaceSW)
+    ..style.position = 'absolute'
+    ..style.right  = (postions.spaceSW_Right).toString() + "px" 
+    ..style.top    = (postions.spaceSW_Top).toString() + "px" 
+    ..style.width  = (postions.spaceSW_Width).toString() + "px"
+    ..style.height = (postions.spaceSW_Height).toString() + "px" ;  
+    
+    postions.spaceSE_Right = 0.0 ;
+    postions.spaceSE_Top = centerTop+1 ;
+    postions.spaceSE_Width = centerRight ;
+    postions.spaceSE_Height = window.innerHeight - centerTop-1  ;    
+    
+    querySelector(spaceSE)
+    ..style.position = 'absolute'
+    ..style.right  = (postions.spaceSE_Right).toString() + "px" 
+    ..style.top    = (postions.spaceSE_Top).toString() + "px" 
+    ..style.width  = (postions.spaceSE_Width).toString() + "px"
+    ..style.height = (postions.spaceSE_Height).toString() + "px" ;   
+    
+    querySelector(spaceCenter)
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
     ..style.top = (centerTop    - centerSize /2      ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = centerSize.toString()+ "px" ;  
-    query(spaceCenter + " a img").attributes["src"] = "assets/img/compass_275.png";
+    querySelector(spaceCenter + " a img").attributes["src"] = "assets/img/compass_275.png";
 
-    query(spaceMenu)
+    querySelector(spaceMenu)
     ..style.zIndex = "99"
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top =  centerTopPercentPosition<50 ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize *5/6 ).toString()+ "px"
+    ..style.top =  centerTopPercentPosition<50 ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize *8/6 ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = "0px" ;   
+    
+    
+    centerMovedController.add(postions);
   }
 }
 
+class SpacesPositions{
+  double centerRight ;
+  double centerTop ;
+  
+  int windowWidth = window.innerWidth;
+  int windowHeight = window.innerHeight;
+  
+  double spaceNW_Right ;
+  double spaceNW_Top ;
+  double spaceNW_Width ;
+  double spaceNW_Height ;
 
+  double spaceNE_Right ;
+  double spaceNE_Top ;
+  double spaceNE_Width ;
+  double spaceNE_Height ;
+
+  double spaceSW_Right ;
+  double spaceSW_Top ;
+  double spaceSW_Width ;
+  double spaceSW_Height ;  
+  
+  double spaceSE_Right ;
+  double spaceSE_Top ;
+  double spaceSE_Width ;
+  double spaceSE_Height ;
+}
 
 
 

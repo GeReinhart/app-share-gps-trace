@@ -61,6 +61,9 @@ Future index(HttpConnect connect) { //#2
     var _3 = new StringBuffer(); _cs_.add(connect); //var#33
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
+    response.write("""       
+"""); //#34
+
     connect = _cs_.removeLast(); response = connect.response;
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
@@ -68,7 +71,7 @@ Future index(HttpConnect connect) { //#2
       response.write("""    <script type="application/dart" src="client/index.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
-</html>"""); //#35
+</html>"""); //#37
 
       return Rsp.nnf();
     }); //end-of-include
