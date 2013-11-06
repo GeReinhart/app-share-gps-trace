@@ -1,6 +1,6 @@
 import "dart:html";
 import "dart:convert";
-import 'package:bootjack/bootjack.dart';
+//import 'package:bootjack/bootjack.dart';
 
 import "spaces.dart";
 import "forms.dart";
@@ -8,8 +8,9 @@ import "forms.dart";
 void main() {
   SpacesLayout layout = new SpacesLayout(180,15,70);
   
-  Modal.use();
-  Transition.use();
+  // To be put back when bootjack is stable 
+  //Modal.use();
+  //Transition.use();
   
   querySelector(".btn-submit-register").onClick.listen((e) {
 
@@ -20,10 +21,12 @@ void main() {
       if (request.readyState == HttpRequest.DONE ) {
 
         RegisterForm form = new RegisterForm.fromMap(JSON.decode(request.responseText));
+        var message = querySelector(".form-error-message");
         if (form.success){
-          Modal.wire( querySelector("#register-success") ).show() ;
+          // To be put back when bootjack is stable 
+          //Modal.wire( querySelector("#register-success") ).show() ;
+          message.text = "Bienvenue sur le site de la-boussole !" ;
         }else {
-          var message = querySelector(".form-error-message");
           switch (form.error) {
             case REGISTER_ERROR_LOGIN_EXISTS:
               message.text = "Le login existe déjà" ;

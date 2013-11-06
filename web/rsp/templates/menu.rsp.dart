@@ -14,7 +14,7 @@ Future menu(HttpConnect connect) { //#2
           <li role="presentation" class="dropdown-header">Traces</li>
           <li role="presentation"><a href="/trace.analysis" tabindex="-1" role="menuitem">Analyser une trace</a></li>
           <li role="presentation" class="dropdown-header">A propos</li>
-          <li role="presentation"><a href="/mock" tabindex="-1" role="menuitem">Maquette</a></li>
+          <li role="presentation"><a href="/trace.analysis?gpxFileUrl=http%3A%2F%2Flocalhost%3A9090%2Fassets%2F4027.gpx" tabindex="-1" role="menuitem">Maquette</a></li>
           <li class="divider" role="presentation"></li>
           <li role="presentation" class="dropdown-header">Compte """); //#2
 

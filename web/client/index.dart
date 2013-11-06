@@ -2,7 +2,7 @@ import 'spaces.dart';
 import "dart:html";
 
 void main() {
-  SpacesLayout layout = new SpacesLayout(180,70,15);
+  SpacesLayout layout = new SpacesLayout(180,50,50);
   
   querySelector(".btn-login").onClick.listen((e) {
     window.location.href = "/login";

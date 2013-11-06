@@ -6,7 +6,6 @@ rm -f web/*.js.*
 dart2js web/client/index.dart -o    web/client/index.dart.js
 dart2js web/client/register.dart -o web/client/register.dart.js
 dart2js web/client/login.dart -o web/client/login.dart.js
-dart2js web/client/mock.dart -o web/client/mock.dart.js
 dart2js web/client/traceAnalysis.dart -o  web/client/traceAnalysis.dart.js
 
 git config --global user.email "support@drone.io"
