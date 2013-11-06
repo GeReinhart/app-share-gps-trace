@@ -11,7 +11,7 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#2
 
   response.write("""
 
-      <div id="traceProfile" ></div> 
+      <div id="traceProfileViewer" ></div> 
 """); //#2
 
   if (traceAnalysisRenderer != null) { //if#4
@@ -19,13 +19,13 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#2
     response.write("""        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
           google.load("visualization", "1", {packages:["corechart"]});
-          google.setOnLoadCallback(drawChart);
-          function drawChart() {
+          google.setOnLoadCallback(drawTraceProfile);
+          function drawTraceProfile() {
             
             
             
             var data = google.visualization.arrayToDataTable([
-                                                              ['x', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ],
+                                                              ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ],
 
 """); //#5
 
@@ -78,20 +78,9 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#2
     response.write("""                                                              
                                                               ]);
                                                                   
-                                                                  
-            /*
-            
-            chartArea:{left:20,top:0,width:"50%",height:"75%"}
-            
-                                       "width" : 200,
-                                       "height" : 100,
-            */
-                                                                  
-    
             var options = {
-
+						   "chartArea":{"left":"15%","top":"5%",width:"75%",height:"80%"},
                            "curveType": "function",
-                           "vAxis": {"maxValue": 10},
                            "series": [
                                       {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
                                       {"color": 'black', "lineWidth": 1, "areaOpacity": 1,  "visibleInLegend": false},
@@ -103,7 +92,7 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#2
                                       ]
             };
     
-            var chart = new google.visualization.AreaChart(document.getElementById('traceProfile'));
+            var chart = new google.visualization.AreaChart(document.getElementById('traceProfileViewer'));
             chart.draw(data, options);
           }
         </script>
