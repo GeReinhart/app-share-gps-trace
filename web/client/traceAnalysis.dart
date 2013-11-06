@@ -1,16 +1,17 @@
 import 'spaces.dart';
 import 'dart:html';
+import 'package:js/js.dart' as js;
 
 void main() {
-  SpacesLayout layout = new SpacesLayout(180,50,50);
-  moveTraceGpxViewer(layout.postions);
+  SpacesLayout layout = new SpacesLayout(180,30,35);
+  moveTraceViewers(layout.postions);
   
   layout.centerMoved.listen((_){
-    moveTraceGpxViewer( _ as SpacesPositions);
+    moveTraceViewers( _ as SpacesPositions);
   });
 }
 
-void moveTraceGpxViewer(SpacesPositions spacesPositions ){
+void moveTraceViewers(SpacesPositions spacesPositions ){
   
   querySelector("#traceGpxViewer") 
   ..style.position = 'absolute'
@@ -18,7 +19,15 @@ void moveTraceGpxViewer(SpacesPositions spacesPositions ){
   ..style.top    =  "0px" 
   ..style.width  = (spacesPositions.spaceSW_Width).toString() + "px"
   ..style.height = (spacesPositions.spaceSW_Height).toString() + "px" ;
+
+  querySelector("#traceProfileViewer") 
+  ..style.position = 'absolute'
+  ..style.right  = (spacesPositions.spaceNE_Width  * 0.05 ).toString() + "px" 
+  ..style.top    = (spacesPositions.spaceNE_Height * 0.15 ).toString() + "px" 
+  ..style.width  = (spacesPositions.spaceNE_Width  * 0.95 ).toString() + "px" 
+  ..style.height = (spacesPositions.spaceNE_Height * 0.60 ).toString() + "px" ;
   
+  js.context.drawTraceProfile();
 }
 
 

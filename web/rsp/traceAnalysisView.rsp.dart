@@ -64,6 +64,7 @@ Future traceAnalysisView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
             response.write("""    
     <script type="application/dart" src="client/traceAnalysis.dart"></script>
     <script src="packages/browser/dart.js"></script>
+    <script src="packages/browser/interop.js"></script>
   </body>
 </html>"""); //#32
 
