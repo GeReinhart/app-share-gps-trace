@@ -1,0 +1,8 @@
+[:page partOf="trails" args="traceAnalysisRenderer"]
+
+        [:if traceAnalysisRenderer != null]
+           <div>[=traceAnalysisRenderer.lengthToRender] de distance</div>
+           <div>[=traceAnalysisRenderer.up] mètres de dénivelé positif</div>
+           <div>[=traceAnalysisRenderer.inclinationUp] % d'inclinaison moyenne en monté</div>
+           <div>[=traceAnalysisRenderer.difficulty] points de difficulté</div>
+        [/if]

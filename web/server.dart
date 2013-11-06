@@ -19,6 +19,10 @@ part "rsp/templates/menu.rsp.dart";
 part "rsp/templates/center.rsp.dart";
 part "rsp/templates/spaces.rsp.dart";
 part "rsp/templates/loginForm.rsp.dart";
+part "rsp/templates/traceGpxViewer.rsp.dart";
+part "rsp/templates/traceProfileViewer.rsp.dart";
+part "rsp/templates/traceStatisticsViewer.rsp.dart";
+
 
 class TrailsServer{
   

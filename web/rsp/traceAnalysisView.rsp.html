@@ -20,110 +20,13 @@
 
       [/var]
       [:var ne ]
-         <div id="visualization" ></div> 
-      [:if traceAnalysisRenderer != null]    
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        <script type="text/javascript">
-          google.load("visualization", "1", {packages:["corechart"]});
-          google.setOnLoadCallback(drawChart);
-          function drawChart() {
-            
-            
-            
-            var data = google.visualization.arrayToDataTable([
-                                                              ['x', 'Altitude', 'Altitude'  ],
-
-                                                              [:for point in traceAnalysisRenderer.points]
-                                                              [  [=point.distance.round()],   [=traceAnalysisRenderer.upperPoint.elevetion.round() + 500],       [=point.elevetion.round()],            ],
-                                                              [/for]
-                                                              
-                                                              ]);
-    
-            var options = {
-                           "curveType": "function",
-                           "vAxis": {"maxValue": 10},
-                           "series": [
-                                      {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                                      {"color": '#C2A385',   "lineWidth": 1, "areaOpacity": 1,  "visibleInLegend": false}
-                                      ]
-            };
-    
-            var chart = new google.visualization.AreaChart(document.getElementById('visualization'));
-            chart.draw(data, options);
-          }
-          
-/*
-          void drawVisualization() {
-          
-          var gviz = js.context.google.visualization;
-          
-          // Create and populate the data table.
-          var listData = [
-          ['x', 'Altitude', 'Altitude', 'Altitude','Altitude','Altitude',  ],
-          [  1,   4000,       300,       299,       299,      299,      ],
-          [  2,   4000,       600,       599,       599,      599,      ],
-          [  3,   4000,      1200,      1199,      1199,      999,      ],
-          [  4,   4000,      2200,      2199,      1999,      999,      ],
-          [  5,   4000,      2100,      2099,      1999,      999,      ],
-          [  6,   4000,      2100,      2099,      1999,      999,      ],
-          [  7,   4000,      2400,      2399,      1999,      999,      ],
-          [  8,   4000,      1200,      1199,      1199,      999,      ],
-          [  9,   4000,       600,       599,       599,      599,      ],
-          [ 10,   4000,      1000,       999,       999,      999,      ],
-          [ 11,   4000,       900,       899,       899,      899,      ],
-          [ 12,   4000,      1000,       999,       999,      999,      ],
-          [ 13,   4000,       300,       299,       299,      299,      ],
-          [ 25,   4000,       300,       299,       299,      299,      ]
-          ];
-    
-    var arrayData = js.array(listData);
-
-    var tableData = gviz.arrayToDataTable(arrayData);
-    
-    var options = js.map({
-      "curveType": "function",
-      "width": 500, "height": 400,
-      "vAxis": {"maxValue": 10},
-      "series": [
-               {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-               {"color": 'black',   "lineWidth": 1, "areaOpacity": 0,  "visibleInLegend": false},
-               {"color": 'white',   "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-               {"color": '#C2A385', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-               {"color": '#A3C266', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false}
-               ]
-    });
-
-    // Create and draw the visualization.
-    var chart = new js.Proxy(gviz.AreaChart, querySelector('#visualization'));
-    chart.draw(tableData, options);
-
-}
-*/
-          
-          
-        </script>
-        [/if]         
-         
-         
-         
+        [:include traceProfileViewer traceAnalysisRenderer="[=traceAnalysisRenderer]" /]
       [/var]
       [:var sw ]
-      
+        [:include traceGpxViewer traceAnalysisRenderer="[=traceAnalysisRenderer]" /]
       [/var]
       [:var se ]
-         
-        [:if traceAnalysisRenderer != null]
-           <h2>Statistics</h2>
-           <div>[=(traceAnalysisRenderer.length/1000).truncate()] km [=traceAnalysisRenderer.length- (traceAnalysisRenderer.length/1000).truncate()*1000] m de distance</div>
-
-           <div>[=traceAnalysisRenderer.up] mètres de dénivelé positif</div>
-
-           <div>[=traceAnalysisRenderer.inclinationUp] % d'inclinaison moyenne en monté</div>
-
-           <div>[=traceAnalysisRenderer.difficulty] points de difficulté</div>
-
-        [/if]
-         
+        [:include traceStatisticsViewer traceAnalysisRenderer="[=traceAnalysisRenderer]" /]
       [/var]
     [/include]  
     

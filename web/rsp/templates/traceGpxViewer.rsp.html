@@ -1,0 +1,86 @@
+[:page partOf="trails" args="traceAnalysisRenderer"]
+
+[:if traceAnalysisRenderer != null]
+
+      <div id="traceGpxViewer" ></div>
+      <script type="text/javascript" src="http://api.ign.fr/geoportail/api/js/latest/Geoportal.js"><!-- --></script>
+      <script type="text/javascript">
+              var iv= null;
+                window.onload= function() {
+                
+                        iv= Geoportal.load(
+                                 // div's ID:
+                                 'traceGpxViewer',
+                                 // API's keys:
+                                 ['lotkudhxtqu8970thd62w20u'],
+                                 {// map's center :
+                                                // longitude:
+                                                lon:[=traceAnalysisRenderer.startPoint.longitude],
+                                                // latitude:
+                                                lat:[=traceAnalysisRenderer.startPoint.latitude]
+                                 },
+                                 //zoom level 
+                                 5,
+                                 //options
+                                 {
+                                   // viewerClass:Geoportal.Viewer.Default, //pour mettre la boite à outil standard (zoom, coordonnées, gestion des couches de données..)
+                                   
+                                   layers:['GEOGRAPHICALGRIDSYSTEMS.MAPS','ORTHOIMAGERY.ORTHOPHOTOS','CADASTRALPARCELS.PARCELS'],
+                                   
+                                   layersOptions:{'GEOGRAPHICALGRIDSYSTEMS.MAPS':{visibility:true,opacity:1,  minZoomLevel:1,maxZoomLevel:18},
+                                     'ORTHOIMAGERY.ORTHOPHOTOS':{visibility:false,opacity:1, minZoomLevel:1, maxZoomLevel:18},
+                                     'CADASTRALPARCELS.PARCELS':{visibility:false,opacity:1, minZoomLevel:12,maxZoomLevel:18}
+                                   },
+                                     
+                                   onView: function() {
+                                       
+                                       viewer=this.getViewer();
+                                       //viewer.getMap().setProxyUrl('ign/proxy.php?url=');
+                                       
+                                       /* style de la trace */
+                                       var styleTrace = new OpenLayers.StyleMap({
+                                         "default": new OpenLayers.Style({
+                                           
+                                           strokeColor: '#ff0000',
+                                           strokeOpacity: 0.8,
+                                           strokeWidth:5
+                                           
+                                         }),
+                                         "select": new OpenLayers.Style({
+                                           strokeColor: '#FF0000',
+                                         })
+                                       });
+                                       
+                                       /* ajout du fichier gpx   */
+                                       gpxLayer = viewer.getMap().addLayer(
+                                           "GPX",
+                                           "trace",
+                                           "[=traceAnalysisRenderer.gpxUrl]",
+                                           {
+                                             visibility: true,
+                                             opacity:0.8,
+                                             styleMap: styleTrace,
+                                             eventListeners:{
+                                               'loadend':function(){
+                                                 if (this.maxExtent) {
+                                                   this.map.zoomToExtent(this.maxExtent);
+                                                   this.setVisibility(true);
+                                                 }
+                                               }
+                                             }
+                                           }
+                                       );
+
+                                   },
+                                   overlays:{}
+                                 }
+                                 
+                        );
+ 
+                };
+     </script>
+     
+[/if]
+
+
+

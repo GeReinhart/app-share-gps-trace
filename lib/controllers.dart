@@ -26,6 +26,9 @@ part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/menu.rsp.dart";
 part "../web/rsp/templates/center.rsp.dart";
 part "../web/rsp/templates/loginForm.rsp.dart";
+part "../web/rsp/templates/traceGpxViewer.rsp.dart";
+part "../web/rsp/templates/traceProfileViewer.rsp.dart";
+part "../web/rsp/templates/traceStatisticsViewer.rsp.dart";
 
 class TrailController{
   
@@ -104,7 +107,7 @@ class TrailController{
     }else{
       String gpxFileUrl = params["gpxFileUrl"];
       return TraceAnalysis.fromGpxUrl(gpxFileUrl).then((traceAnalysis){
-        TraceAnalysisRenderer renderer = new TraceAnalysisRenderer.fromTraceAnalysis(traceAnalysis);
+        TraceAnalysisRenderer renderer = new TraceAnalysisRenderer(traceAnalysis);
         return traceAnalysisView(connect, traceAnalysisRenderer:renderer);
       });
     }

@@ -41,188 +41,36 @@ Future traceAnalysisView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
     var _1 = new StringBuffer(); _cs_.add(connect); //var#22
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
-    response.write("""         <div id="visualization" ></div> 
-"""); //#23
+    return Rsp.nnf(traceProfileViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceAnalysisRenderer)).then((_) { //include#23
 
-    if (traceAnalysisRenderer != null) { //if#24
+      connect = _cs_.removeLast(); response = connect.response;
 
-      response.write("""        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        <script type="text/javascript">
-          google.load("visualization", "1", {packages:["corechart"]});
-          google.setOnLoadCallback(drawChart);
-          function drawChart() {
-            
-            
-            
-            var data = google.visualization.arrayToDataTable([
-                                                              ['x', 'Altitude', 'Altitude'  ],
+      var _2 = new StringBuffer(); _cs_.add(connect); //var#25
+      connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
-"""); //#25
+      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceAnalysisRenderer)).then((_) { //include#26
 
-      for (var point in traceAnalysisRenderer.points) { //for#36
+        connect = _cs_.removeLast(); response = connect.response;
 
-        response.write("""                                                              [  """); //#37
+        var _3 = new StringBuffer(); _cs_.add(connect); //var#28
+        connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-        response.write(Rsp.nnx(point.distance.round())); //#37
+        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceAnalysisRenderer)).then((_) { //include#29
 
+          connect = _cs_.removeLast(); response = connect.response;
 
-        response.write(""",   """); //#37
+          return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-        response.write(Rsp.nnx(traceAnalysisRenderer.upperPoint.elevetion.round() + 500)); //#37
-
-
-        response.write(""",       """); //#37
-
-        response.write(Rsp.nnx(point.elevetion.round())); //#37
-
-
-        response.write(""",            ],
-"""); //#37
-      } //for
-
-      response.write("""                                                              
-                                                              ]);
-    
-            var options = {
-                           "curveType": "function",
-                           "vAxis": {"maxValue": 10},
-                           "series": [
-                                      {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                                      {"color": '#C2A385',   "lineWidth": 1, "areaOpacity": 1,  "visibleInLegend": false}
-                                      ]
-            };
-    
-            var chart = new google.visualization.AreaChart(document.getElementById('visualization'));
-            chart.draw(data, options);
-          }
-          
-/*
-          void drawVisualization() {
-          
-          var gviz = js.context.google.visualization;
-          
-          // Create and populate the data table.
-          var listData = [
-          ['x', 'Altitude', 'Altitude', 'Altitude','Altitude','Altitude',  ],
-          [  1,   4000,       300,       299,       299,      299,      ],
-          [  2,   4000,       600,       599,       599,      599,      ],
-          [  3,   4000,      1200,      1199,      1199,      999,      ],
-          [  4,   4000,      2200,      2199,      1999,      999,      ],
-          [  5,   4000,      2100,      2099,      1999,      999,      ],
-          [  6,   4000,      2100,      2099,      1999,      999,      ],
-          [  7,   4000,      2400,      2399,      1999,      999,      ],
-          [  8,   4000,      1200,      1199,      1199,      999,      ],
-          [  9,   4000,       600,       599,       599,      599,      ],
-          [ 10,   4000,      1000,       999,       999,      999,      ],
-          [ 11,   4000,       900,       899,       899,      899,      ],
-          [ 12,   4000,      1000,       999,       999,      999,      ],
-          [ 13,   4000,       300,       299,       299,      299,      ],
-          [ 25,   4000,       300,       299,       299,      299,      ]
-          ];
-    
-    var arrayData = js.array(listData);
-
-    var tableData = gviz.arrayToDataTable(arrayData);
-    
-    var options = js.map({
-      "curveType": "function",
-      "width": 500, "height": 400,
-      "vAxis": {"maxValue": 10},
-      "series": [
-               {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-               {"color": 'black',   "lineWidth": 1, "areaOpacity": 0,  "visibleInLegend": false},
-               {"color": 'white',   "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-               {"color": '#C2A385', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-               {"color": '#A3C266', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false}
-               ]
-    });
-
-    // Create and draw the visualization.
-    var chart = new js.Proxy(gviz.AreaChart, querySelector('#visualization'));
-    chart.draw(tableData, options);
-
-}
-*/
-          
-          
-        </script>
-"""); //#39
-    } //if
-
-    response.write("""         
-         
-         
-"""); //#106
-
-    connect = _cs_.removeLast(); response = connect.response;
-
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#110
-    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
-
-    response.write("""      
-"""); //#111
-
-    connect = _cs_.removeLast(); response = connect.response;
-
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#113
-    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
-
-    response.write("""         
-"""); //#114
-
-    if (traceAnalysisRenderer != null) { //if#115
-
-      response.write("""           <h2>Statistics</h2>
-           <div>"""); //#116
-
-      response.write(Rsp.nnx((traceAnalysisRenderer.length/1000).truncate())); //#117
-
-
-      response.write(""" km """); //#117
-
-      response.write(Rsp.nnx(traceAnalysisRenderer.length- (traceAnalysisRenderer.length/1000).truncate()*1000)); //#117
-
-
-      response.write(""" m de distance</div>
-
-           <div>"""); //#117
-
-      response.write(Rsp.nnx(traceAnalysisRenderer.up)); //#119
-
-
-      response.write(""" mètres de dénivelé positif</div>
-
-           <div>"""); //#119
-
-      response.write(Rsp.nnx(traceAnalysisRenderer.inclinationUp)); //#121
-
-
-      response.write(""" % d'inclinaison moyenne en monté</div>
-
-           <div>"""); //#121
-
-      response.write(Rsp.nnx(traceAnalysisRenderer.difficulty)); //#123
-
-
-      response.write(""" points de difficulté</div>
-
-"""); //#123
-    } //if
-
-    response.write("""         
-"""); //#126
-
-    connect = _cs_.removeLast(); response = connect.response;
-
-    return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
-
-      response.write("""    
+            response.write("""    
     <script type="application/dart" src="client/traceAnalysis.dart"></script>
     <script src="packages/browser/dart.js"></script>
   </body>
-</html>"""); //#129
+</html>"""); //#32
 
-      return Rsp.nnf();
+            return Rsp.nnf();
+          }); //end-of-include
+        }); //end-of-include
+      }); //end-of-include
     }); //end-of-include
   }); //end-of-include
 }
