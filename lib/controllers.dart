@@ -20,7 +20,6 @@ import  "trace.dart";
 part "../web/rsp/login.rsp.dart";
 part "../web/rsp/register.rsp.dart";
 part "../web/rsp/index.rsp.dart";
-part "../web/rsp/mock.rsp.dart";
 part "../web/rsp/traceAnalysisView.rsp.dart" ;
 part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/menu.rsp.dart";

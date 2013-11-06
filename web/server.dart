@@ -14,7 +14,6 @@ import  "../lib/controllers.dart";
 part "rsp/login.rsp.dart";
 part "rsp/register.rsp.dart";
 part "rsp/index.rsp.dart";
-part "rsp/mock.rsp.dart";
 part "rsp/templates/menu.rsp.dart";
 part "rsp/templates/center.rsp.dart";
 part "rsp/templates/spaces.rsp.dart";
@@ -67,8 +66,6 @@ class TrailsServer{
           "/logout":  _trailController.logout,
 
           "/trace.analysis": _trailController.traceAnalysis,          
-          
-          "/mock": mock 
         
         },
         /* filterMapping: {
