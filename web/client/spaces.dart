@@ -186,7 +186,7 @@ class SpacesLayout{
     ..style.zIndex = "99"
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top =  centerTopPercentPosition<50 ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize *8/6 ).toString()+ "px"
+    ..style.top =  centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize *8/6 ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = "0px" ;   
     
