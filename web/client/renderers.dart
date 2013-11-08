@@ -32,6 +32,8 @@ class TraceAnalysisRenderer {
   
   int get difficulty => _traceAnalysis.difficulty ;
   
+  double get traceHeightWidthRatio => _traceAnalysis.upperPoint.elevetion / _traceAnalysis.length ;
+  
 }
 
 class TracePointRenderer {

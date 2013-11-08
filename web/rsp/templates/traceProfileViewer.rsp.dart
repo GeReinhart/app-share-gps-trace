@@ -20,6 +20,15 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#2
         <script type="text/javascript">
           google.load("visualization", "1", {packages:["corechart"]});
           google.setOnLoadCallback(drawTraceProfile);
+          
+          
+          var traceHeightWidthRatio ="""); //#5
+
+    response.write(Rsp.nnx(traceAnalysisRenderer.traceHeightWidthRatio)); //#11
+
+
+    response.write(""" ;
+          
           function drawTraceProfile() {
             
             
@@ -27,52 +36,52 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#2
             var data = google.visualization.arrayToDataTable([
                                                               ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ],
 
-"""); //#5
+"""); //#11
 
-    for (var point in traceAnalysisRenderer.points) { //for#16
+    for (var point in traceAnalysisRenderer.points) { //for#20
 
-      response.write("""                                                              [  """); //#17
+      response.write("""                                                              [  """); //#21
 
-      response.write(Rsp.nnx(point.distanceInMeters)); //#17
-
-
-      response.write(""",   """); //#17
-
-      response.write(Rsp.nnx(traceAnalysisRenderer.skyElevetionInMeters)); //#17
+      response.write(Rsp.nnx(point.distanceInMeters)); //#21
 
 
-      response.write(""", """); //#17
+      response.write(""",   """); //#21
 
-      response.write(Rsp.nnx(point.elevetionInMeters)); //#17
-
-
-      response.write(""", """); //#17
-
-      response.write(Rsp.nnx(point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters))); //#17
+      response.write(Rsp.nnx(traceAnalysisRenderer.skyElevetionInMeters)); //#21
 
 
-      response.write(""", """); //#17
+      response.write(""", """); //#21
 
-      response.write(Rsp.nnx(point.scatteredInMeters)); //#17
-
-
-      response.write(""", """); //#17
-
-      response.write(Rsp.nnx(point.thornyInMeters)); //#17
+      response.write(Rsp.nnx(point.elevetionInMeters)); //#21
 
 
-      response.write(""", """); //#17
+      response.write(""", """); //#21
 
-      response.write(Rsp.nnx(point.leafyInMeters)); //#17
+      response.write(Rsp.nnx(point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters))); //#21
 
 
-      response.write(""", """); //#17
+      response.write(""", """); //#21
 
-      response.write(Rsp.nnx(point.meadowInMeters)); //#17
+      response.write(Rsp.nnx(point.scatteredInMeters)); //#21
+
+
+      response.write(""", """); //#21
+
+      response.write(Rsp.nnx(point.thornyInMeters)); //#21
+
+
+      response.write(""", """); //#21
+
+      response.write(Rsp.nnx(point.leafyInMeters)); //#21
+
+
+      response.write(""", """); //#21
+
+      response.write(Rsp.nnx(point.meadowInMeters)); //#21
 
 
       response.write("""           ],
-"""); //#17
+"""); //#21
     } //for
 
     response.write("""                                                              
@@ -96,7 +105,7 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#2
             chart.draw(data, options);
           }
         </script>
-"""); //#19
+"""); //#23
   } //if
 
   return Rsp.nnf();

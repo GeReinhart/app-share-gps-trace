@@ -31,12 +31,18 @@ void moveTraceViewers(SpacesPositions spacesPositions ){
   ..style.width  = (spacesPositions.spaceSW_Width).toString() + "px"
   ..style.height = (spacesPositions.spaceSW_Height).toString() + "px" ;
 
+  num traceHeightWidthRatio = js.context.traceHeightWidthRatio;
+  
+  
+  num traceProfileViewerWidth = spacesPositions.spaceNE_Width  * 0.95;
+  num traceProfileViewerHeight = traceProfileViewerWidth * traceHeightWidthRatio * 10;
+  
   querySelector("#traceProfileViewer") 
   ..style.position = 'absolute'
   ..style.right  = (spacesPositions.spaceNE_Width  * 0.05 ).toString() + "px" 
   ..style.top    = (spacesPositions.spaceNE_Height * 0.15 ).toString() + "px" 
-  ..style.width  = (spacesPositions.spaceNE_Width  * 0.95 ).toString() + "px" 
-  ..style.height = (spacesPositions.spaceNE_Height * 0.60 ).toString() + "px" ;
+  ..style.width  = (traceProfileViewerWidth ).toString() + "px" 
+  ..style.height = (traceProfileViewerHeight ).toString() + "px" ;
   
   js.context.drawTraceProfile();
 }
