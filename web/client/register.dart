@@ -14,6 +14,8 @@ void main() {
   
   querySelector(".btn-submit-register").onClick.listen((e) {
 
+    layout.startLoading();
+    
     HttpRequest request = new HttpRequest();
     
     request.onReadyStateChange.listen((_) {
@@ -42,6 +44,8 @@ void main() {
               break;
           }
         }
+        
+        layout.stopLoading();
       }
     });
 

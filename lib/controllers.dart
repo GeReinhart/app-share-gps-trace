@@ -22,6 +22,7 @@ part "../web/rsp/register.rsp.dart";
 part "../web/rsp/index.rsp.dart";
 part "../web/rsp/traceAnalysisView.rsp.dart" ;
 part "../web/rsp/templates/spaces.rsp.dart";
+part "../web/rsp/templates/loading.rsp.dart";
 part "../web/rsp/templates/menu.rsp.dart";
 part "../web/rsp/templates/center.rsp.dart";
 part "../web/rsp/templates/loginForm.rsp.dart";

@@ -15,6 +15,7 @@ class SpacesLayout{
   String spaceSE  = ".space-south-east" ;
   String spaceCenter = ".space-center"  ;
   String spaceMenu = ".space-menu";
+  String spaceLoading = ".space-loading";
   
   int centerRightPercentPosition ;
   int centerTopPercentPosition;
@@ -182,6 +183,14 @@ class SpacesLayout{
     ..style.height = centerSize.toString()+ "px" ;  
     querySelector(spaceCenter + " a img").attributes["src"] = "assets/img/compass_275.png";
 
+    querySelector(spaceLoading)
+    ..style.position = 'absolute'
+    ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
+    ..style.top = (centerTop    - centerSize /2      ).toString()+ "px"
+    ..style.width = centerSize.toString()+ "px"
+    ..style.height = centerSize.toString()+ "px" ;  
+    
+    
     querySelector(spaceMenu)
     ..style.zIndex = "99"
     ..style.position = 'absolute'
@@ -192,6 +201,14 @@ class SpacesLayout{
     
     
     centerMovedController.add(postions);
+  }
+  
+  void startLoading(){
+    querySelector(spaceLoading).style.zIndex = "200" ;
+  }
+  
+  void stopLoading(){
+    querySelector(spaceLoading).style.zIndex = "10" ;
   }
 }
 

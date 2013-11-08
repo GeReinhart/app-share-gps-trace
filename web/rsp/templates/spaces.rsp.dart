@@ -60,12 +60,15 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
 
   return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#24
 
-    return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#25
+    return Rsp.nnf(loading(new HttpConnect.chain(connect))).then((_) { //include#25
 
-      response.write("""</div>
-"""); //#26
+      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#26
 
-      return Rsp.nnf();
+        response.write("""</div>
+"""); //#27
+
+        return Rsp.nnf();
+      }); //end-of-include
     }); //end-of-include
   }); //end-of-include
 }

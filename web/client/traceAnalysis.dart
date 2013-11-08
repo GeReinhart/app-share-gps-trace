@@ -9,6 +9,17 @@ void main() {
   layout.centerMoved.listen((_){
     moveTraceViewers( _ as SpacesPositions);
   });
+  
+  querySelector(".btn-analysis").onClick.listen((e){
+    layout.startLoading();
+    FormElement form = querySelector("#trace-analysis-form");
+    form.submit();
+
+    // stop event
+    e.preventDefault();
+    e.stopPropagation();
+  });
+  
 }
 
 void moveTraceViewers(SpacesPositions spacesPositions ){

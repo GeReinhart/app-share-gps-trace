@@ -26,11 +26,11 @@ Future traceAnalysisView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
 
     response.write("""        <h1>Analyse d'une trace gpx</h1>
 
-        <form role="form"  action="/trace.analysis" method="get" accept-charset="UTF-8">
+        <form id="trace-analysis-form" role="form"  action="/trace.analysis" method="get" accept-charset="UTF-8">
           <div class="form-group">
             <input name="gpxFileUrl" type="text" class="form-control" id="gpxFileUrl" placeholder="Url du fichier gpx">
           </div>
-          <button type="submit" class="btn btn-default">Analyser</button>
+          <div  class="btn btn-default btn-analysis">Analyser</div>
         </form>
 
 
