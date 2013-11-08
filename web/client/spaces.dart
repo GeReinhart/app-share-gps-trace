@@ -52,6 +52,7 @@ class SpacesLayout{
     querySelector(spaceCenter).onMouseDown.listen((mouseEvent) {
       _startMovingCenterPosition = mouseEvent ;
       _movingCenter = true ;
+      _toggleMenu();
       querySelector(spaceCenter + " a img").attributes["src"] = "assets/img/compass_275_red.png";
     });
 
@@ -83,25 +84,19 @@ class SpacesLayout{
       }
     });
 
-
-    querySelector(spaceCenter).onMouseOver.listen((mouseEvent) {
-      var menu = querySelector(spaceMenu);
-      if ( menu.style.zIndex == "99" ){
-        menu.style.zIndex = "102" ;
-        menu.classes.add("open") ;
-      }
-    });
-    
-    querySelector(spaceMenu).onMouseLeave.listen((mouseEvent) {
-      var menu = querySelector(spaceMenu);
-      if ( menu.style.zIndex != "99" ){
-        menu.style.zIndex = "99" ;
-        menu.classes.remove("open") ;
-      }
-    });
-    
-    
   }
+  
+  void _toggleMenu(){
+    var menu = querySelector(spaceMenu);
+    if ( menu.style.zIndex == "99" ){
+      menu.style.zIndex = "102" ;
+      menu.classes.add("open") ;
+    }else{
+      menu.style.zIndex = "99" ;
+      menu.classes.remove("open") ;
+    }
+  }
+  
   
   void _moveCenter(Point start, Point end){
     double centerRightComputed =   -end.x + start.x  + centerRight ;
@@ -192,7 +187,6 @@ class SpacesLayout{
     
     
     querySelector(spaceMenu)
-    ..style.zIndex = "99"
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
     ..style.top =  centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize *8/6 ).toString()+ "px"
