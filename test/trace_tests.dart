@@ -8,15 +8,15 @@ main() {
     File file = new File("test/resources/12590.gpx");
     TraceAnalysis.fromGpxFile(file).then((trace){
       expect(trace.points.length, equals(158));
-      expect(trace.points[0].latitute, equals(45.140394900));    
+      expect(trace.points[0].latitude, equals(45.140394900));    
       expect(trace.points[0].longitude, equals(5.719580050));    
       expect(trace.points[0].elevetion, equals(238));
       expect(trace.points[0].distance, equals(0));  
-      expect(trace.points[157].latitute, equals(45.190577800));    
+      expect(trace.points[157].latitude, equals(45.190577800));    
       expect(trace.points[157].longitude, equals(5.726594030));    
       expect(trace.points[157].elevetion, equals(209));     
       expect(trace.points[157].distance, equals(8224.307927187921));
-      expect(trace.startPoint.latitute, equals(45.140394900));    
+      expect(trace.startPoint.latitude, equals(45.140394900));    
       expect(trace.startPoint.longitude, equals(5.719580050));    
       expect(trace.startPoint.elevetion, equals(238));
       

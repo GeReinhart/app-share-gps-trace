@@ -4,75 +4,75 @@ packages:
   args:
     description: args
     source: hosted
-    version: "0.6.21+3"
+    version: "0.9.0"
   bootjack:
     description: bootjack
     source: hosted
-    version: "0.6.1+1"
+    version: "0.6.1+4"
   browser:
     description: browser
     source: hosted
-    version: "0.8.7"
+    version: "0.9.0"
   bson:
     description: bson
     source: hosted
-    version: "0.1.11"
+    version: "0.1.15"
   crypto:
     description: crypto
     source: hosted
-    version: "0.6.21+3"
+    version: "0.9.0"
   dquery:
     description: dquery
     source: hosted
-    version: "0.5.3+1"
+    version: "0.5.3+4"
   js:
     description: js
     source: hosted
-    version: "0.1.0"
+    version: "0.2.0"
   logging:
     description: logging
     source: hosted
-    version: "0.8.1"
-  meta:
-    description: meta
+    version: "0.9.0"
+  mime:
+    description: mime
     source: hosted
-    version: "0.8.7"
+    version: "0.9.0"
   mongo_dart:
     description: mongo_dart
     source: hosted
-    version: "0.1.31"
+    version: "0.1.35"
   mongo_dart_query:
     description: mongo_dart_query
     source: hosted
-    version: "0.1.10"
+    version: "0.1.11"
   path:
     description: path
     source: hosted
-    version: "0.7.3+1"
+    version: "0.9.0"
   rikulo_commons:
     description: rikulo_commons
     source: hosted
-    version: "0.8.7"
+    version: "0.8.10+3"
   rikulo_security:
     description: rikulo_security
     source: hosted
-    version: "0.6.0"
+    version: "0.6.1"
   stack_trace:
     description: stack_trace
     source: hosted
-    version: "0.7.3+1"
+    version: "0.9.0"
   stream:
     description: stream
     source: hosted
-    version: "0.8.3+3"
+    version: "0.8.7+2"
   unittest:
     description: unittest
     source: hosted
-    version: "0.7.3+1"
+    version: "0.9.0"
   unmodifiable_collection:
     description: unmodifiable_collection
     source: hosted
-    version: "0.7.3+1"
+    version: "0.9.0"
   xml:
     description: xml
     source: hosted

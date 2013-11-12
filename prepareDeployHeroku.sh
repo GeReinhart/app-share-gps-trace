@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pub upgrade
+
 rm -f web/*.js
 rm -f web/*.js.*
 
