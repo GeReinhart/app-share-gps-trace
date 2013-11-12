@@ -5,7 +5,7 @@ dependencies:
   browser: any
   mongo_dart: any
   unittest: any
-  stream: any
+  stream: ">= 0.8.7" 
   rikulo_security: any
   crypto: any
   bootjack: any
