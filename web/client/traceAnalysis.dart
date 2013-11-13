@@ -23,23 +23,29 @@ void moveTraceViewers(SpacesPositions spacesPositions ){
     ..style.height = (spacesPositions.spaceSW_Height).toString() + "px" ;
   }
   
-
-  
   Element traceProfileViewer = querySelector("#traceProfileViewer") ;
   if (traceProfileViewer != null){
     num traceHeightWidthRatio = js.context.traceHeightWidthRatio;
-    num traceProfileViewerWidth = spacesPositions.spaceNE_Width  * 0.95;
-    num traceProfileViewerHeight = traceProfileViewerWidth * traceHeightWidthRatio * 10;
+    num traceProfileViewerWidth = spacesPositions.spaceNW_Width  * 0.95;
+    num traceProfileViewerHeight = traceProfileViewerWidth * traceHeightWidthRatio * 8;
     
     traceProfileViewer..style.position = 'absolute'
-    ..style.right  = (spacesPositions.spaceNE_Width  * 0.05 ).toString() + "px" 
-    ..style.top    = (spacesPositions.spaceNE_Height * 0.15 ).toString() + "px" 
+    ..style.right  = (spacesPositions.spaceNW_Width  * 0.05 ).toString() + "px" 
+    ..style.top    = (spacesPositions.spaceNW_Height * 0.15 ).toString() + "px" 
     ..style.width  = (traceProfileViewerWidth ).toString() + "px" 
     ..style.height = (traceProfileViewerHeight ).toString() + "px" ;
   
     js.context.drawTraceProfile();
   }
   
+  Element traceStatisticsViewer = querySelector("#traceStatisticsViewer") ;
+  if (traceStatisticsViewer != null){
+    traceStatisticsViewer..style.position = 'absolute'
+    ..style.right  = (spacesPositions.spaceSE_Width  * 0.10 ).toString() + "px" 
+    ..style.top    = (spacesPositions.spaceSE_Height * 0.10 ).toString() + "px" 
+    ..style.width  = (spacesPositions.spaceSE_Width  * 0.70 ).toString() + "px" 
+    ..style.height = (spacesPositions.spaceSE_Height * 0.70 ).toString() + "px" ;
+  }
   
 }
 

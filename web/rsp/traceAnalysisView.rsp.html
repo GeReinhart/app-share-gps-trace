@@ -8,6 +8,9 @@
   <body>   
     [:include spaces]
       [:var nw]
+        [:include traceProfileViewer traceAnalysisRenderer="[=traceAnalysisRenderer]" /]
+      [/var]
+      [:var ne ]
         <h1>Analyse d'une trace gpx</h1>
 
         <form id="trace-analysis-form" role="form"  action="/trace.analysis" method="get" accept-charset="UTF-8">
@@ -16,11 +19,6 @@
           </div>
           <button type="submit"  class="btn btn-default btn-analysis loading-on-click">Analyser</button>
         </form>
-
-
-      [/var]
-      [:var ne ]
-        [:include traceProfileViewer traceAnalysisRenderer="[=traceAnalysisRenderer]" /]
       [/var]
       [:var sw ]
         [:include traceGpxViewer traceAnalysisRenderer="[=traceAnalysisRenderer]" /]

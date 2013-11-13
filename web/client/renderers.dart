@@ -21,14 +21,17 @@ class TraceAnalysisRenderer {
   
   int get skyElevetionInMeters => _traceAnalysis.upperPoint.elevetion.round() + 500 ;
 
-  String get lengthToRender => (_traceAnalysis.length/1000).truncate().toString()
-                              + " km " 
-                              + ( _traceAnalysis.length- (_traceAnalysis.length/1000).truncate()*1000) .toString() 
-                              + " m" ;
+  int get lengthKmPart => (_traceAnalysis.length/1000).truncate() ;
+
+  int get lengthMetersPart => ( _traceAnalysis.length- (_traceAnalysis.length/1000).truncate()*1000)  ; 
   
   num get up => _traceAnalysis.up ;
   
   num get inclinationUp => _traceAnalysis.inclinationUp ;
+  
+  DistanceInclinationElevetion get maxInclinationUp => _traceAnalysis.maxInclinationUp ;
+  
+  int get upperPointElevetion => _traceAnalysis.upperPoint.elevetion.round();
   
   int get difficulty => _traceAnalysis.difficulty ;
   

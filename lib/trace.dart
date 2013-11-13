@@ -18,9 +18,6 @@ class TraceAnalysis {
   num _distanceDown ; // in meters < 2% inclination
   num _downRelatedToDistanceDown =0 ; // in meters 
   
-  num _averageInclinationUp ; // in percentage
-  num _averageInclinationDown ; // in percentage
-  
   num _length = 0;  // in meters
   num _down = 0 ; // in meters
   num _up = 0 ; // in meters
@@ -203,6 +200,11 @@ class TraceAnalysis {
     }    
    return (Math.tan(  _downRelatedToDistanceDown/_distanceDown ) * 100).round() ; 
   }
+  
+  DistanceInclinationElevetion get maxInclinationUp { 
+    return _distancesByInclination.last ;
+  }
+  
   
   static const double FLAT_INCLINATION_WEIGHT = 1/1000 ;
   static const double DOWN_INCLINATION_WEIGHT = 1/1000 / 5 * 1 ; 

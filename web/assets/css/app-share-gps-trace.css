@@ -168,3 +168,25 @@ ul li {
   z-index: 102 ;
   background-color: white ;
 }
+
+
+.table-layout {
+  border: 0px;
+}
+
+.table-layout tr td{
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.cell-text-large{
+  font-size: x-large;
+  font-weight: bold;
+  text-align: center;
+}
+
+.cell-text-small{
+  font-size: x-small;
+  font-weight: normal;
+  text-align: center;
+}
