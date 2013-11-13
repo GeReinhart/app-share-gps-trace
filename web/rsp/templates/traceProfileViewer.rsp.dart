@@ -3,26 +3,23 @@
 part of trails;
 
 /** Template, traceProfileViewer, for rendering the view. */
-Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#2
+Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
-  Rsp.init(connect, "text/html; charset=utf-8");
+  if (!Rsp.init(connect, "text/html; charset=utf-8"))
+    return new Future.value();
 
-  response.write("""
+  if (traceAnalysisRenderer != null) { //if#3
 
-      <div id="traceProfileViewer" ></div> 
-"""); //#2
-
-  if (traceAnalysisRenderer != null) { //if#4
-
-    response.write("""        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    response.write("""        <div id="traceProfileViewer" ></div> 
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
           google.load("visualization", "1", {packages:["corechart"]});
           google.setOnLoadCallback(drawTraceProfile);
           
           
-          var traceHeightWidthRatio ="""); //#5
+          var traceHeightWidthRatio ="""); //#4
 
     response.write(Rsp.nnx(traceAnalysisRenderer.traceHeightWidthRatio)); //#11
 
@@ -108,5 +105,5 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#2
 """); //#23
   } //if
 
-  return Rsp.nnf();
+  return new Future.value();
 }

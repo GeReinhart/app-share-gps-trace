@@ -7,7 +7,8 @@ Future traceAnalysisView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
-  Rsp.init(connect, "text/html; charset=utf-8");
+  if (!Rsp.init(connect, "text/html; charset=utf-8"))
+    return new Future.value();
 
   response.write("""<!DOCTYPE html>
 <html>
@@ -30,7 +31,7 @@ Future traceAnalysisView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
           <div class="form-group">
             <input name="gpxFileUrl" type="text" class="form-control" id="gpxFileUrl" placeholder="Url du fichier gpx">
           </div>
-          <div  class="btn btn-default btn-analysis">Analyser</div>
+          <button type="submit"  class="btn btn-default btn-analysis loading-on-click">Analyser</button>
         </form>
 
 
@@ -68,7 +69,7 @@ Future traceAnalysisView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
   </body>
 </html>"""); //#32
 
-            return Rsp.nnf();
+            return new Future.value();
           }); //end-of-include
         }); //end-of-include
       }); //end-of-include

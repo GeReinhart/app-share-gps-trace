@@ -7,7 +7,8 @@ Future traceGpxViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
-  Rsp.init(connect, "text/html; charset=utf-8");
+  if (!Rsp.init(connect, "text/html; charset=utf-8"))
+    return new Future.value();
 
   if (traceAnalysisRenderer != null) { //if#3
 
@@ -116,5 +117,5 @@ Future traceGpxViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
 
 """); //#84
 
-  return Rsp.nnf();
+  return new Future.value();
 }

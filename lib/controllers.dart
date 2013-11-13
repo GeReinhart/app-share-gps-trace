@@ -86,7 +86,7 @@ class TrailController{
   
   Future _writeFormIntoResponse(HttpResponse response, form){
     response
-      ..headers.contentType = contentTypes["json"]
+      ..headers.set("Content-type","application/json")
       ..write( JSON.encode( form.toJson()) );  
     return new Future.value(); 
   }

@@ -7,7 +7,8 @@ Future register(HttpConnect connect) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
-  Rsp.init(connect, "text/html; charset=utf-8");
+  if (!Rsp.init(connect, "text/html; charset=utf-8"))
+    return new Future.value();
 
   response.write("""<!DOCTYPE html>
 <html>
@@ -38,7 +39,7 @@ Future register(HttpConnect connect) { //#2
             <input  type="password" class="form-control input-passwordConfirm"  placeholder="Confirmation mot de passe">
           </div>    
           <div class="form-group">
-              <button  type="submit" class="btn btn-default btn-submit-register">S'enregister</button>
+              <button  type="submit" class="btn btn-default btn-submit-register loading-on-click">S'enregister</button>
               <div class="text-warning  form-error-message" ></div>
           </div>
 
@@ -99,7 +100,7 @@ Future register(HttpConnect connect) { //#2
 
 """); //#33
 
-      return Rsp.nnf();
+      return new Future.value();
     }); //end-of-include
   }); //end-of-include
 }

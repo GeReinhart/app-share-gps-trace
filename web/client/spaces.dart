@@ -2,7 +2,7 @@
 
 import 'dart:html';
 import 'dart:async';
-//import 'package:bootjack/bootjack.dart';
+import 'package:bootjack/bootjack.dart';
 
 
 class SpacesLayout{
@@ -41,10 +41,10 @@ class SpacesLayout{
   Stream get centerMoved => centerMovedController.stream;
   
   void _init(){
-   // To be put back when bootjack is stable 
-   // Dropdown.use();
+    Dropdown.use();
     
     organizeSpaces();
+    listenLoading();
     
     window.onLoad.listen(updateSpaces);
     window.onResize.listen(updateSpaces);
@@ -195,6 +195,16 @@ class SpacesLayout{
     
     
     centerMovedController.add(postions);
+  }
+  
+  void listenLoading(){
+    ElementList list = querySelectorAll(".loading-on-click");
+    if (list!= null && list.isNotEmpty){
+      list.onClick.listen((e) {
+        startLoading();
+      });
+    }
+
   }
   
   void startLoading(){

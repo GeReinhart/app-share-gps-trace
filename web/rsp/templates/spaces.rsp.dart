@@ -7,7 +7,8 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
-  Rsp.init(connect, "text/html; charset=utf-8");
+  if (!Rsp.init(connect, "text/html; charset=utf-8"))
+    return new Future.value();
 
   response.write("""
 
@@ -67,7 +68,7 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
         response.write("""</div>
 """); //#27
 
-        return Rsp.nnf();
+        return new Future.value();
       }); //end-of-include
     }); //end-of-include
   }); //end-of-include
