@@ -13,9 +13,9 @@ Future menu(HttpConnect connect) { //#2
   response.write("""    <div class="space-menu"  >
         <ul role="menu" class="dropdown-menu"  id="menu">
           <li role="presentation" class="dropdown-header">Traces</li>
-          <li role="presentation"><a href="/trace.analysis" tabindex="-1" role="menuitem">Analyser une trace</a></li>
+          <li role="presentation"><a class="loading-on-click" href="/trace.analysis" tabindex="-1" role="menuitem">Analyser une trace</a></li>
           <li role="presentation" class="dropdown-header">A propos</li>
-          <li role="presentation"><a href="/trace.analysis?gpxFileUrl=http%3A%2F%2Flocalhost%3A9090%2Fassets%2F4027.gpx" tabindex="-1" role="menuitem">Maquette</a></li>
+          <li role="presentation"><a  class="loading-on-click" href="/trace.analysis?gpxFileUrl=https://raw.github.com/GeReinhart/app-share-gps-trace/master/web/assets/4027.gpx" tabindex="-1" role="menuitem">Maquette</a></li>
           <li class="divider" role="presentation"></li>
           <li role="presentation" class="dropdown-header">Compte """); //#2
 
@@ -27,13 +27,13 @@ Future menu(HttpConnect connect) { //#2
 
   if (currentUser(request.session) != null) { //if#10
 
-    response.write("""            <li role="presentation"><a href="/logout" tabindex="-1" role="menuitem">Se déconnecter</a></li>
+    response.write("""            <li role="presentation"><a  class="loading-on-click" href="/logout" tabindex="-1" role="menuitem">Se déconnecter</a></li>
 """); //#11
 
   } else { //else#12
 
-    response.write("""            <li role="presentation"><a href="/login" tabindex="-1" role="menuitem">Se connecter</a></li>
-            <li role="presentation"><a href="/register" tabindex="-1" role="menuitem">S'enregistrer</a></li>
+    response.write("""            <li role="presentation"><a  class="loading-on-click" href="/login" tabindex="-1" role="menuitem">Se connecter</a></li>
+            <li role="presentation"><a  class="loading-on-click" href="/register" tabindex="-1" role="menuitem">S'enregistrer</a></li>
 """); //#13
   } //if
 
