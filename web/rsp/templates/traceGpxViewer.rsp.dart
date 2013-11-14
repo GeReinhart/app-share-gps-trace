@@ -13,12 +13,12 @@ Future traceGpxViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
   if (traceAnalysisRenderer != null) { //if#3
 
     response.write("""      <div id="traceGpxViewer" style="overflow-x:hidden ; overflow-y:hidden ;  ">
-        <iframe src="http://www.gpx-view.com/gpx.php?f="""); //#4
+        <iframe src="http://www.visugpx.com/ign/?gpx="""); //#4
 
     response.write(Rsp.nnx(traceAnalysisRenderer.gpxUrl)); //#5
 
 
-    response.write("""&mw=1000&m=GEOPORTAIL" name="GPX-View" scrolling="no" marginheight=0 marginwidth=0 frameborder=0 width=1500 height=450></iframe>
+    response.write("""" name="GPX-View" scrolling="no" marginheight=0 marginwidth=0 frameborder=0 width=1500 height=1500></iframe>
       </div>
 """); //#5
   } //if

@@ -16,11 +16,14 @@ void moveTraceViewers(SpacesPositions spacesPositions ){
   
   Element traceGpxViewer = querySelector("#traceGpxViewer") ;
   if (traceGpxViewer != null){
+    num decalHeight = 180 ;
+    num decalRight = 30 ;
+    
     traceGpxViewer..style.position = 'absolute'
     ..style.right  =  "0px" 
-    ..style.top    =  "0px" 
-    ..style.width  = (spacesPositions.spaceSW_Width).toString() + "px"
-    ..style.height = (spacesPositions.spaceSW_Height).toString() + "px" ;
+    ..style.top    =  "-"+decalHeight.toString()+"px" 
+    ..style.width  = (spacesPositions.spaceSW_Width+decalRight).toString() + "px"
+    ..style.height = (spacesPositions.spaceSW_Height+decalHeight).toString() + "px" ;
   }
   
   Element traceProfileViewer = querySelector("#traceProfileViewer") ;
