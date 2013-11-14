@@ -99,9 +99,9 @@ class SpacesLayout{
   
   void _toggleMenu(){
     var menu = querySelector(spaceMenu);
-    if ( menu.style.zIndex == "99" ){
-      menu.style.zIndex = "102" ;
+    if ( menu.style.zIndex != "102" ){
       menu.classes.add("open") ;
+      menu.style.zIndex = "102" ;
     }else{
       menu.style.zIndex = "99" ;
       menu.classes.remove("open") ;

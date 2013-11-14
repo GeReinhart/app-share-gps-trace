@@ -11,7 +11,7 @@ Future menu(HttpConnect connect) { //#2
     return new Future.value();
 
   response.write("""    <div class="space-menu"  >
-        <ul role="menu" class="dropdown-menu open" id="menu">
+        <ul role="menu" class="dropdown-menu"  id="menu">
           <li role="presentation" class="dropdown-header">Traces</li>
           <li role="presentation"><a href="/trace.analysis" tabindex="-1" role="menuitem">Analyser une trace</a></li>
           <li role="presentation" class="dropdown-header">A propos</li>
