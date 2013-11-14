@@ -47,7 +47,11 @@ class TraceAnalysis {
             return traceAnalysis;
           });
         } ).whenComplete((){
-          new File(tempFile).delete();
+          try {
+            new File(tempFile).delete();
+          } catch(e) {
+            print(e);
+          }
         } );
   }  
   
