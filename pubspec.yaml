@@ -1,13 +1,17 @@
-name: app-share-gps-trace
+name: app_share_gps_trace
 author: gerald reinhart
 description: Sharing gps trace files
+environment:
+  sdk: '>=1.0.0 <2.0.0'
 dependencies:
-  browser: any
-  mongo_dart: any
-  unittest: any
-  stream: ">= 0.8.7" 
-  rikulo_security: any
-  crypto: any
   bootjack: any
+  browser: any
+  crypto: any
+  js: any
+  mongo_dart: any
+  rikulo_security: any
+  stream: '>= 0.8.7'
   xml: any
-  js: any 
+dev_dependencies:
+  unittest: any
+ 

@@ -9,7 +9,7 @@ void main() {
   layout.centerMoved.listen((_){
     moveTraceViewers( _ as SpacesPositions);
   });
-  
+
 }
 
 void moveTraceViewers(SpacesPositions spacesPositions ){

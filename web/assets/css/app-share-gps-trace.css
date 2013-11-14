@@ -1,4 +1,8 @@
 
+body { 
+  float:left;
+}
+
 h1{
 	margin-left: 0px;
 	margin-top: 30px;
@@ -51,6 +55,7 @@ ul li {
 }
 
 .spaces {
+  visibility: hidden;
 }
 
 .space {
@@ -144,16 +149,9 @@ ul li {
 	
 }
 
-.space-loading {
+.space-loading a img{
   z-index: 10 ;
-
-  /* Initial values */
   position: absolute;
-  right: 519.5px;
-  top: 254px;
-  width: 180px;
-  height: 0px;
-	
 }
 
 

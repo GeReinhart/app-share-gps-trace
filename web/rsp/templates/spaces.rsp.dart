@@ -10,17 +10,17 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""
+  return Rsp.nnf(loading(new HttpConnect.chain(connect))).then((_) { //include#2
 
-<div class="spaces" >
+    response.write("""<div class="spaces" >
 	<div class="space space-north-west"  > 
 	  <div class="inner-space" >
-        """); //#2
+        """); //#3
 
-  response.write(Rsp.nnx(nw, encode: 'none')); //#6
+    response.write(Rsp.nnx(nw, encode: 'none')); //#6
 
 
-  response.write("""
+    response.write("""
 
   	  </div>
 	</div>
@@ -28,10 +28,10 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
 	  <div class="inner-space" >
         """); //#6
 
-  response.write(Rsp.nnx(ne, encode: 'none')); //#11
+    response.write(Rsp.nnx(ne, encode: 'none')); //#11
 
 
-  response.write("""
+    response.write("""
 
   	  </div>
     </div>
@@ -39,10 +39,10 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
 	  <div class="inner-space" >
         """); //#11
 
-  response.write(Rsp.nnx(sw, encode: 'none')); //#16
+    response.write(Rsp.nnx(sw, encode: 'none')); //#16
 
 
-  response.write("""
+    response.write("""
 
   	  </div>
  	</div>
@@ -50,23 +50,21 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
 	  <div class="inner-space" >
         """); //#16
 
-  response.write(Rsp.nnx(se, encode: 'none')); //#21
+    response.write(Rsp.nnx(se, encode: 'none')); //#21
 
 
-  response.write("""
+    response.write("""
 
   	  </div>
 	</div>
 """); //#21
 
-  return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#24
+    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#24
 
-    return Rsp.nnf(loading(new HttpConnect.chain(connect))).then((_) { //include#25
-
-      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#26
+      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#25
 
         response.write("""</div>
-"""); //#27
+"""); //#26
 
         return new Future.value();
       }); //end-of-include

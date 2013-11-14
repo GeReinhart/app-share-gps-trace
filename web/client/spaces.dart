@@ -35,6 +35,7 @@ class SpacesLayout{
     
     centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
     centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
+    
     _init();
   }
   
@@ -84,7 +85,17 @@ class SpacesLayout{
       }
     });
 
+    window.onPageShow.listen((mouseEvent) {
+      new Timer(new Duration(seconds: 2),_onPageShow);
+    });
+
   }
+  
+  void _onPageShow(){
+    showSpaces();
+    loadingInTheCenter();
+  }
+  
   
   void _toggleMenu(){
     var menu = querySelector(spaceMenu);
@@ -177,14 +188,6 @@ class SpacesLayout{
     ..style.width = centerSize.toString()+ "px"
     ..style.height = centerSize.toString()+ "px" ;  
     querySelector(spaceCenter + " a img").attributes["src"] = "assets/img/compass_275.png";
-
-    querySelector(spaceLoading)
-    ..style.position = 'absolute'
-    ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top = (centerTop    - centerSize /2      ).toString()+ "px"
-    ..style.width = centerSize.toString()+ "px"
-    ..style.height = centerSize.toString()+ "px" ;  
-    
     
     querySelector(spaceMenu)
     ..style.position = 'absolute'
@@ -195,6 +198,25 @@ class SpacesLayout{
     
     
     centerMovedController.add(postions);
+  }
+  
+  void loadingInTheCenter() {
+    querySelector(spaceLoading)
+    ..style.position = 'absolute'
+    ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
+    ..style.top = (centerTop    - centerSize /2      ).toString()+ "px"
+    ..style.width = centerSize.toString()+ "px"
+    ..style.height = centerSize.toString()+ "px" ;
+  }
+  
+  void showSpaces() {
+    querySelector(spaces)
+    ..style.visibility = 'visible' ;
+  }
+
+  void hideSpaces() {
+    querySelector(spaces)
+    ..style.visibility = 'hidden' ;
   }
   
   void listenLoading(){
