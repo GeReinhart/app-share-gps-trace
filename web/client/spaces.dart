@@ -86,7 +86,7 @@ class SpacesLayout{
     });
 
     window.onPageShow.listen((mouseEvent) {
-      new Timer(new Duration(seconds: 2),_onPageShow);
+      new Timer(new Duration(seconds: 1),_onPageShow);
     });
 
   }
@@ -124,10 +124,12 @@ class SpacesLayout{
       centerTop = centerTopComputed ;
     }
     organizeSpaces();
+    loadingInTheCenter();
   }
   
   void updateSpaces(Event event){
     organizeSpaces();
+    loadingInTheCenter();
   }
   
   void organizeSpaces(){
