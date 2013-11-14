@@ -12,110 +12,16 @@ Future traceGpxViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
 
   if (traceAnalysisRenderer != null) { //if#3
 
-    response.write("""
+    response.write("""      <div id="traceGpxViewer" style="overflow-x:hidden ; overflow-y:hidden ;  ">
+        <iframe src="http://www.gpx-view.com/gpx.php?f="""); //#4
 
-      <div id="traceGpxViewer" ></div>
-      <script type="text/javascript" src="http://api.ign.fr/geoportail/api/js/latest/Geoportal.js"><!-- --></script>
-      <script type="text/javascript">
-              var iv= null;
-                window.onload= function() {
-                
-                        iv= Geoportal.load(
-                                 // div's ID:
-                                 'traceGpxViewer',
-                                 // API's keys:
-                                 ['lotkudhxtqu8970thd62w20u'],
-                                 {// map's center :
-                                                // longitude:
-                                                lon:"""); //#4
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.startPoint.longitude)); //#18
+    response.write(Rsp.nnx(traceAnalysisRenderer.gpxUrl)); //#5
 
 
-    response.write(""",
-                                                // latitude:
-                                                lat:"""); //#18
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.startPoint.latitude)); //#20
-
-
-    response.write("""
-
-                                 },
-                                 //zoom level 
-                                 5,
-                                 //options
-                                 {
-                                   // viewerClass:Geoportal.Viewer.Default, //pour mettre la boite à outil standard (zoom, coordonnées, gestion des couches de données..)
-                                   
-                                   layers:['GEOGRAPHICALGRIDSYSTEMS.MAPS','ORTHOIMAGERY.ORTHOPHOTOS','CADASTRALPARCELS.PARCELS'],
-                                   
-                                   layersOptions:{'GEOGRAPHICALGRIDSYSTEMS.MAPS':{visibility:true,opacity:1,  minZoomLevel:1,maxZoomLevel:18},
-                                     'ORTHOIMAGERY.ORTHOPHOTOS':{visibility:false,opacity:1, minZoomLevel:1, maxZoomLevel:18},
-                                     'CADASTRALPARCELS.PARCELS':{visibility:false,opacity:1, minZoomLevel:12,maxZoomLevel:18}
-                                   },
-                                     
-                                   onView: function() {
-                                       
-                                       viewer=this.getViewer();
-                                       //viewer.getMap().setProxyUrl('ign/proxy.php?url=');
-                                       
-                                       /* style de la trace */
-                                       var styleTrace = new OpenLayers.StyleMap({
-                                         "default": new OpenLayers.Style({
-                                           
-                                           strokeColor: '#ff0000',
-                                           strokeOpacity: 0.8,
-                                           strokeWidth:5
-                                           
-                                         }),
-                                         "select": new OpenLayers.Style({
-                                           strokeColor: '#FF0000',
-                                         })
-                                       });
-                                       
-                                       /* ajout du fichier gpx   */
-                                       gpxLayer = viewer.getMap().addLayer(
-                                           "GPX",
-                                           "trace",
-                                           \""""); //#20
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.gpxUrl)); //#58
-
-
-    response.write("""",
-                                           {
-                                             visibility: true,
-                                             opacity:0.8,
-                                             styleMap: styleTrace,
-                                             eventListeners:{
-                                               'loadend':function(){
-                                                 if (this.maxExtent) {
-                                                   this.map.zoomToExtent(this.maxExtent);
-                                                   this.setVisibility(true);
-                                                 }
-                                               }
-                                             }
-                                           }
-                                       );
-
-                                   },
-                                   overlays:{}
-                                 }
-                                 
-                        );
- 
-                };
-     </script>
-     
-"""); //#58
+    response.write("""&mw=1000&m=GEOPORTAIL" name="GPX-View" scrolling="no" marginheight=0 marginwidth=0 frameborder=0 width=1500 height=450></iframe>
+      </div>
+"""); //#5
   } //if
-
-  response.write("""
-
-
-
-"""); //#84
 
   return new Future.value();
 }

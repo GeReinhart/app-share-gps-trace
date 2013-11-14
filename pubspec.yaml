@@ -1,4 +1,4 @@
-name: dart_trails
+name: app-share-gps-trace
 author: gerald reinhart
 description: Sharing gps trace files
 dependencies:
