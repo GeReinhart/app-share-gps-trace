@@ -50,7 +50,7 @@ class TraceAnalysis {
           try {
             new File(tempFile).delete();
           } catch(e) {
-            print(e);
+            print("Unable to delete ${tempFile}: ${e}");
           }
         } );
   }  
