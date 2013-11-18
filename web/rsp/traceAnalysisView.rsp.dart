@@ -40,21 +40,27 @@ Future traceAnalysisView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
           </div>
           <button type="submit"  class="btn btn-default btn-analysis loading-on-click">Analyser</button>
         </form>
+        <form id="trace-analysis-form" role="form"  action="/trace.analysis" method="post" accept-charset="UTF-8" enctype="multipart/form-data" >
+          <div class="form-group">
+            <input name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
+          </div>
+          <button type="submit"  class="btn btn-default btn-analysis loading-on-click">Analyser</button>
+        </form>
 """); //#14
 
       connect = _cs_.removeLast(); response = connect.response;
 
-      var _2 = new StringBuffer(); _cs_.add(connect); //var#23
+      var _2 = new StringBuffer(); _cs_.add(connect); //var#29
       connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
-      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceAnalysisRenderer)).then((_) { //include#24
+      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceAnalysisRenderer)).then((_) { //include#30
 
         connect = _cs_.removeLast(); response = connect.response;
 
-        var _3 = new StringBuffer(); _cs_.add(connect); //var#26
+        var _3 = new StringBuffer(); _cs_.add(connect); //var#32
         connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceAnalysisRenderer)).then((_) { //include#27
+        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceAnalysisRenderer)).then((_) { //include#33
 
           connect = _cs_.removeLast(); response = connect.response;
 
@@ -65,7 +71,7 @@ Future traceAnalysisView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
     <script src="packages/browser/dart.js"></script>
     <script src="packages/browser/interop.js"></script>
   </body>
-</html>"""); //#30
+</html>"""); //#36
 
             return new Future.value();
           }); //end-of-include

@@ -19,6 +19,12 @@
           </div>
           <button type="submit"  class="btn btn-default btn-analysis loading-on-click">Analyser</button>
         </form>
+        <form id="trace-analysis-form" role="form"  action="/trace.analysis" method="post" accept-charset="UTF-8" enctype="multipart/form-data" >
+          <div class="form-group">
+            <input name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
+          </div>
+          <button type="submit"  class="btn btn-default btn-analysis loading-on-click">Analyser</button>
+        </form>
       [/var]
       [:var sw ]
         [:include traceGpxViewer traceAnalysisRenderer="[=traceAnalysisRenderer]" /]

@@ -66,8 +66,9 @@ class TrailsServer{
           "/s_logout": _trailController.logout,
           "/logout":  _trailController.logout,
 
-          "/trace.analysis": _trailController.traceAnalysis,          
-        
+          "get:/trace.analysis": _trailController.traceAnalysisFromUrl,          
+          "post:/trace.analysis": _trailController.traceAnalysisFromFile, 
+          
         },
         /* filterMapping: {
           "/.*": security.filter

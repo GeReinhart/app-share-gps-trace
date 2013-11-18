@@ -5,6 +5,7 @@ library trails;
 import "dart:io";
 import "dart:async";
 import "dart:convert";
+import 'package:http_server/http_server.dart';
 import "package:stream/stream.dart";
 import "package:rikulo_security/security.dart";
 import "package:rikulo_security/plugin.dart";
@@ -100,17 +101,47 @@ class TrailController{
   }
   
   
-  Future traceAnalysis(HttpConnect connect) {
+  Future traceAnalysisFromUrl(HttpConnect connect) {
     Map<String,String>  params = new Map.from(connect.request.uri.queryParameters);
     if( !params.containsKey("gpxFileUrl")  ){
       return traceAnalysisView(connect);
     }else{
       String gpxFileUrl = params["gpxFileUrl"];
-      return TraceAnalysis.fromGpxUrl(gpxFileUrl).then((traceAnalysis){
-        TraceAnalysisRenderer renderer = new TraceAnalysisRenderer(traceAnalysis);
-        return traceAnalysisView(connect, traceAnalysisRenderer:renderer);
-      });
+
+      if ( !gpxFileUrl.isEmpty  ){
+        return TraceAnalysis.fromGpxUrl(gpxFileUrl).then((traceAnalysis){
+          TraceAnalysisRenderer renderer = new TraceAnalysisRenderer(traceAnalysis);
+          return traceAnalysisView(connect, traceAnalysisRenderer:renderer);
+        });
+      }else{
+        return traceAnalysisView(connect);
+      }
     }
+  }
+  
+  Future traceAnalysisFromFile(HttpConnect connect) {
+   
+   DateTime now = new DateTime.now();
+   String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
+
+   return HttpBodyHandler.processRequest(connect.request).then((body) {
+     HttpBodyFileUpload fileUploaded = body.body['gpxUploadedFile'];
+     final file = new File(tempFile);
+     return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
+       .then((_) {
+         return TraceAnalysis.fromGpxFile(file).then((traceAnalysis){
+           TraceAnalysisRenderer renderer = new TraceAnalysisRenderer(traceAnalysis);
+           return traceAnalysisView(connect, traceAnalysisRenderer:renderer);
+         });
+       }).whenComplete((){
+         try {
+           new File(tempFile).delete();
+         } catch(e) {
+           print("Unable to delete ${tempFile}: ${e}");
+         }
+       } );
+   });
+ 
   }
   
 }
