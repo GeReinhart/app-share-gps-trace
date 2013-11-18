@@ -1,5 +1,6 @@
 #!/bin/bash
 
+pub upgrade
 dart test/test_runner.dart
 
 rm -f web/*.js
