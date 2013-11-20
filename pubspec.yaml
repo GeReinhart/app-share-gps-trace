@@ -13,6 +13,5 @@ dependencies:
   stream: '>= 0.8.7'
   xml: any
   http_server: any
-dev_dependencies:
   unittest: any
  

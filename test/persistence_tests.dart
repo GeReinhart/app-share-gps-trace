@@ -1,6 +1,6 @@
-import 'package:mongo_dart/mongo_dart.dart';
 import 'dart:async';
-import 'package:unittest/unittest.dart';
+import '../packages/mongo_dart/mongo_dart.dart';
+import '../packages/unittest/unittest.dart';
 import '../lib/models.dart' ;
 import '../lib/persistence.dart' ;
 

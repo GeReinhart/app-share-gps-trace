@@ -2,7 +2,7 @@
 
 import 'dart:html';
 import 'dart:async';
-import 'package:bootjack/bootjack.dart';
+import '../../packages/bootjack/bootjack.dart';
 
 
 class SpacesLayout{

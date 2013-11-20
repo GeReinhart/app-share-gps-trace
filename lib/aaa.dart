@@ -1,9 +1,9 @@
 
 
-import "package:rikulo_security/security.dart";
-import "package:stream/stream.dart";
 import "dart:async";
-import 'package:crypto/crypto.dart';
+import "../packages/rikulo_security/security.dart";
+import "../packages/stream/stream.dart";
+import '../packages/crypto/crypto.dart';
 import "persistence.dart";
 
 class Authentication extends Authenticator {

@@ -5,11 +5,11 @@ library trails;
 import "dart:io";
 import "dart:async";
 import "dart:convert";
-import 'package:http_server/http_server.dart';
-import "package:stream/stream.dart";
-import "package:rikulo_security/security.dart";
-import "package:rikulo_security/plugin.dart";
-import "package:rikulo_commons/convert.dart" ;
+import '../packages/http_server/http_server.dart';
+import "../packages/stream/stream.dart";
+import "../packages/rikulo_security/security.dart";
+import "../packages/rikulo_security/plugin.dart";
+import "../packages/rikulo_commons/convert.dart" ;
 
 import  "../web/shared/forms.dart";
 import  "../web/client/renderers.dart";

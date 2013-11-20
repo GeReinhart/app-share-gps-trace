@@ -1,11 +1,10 @@
 
 library trails;
 
-import "package:stream/stream.dart";
 import "dart:io";
 import "dart:async";
-import "package:rikulo_security/security.dart";
-
+import "../packages/stream/stream.dart";
+import "../packages/rikulo_security/security.dart";
 
 import  "../lib/persistence.dart";
 import  "../lib/aaa.dart";

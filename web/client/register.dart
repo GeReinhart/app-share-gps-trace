@@ -1,6 +1,6 @@
 import "dart:html";
 import "dart:convert";
-import 'package:bootjack/bootjack.dart';
+import '../../packages/bootjack/bootjack.dart';
 
 import "spaces.dart";
 import "forms.dart";
