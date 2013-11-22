@@ -154,6 +154,14 @@ ul li {
   position: absolute;
 }
 
+.login-display {
+  position: absolute;
+  top: 90px;
+  right: 10px;
+  color: blue;
+  background-color: black;
+}
+
 
 .main-welcome {
  /* background-image: url('/assets/img/welcome_autumn.jpg') ;

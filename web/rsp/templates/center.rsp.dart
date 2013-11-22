@@ -10,7 +10,15 @@ Future center(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""<div class="space-center" ><a href="#"><img  height="180px" width="180px" src="assets/img/compass_275.png"></img></a></div>"""); //#2
+  response.write("""<div class="space-center" >
+  <a href="#"><img  height="180px" width="180px" src="assets/img/compass_275.png"></img></a>
+  <div  class="login-display" >"""); //#2
+
+  response.write(Rsp.nnx(currentUser(request.session) != null ?  currentUser(request.session).login: "anonyme")); //#4
+
+
+  response.write("""</div>
+</div>"""); //#4
 
   return new Future.value();
 }
