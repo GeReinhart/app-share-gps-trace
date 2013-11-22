@@ -86,6 +86,8 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
                                                                   
             var options = {
 						   "chartArea":{"left":"15%","top":"5%",width:"75%",height:"80%"},
+						   "hAxis" : {"gridlines" : { "color" : "white" }},
+						   "vAxis" : {"gridlines" : { "color" : "white" }},
                            "curveType": "function",
                            "series": [
                                       {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},

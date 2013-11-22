@@ -30,7 +30,13 @@ void moveTraceViewers(SpacesPositions spacesPositions ){
   if (traceProfileViewer != null){
     num traceHeightWidthRatio = js.context.traceHeightWidthRatio;
     num traceProfileViewerWidth = spacesPositions.spaceNW_Width  * 0.95;
-    num traceProfileViewerHeight = traceProfileViewerWidth * traceHeightWidthRatio * 8;
+    num traceProfileViewerHeight = traceProfileViewerWidth * traceHeightWidthRatio * 10;
+    
+    if (  traceProfileViewerHeight >  spacesPositions.spaceNW_Height * 0.95){
+      traceProfileViewerWidth = traceProfileViewerHeight / traceHeightWidthRatio / 10  ;
+      traceProfileViewerHeight = spacesPositions.spaceNW_Height * 0.80;
+    }
+    
     
     traceProfileViewer..style.position = 'absolute'
     ..style.right  = (spacesPositions.spaceNW_Width  * 0.05 ).toString() + "px" 
