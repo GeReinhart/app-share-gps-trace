@@ -10,11 +10,11 @@ abstract class PersistenceLayer{
 
   void close();
   
-  Future<List<Trail>>  getTrailsByCreator(String creator) ;
+  Future<List<Trace>>  getTracesByCreator(String creator) ;
 
-  Future<Trail>  getTrailById(String id) ;
+  Future<Trace>  getTraceById(String id) ;
 
-  Future<Trail> saveOrUpdateTrail(Trail trail) ;
+  Future<Trace> saveOrUpdateTrace(Trace trace) ;
   
   Future<List<User>> getUsers();
 
@@ -31,13 +31,15 @@ abstract class PersistenceLayer{
 class MongoPersistence implements PersistenceLayer{
   
   Db _mongodb;
-  DbCollection _trailCollection;
   DbCollection _userCollection;
+  DbCollection _traceCollection;
+  DbCollection _traceDataCollection;
   
   MongoPersistence(mongoUrl){
     _mongodb = new Db(mongoUrl);
-    _trailCollection = _mongodb.collection('trails');
     _userCollection = _mongodb.collection('users');
+    _traceCollection = _mongodb.collection('traces');
+    _traceDataCollection = _mongodb.collection('traceDatas');
   }
 
   Future open(){
@@ -53,37 +55,45 @@ class MongoPersistence implements PersistenceLayer{
     return _mongodb.close();
   }
   
-  Future<List<Trail>> getTrailsByCreator(String creator) {
+  Future<List<Trace>> getTracesByCreator(String creator) {
     
-    List<Trail> trails = new List();
+    List<Trace> traces = new List();
     
-    return _trailCollection.find(where.eq("creator", creator)).forEach((jsonTrail){
-                Trail trail = new Trail.fromJson(jsonTrail);
-                trails.add(trail);
+    return _traceCollection.find(where.eq("creator", creator)).forEach((jsonTrace){
+                Trace trail = new Trace.fromJson(jsonTrace);
+                traces.add(jsonTrace);
               })
              .then((_) {
-                  return trails;
+                  return traces;
               });
   }
 
-  Future<Trail> getTrailById(String id) {
-    return _trailCollection.findOne(where.eq("_id", id))
-          .then((jsonTrail) {
-            return new Trail.fromJson(jsonTrail);
+  Future<Trace> getTraceById(String id) {
+    return _traceCollection.findOne(where.eq("_id", id))
+          .then((jsonTrace) {
+            Trace trace = new Trace.fromJson(jsonTrace);
+            return _traceDataCollection.findOne(where.eq("_id", trace.traceDataId))
+              .then((jsonTraceData){
+                trace.traceData = new TraceData.fromJson(jsonTraceData);
+                return trace;
+              });
           });
   }
   
-  Future<Trail> saveOrUpdateTrail(Trail trail) {
+  Future<Trace> saveOrUpdateTrace(Trace trace) {
     
-      if(trail.id == null){
-              trail.id = new ObjectId().toString();
-              return _trailCollection.insert(trail.toJson()).then((_){
-                  return trail;
+      if(trace.id == null){
+              trace.id = new ObjectId().toString();
+              trace.traceDataId = new ObjectId().toString();
+              return _traceCollection.insert(trace.toJson()).then((_){
+                return _traceDataCollection.insert(trace.traceData.toJson()).then((_){
+                  return trace;
+                });
               });
       }else{
-              return _trailCollection.update(where.eq("_id", trail.id),   trail.toJson())
+              return _traceCollection.update(where.eq("_id", trace.id),   trace.toJson())
                         .then((_) {
-                            return trail;
+                            return trace;
                           });
       }
   }
