@@ -26,6 +26,10 @@ class TraceAnalysis {
   
   TraceAnalysis();
 
+  TraceAnalysis.fromPoints(List<TracePoint> points){
+    _loadFromPoints( points );
+  }
+  
   TraceAnalysis.fromGpxFileContent(String gpxFileContent){
     _loadFromContent( gpxFileContent );
   }
@@ -56,9 +60,29 @@ class TraceAnalysis {
   }  
   
   void  _loadFromContent( String gpxFileContent ){
-    
     XmlElement myXmlTree = XML.parse(gpxFileContent);
     XmlCollection<XmlNode> trkptNodes = myXmlTree.queryAll("trkpt") ;
+    List<TracePoint> points = new List<TracePoint>();
+    
+    for (var iter = trkptNodes.iterator; iter.moveNext();) {
+      XmlNode trkptNode = iter.current;
+      XmlElement trkptElement = (trkptNode as XmlElement);
+      
+      TracePoint currentPoint = new TracePoint();
+      currentPoint.latitude =  double.parse( trkptElement.attributes["lat"] );
+      currentPoint.longitude =  double.parse( trkptElement.attributes["lon"] );
+      
+      XmlCollection<XmlNode> eleNodes = trkptElement.query("ele") ;
+      if (eleNodes.length > 0){
+        currentPoint.elevetion = double.parse( (eleNodes[0]as XmlElement).text );
+      }
+      
+      points.add(currentPoint) ;
+    }
+    _loadFromPoints( points  );
+  }
+  
+  void  _loadFromPoints( List<TracePoint> points  ){
         
     TracePoint previousPoint = null;
     num traceLength = 0.0;
@@ -70,17 +94,10 @@ class TraceAnalysis {
     
     Map<String,DistanceInclinationElevetion> distancesByInclinationMap = new Map<String,DistanceInclinationElevetion>();
     
-    for (var iter = trkptNodes.iterator; iter.moveNext();) {
-      XmlNode trkptNode = iter.current;
-      XmlElement trkptElement = (trkptNode as XmlElement);
+    for (var iter = points.iterator; iter.moveNext();) {
       
-      TracePoint currentPoint = new TracePoint();
-      currentPoint.latitude =  double.parse( trkptElement.attributes["lat"] );
-      currentPoint.longitude =  double.parse( trkptElement.attributes["lon"] );
-      XmlCollection<XmlNode> eleNodes = trkptElement.query("ele") ;
-      if (eleNodes.length > 0){
-        currentPoint.elevetion = double.parse( (eleNodes[0]as XmlElement).text );
-      }
+      TracePoint currentPoint = iter.current;
+
       
       num currentDistance = 0;
       num currentElevetionDiff = 0;
@@ -171,6 +188,8 @@ class TraceAnalysis {
   
   List<TracePoint> get points => _points;
 
+  void addPoint(TracePoint point) => _points.add(point) ;
+  
   TracePoint get upperPoint => _upperPoint;
 
   TracePoint get lowerPoint => _lowerPoint;

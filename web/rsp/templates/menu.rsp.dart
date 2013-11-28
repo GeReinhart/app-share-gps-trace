@@ -14,33 +14,34 @@ Future menu(HttpConnect connect) { //#2
         <ul role="menu" class="dropdown-menu"  id="menu">
           <li role="presentation" class="dropdown-header">Traces</li>
           <li role="presentation"><a class="loading-on-click" href="/trace.analysis" tabindex="-1" role="menuitem">Analyser une trace</a></li>
+          <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter une trace</a></li>
           <li role="presentation" class="dropdown-header">A propos</li>
           <li role="presentation"><a  class="loading-on-click" href="/trace.analysis?gpxFileUrl=https://raw.github.com/GeReinhart/app-share-gps-trace/master/web/assets/4027.gpx" tabindex="-1" role="menuitem">Maquette</a></li>
           <li class="divider" role="presentation"></li>
           <li role="presentation" class="dropdown-header">Compte """); //#2
 
-  response.write(Rsp.nnx(currentUser(request.session) != null ? "de " + currentUser(request.session).login: "")); //#9
+  response.write(Rsp.nnx(currentUser(request.session) != null ? "de " + currentUser(request.session).login: "")); //#10
 
 
   response.write("""</li>
-"""); //#9
+"""); //#10
 
-  if (currentUser(request.session) != null) { //if#10
+  if (currentUser(request.session) != null) { //if#11
 
     response.write("""            <li role="presentation"><a  class="loading-on-click" href="/logout" tabindex="-1" role="menuitem">Se déconnecter</a></li>
-"""); //#11
+"""); //#12
 
-  } else { //else#12
+  } else { //else#13
 
     response.write("""            <li role="presentation"><a  class="loading-on-click" href="/login" tabindex="-1" role="menuitem">Se connecter</a></li>
             <li role="presentation"><a  class="loading-on-click" href="/register" tabindex="-1" role="menuitem">S'enregistrer</a></li>
-"""); //#13
+"""); //#14
   } //if
 
   response.write("""
 
         </ul>
-    </div>"""); //#16
+    </div>"""); //#17
 
   return new Future.value();
 }

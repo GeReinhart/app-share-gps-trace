@@ -1,0 +1,40 @@
+[:page partOf="trails" args="traceAnalysisRenderer"]
+<!DOCTYPE html>
+<html>
+ <head>
+	 <title>La Boussole - Ajout d'une trace</title>
+     [:include "/rsp/templates/assetsimports.html"/]   
+  </head>
+  <body>   
+    [:include spaces]
+      [:var nw]
+        <h1>Ajout d'une trace gpx</h1>
+
+        <form id="trace-add-form" role="form"  action="/trace" method="post" accept-charset="UTF-8" enctype="multipart/form-data" >
+          <div class="form-group form-trace-add">
+            <input name="title" type="text" class="form-control"  placeholder="Titre">
+          </div>
+          <div class="form-group form-trace-add">
+            <textarea name="description" class="form-control" rows="15" cols="100" placeholder="Description du parcours" ></textarea>
+          </div>          
+          <div class="form-group">
+            <input name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
+          </div>
+          <button type="submit"  class="btn btn-default btn-add-trace loading-on-click">Ajouter cette trace</button>
+        </form>
+      [/var]
+      [:var ne ]
+
+      [/var]
+      [:var sw ]
+
+      [/var]
+      [:var se ]
+
+      [/var]
+    [/include]  
+    
+    <script type="application/dart" src="/client/traceAddForm.dart"></script>
+    <script src="/packages/browser/dart.js"></script>
+  </body>
+</html>

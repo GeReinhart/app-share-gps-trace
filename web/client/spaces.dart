@@ -54,7 +54,7 @@ class SpacesLayout{
       _startMovingCenterPosition = mouseEvent ;
       _movingCenter = true ;
       _toggleMenu();
-      querySelector(spaceCenter + " a img").attributes["src"] = "assets/img/compass_275_red.png";
+      querySelector(spaceCenter + " a img").attributes["src"] = "/assets/img/compass_275_red.png";
     });
 
     querySelector(spaceCenter).onMouseLeave.listen((mouseEvent) {
@@ -189,7 +189,7 @@ class SpacesLayout{
     ..style.top = (centerTop    - centerSize /2      ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = centerSize.toString()+ "px" ;  
-    querySelector(spaceCenter + " a img").attributes["src"] = "assets/img/compass_275.png";
+    querySelector(spaceCenter + " a img").attributes["src"] = "/assets/img/compass_275.png";
     
     querySelector(spaceMenu)
     ..style.position = 'absolute'

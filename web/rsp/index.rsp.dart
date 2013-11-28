@@ -69,8 +69,8 @@ Future index(HttpConnect connect) { //#2
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-      response.write("""    <script type="application/dart" src="client/index.dart"></script>
-    <script src="packages/browser/dart.js"></script>
+      response.write("""    <script type="application/dart" src="/client/index.dart"></script>
+    <script src="/packages/browser/dart.js"></script>
   </body>
 </html>"""); //#37
 

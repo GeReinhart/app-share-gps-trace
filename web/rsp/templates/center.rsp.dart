@@ -11,7 +11,7 @@ Future center(HttpConnect connect) { //#2
     return new Future.value();
 
   response.write("""<div class="space-center" >
-  <a href="#"><img  height="180px" width="180px" src="assets/img/compass_275.png"></img></a>
+  <a href="#"><img  height="180px" width="180px" src="/assets/img/compass_275.png"></img></a>
   <div  class="login-display" >"""); //#2
 
   response.write(Rsp.nnx(currentUser(request.session) != null ?  currentUser(request.session).login: "anonyme")); //#4

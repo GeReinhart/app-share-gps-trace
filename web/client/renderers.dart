@@ -1,5 +1,34 @@
 
 import "../../lib/trace.dart" ;
+import "../../lib/models.dart" ;
+
+class TraceRenderer {
+  
+  TraceAnalysisRenderer traceAnalysisRenderer ;
+  Trace trace;
+  String gpxUrl ;
+
+  TraceRenderer(Trace trace,String gpxUrl){
+    this.trace= trace;
+    this.gpxUrl = gpxUrl;
+    trace.traceAnalysis.gpxUrl = gpxUrl;
+    this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis);
+  }
+  
+  String get description {
+    
+    if(trace.description.isEmpty){
+      return "";
+    }
+    String description = "";
+    List<String> parts =  trace.description.split("\r\n");
+    for(var iter = parts.iterator ;  iter.moveNext() ;){
+      description += "<p>${iter.current}</p>" ; 
+    }
+    return description;
+  }
+  
+}
 
 class TraceAnalysisRenderer {
   

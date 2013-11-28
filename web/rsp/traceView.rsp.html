@@ -1,0 +1,34 @@
+[:page partOf="trails" args="traceRenderer"]
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>La Boussole - [=traceRenderer.trace.title]</title>
+     [:include "/rsp/templates/assetsimports.html"/]   
+  </head>
+  <body>   
+    [:include spaces]
+      [:var nw]
+        [:include traceProfileViewer traceAnalysisRenderer="[=traceRenderer.traceAnalysisRenderer]" /]
+      [/var]
+      [:var ne ]
+               <h1>[=traceRenderer.trace.title]</h1>
+               
+               <span class="trace-description" >
+                 [=traceRenderer.description, encode: 'none']
+               </span>
+               
+               <span><a href="[=traceRenderer.gpxUrl]">Lien permanent de cette page</a></span>
+      [/var]
+      [:var sw ]
+        [:include traceGpxViewer traceAnalysisRenderer="[=traceRenderer.traceAnalysisRenderer]" /]
+      [/var]
+      [:var se ]
+        [:include traceStatisticsViewer traceAnalysisRenderer="[=traceRenderer.traceAnalysisRenderer]" /]
+      [/var]
+    [/include]  
+    
+    <script type="application/dart" src="/client/traceAnalysis.dart"></script>
+    <script src="/packages/browser/dart.js"></script>
+    <script src="/packages/browser/interop.js"></script>
+  </body>
+</html>

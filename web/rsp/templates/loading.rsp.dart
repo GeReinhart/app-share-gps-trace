@@ -10,7 +10,7 @@ Future loading(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""<div class="space-loading"><a href="#"><img  height="180px" width="180px" src="assets/img/spinner.gif"></img></a></div>
+  response.write("""<div class="space-loading"><a href="#"><img  height="180px" width="180px" src="/assets/img/spinner.gif"></img></a></div>
 """); //#2
 
   return new Future.value();

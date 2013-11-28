@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import '../packages/mongo_dart/mongo_dart.dart';
 import '../packages/unittest/unittest.dart';
 import '../lib/models.dart' ;
 import '../lib/persistence.dart' ;
+import '../lib/trace.dart';
 
-const String mongoUrl = "mongodb://127.0.0.1/test-trails-persitence" ;
+const String mongoUrl = "mongodb://127.0.0.1/test-traces-persitence" ;
 
 main() {
   
@@ -22,17 +24,7 @@ main() {
           return db.drop();
         })
         
-        .then((_){
-
-          print("add trails");
-          trailCollection = db.collection('trails');
-          return trailCollection.insertAll(
-              [new Trail.withId("1","Gex", "La classique de la Franche Verte", "franchVerte.gpx").toJson(),
-               new Trail.withId("2","Gex","Le grand colon face Est depuis Freydieres", "colonEst.gpx").toJson(),
-               new Trail.withId("3","SonicRonan","Le grand Raz", "leGrandRaz.gpx").toJson()] );    
-
-        })
-          
+         
         .then((_){
 
           print("add users");
@@ -49,62 +41,8 @@ main() {
           return persitence.open();    
         })
         
-        .then((_){
-          
-          return persitence.getTrailsByCreator("Gex").then((trails) {
-            print("Test get trails by creator");
-            expect(trails.length, 2) ;    
-            expect(trails.elementAt(0).title, "La classique de la Franche Verte") ;    
-            expect(trails.elementAt(1).title, "Le grand colon face Est depuis Freydieres") ;    
-          });
-          
-          
-        }) 
 
-        .then((_){
-          
-          String firstTrailTitle ;
-          return persitence.getTrailsByCreator("Gex").then((trails) {
 
-            String firstTrailId = trails.elementAt(0).id;
-            firstTrailTitle = trails.elementAt(0).title;
-            return persitence.getTrailById(firstTrailId);
-            
-          }).then((firstTrail){
-            print("Test get trail by id");
-            expect(firstTrail.title, firstTrailTitle ) ;    
-          });
-          
-          
-        })         
-        
-        .then((_){
-          
-          String newTrailId;
-          Trail trail = new Trail("SonicRonan","La grande Lauziere", "leGrandeLauziere.gpx");
-          return persitence.saveOrUpdateTrail(trail).then((trail) {
-            newTrailId = trail.id;
-            return persitence.getTrailById(newTrailId);
-          }).then((newTrail){
-            print("Test create trail");
-            expect(newTrail.title, trail.title) ;    
-          });
-          
-          
-        })
-        
-        .then((_){
-          
-          return persitence.getTrailById("2").then((trail) {
-            trail.title ="update title" ;
-            return persitence.saveOrUpdateTrail(trail);
-          }).then((savedTrail){
-            print("Test update trail");
-            expect(savedTrail.title, "update title") ;    
-          });
-          
-          
-        })        
         
         .then((_){
           
@@ -174,6 +112,31 @@ main() {
           
           
         })         
+        
+        
+        .then((_){
+          
+          File file = new File("test/resources/12590.gpx");
+          return TraceAnalysis.fromGpxFile(file).then((traceAnalysis){
+            
+            TracePoint firstPoint = traceAnalysis.points[0] ; 
+            Trace trace = new Trace.fromTraceAnalysis("Gex", traceAnalysis); 
+            trace.description = "ma description" ;
+            
+            return persitence.saveOrUpdateTrace(trace).then((trace) {
+                return persitence.getTraceById(trace.id).then((loadedTrace) {
+                  print("Test save and get a trace");
+                  expect(loadedTrace.description, trace.description) ;   
+                  expect(loadedTrace.traceAnalysis.points[0].toString(), firstPoint.toString()) ; 
+                  expect(loadedTrace.upperPointElevetion, traceAnalysis.upperPoint.elevetion) ; 
+                });  
+            
+            }); 
+          });
+          
+          
+          
+        })
         
         .whenComplete((){
           print("close db");
