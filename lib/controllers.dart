@@ -22,6 +22,8 @@ part "../web/rsp/login.rsp.dart";
 part "../web/rsp/register.rsp.dart";
 part "../web/rsp/index.rsp.dart";
 part "../web/rsp/traceAnalysisView.rsp.dart" ;
+part "../web/rsp/traceAddFormView.rsp.dart" ;
+part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/loading.rsp.dart";
 part "../web/rsp/templates/menu.rsp.dart";
@@ -144,4 +146,49 @@ class TrailController{
  
   }
   
+  Future traceAddForm(HttpConnect connect) {
+    return traceAddFormView(connect);
+  }
+  
+  Future traceAddFormSubmit(HttpConnect connect) {
+    
+    DateTime now = new DateTime.now();
+    String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
+
+    return HttpBodyHandler.processRequest(connect.request).then((body) {
+      String title = body.body['title'];
+      String description = body.body['description'];
+      HttpBodyFileUpload fileUploaded = body.body['gpxUploadedFile'];
+      final file = new File(tempFile);
+      return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
+          .then((_) {
+            return TraceAnalysis.fromGpxFile(file).then((traceAnalysis){
+              
+              Trace trace = new Trace.fromTraceAnalysis("TBD", traceAnalysis); 
+              trace.title = title ;
+              trace.description = description ;
+              
+              return _persistence.saveOrUpdateTrace(trace).then((trace) {
+                return connect.forward("/trace/id-" + trace.cleanId) ;
+              });
+            });
+          }).whenComplete((){
+            try {
+              new File(tempFile).delete();
+            } catch(e) {
+              print("Unable to delete ${tempFile}: ${e}");
+            }
+          } );
+    });
+  }
+  
+  Future traceShow(HttpConnect connect) {
+    String cleanTraceId = connect.dataset["traceId"];
+    String traceId = "ObjectId(\"" + cleanTraceId +"\")";
+    return _persistence.getTraceById(traceId).then((trace) {
+      TraceRenderer renderer = new TraceRenderer(trace, "/trace/id-"+cleanTraceId);
+      return traceView(connect, traceRenderer:renderer);
+    });
+    
+  }
 }

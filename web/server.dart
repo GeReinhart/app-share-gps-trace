@@ -67,6 +67,11 @@ class TrailsServer{
 
           "get:/trace.analysis": _trailController.traceAnalysisFromUrl,          
           "post:/trace.analysis": _trailController.traceAnalysisFromFile, 
+
+          "get:/trace.add": _trailController.traceAddForm,          
+          "post:/trace": _trailController.traceAddFormSubmit,
+          
+          "/trace/id-(traceId:[^/]*)": _trailController.traceShow,
           
         },
         /* filterMapping: {

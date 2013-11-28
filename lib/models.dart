@@ -72,6 +72,7 @@ class Trace {
     }
     return _traceAnalysis;
   }
+  
   TraceData     get traceData => _traceData;  
   set traceData(value) {
     _traceData = value;
@@ -101,6 +102,9 @@ class Trace {
     }
   } 
   
+  String  get cleanId {
+    return id.substring("ObjectId(\"".length , id.length -2 ) ;
+  }
 }
 
 
