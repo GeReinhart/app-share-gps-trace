@@ -7,9 +7,11 @@ class TraceRenderer {
   TraceAnalysisRenderer traceAnalysisRenderer ;
   Trace trace;
   String gpxUrl ;
-
-  TraceRenderer(Trace trace,String gpxUrl){
+  String permanentTraceUrl ;
+  
+  TraceRenderer(Trace trace,String permanentTraceUrl,String gpxUrl){
     this.trace= trace;
+    this.permanentTraceUrl=permanentTraceUrl;
     this.gpxUrl = gpxUrl;
     trace.traceAnalysis.gpxUrl = gpxUrl;
     this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis);

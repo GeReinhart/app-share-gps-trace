@@ -1,0 +1,14 @@
+[:page partOf="trails" args="trace"]
+<?xml version="1.0" encoding="UTF-8" ?>
+<gpx version="1.1" creator="la-boussole" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.topografix.com/GPX/1/1" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+    <trk>
+        <name>la-boussole - [=trace.title]</name>
+        <trkseg>
+        [:for point in trace.points]
+            <trkpt lat="[=point.latitude]" lon="[=point.longitude]">
+                <ele>[=point.elevetion]</ele>
+            </trkpt>
+        [/for]
+        </trkseg>
+    </trk>
+</gpx>

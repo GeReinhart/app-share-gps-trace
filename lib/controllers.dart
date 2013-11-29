@@ -24,6 +24,7 @@ part "../web/rsp/index.rsp.dart";
 part "../web/rsp/traceAnalysisView.rsp.dart" ;
 part "../web/rsp/traceAddFormView.rsp.dart" ;
 part "../web/rsp/traceView.rsp.dart" ;
+part "../web/rsp/traceFormatGpxView.rsp.dart" ;
 part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/loading.rsp.dart";
 part "../web/rsp/templates/menu.rsp.dart";
@@ -33,13 +34,14 @@ part "../web/rsp/templates/traceGpxViewer.rsp.dart";
 part "../web/rsp/templates/traceProfileViewer.rsp.dart";
 part "../web/rsp/templates/traceStatisticsViewer.rsp.dart";
 
-class TrailController{
+class TraceController{
   
   PersistenceLayer _persistence ;
   Crypto _crypto ;
   Security _security ;
+  String _appUri ;
   
-  TrailController(this._persistence, this._crypto){
+  TraceController(this._persistence, this._crypto, this._appUri){
 
     final authenticator = new Authentication(_persistence,_crypto) ;
     final accessControl = new SimpleAccessControl({
@@ -186,9 +188,22 @@ class TrailController{
     String cleanTraceId = connect.dataset["traceId"];
     String traceId = "ObjectId(\"" + cleanTraceId +"\")";
     return _persistence.getTraceById(traceId).then((trace) {
-      TraceRenderer renderer = new TraceRenderer(trace, "/trace/id-"+cleanTraceId);
+      String gpxUrl = _appUri +"/trace.gpx/id-"+cleanTraceId ;
+      String permanentTraceUrl = _appUri + "/trace/id-"+cleanTraceId ;
+      TraceRenderer renderer = new TraceRenderer(trace, permanentTraceUrl,gpxUrl);
       return traceView(connect, traceRenderer:renderer);
     });
     
   }
+  
+  Future traceFormatGpxShow(HttpConnect connect) {
+    String cleanTraceId = connect.dataset["traceId"];
+    String traceId = "ObjectId(\"" + cleanTraceId +"\")";
+    return _persistence.getTraceById(traceId).then((trace) {
+      return traceFormatGpxView(connect, trace:trace);
+    });
+    
+  }
+  
+  
 }

@@ -23,18 +23,18 @@ part "rsp/templates/traceProfileViewer.rsp.dart";
 part "rsp/templates/traceStatisticsViewer.rsp.dart";
 
 
-class TrailsServer{
+class TracesServer{
   
   String host;
   int port;
   
-  TrailController _trailController;
+  TraceController _traceController;
   
-  TrailsServer(this.host,this.port){
+  TracesServer(this.host,this.port){
     createApplicationContext();
   }
   
-  TrailsServer.forHeroku(){
+  TracesServer.forHeroku(){
     host ="0.0.0.0";
     port = int.parse(Platform.environment['PORT']);
     createApplicationContext();
@@ -42,12 +42,13 @@ class TrailsServer{
   
   void createApplicationContext(){
     String mongoDbUri = Platform.environment['MONGO_DB_URI'] ;
+    String appUri = Platform.environment['APP_TRACE_URI'] ;
     print ("Db: "+mongoDbUri);
 
     PersistenceLayer _persistenceLayer = new MongoPersistence(mongoDbUri);
     _persistenceLayer.open();
     Crypto _crypto = new Crypto();
-    _trailController = new TrailController(_persistenceLayer,_crypto) ;
+    _traceController = new TraceController(_persistenceLayer,_crypto,appUri) ;
   }
   
   
@@ -57,21 +58,22 @@ class TrailsServer{
           "/": index, 
 
           "/register": register, 
-          "/as_register": _trailController.aRegister,
+          "/as_register": _traceController.aRegister,
 
           "/login": login, 
-          "/s_login": _trailController.login,
+          "/s_login": _traceController.login,
 
-          "/s_logout": _trailController.logout,
-          "/logout":  _trailController.logout,
+          "/s_logout": _traceController.logout,
+          "/logout":  _traceController.logout,
 
-          "get:/trace.analysis": _trailController.traceAnalysisFromUrl,          
-          "post:/trace.analysis": _trailController.traceAnalysisFromFile, 
+          "get:/trace.analysis": _traceController.traceAnalysisFromUrl,          
+          "post:/trace.analysis": _traceController.traceAnalysisFromFile, 
 
-          "get:/trace.add": _trailController.traceAddForm,          
-          "post:/trace": _trailController.traceAddFormSubmit,
+          "get:/trace.add": _traceController.traceAddForm,          
+          "post:/trace": _traceController.traceAddFormSubmit,
           
-          "/trace/id-(traceId:[^/]*)": _trailController.traceShow,
+          "/trace/id-(traceId:[^/]*)": _traceController.traceShow,
+          "/trace.gpx/id-(traceId:[^/]*)": _traceController.traceFormatGpxShow,
           
         },
         /* filterMapping: {
