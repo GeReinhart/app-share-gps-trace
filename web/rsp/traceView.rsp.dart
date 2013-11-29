@@ -56,7 +56,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
                
                <span><a href=\""""); //#17
 
-      response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#20
+      response.write(Rsp.nnx(traceRenderer.permanentTraceUrl)); //#20
 
 
       response.write("""">Lien permanent de cette page</a></span>

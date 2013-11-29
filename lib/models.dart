@@ -25,6 +25,7 @@ class Trace {
   
   TraceData _traceData ;
   TraceAnalysis _traceAnalysis ;
+  List<TracePoint> _points ;
   
   Trace.fromTraceAnalysis(String creator, TraceAnalysis traceAnalysis){
     this.creator = creator;
@@ -91,6 +92,7 @@ class Trace {
     inclinationUp = traceAnalysis.inclinationUp;
     upperPointElevetion= traceAnalysis.upperPoint.elevetion;
     difficulty= traceAnalysis.difficulty;
+    _points = traceAnalysis.points;
   }
   
   String        get traceDataId => _traceDataId;
@@ -101,6 +103,13 @@ class Trace {
       _traceData.id = value;
     }
   } 
+  
+  List<TracePoint> get points{
+    if(_points == null){
+      _points = _traceData.points  ;
+    }
+    return _points;
+  }
   
   String  get cleanId {
     return id.substring("ObjectId(\"".length , id.length -2 ) ;
@@ -114,7 +123,9 @@ class TraceData{
   String latArray = "" ;
   String longArray = "" ;
   String eleArray = "" ;  
-
+  List<TracePoint> _points ;
+  
+  
   TraceData.fromTraceAnalysis(TraceAnalysis traceAnalysis){
     for (var iter = traceAnalysis.points.iterator; iter.moveNext();) {
       TracePoint point = iter.current;
@@ -137,11 +148,22 @@ class TraceData{
   
   TraceAnalysis toTraceAnalysis(){
     TraceAnalysis traceAnalysis = new TraceAnalysis();
+    return new TraceAnalysis.fromPoints(points);
+  }
+  
+  List<TracePoint> get points{
+    if(_points == null){
+      _setPoints()  ;
+    }
+    return _points;
+  }
+  
+  void _setPoints(){
     List<String> latStringList = latArray.split("#") ;
     List<String> longStringList = longArray.split("#") ;
     List<String> eleStringList = eleArray.split("#") ;
-
-    List<TracePoint> points = new List<TracePoint>();
+    
+    _points = new List<TracePoint>();
     
     var latIter = latStringList.iterator;
     var longIter = longStringList.iterator ;    
@@ -156,10 +178,9 @@ class TraceData{
         currentPoint.latitude = double.parse(latString);
         currentPoint.longitude = double.parse(longString);
         currentPoint.elevetion = double.parse(eleString);
-        points.add(currentPoint);
+        _points.add(currentPoint);
       }
     }
-    return new TraceAnalysis.fromPoints(points);
   }
   
   
