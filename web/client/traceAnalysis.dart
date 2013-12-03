@@ -1,6 +1,6 @@
 import 'spaces.dart';
 import 'dart:html';
-import '../../packages/js/js.dart' as js;
+import 'package:js/js.dart' as js;
 
 void main() {
   SpacesLayout layout = new SpacesLayout(180,30,35);

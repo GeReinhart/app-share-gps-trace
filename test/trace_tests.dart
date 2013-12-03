@@ -1,5 +1,5 @@
 import 'dart:io';
-import '../packages/unittest/unittest.dart';
+import 'package:unittest/unittest.dart';
 import '../lib/trace.dart';
 
 main() {

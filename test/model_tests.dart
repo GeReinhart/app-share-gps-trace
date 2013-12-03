@@ -1,4 +1,4 @@
-import '../packages/unittest/unittest.dart';
+import 'package:unittest/unittest.dart';
 import '../lib/models.dart';
 
 main() {

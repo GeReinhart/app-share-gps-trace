@@ -1,7 +1,7 @@
 
 
 import 'dart:async';
-import '../packages/mongo_dart/mongo_dart.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 import '../lib/models.dart';
 
 abstract class PersistenceLayer{

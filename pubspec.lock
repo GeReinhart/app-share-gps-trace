@@ -8,7 +8,7 @@ packages:
   bootjack:
     description: bootjack
     source: hosted
-    version: "0.6.1+4"
+    version: "0.6.1+7"
   browser:
     description: browser
     source: hosted
@@ -24,7 +24,7 @@ packages:
   dquery:
     description: dquery
     source: hosted
-    version: "0.5.3+4"
+    version: "0.5.3+5"
   http_server:
     description: http_server
     source: hosted
@@ -56,10 +56,13 @@ packages:
   rikulo_commons:
     description: rikulo_commons
     source: hosted
-    version: "0.8.10+3"
+    version: "1.0.0"
   rikulo_security:
-    description: rikulo_security
-    source: hosted
+    description:
+      ref: null
+      resolved-ref: "8554e68ea32685756162dea800652683a99a5569"
+      url: "git://github.com/rikulo/security.git"
+    source: git
     version: "0.6.1"
   stack_trace:
     description: stack_trace
@@ -68,7 +71,7 @@ packages:
   stream:
     description: stream
     source: hosted
-    version: "0.8.7+2"
+    version: "1.0.0"
   unittest:
     description: unittest
     source: hosted

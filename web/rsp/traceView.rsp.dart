@@ -44,7 +44,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
 
       response.write("""</h1>
                
-               <span class="trace-description" >
+               <div class="trace-description" >
                  """); //#14
 
       response.write(Rsp.nnx(traceRenderer.description, encode: 'none')); //#17
@@ -52,29 +52,37 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
 
       response.write("""
 
-               </span>
-               
-               <span><a href=\""""); //#17
+               </div>
+               <div class="trace-creator" >
+                 trace ajoutée par """); //#17
 
-      response.write(Rsp.nnx(traceRenderer.permanentTraceUrl)); //#20
+      response.write(Rsp.nnx(traceRenderer.trace.creator)); //#20
 
 
-      response.write("""">Lien permanent de cette page</a></span>
-"""); //#20
+      response.write("""
+
+               </div>
+               <div><a href=\""""); //#20
+
+      response.write(Rsp.nnx(traceRenderer.permanentTraceUrl)); //#22
+
+
+      response.write("""">Lien permanent de cette page</a></div>
+"""); //#22
 
       connect = _cs_.removeLast(); response = connect.response;
 
-      var _2 = new StringBuffer(); _cs_.add(connect); //var#22
+      var _2 = new StringBuffer(); _cs_.add(connect); //var#24
       connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
-      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#23
+      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#25
 
         connect = _cs_.removeLast(); response = connect.response;
 
-        var _3 = new StringBuffer(); _cs_.add(connect); //var#25
+        var _3 = new StringBuffer(); _cs_.add(connect); //var#27
         connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#26
+        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#28
 
           connect = _cs_.removeLast(); response = connect.response;
 
@@ -85,7 +93,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
-</html>"""); //#29
+</html>"""); //#31
 
             return new Future.value();
           }); //end-of-include

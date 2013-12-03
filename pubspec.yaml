@@ -9,8 +9,9 @@ dependencies:
   crypto: any
   js: any
   mongo_dart: any
-  rikulo_security: any
-  stream: '>= 0.8.7'
+  rikulo_security: 
+    git: git://github.com/rikulo/security.git
+  stream: '1.0.0'
   xml: any
   http_server: any
   unittest: any

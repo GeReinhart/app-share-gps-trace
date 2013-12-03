@@ -5,11 +5,11 @@ library trails;
 import "dart:io";
 import "dart:async";
 import "dart:convert";
-import '../packages/http_server/http_server.dart';
-import "../packages/stream/stream.dart";
-import "../packages/rikulo_security/security.dart";
-import "../packages/rikulo_security/plugin.dart";
-import "../packages/rikulo_commons/convert.dart" ;
+import 'package:http_server/http_server.dart';
+import "package:rikulo_security/plugin.dart";
+import "package:rikulo_security/security.dart";
+import "package:stream/stream.dart";
+import "package:rikulo_commons/convert.dart" ;
 
 import  "../web/shared/forms.dart";
 import  "../web/client/renderers.dart";
@@ -21,7 +21,6 @@ import  "trace.dart";
 part "../web/rsp/login.rsp.dart";
 part "../web/rsp/register.rsp.dart";
 part "../web/rsp/index.rsp.dart";
-part "../web/rsp/traceAnalysisView.rsp.dart" ;
 part "../web/rsp/traceAddFormView.rsp.dart" ;
 part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/traceFormatGpxView.rsp.dart" ;
@@ -51,6 +50,9 @@ class TraceController{
     _security = new Security(authenticator, accessControl);
     
   }
+  
+  Security get security => _security ;
+  
   
   Future aRegister(HttpConnect connect) {
     
@@ -104,56 +106,18 @@ class TraceController{
     return _security.logout(connect);
   }
   
-  
-  Future traceAnalysisFromUrl(HttpConnect connect) {
-    Map<String,String>  params = new Map.from(connect.request.uri.queryParameters);
-    if( !params.containsKey("gpxFileUrl")  ){
-      return traceAnalysisView(connect);
-    }else{
-      String gpxFileUrl = params["gpxFileUrl"];
-
-      if ( !gpxFileUrl.isEmpty  ){
-        return TraceAnalysis.fromGpxUrl(gpxFileUrl).then((traceAnalysis){
-          TraceAnalysisRenderer renderer = new TraceAnalysisRenderer(traceAnalysis);
-          return traceAnalysisView(connect, traceAnalysisRenderer:renderer);
-        });
-      }else{
-        return traceAnalysisView(connect);
-      }
-    }
-  }
-  
-  Future traceAnalysisFromFile(HttpConnect connect) {
-   
-   DateTime now = new DateTime.now();
-   String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
-
-   return HttpBodyHandler.processRequest(connect.request).then((body) {
-     HttpBodyFileUpload fileUploaded = body.body['gpxUploadedFile'];
-     final file = new File(tempFile);
-     return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
-       .then((_) {
-         return TraceAnalysis.fromGpxFile(file).then((traceAnalysis){
-           TraceAnalysisRenderer renderer = new TraceAnalysisRenderer(traceAnalysis);
-           return traceAnalysisView(connect, traceAnalysisRenderer:renderer);
-         });
-       }).whenComplete((){
-         try {
-           new File(tempFile).delete();
-         } catch(e) {
-           print("Unable to delete ${tempFile}: ${e}");
-         }
-       } );
-   });
- 
-  }
-  
   Future traceAddForm(HttpConnect connect) {
     return traceAddFormView(connect);
   }
   
   Future traceAddFormSubmit(HttpConnect connect) {
     
+    User user =  currentUser(connect.request.session);
+    if (user == null ){
+      return connect.forward("/403") ;
+    }
+      
+      
     DateTime now = new DateTime.now();
     String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
 
@@ -166,7 +130,7 @@ class TraceController{
           .then((_) {
             return TraceAnalysis.fromGpxFile(file).then((traceAnalysis){
               
-              Trace trace = new Trace.fromTraceAnalysis("TBD", traceAnalysis); 
+              Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
               trace.title = title ;
               trace.description = description ;
               

@@ -2,7 +2,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:math' as Math ;
-import '../packages/xml/xml.dart';
+import 'package:xml/xml.dart';
 
 class TraceAnalysis {
  

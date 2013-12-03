@@ -13,35 +13,39 @@ Future menu(HttpConnect connect) { //#2
   response.write("""    <div class="space-menu"  >
         <ul role="menu" class="dropdown-menu"  id="menu">
           <li role="presentation" class="dropdown-header">Traces</li>
-          <li role="presentation"><a class="loading-on-click" href="/trace.analysis" tabindex="-1" role="menuitem">Analyser une trace</a></li>
-          <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter une trace</a></li>
-          <li role="presentation" class="dropdown-header">A propos</li>
-          <li role="presentation"><a  class="loading-on-click" href="/trace.analysis?gpxFileUrl=https://raw.github.com/GeReinhart/app-share-gps-trace/master/web/assets/4027.gpx" tabindex="-1" role="menuitem">Maquette</a></li>
-          <li class="divider" role="presentation"></li>
-          <li role="presentation" class="dropdown-header">Compte """); //#2
+"""); //#2
 
-  response.write(Rsp.nnx(currentUser(request.session) != null ? "de " + currentUser(request.session).login: "")); //#10
+  if (currentUser(request.session) != null) { //if#5
+
+    response.write("""            <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter une trace</a></li>
+"""); //#6
+  } //if
+
+  response.write("""          <li class="divider" role="presentation"></li>
+          <li role="presentation" class="dropdown-header">Compte """); //#8
+
+  response.write(Rsp.nnx(currentUser(request.session) != null ? "de " + currentUser(request.session).login: "")); //#9
 
 
   response.write("""</li>
-"""); //#10
+"""); //#9
 
-  if (currentUser(request.session) != null) { //if#11
+  if (currentUser(request.session) != null) { //if#10
 
     response.write("""            <li role="presentation"><a  class="loading-on-click" href="/logout" tabindex="-1" role="menuitem">Se déconnecter</a></li>
-"""); //#12
+"""); //#11
 
-  } else { //else#13
+  } else { //else#12
 
     response.write("""            <li role="presentation"><a  class="loading-on-click" href="/login" tabindex="-1" role="menuitem">Se connecter</a></li>
             <li role="presentation"><a  class="loading-on-click" href="/register" tabindex="-1" role="menuitem">S'enregistrer</a></li>
-"""); //#14
+"""); //#13
   } //if
 
   response.write("""
 
         </ul>
-    </div>"""); //#17
+    </div>"""); //#16
 
   return new Future.value();
 }

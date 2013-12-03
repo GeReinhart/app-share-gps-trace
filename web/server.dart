@@ -3,8 +3,8 @@ library trails;
 
 import "dart:io";
 import "dart:async";
-import "../packages/stream/stream.dart";
-import "../packages/rikulo_security/security.dart";
+import "package:rikulo_security/security.dart";
+import "package:stream/stream.dart";
 
 import  "../lib/persistence.dart";
 import  "../lib/aaa.dart";
@@ -66,18 +66,15 @@ class TracesServer{
           "/s_logout": _traceController.logout,
           "/logout":  _traceController.logout,
 
-          "get:/trace.analysis": _traceController.traceAnalysisFromUrl,          
-          "post:/trace.analysis": _traceController.traceAnalysisFromFile, 
-
           "get:/trace.add": _traceController.traceAddForm,          
           "post:/trace": _traceController.traceAddFormSubmit,
           
           "/trace/id-(traceId:[^/]*)": _traceController.traceShow,
           "/trace.gpx/id-(traceId:[^/]*)": _traceController.traceFormatGpxShow,
           
-        },
-        /* filterMapping: {
-          "/.*": security.filter
+        },/*
+        filterMapping: {
+          "/trace\.add.*": _traceController.security.filter
         },*/
         errorMapping: {
           "404": "/404.html"

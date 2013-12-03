@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import '../packages/mongo_dart/mongo_dart.dart';
-import '../packages/unittest/unittest.dart';
+import 'package:mongo_dart/mongo_dart.dart';
+import 'package:unittest/unittest.dart';
 import '../lib/models.dart' ;
 import '../lib/persistence.dart' ;
 import '../lib/trace.dart';

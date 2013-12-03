@@ -13,11 +13,13 @@
       [:var ne ]
                <h1>[=traceRenderer.trace.title]</h1>
                
-               <span class="trace-description" >
+               <div class="trace-description" >
                  [=traceRenderer.description, encode: 'none']
-               </span>
-               
-               <span><a href="[=traceRenderer.permanentTraceUrl]">Lien permanent de cette page</a></span>
+               </div>
+               <div class="trace-creator" >
+                 trace ajoutée par [=traceRenderer.trace.creator]
+               </div>
+               <div><a href="[=traceRenderer.permanentTraceUrl]">Lien permanent de cette page</a></div>
       [/var]
       [:var sw ]
         [:include traceGpxViewer traceAnalysisRenderer="[=traceRenderer.traceAnalysisRenderer]" /]
