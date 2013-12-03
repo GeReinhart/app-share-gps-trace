@@ -1,0 +1,47 @@
+[:page partOf="trails" args="traces"]
+<!DOCTYPE html>
+<html>
+ <head>
+     <title>La Boussole - Recherche une trace</title>
+     [:include "/rsp/templates/assetsimports.html"/]   
+  </head>
+  <body>   
+    [:include spaces]
+      [:var nw]
+
+        <h1>Recherche une trace</h1>
+
+      [/var]
+      [:var ne /]
+      [:var sw /]
+      [:var se ]
+      
+        <table class="table table-striped" style="margin-top: 40px">  
+          <thead>  
+            <tr>  
+              <th>Auteur</th>  
+              <th>Trace</th>  
+            </tr>  
+          </thead>  
+          <tbody>  
+          
+             [:for trace in traces]
+              <tr>  
+                  <td>[=trace.creator]</td>  
+                  <td><a href="/trace/id-[=trace.cleanId]">[=trace.title]</a> </td>  
+              </tr>  
+             [/for]
+    
+          </tbody>  
+        </table>
+        
+      [/var]
+      
+    [/include]  
+    
+    
+    
+    <script type="application/dart" src="/client/traceSearch.dart"></script>
+    <script src="/packages/browser/dart.js"></script>
+  </body>
+</html>

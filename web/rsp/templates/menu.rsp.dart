@@ -13,39 +13,40 @@ Future menu(HttpConnect connect) { //#2
   response.write("""    <div class="space-menu"  >
         <ul role="menu" class="dropdown-menu"  id="menu">
           <li role="presentation" class="dropdown-header">Traces</li>
+          <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
 """); //#2
 
-  if (currentUser(request.session) != null) { //if#5
+  if (currentUser(request.session) != null) { //if#6
 
-    response.write("""            <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter une trace</a></li>
-"""); //#6
+    response.write("""            <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter</a></li>
+"""); //#7
   } //if
 
   response.write("""          <li class="divider" role="presentation"></li>
-          <li role="presentation" class="dropdown-header">Compte """); //#8
+          <li role="presentation" class="dropdown-header">Compte """); //#9
 
-  response.write(Rsp.nnx(currentUser(request.session) != null ? "de " + currentUser(request.session).login: "")); //#9
+  response.write(Rsp.nnx(currentUser(request.session) != null ? "de " + currentUser(request.session).login: "")); //#10
 
 
   response.write("""</li>
-"""); //#9
+"""); //#10
 
-  if (currentUser(request.session) != null) { //if#10
+  if (currentUser(request.session) != null) { //if#11
 
     response.write("""            <li role="presentation"><a  class="loading-on-click" href="/logout" tabindex="-1" role="menuitem">Se déconnecter</a></li>
-"""); //#11
+"""); //#12
 
-  } else { //else#12
+  } else { //else#13
 
     response.write("""            <li role="presentation"><a  class="loading-on-click" href="/login" tabindex="-1" role="menuitem">Se connecter</a></li>
             <li role="presentation"><a  class="loading-on-click" href="/register" tabindex="-1" role="menuitem">S'enregistrer</a></li>
-"""); //#13
+"""); //#14
   } //if
 
   response.write("""
 
         </ul>
-    </div>"""); //#16
+    </div>"""); //#17
 
   return new Future.value();
 }

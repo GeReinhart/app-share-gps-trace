@@ -72,6 +72,8 @@ class TracesServer{
           "/trace/id-(traceId:[^/]*)": _traceController.traceShow,
           "/trace.gpx/id-(traceId:[^/]*)": _traceController.traceFormatGpxShow,
           
+          "/trace.search":  _traceController.traceSearch,
+          
         },/*
         filterMapping: {
           "/trace\.add.*": _traceController.security.filter

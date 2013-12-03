@@ -24,6 +24,7 @@ part "../web/rsp/index.rsp.dart";
 part "../web/rsp/traceAddFormView.rsp.dart" ;
 part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/traceFormatGpxView.rsp.dart" ;
+part "../web/rsp/traceSearchView.rsp.dart" ;
 part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/loading.rsp.dart";
 part "../web/rsp/templates/menu.rsp.dart";
@@ -169,5 +170,11 @@ class TraceController{
     
   }
   
+  Future traceSearch(HttpConnect connect) {
+    return _persistence.getTraces().then((traces) {
+      return traceSearchView(connect, traces:traces);
+    });
+    
+  }
   
 }

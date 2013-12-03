@@ -9,6 +9,8 @@ abstract class PersistenceLayer{
   Future<Db> open();
 
   void close();
+
+  Future<List<Trace>>  getTraces() ;
   
   Future<List<Trace>>  getTracesByCreator(String creator) ;
 
@@ -55,13 +57,26 @@ class MongoPersistence implements PersistenceLayer{
     return _mongodb.close();
   }
   
+  Future<List<Trace>> getTraces() {
+    
+    List<Trace> traces = new List();
+    
+    return _traceCollection.find().forEach((jsonTrace){
+                Trace trace = new Trace.fromJson(jsonTrace);
+                traces.add(trace);
+              })
+             .then((_) {
+                  return traces;
+              });
+  }
+  
   Future<List<Trace>> getTracesByCreator(String creator) {
     
     List<Trace> traces = new List();
     
     return _traceCollection.find(where.eq("creator", creator)).forEach((jsonTrace){
-                Trace trail = new Trace.fromJson(jsonTrace);
-                traces.add(jsonTrace);
+                Trace trace = new Trace.fromJson(jsonTrace);
+                traces.add(trace);
               })
              .then((_) {
                   return traces;

@@ -31,6 +31,7 @@ const String REGISTER_ERROR_LOGIN_EXISTS = "register.error.loginExists" ;
 const String REGISTER_ERROR_PASSWORD_MIN_LENGTH = "register.error.passwordMinLength" ;
 const String REGISTER_ERROR_PASSWORD_CONFIRM = "register.error.passwordConfirm" ;
 const String REGISTER_ERROR_LOGIN_MIN_LENGTH = "register.error.loginMinLength" ;
+const String REGISTER_ERROR_LOGIN_FORBIDDEN_CHARACTER = "register.error.loginForbiddenCharacter" ;
 
 const String REGISTER_FIELD_LOGIN = "login" ;
 const String REGISTER_FIELD_PASSWORD = "password" ;
@@ -91,7 +92,6 @@ class RegisterForm{
     if(  login == null ||  login != null && login.length < REGISTER_LOGIN_MIN_LENGTH ){
       setError( REGISTER_ERROR_LOGIN_MIN_LENGTH, REGISTER_FIELD_LOGIN) ;
     }
-    
     return success ;
   }
   

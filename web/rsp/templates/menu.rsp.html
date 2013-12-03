@@ -2,8 +2,9 @@
     <div class="space-menu"  >
         <ul role="menu" class="dropdown-menu"  id="menu">
           <li role="presentation" class="dropdown-header">Traces</li>
+          <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
           [:if currentUser(request.session) != null]
-            <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter une trace</a></li>
+            <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter</a></li>
           [/if]
           <li class="divider" role="presentation"></li>
           <li role="presentation" class="dropdown-header">Compte [=currentUser(request.session) != null ? "de " + currentUser(request.session).login: ""]</li>
