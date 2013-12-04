@@ -165,6 +165,8 @@ class TraceController{
     String cleanTraceId = connect.dataset["traceId"];
     String traceId = "ObjectId(\"" + cleanTraceId +"\")";
     return _persistence.getTraceById(traceId).then((trace) {
+      connect.response.headers.set("Content-Type", "application/gpx") ; 
+      connect.response.headers.set("Content-disposition", "attachment; filename=id-${cleanTraceId}.gpx") ; 
       return traceFormatGpxView(connect, trace:trace);
     });
     
