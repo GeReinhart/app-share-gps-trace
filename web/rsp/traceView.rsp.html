@@ -19,7 +19,7 @@
                <div class="trace-creator" >
                  trace ajoutée par [=traceRenderer.trace.creator]
                </div>
-               <div><a href="[=traceRenderer.permanentTraceUrl]">Lien permanent</a>&nbsp;<a href="[=traceRenderer.gpxUrl]">Fichier gpx</a></div>
+               <div   style="margin-top: 20px"><a href="[=traceRenderer.permanentTraceUrl]">Lien permanent</a></div>
                
       [/var]
       [:var sw ]
@@ -29,6 +29,15 @@
         [:include traceStatisticsViewer traceAnalysisRenderer="[=traceRenderer.traceAnalysisRenderer]" /]
       [/var]
     [/include]  
+    
+    <div class="space-contextual-menu"  >
+        <ul role="menu" class="dropdown-menu"  id="contextual-menu">
+          <li role="presentation" class="dropdown-header">Trace gps</li>
+          <li role="presentation"><a href="[=traceRenderer.gpxUrl]" tabindex="-1" role="menuitem">Fichier gpx</a></li>
+       </ul>
+    </div>
+    
+    
     
     <script type="application/dart" src="/client/traceAnalysis.dart"></script>
     <script src="/packages/browser/dart.js"></script>

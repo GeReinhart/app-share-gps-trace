@@ -46,7 +46,9 @@ Future menu(HttpConnect connect) { //#2
   response.write("""
 
         </ul>
-    </div>"""); //#17
+    </div>
+    <div class="space-contextual-menu"  />
+"""); //#17
 
   return new Future.value();
 }

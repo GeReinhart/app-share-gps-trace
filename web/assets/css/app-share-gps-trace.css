@@ -138,15 +138,12 @@ ul li {
 
 .space-menu {
   z-index: 99 ;
-
-  /* Initial values */
-  position: absolute;
-  right: 519.5px;
-  top: 254px;
-  width: 180px;
-  height: 0px;
-	
 }
+
+.space-contextual-menu {
+  z-index: 99 ;
+}
+
 
 .space-loading a img{
   z-index: 10 ;

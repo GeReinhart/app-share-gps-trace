@@ -62,17 +62,12 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
       response.write("""
 
                </div>
-               <div><a href=\""""); //#20
+               <div   style="margin-top: 20px"><a href=\""""); //#20
 
       response.write(Rsp.nnx(traceRenderer.permanentTraceUrl)); //#22
 
 
-      response.write("""">Lien permanent</a>&nbsp;<a href=\""""); //#22
-
-      response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#22
-
-
-      response.write("""">Fichier gpx</a></div>
+      response.write("""">Lien permanent</a></div>
                
 """); //#22
 
@@ -95,11 +90,25 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
           return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
             response.write("""    
+    <div class="space-contextual-menu"  >
+        <ul role="menu" class="dropdown-menu"  id="contextual-menu">
+          <li role="presentation" class="dropdown-header">Trace gps</li>
+          <li role="presentation"><a href=\""""); //#32
+
+            response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#36
+
+
+            response.write("""" tabindex="-1" role="menuitem">Fichier gpx</a></li>
+       </ul>
+    </div>
+    
+    
+    
     <script type="application/dart" src="/client/traceAnalysis.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
-</html>"""); //#32
+</html>"""); //#36
 
             return new Future.value();
           }); //end-of-include

@@ -15,6 +15,7 @@ class SpacesLayout{
   String spaceSE  = ".space-south-east" ;
   String spaceCenter = ".space-center"  ;
   String spaceMenu = ".space-menu";
+  String spaceContextualMenu = ".space-contextual-menu";
   String spaceLoading = ".space-loading";
   
   int centerRightPercentPosition ;
@@ -96,9 +97,13 @@ class SpacesLayout{
     loadingInTheCenter();
   }
   
-  
   void _toggleMenu(){
-    var menu = querySelector(spaceMenu);
+    _toggleMenuBySelector(spaceMenu);
+    _toggleMenuBySelector(spaceContextualMenu);
+  }
+  
+  void _toggleMenuBySelector(selector){
+    var menu = querySelectorAll(selector);
     if ( menu.style.zIndex != "102" ){
       menu.classes.add("open") ;
       menu.style.zIndex = "102" ;
@@ -107,6 +112,7 @@ class SpacesLayout{
       menu.classes.remove("open") ;
     }
   }
+  
   
   
   void _moveCenter(Point start, Point end){
@@ -194,10 +200,16 @@ class SpacesLayout{
     querySelector(spaceMenu)
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top =  centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize *8/6 ).toString()+ "px"
+    ..style.top =  centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize  ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = "0px" ;   
-    
+
+    querySelectorAll(spaceContextualMenu)
+    ..style.position = 'absolute'
+    ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
+    ..style.top =  centerTop > window.innerHeight/2  ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize * 4/6 ).toString()+ "px"
+    ..style.width = centerSize.toString()+ "px"
+    ..style.height = "0px" ;  
     
     centerMovedController.add(postions);
   }
