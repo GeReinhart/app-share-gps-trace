@@ -10,8 +10,10 @@
       [:var nw]
         
         <div class="form-group">
+          [:if currentUser(request.session) == null]
            <button  type="submit" class="btn btn-default btn-login">Se connecter</button>
            <button  type="submit" class="btn btn-default btn-register">S'enregister</button>
+          [/if]
            <div class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
         </div>
         

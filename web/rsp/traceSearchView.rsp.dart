@@ -13,7 +13,7 @@ Future traceSearchView(HttpConnect connect, {traces}) { //#2
   response.write("""<!DOCTYPE html>
 <html>
  <head>
-     <title>La Boussole - Recherche une trace</title>
+     <title>La Boussole - Rechercher une trace gps</title>
 """); //#2
 
   return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#6
@@ -27,8 +27,8 @@ Future traceSearchView(HttpConnect connect, {traces}) { //#2
 
     response.write("""
 
-        <h1>Recherche une trace</h1>
-
+        <h1>Rechercher une trace gps</h1>
+        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher par auteur, difficulté, localisation...</div>
 """); //#11
 
     connect = _cs_.removeLast(); response = connect.response;
@@ -36,62 +36,97 @@ Future traceSearchView(HttpConnect connect, {traces}) { //#2
     var _1 = new StringBuffer(); _cs_.add(connect); //var#15
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
-    connect = _cs_.removeLast(); response = connect.response;
-
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#16
-    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
-
-    connect = _cs_.removeLast(); response = connect.response;
-
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#17
-    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
-
     response.write("""      
         <table class="table table-striped" style="margin-top: 40px">  
           <thead>  
             <tr>  
               <th>Auteur</th>  
               <th>Trace</th>  
+              <th>Distance</th>  
+              <th>Dénivelé</th>
+              <th>Sommet</th>
+              <th>Pente</th>
+              <th>Difficulté</th>
             </tr>  
           </thead>  
           <tbody>  
           
-"""); //#18
+"""); //#16
 
-    for (var trace in traces) { //for#28
+    for (var trace in traces) { //for#31
 
       response.write("""              <tr>  
-                  <td>"""); //#29
+                  <td>"""); //#32
 
-      response.write(Rsp.nnx(trace.creator)); //#30
+      response.write(Rsp.nnx(trace.creator)); //#33
 
 
       response.write("""</td>  
-                  <td><a href="/trace/id-"""); //#30
+                  <td><a href="/trace/id-"""); //#33
 
-      response.write(Rsp.nnx(trace.cleanId)); //#31
+      response.write(Rsp.nnx(trace.cleanId)); //#34
 
 
-      response.write("""">"""); //#31
+      response.write("""">"""); //#34
 
-      response.write(Rsp.nnx(trace.title)); //#31
+      response.write(Rsp.nnx(trace.title)); //#34
 
 
       response.write("""</a> </td>  
+                  <td>"""); //#34
+
+      response.write(Rsp.nnx((trace.length/1000).round())); //#35
+
+
+      response.write(""" km</td>  
+                  <td>"""); //#35
+
+      response.write(Rsp.nnx(trace.up)); //#36
+
+
+      response.write(""" m</td>
+                  <td>"""); //#36
+
+      response.write(Rsp.nnx(trace.upperPointElevetion.round())); //#37
+
+
+      response.write(""" m</td>
+                  <td>"""); //#37
+
+      response.write(Rsp.nnx(trace.inclinationUp)); //#38
+
+
+      response.write(""" %</td>
+                  <td>"""); //#38
+
+      response.write(Rsp.nnx(trace.difficulty)); //#39
+
+
+      response.write(""" pt</td>
               </tr>  
-"""); //#31
+"""); //#39
     } //for
 
     response.write("""    
           </tbody>  
         </table>
         
-"""); //#34
+"""); //#42
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    response.write("""      
-"""); //#39
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#47
+    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+
+    connect = _cs_.removeLast(); response = connect.response;
+
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#48
+    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+
+    response.write("""               <div class="text-warning  form-error-message" >Actuellement en construction : localisation sur une carte des traces gps</div>
+"""); //#49
+
+    connect = _cs_.removeLast(); response = connect.response;
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
@@ -102,7 +137,7 @@ Future traceSearchView(HttpConnect connect, {traces}) { //#2
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#41
+"""); //#52
 
       return new Future.value();
     }); //end-of-include

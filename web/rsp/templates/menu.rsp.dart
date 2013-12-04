@@ -12,7 +12,7 @@ Future menu(HttpConnect connect) { //#2
 
   response.write("""    <div class="space-menu"  >
         <ul role="menu" class="dropdown-menu"  id="menu">
-          <li role="presentation" class="dropdown-header">Traces</li>
+          <li role="presentation" class="dropdown-header">Traces gps</li>
           <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
 """); //#2
 

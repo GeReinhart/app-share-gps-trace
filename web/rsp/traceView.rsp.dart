@@ -43,7 +43,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
 
 
       response.write("""</h1>
-               
+                         
                <div class="trace-description" >
                  """); //#14
 
@@ -67,22 +67,28 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
       response.write(Rsp.nnx(traceRenderer.permanentTraceUrl)); //#22
 
 
-      response.write("""">Lien permanent de cette page</a></div>
+      response.write("""">Lien permanent</a>&nbsp;<a href=\""""); //#22
+
+      response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#22
+
+
+      response.write("""">Fichier gpx</a></div>
+               
 """); //#22
 
       connect = _cs_.removeLast(); response = connect.response;
 
-      var _2 = new StringBuffer(); _cs_.add(connect); //var#24
+      var _2 = new StringBuffer(); _cs_.add(connect); //var#25
       connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
-      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#25
+      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#26
 
         connect = _cs_.removeLast(); response = connect.response;
 
-        var _3 = new StringBuffer(); _cs_.add(connect); //var#27
+        var _3 = new StringBuffer(); _cs_.add(connect); //var#28
         connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#28
+        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#29
 
           connect = _cs_.removeLast(); response = connect.response;
 
@@ -93,7 +99,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
-</html>"""); //#31
+</html>"""); //#32
 
             return new Future.value();
           }); //end-of-include

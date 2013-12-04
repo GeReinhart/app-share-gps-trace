@@ -1,5 +1,5 @@
 import 'spaces.dart';
 
 void main() {
-  SpacesLayout layout = new SpacesLayout(180,50,50);
+  SpacesLayout layout = new SpacesLayout(180,70,50);
 }

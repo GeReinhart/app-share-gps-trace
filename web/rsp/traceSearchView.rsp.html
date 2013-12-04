@@ -2,25 +2,28 @@
 <!DOCTYPE html>
 <html>
  <head>
-     <title>La Boussole - Recherche une trace</title>
+     <title>La Boussole - Rechercher une trace gps</title>
      [:include "/rsp/templates/assetsimports.html"/]   
   </head>
   <body>   
     [:include spaces]
       [:var nw]
 
-        <h1>Recherche une trace</h1>
-
+        <h1>Rechercher une trace gps</h1>
+        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher par auteur, difficulté, localisation...</div>
       [/var]
-      [:var ne /]
-      [:var sw /]
-      [:var se ]
+      [:var ne ]
       
         <table class="table table-striped" style="margin-top: 40px">  
           <thead>  
             <tr>  
               <th>Auteur</th>  
               <th>Trace</th>  
+              <th>Distance</th>  
+              <th>Dénivelé</th>
+              <th>Sommet</th>
+              <th>Pente</th>
+              <th>Difficulté</th>
             </tr>  
           </thead>  
           <tbody>  
@@ -29,6 +32,11 @@
               <tr>  
                   <td>[=trace.creator]</td>  
                   <td><a href="/trace/id-[=trace.cleanId]">[=trace.title]</a> </td>  
+                  <td>[=(trace.length/1000).round()] km</td>  
+                  <td>[=trace.up] m</td>
+                  <td>[=trace.upperPointElevetion.round()] m</td>
+                  <td>[=trace.inclinationUp] %</td>
+                  <td>[=trace.difficulty] pt</td>
               </tr>  
              [/for]
     
@@ -36,7 +44,10 @@
         </table>
         
       [/var]
-      
+      [:var sw /]
+      [:var se ]
+               <div class="text-warning  form-error-message" >Actuellement en construction : localisation sur une carte des traces gps</div>
+      [/var]
     [/include]  
     
     

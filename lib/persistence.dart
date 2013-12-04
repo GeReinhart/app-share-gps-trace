@@ -61,7 +61,7 @@ class MongoPersistence implements PersistenceLayer{
     
     List<Trace> traces = new List();
     
-    return _traceCollection.find().forEach((jsonTrace){
+    return _traceCollection.find(where.sortBy('_id', descending: true)).forEach((jsonTrace){
                 Trace trace = new Trace.fromJson(jsonTrace);
                 traces.add(trace);
               })

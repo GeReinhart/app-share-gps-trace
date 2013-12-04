@@ -27,21 +27,28 @@ Future index(HttpConnect connect) { //#2
 
     response.write("""        
         <div class="form-group">
-           <button  type="submit" class="btn btn-default btn-login">Se connecter</button>
+"""); //#11
+
+    if (currentUser(request.session) == null) { //if#13
+
+      response.write("""           <button  type="submit" class="btn btn-default btn-login">Se connecter</button>
            <button  type="submit" class="btn btn-default btn-register">S'enregister</button>
-           <div class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
+"""); //#14
+    } //if
+
+    response.write("""           <div class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
         </div>
         
-"""); //#11
+"""); //#17
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#19
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#21
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#20
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#22
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     response.write("""        <div class="main-welcome"   >
@@ -55,15 +62,15 @@ Future index(HttpConnect connect) { //#2
             <p>
           </div>
         </div>      
-"""); //#21
+"""); //#23
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#33
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#35
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""       
-"""); //#34
+"""); //#36
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -72,7 +79,7 @@ Future index(HttpConnect connect) { //#2
       response.write("""    <script type="application/dart" src="/client/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#37
+</html>"""); //#39
 
       return new Future.value();
     }); //end-of-include
