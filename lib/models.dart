@@ -4,6 +4,8 @@ import '../lib/trace.dart';
 class Trace {
   
   String id;
+
+  String key;
   
   String creator;
   
@@ -34,6 +36,7 @@ class Trace {
   
   Trace.fromJson(Map map) {
     id = map['_id'];
+    key = map['key'];
     creator = map['creator'];
     title = map['title'];
     description = map['description'];
@@ -53,7 +56,7 @@ class Trace {
 
   
   Map toJson() {
-    return {'_id': id,'creator': creator, 'title': title, 'description': description, 
+    return {'_id': id,'key': key,'creator': creator, 'title': title, 'description': description, 
       'traceDataId': _traceDataId,
       'gpxUrl' : gpxUrl,
       'startPointLatitude': startPointLatitude,
@@ -113,6 +116,13 @@ class Trace {
   
   String  get cleanId {
     return id.substring("ObjectId(\"".length , id.length -2 ) ;
+  }
+  
+  String  buildKey() {
+    Pattern pattern = new RegExp(' ');
+    String titleAsKey = title.toLowerCase() ;
+    titleAsKey = titleAsKey.replaceAll(pattern, "_");
+    return creator + "/" + titleAsKey ;
   }
 }
 

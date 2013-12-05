@@ -112,8 +112,7 @@ main() {
           
           
         })         
-        
-        
+
         .then((_){
           
           File file = new File("test/resources/12590.gpx");
@@ -121,14 +120,22 @@ main() {
             
             TracePoint firstPoint = traceAnalysis.points[0] ; 
             Trace trace = new Trace.fromTraceAnalysis("Gex", traceAnalysis); 
+            trace.title = "Tour du Vercors - Autrans - Saint Nizier du Moucherotte";
             trace.description = "ma description" ;
+            String builtKey = trace.buildKey() ;
             
             return persitence.saveOrUpdateTrace(trace).then((trace) {
                 return persitence.getTraceById(trace.id).then((loadedTrace) {
                   print("Test save and get a trace");
                   expect(loadedTrace.description, trace.description) ;   
                   expect(loadedTrace.traceAnalysis.points[0].toString(), firstPoint.toString()) ; 
-                  expect(loadedTrace.upperPointElevetion, traceAnalysis.upperPoint.elevetion) ; 
+                  expect(loadedTrace.upperPointElevetion, traceAnalysis.upperPoint.elevetion) ;
+                  expect(loadedTrace.key, builtKey) ; 
+                  
+                  return persitence.getTraceByKey(builtKey).then((loadedTrace) {
+                    expect(loadedTrace.description, trace.description) ;   
+                  });
+                  
                 });  
             
             }); 

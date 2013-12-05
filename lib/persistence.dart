@@ -15,7 +15,9 @@ abstract class PersistenceLayer{
   Future<List<Trace>>  getTracesByCreator(String creator) ;
 
   Future<Trace>  getTraceById(String id) ;
-
+  
+  Future<Trace>  getTraceByKey(String key) ;
+  
   Future<Trace> saveOrUpdateTrace(Trace trace) ;
   
   Future<List<User>> getUsers();
@@ -95,11 +97,27 @@ class MongoPersistence implements PersistenceLayer{
           });
   }
   
+  Future<Trace> getTraceByKey(String key) {
+    return _traceCollection.findOne(where.eq("key", key))
+          .then((jsonTrace) {
+            if (jsonTrace == null){
+              return null;
+            }
+            Trace trace = new Trace.fromJson(jsonTrace);
+            return _traceDataCollection.findOne(where.eq("_id", trace.traceDataId))
+              .then((jsonTraceData){
+                trace.traceData = new TraceData.fromJson(jsonTraceData);
+                return trace;
+              });
+          });
+  }
+  
   Future<Trace> saveOrUpdateTrace(Trace trace) {
     
       if(trace.id == null){
               trace.id = new ObjectId().toString();
               trace.traceDataId = new ObjectId().toString();
+              trace.key =  trace.buildKey();
               return _traceCollection.insert(trace.toJson()).then((_){
                 return _traceDataCollection.insert(trace.traceData.toJson()).then((_){
                   return trace;
