@@ -149,7 +149,7 @@ class TraceController{
     });
   }
   
-  Future traceShow(HttpConnect connect) {
+  Future traceShowById(HttpConnect connect) {
     String cleanTraceId = connect.dataset["traceId"];
     String traceId = "ObjectId(\"" + cleanTraceId +"\")";
     return _persistence.getTraceById(traceId).then((trace) {
@@ -158,10 +158,21 @@ class TraceController{
       TraceRenderer renderer = new TraceRenderer(trace, permanentTraceUrl,gpxUrl);
       return traceView(connect, traceRenderer:renderer);
     });
-    
   }
   
-  Future traceFormatGpxShow(HttpConnect connect) {
+  Future traceShowByKey(HttpConnect connect) {
+    String creator = connect.dataset["creator"];
+    String titleKey = connect.dataset["titleKey"];
+    String key = creator +"/" + titleKey;
+    return _persistence.getTraceByKey(key).then((trace) {
+      String gpxUrl = _appUri +"/trace.gpx/"+key ;
+      String permanentTraceUrl = _appUri + "/trace/"+key ;
+      TraceRenderer renderer = new TraceRenderer(trace, permanentTraceUrl,gpxUrl);
+      return traceView(connect, traceRenderer:renderer);
+    });
+  }
+  
+  Future traceFormatGpxShowById(HttpConnect connect) {
     String cleanTraceId = connect.dataset["traceId"];
     String traceId = "ObjectId(\"" + cleanTraceId +"\")";
     return _persistence.getTraceById(traceId).then((trace) {
@@ -169,8 +180,18 @@ class TraceController{
       connect.response.headers.set("Content-disposition", "attachment; filename=id-${cleanTraceId}.gpx") ; 
       return traceFormatGpxView(connect, trace:trace);
     });
-    
   }
+  
+  Future traceFormatGpxShowByKey(HttpConnect connect) {
+    String creator = connect.dataset["creator"];
+    String titleKey = connect.dataset["titleKey"];
+    String key = creator +"/" + titleKey;
+    return _persistence.getTraceByKey(key).then((trace) {
+      connect.response.headers.set("Content-Type", "application/gpx") ; 
+      connect.response.headers.set("Content-disposition", "attachment; filename=${creator}-${titleKey}.gpx") ; 
+      return traceFormatGpxView(connect, trace:trace);
+    });
+  }  
   
   Future traceSearch(HttpConnect connect) {
     return _persistence.getTraces().then((traces) {

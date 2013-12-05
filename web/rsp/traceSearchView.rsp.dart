@@ -62,9 +62,9 @@ Future traceSearchView(HttpConnect connect, {traces}) { //#2
 
 
       response.write("""</td>  
-                  <td><a href="/trace/id-"""); //#33
+                  <td><a href="/trace/"""); //#33
 
-      response.write(Rsp.nnx(trace.cleanId)); //#34
+      response.write(Rsp.nnx(trace.key)); //#34
 
 
       response.write(""""  target="_blank">"""); //#34

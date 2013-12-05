@@ -31,7 +31,7 @@
              [:for trace in traces]
               <tr>  
                   <td>[=trace.creator]</td>  
-                  <td><a href="/trace/id-[=trace.cleanId]"  target="_blank">[=trace.title]</a> </td>  
+                  <td><a href="/trace/[=trace.key]"  target="_blank">[=trace.title]</a> </td>  
                   <td>[=(trace.length/1000).round()] km</td>  
                   <td>[=trace.up] m</td>
                   <td>[=trace.upperPointElevetion.round()] m</td>
