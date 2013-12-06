@@ -122,7 +122,7 @@ class Trace {
     Pattern pattern = new RegExp(' ');
     String titleAsKey = title.toLowerCase() ;
     titleAsKey = titleAsKey.replaceAll(pattern, "_");
-    return creator + "/" + titleAsKey ;
+    return  Uri.encodeComponent(creator) + "/" + Uri.encodeComponent(titleAsKey) ;
   }
 }
 

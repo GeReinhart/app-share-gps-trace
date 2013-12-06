@@ -117,8 +117,6 @@ class TraceController{
     if (user == null ){
       return connect.forward("/403") ;
     }
-      
-      
     DateTime now = new DateTime.now();
     String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
 
@@ -136,7 +134,7 @@ class TraceController{
               trace.description = description ;
               
               return _persistence.saveOrUpdateTrace(trace).then((trace) {
-                return connect.forward("/trace/id-" + trace.cleanId) ;
+                return connect.forward("/trace/" + trace.key) ;
               });
             });
           }).whenComplete((){

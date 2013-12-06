@@ -17,10 +17,15 @@ main() {
 
   
   test('Trace key', () {
-    
     Map traceAsJson = {'creator': "gex", 'title': "Tour du Vercors - Autrans - Saint Nizier du Moucherotte"  };
     Trace trace = new Trace.fromJson(traceAsJson);
     expect(trace.buildKey(), equals("gex/tour_du_vercors_-_autrans_-_saint_nizier_du_moucherotte")); 
+  });
+
+  test('Trace key url encode', () {
+    Map traceAsJson = {'creator': "gex", 'title': "L'échelle"  };
+    Trace trace = new Trace.fromJson(traceAsJson);
+    expect(trace.buildKey(), equals("gex/l\'%C3%A9chelle")); 
   });
   
 }
