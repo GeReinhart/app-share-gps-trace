@@ -19,6 +19,7 @@ import  "aaa.dart";
 import  "trace.dart";
 
 part "../web/rsp/login.rsp.dart";
+part "../web/rsp/about.rsp.dart" ;
 part "../web/rsp/register.rsp.dart";
 part "../web/rsp/index.rsp.dart";
 part "../web/rsp/traceAddFormView.rsp.dart" ;
@@ -105,6 +106,10 @@ class TraceController{
   
   Future logout(HttpConnect connect) {
     return _security.logout(connect);
+  }
+  
+  Future aboutShow(HttpConnect connect) {
+    return about(connect);
   }
   
   Future traceAddForm(HttpConnect connect) {

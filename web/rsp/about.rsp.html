@@ -1,0 +1,38 @@
+[:page partOf="trails"]
+<!DOCTYPE html>
+<html>
+ <head>
+     <title>A propos de la-boussole</title>
+     [:include "/rsp/templates/assetsimports.html"/]   
+  </head>
+  <body>   
+    [:include spaces]
+      [:var nw]
+           <h1>A propos de la-boussole</h1>
+           <div class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
+        
+           <h2>Le propos</h2>
+           <div class="text-warning  form-error-message" >En construction : texte rappellant le but de cette application ainsi que les mentions légales de l'utilisation des données.</div>
+
+      [/var]
+      [:var ne ]
+           <h2>Derriere la scène</h2>
+           <div class="text-warning  form-error-message" >En construction : texte présentant les enjeux techniques de construction et d'évolution de l'application.</div>
+            
+      [/var]
+      [:var sw ]
+           <h2>Retour</h2>
+           <div class="text-warning  form-error-message" >En construction : permettre aux utilisateurs de remonter des bugs ou de proposer des améliorations.</div>
+
+            
+      [/var]
+      [:var se ]
+           <h2>Auteur</h2>
+           <div class="text-warning  form-error-message" >En construction : texte présentant l'auteur de l'application.</div>
+       
+      [/var]
+    [/include]  
+    <script type="application/dart" src="/client/index.dart"></script>
+    <script src="/packages/browser/dart.js"></script>
+  </body>
+</html>

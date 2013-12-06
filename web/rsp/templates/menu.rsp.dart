@@ -43,8 +43,8 @@ Future menu(HttpConnect connect) { //#2
 """); //#14
   } //if
 
-  response.write("""
-
+  response.write("""          <li class="divider" role="presentation"></li>
+          <li role="presentation"><a class="loading-on-click" href="/about" tabindex="-1" role="menuitem">A propos</a></li>
         </ul>
     </div>
     <div class="space-contextual-menu"  />

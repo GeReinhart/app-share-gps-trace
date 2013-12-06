@@ -56,7 +56,8 @@ class TracesServer{
     new StreamServer(
         uriMapping: {
           "/": index, 
-
+          "/about": _traceController.aboutShow,
+          
           "/register": register, 
           "/as_register": _traceController.aRegister,
 
