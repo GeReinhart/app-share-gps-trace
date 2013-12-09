@@ -144,20 +144,20 @@ ul li {
   z-index: 99 ;
 }
 
+space-persitent-menu{
+    z-index: 99 ;
+}
+
 
 .space-loading a img{
   z-index: 10 ;
   position: absolute;
 }
 
-.login-display {
-  position: absolute;
-  top: 90px;
-  right: 10px;
+.inverse-video-display{
   color: white;
   background-color: black;
 }
-
 
 .main-welcome {
  /* background-image: url('/assets/img/welcome_autumn.jpg') ;

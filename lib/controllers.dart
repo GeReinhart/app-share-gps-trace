@@ -34,6 +34,7 @@ part "../web/rsp/templates/loginForm.rsp.dart";
 part "../web/rsp/templates/traceGpxViewer.rsp.dart";
 part "../web/rsp/templates/traceProfileViewer.rsp.dart";
 part "../web/rsp/templates/traceStatisticsViewer.rsp.dart";
+part "../web/rsp/templates/persistentMenu.rsp.dart";
 
 class TraceController{
   

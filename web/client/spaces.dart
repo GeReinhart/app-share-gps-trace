@@ -16,6 +16,7 @@ class SpacesLayout{
   String spaceCenter = ".space-center"  ;
   String spaceMenu = ".space-menu";
   String spaceContextualMenu = ".space-contextual-menu";
+  String spacePersitentMenu = ".space-persitent-menu";
   String spaceLoading = ".space-loading";
   
   int centerRightPercentPosition ;
@@ -200,16 +201,27 @@ class SpacesLayout{
     querySelector(spaceMenu)
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top =  centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize * 8/6 ).toString()+ "px"
+    ..style.top =  centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize * 6/6 ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = "0px" ;   
 
+    
+    var menuItemsNumber = 6;
     querySelectorAll(spaceContextualMenu)
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top =  centerTop > window.innerHeight/2  ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize * 4/6 ).toString()+ "px"
+    ..style.top =  centerTop > window.innerHeight/2  ? (centerTop+1  + centerSize *  ( menuItemsNumber - 1 )  /6 ).toString()+ "px" 
+                                                     : (centerTop+1  - centerSize *  ( menuItemsNumber - 2 )  /6 ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = "0px" ;  
+    
+    querySelector(spacePersitentMenu)
+    ..style.position = 'absolute'
+    ..style.zIndex = '200'
+    ..style.right = (0).toString() + "px"
+    ..style.top = ( window.innerHeight - 20     ).toString()+ "px"
+    ..style.height = 20.toString()+ "px" ;  
+
     
     centerMovedController.add(postions);
   }

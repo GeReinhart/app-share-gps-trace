@@ -21,6 +21,7 @@ part "rsp/templates/loginForm.rsp.dart";
 part "rsp/templates/traceGpxViewer.rsp.dart";
 part "rsp/templates/traceProfileViewer.rsp.dart";
 part "rsp/templates/traceStatisticsViewer.rsp.dart";
+part "rsp/templates/persistentMenu.rsp.dart";
 
 
 class TracesServer{

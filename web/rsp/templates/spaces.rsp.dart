@@ -66,7 +66,10 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
         response.write("""</div>
 """); //#26
 
-        return new Future.value();
+        return Rsp.nnf(persistentMenu(new HttpConnect.chain(connect))).then((_) { //include#27
+
+          return new Future.value();
+        }); //end-of-include
       }); //end-of-include
     }); //end-of-include
   }); //end-of-include
