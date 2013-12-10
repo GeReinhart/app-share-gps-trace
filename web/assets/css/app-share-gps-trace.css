@@ -2,6 +2,11 @@ body {
   float:left;
 }
 
+a:link {color:black;} 
+a:visited {color:black;}
+a:hover {color:black;}
+a:active {color:black;} 
+
 h1{
 	margin-left: 0px;
 	margin-top: 30px;
@@ -157,6 +162,19 @@ space-persitent-menu{
 .inverse-video-display{
   color: white;
   background-color: black;
+}
+
+.inverse-video-display a:link{
+    color: white;
+}
+.inverse-video-display a:visited{
+    color: white;
+}
+.inverse-video-display a:hover{
+    color: white;
+}
+.inverse-video-display a:active{
+    color: white;
 }
 
 .main-welcome {

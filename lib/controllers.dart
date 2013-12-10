@@ -26,6 +26,7 @@ part "../web/rsp/traceAddFormView.rsp.dart" ;
 part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/traceFormatGpxView.rsp.dart" ;
 part "../web/rsp/traceSearchView.rsp.dart" ;
+part "../web/rsp/disclaimer.rsp.dart" ;
 part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/loading.rsp.dart";
 part "../web/rsp/templates/menu.rsp.dart";
@@ -112,6 +113,11 @@ class TraceController{
   Future aboutShow(HttpConnect connect) {
     return about(connect);
   }
+
+  Future disclaimerShow(HttpConnect connect) {
+    return disclaimer(connect);
+  }
+  
   
   Future traceAddForm(HttpConnect connect) {
     return traceAddFormView(connect);

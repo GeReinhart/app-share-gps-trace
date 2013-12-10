@@ -58,6 +58,7 @@ class TracesServer{
         uriMapping: {
           "/": index, 
           "/about": _traceController.aboutShow,
+          "/disclaimer": _traceController.disclaimerShow,
           
           "/register": register, 
           "/as_register": _traceController.aRegister,

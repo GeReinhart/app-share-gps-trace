@@ -12,6 +12,7 @@ dart2js web/client/login.dart -o web/client/login.dart.js
 dart2js web/client/traceAnalysis.dart -o  web/client/traceAnalysis.dart.js
 dart2js web/client/traceAddForm.dart -o  web/client/traceAddForm.dart.js
 dart2js web/client/traceSearch.dart -o  web/client/traceSearch.dart.js
+dart2js web/client/largeDisplay.dart -o  web/client/largeDisplay.dart.js
 
 git config --global user.email "support@drone.io"
 git config --global user.name "Drone Server"

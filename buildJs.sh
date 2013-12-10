@@ -11,5 +11,5 @@ dart2js web/client/login.dart -o out/client/login.dart.js
 dart2js web/client/traceAnalysis.dart -o  out/client/traceAnalysis.dart.js
 dart2js web/client/traceAddForm.dart -o  out/client/traceAddForm.dart.js
 dart2js web/client/traceSearch.dart -o  out/client/traceSearch.dart.js
-
+dart2js web/client/largeDisplay.dart -o  out/client/largeDisplay.dart.js
 

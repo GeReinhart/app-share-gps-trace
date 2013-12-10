@@ -11,15 +11,17 @@ Future persistentMenu(HttpConnect connect) { //#2
     return new Future.value();
 
   response.write("""<div class="space-persitent-menu" >
-  <span class="inverse-video-display" ><a class="loading-on-click" href="/about"  >À propos</a></span>
-  <span  >"""); //#2
+  <span class="inverse-video-display" >utilisateur """); //#2
 
-  response.write(Rsp.nnx(currentUser(request.session) != null ?  currentUser(request.session).login: "anonyme")); //#4
+  response.write(Rsp.nnx(currentUser(request.session) != null ?  currentUser(request.session).login: "anonyme")); //#3
 
 
   response.write("""</span>
+  <span  ><a class="loading-on-click" href="/about"  >À propos</a></span>
+  <span class="inverse-video-display" ><a class="loading-on-click" href="/disclaimer"  >Mentions légales</a></span>
+
 </div>
-"""); //#4
+"""); //#3
 
   return new Future.value();
 }
