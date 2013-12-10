@@ -15,6 +15,8 @@ class Trace {
   
   String gpxUrl ;
   
+  List<String> activities = [];
+  
   double startPointLatitude;
   double startPointLongitude;
   double startPointElevetion;
@@ -40,6 +42,7 @@ class Trace {
     creator = map['creator'];
     title = map['title'];
     description = map['description'];
+    activities = map['activities'];
     gpxUrl = map['gpxUrl'];
     
     _traceDataId = map['traceDataId'];
@@ -57,6 +60,7 @@ class Trace {
   
   Map toJson() {
     return {'_id': id,'key': key,'creator': creator, 'title': title, 'description': description, 
+      'activities' : activities,
       'traceDataId': _traceDataId,
       'gpxUrl' : gpxUrl,
       'startPointLatitude': startPointLatitude,

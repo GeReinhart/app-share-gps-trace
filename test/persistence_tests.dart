@@ -122,6 +122,7 @@ main() {
             Trace trace = new Trace.fromTraceAnalysis("Gex", traceAnalysis); 
             trace.title = "Tour du Vercors - Autrans - Saint Nizier du Moucherotte";
             trace.description = "ma description" ;
+            trace.activities = ["trek","bike"] ;
             String builtKey = trace.buildKey() ;
             
             return persitence.saveOrUpdateTrace(trace).then((trace) {
@@ -131,6 +132,7 @@ main() {
                   expect(loadedTrace.traceAnalysis.points[0].toString(), firstPoint.toString()) ; 
                   expect(loadedTrace.upperPointElevetion, traceAnalysis.upperPoint.elevetion) ;
                   expect(loadedTrace.key, builtKey) ; 
+                  expect(loadedTrace.activities[0], "trek") ;
                   
                   return persitence.getTraceByKey(builtKey).then((loadedTrace) {
                     expect(loadedTrace.description, trace.description) ;   
@@ -141,9 +143,23 @@ main() {
             }); 
           });
           
-          
-          
         })
+
+        .then((_){
+          return persitence.getTracesByActivity("trek").then((traces) {
+            print("Test get by traces by activity");
+            expect(traces.length, 1) ;   
+            expect(traces[0].description, "ma description" ) ;
+          });
+        }) 
+
+        .then((_){
+          return persitence.getTracesByActivity("unknown").then((traces) {
+            print("Test get by traces by activity no result");
+            expect(traces.length, 0) ;   
+          });
+        })        
+        
         
         .whenComplete((){
           print("close db");
