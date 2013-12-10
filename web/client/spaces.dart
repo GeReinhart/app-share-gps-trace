@@ -198,20 +198,21 @@ class SpacesLayout{
     ..style.height = centerSize.toString()+ "px" ;  
     querySelector(spaceCenter + " a img").attributes["src"] = "/assets/img/compass_275.png";
     
+    var menuItemsNumber = 6;
     querySelector(spaceMenu)
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top =  centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize /6 ).toString()+ "px" : (centerTop+1  - centerSize * 6/6 ).toString()+ "px"
+    ..style.top   = centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize *  ( 1                )  /6 ).toString()+ "px" 
+                                                      : (centerTop+1  - centerSize *  ( menuItemsNumber  )  /6 ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = "0px" ;   
 
-    
-    var menuItemsNumber = 6;
+    var contextualMenuItemsNumber = 2;
     querySelectorAll(spaceContextualMenu)
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top =  centerTop > window.innerHeight/2  ? (centerTop+1  + centerSize *  ( menuItemsNumber - 1 )  /6 ).toString()+ "px" 
-                                                     : (centerTop+1  - centerSize *  ( menuItemsNumber - 2 )  /6 ).toString()+ "px"
+    ..style.top =  centerTop > window.innerHeight/2  ? (centerTop+1  + centerSize *  ( 1                          )  /6 ).toString()+ "px" 
+                                                     : (centerTop+1  - centerSize *  ( contextualMenuItemsNumber +2  )  /6 ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = "0px" ;  
     
