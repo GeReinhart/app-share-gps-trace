@@ -3,7 +3,7 @@
 part of trails;
 
 /** Template, traceAddFormView, for rendering the view. */
-Future traceAddFormView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
+Future traceAddFormView(HttpConnect connect, {traceFormRenderer}) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
@@ -34,39 +34,61 @@ Future traceAddFormView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
           <div class="form-group form-trace-add">
             <textarea name="description" class="form-control" rows="15" cols="100" placeholder="Description du parcours" ></textarea>
           </div>          
+          <div class="form-group form-trace-add" >
+               <div>
+"""); //#11
+
+    for (var activity in traceFormRenderer.activities.keys) { //for#22
+
+      response.write("""                    <div><input type="checkbox" name=\""""); //#23
+
+      response.write(Rsp.nnx(activity)); //#23
+
+
+      response.write(""""  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#23
+
+      response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#23
+
+
+      response.write("""</span></div>
+"""); //#23
+    } //for
+
+    response.write("""               </div> 
+          </div>
           <div class="form-group">
             <input name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
           </div>
           <button type="submit"  class="btn btn-default btn-add-trace loading-on-click">Ajouter cette trace</button>
         </form>
-"""); //#11
+"""); //#25
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#26
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#33
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     response.write("""
 
-"""); //#27
+"""); //#34
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#29
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#36
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     response.write("""
 
-"""); //#30
+"""); //#37
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#32
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#39
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""
 
-"""); //#33
+"""); //#40
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -76,7 +98,7 @@ Future traceAddFormView(HttpConnect connect, {traceAnalysisRenderer}) { //#2
     <script type="application/dart" src="/client/traceAddForm.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#36
+</html>"""); //#43
 
       return new Future.value();
     }); //end-of-include

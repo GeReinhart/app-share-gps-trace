@@ -120,7 +120,7 @@ class TraceController{
   
   
   Future traceAddForm(HttpConnect connect) {
-    return traceAddFormView(connect);
+    return traceAddFormView(connect,traceFormRenderer: new TraceFormRenderer());
   }
   
   Future traceAddFormSubmit(HttpConnect connect) {

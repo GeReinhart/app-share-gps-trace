@@ -1,6 +1,23 @@
 
 import "../../lib/trace.dart" ;
 import "../../lib/models.dart" ;
+import "../../lib/i18n.dart" ;
+
+class TraceFormRenderer {
+  
+  Map<String,String> _activities = null;
+  
+  Map<String,String> get activities {
+    if (_activities == null){
+       _activities = new Map<String,String>();
+//      TraceDomains.getActivitiesKeys().forEach (
+//          (k) => _activities[k] = I18n.translate(I18n.defaultLang, k)
+//      ); 
+    }
+    return _activities;
+  }
+  
+}
 
 class TraceRenderer {
   

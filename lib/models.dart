@@ -130,6 +130,11 @@ class Trace {
   }
 }
 
+class TraceDomains{
+  
+  static List<String> getActivitiesKeys() => ["activity-trek", "activity-running", "activity-bike", "activity-mountainbike", "activity-skitouring", "activity-snowshoe"];
+  
+}
 
 class TraceData{
   
