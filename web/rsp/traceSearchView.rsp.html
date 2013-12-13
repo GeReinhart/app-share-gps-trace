@@ -1,4 +1,4 @@
-[:page partOf="trails" args="traces"]
+[:page partOf="trails" args="traceLigthRenderers"]
 <!DOCTYPE html>
 <html>
  <head>
@@ -19,6 +19,7 @@
             <tr>  
               <th>Auteur</th>  
               <th>Trace</th>  
+              <th>Activités</th>  
               <th>Distance</th>  
               <th>Dénivelé</th>
               <th>Sommet</th>
@@ -28,15 +29,16 @@
           </thead>  
           <tbody>  
           
-             [:for trace in traces]
+             [:for traceLigthRenderer in traceLigthRenderers]
               <tr>  
-                  <td>[=trace.creator]</td>  
-                  <td><a href="/trace/[=trace.key]"  target="_blank">[=trace.title]</a> </td>  
-                  <td>[=(trace.length/1000).round()] km</td>  
-                  <td>[=trace.up] m</td>
-                  <td>[=trace.upperPointElevetion.round()] m</td>
-                  <td>[=trace.inclinationUp] %</td>
-                  <td>[=trace.difficulty] pt</td>
+                  <td>[=traceLigthRenderer.trace.creator]</td>  
+                  <td><a href="/trace/[=traceLigthRenderer.trace.key]"  target="_blank">[=traceLigthRenderer.trace.title]</a> </td>  
+                  <td>[=traceLigthRenderer.activities]</td>
+                  <td>[=(traceLigthRenderer.trace.length/1000).round()] km</td>  
+                  <td>[=traceLigthRenderer.trace.up] m</td>
+                  <td>[=traceLigthRenderer.trace.upperPointElevetion.round()] m</td>
+                  <td>[=traceLigthRenderer.trace.inclinationUp] %</td>
+                  <td>[=traceLigthRenderer.trace.difficulty] pt</td>
               </tr>  
              [/for]
     

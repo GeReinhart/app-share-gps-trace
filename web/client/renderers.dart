@@ -10,24 +10,48 @@ class TraceFormRenderer {
   Map<String,String> get activities {
     if (_activities == null){
        _activities = new Map<String,String>();
-//      TraceDomains.getActivitiesKeys().forEach (
-//          (k) => _activities[k] = I18n.translate(I18n.defaultLang, k)
-//      ); 
+      TraceDomains.getActivitiesKeys().forEach (
+          (k) => _activities[k] = I18n.translate(k)
+      ); 
     }
     return _activities;
   }
   
 }
 
-class TraceRenderer {
+
+class TraceLigthRenderer{
+  
+  Trace trace;
+  
+  TraceLigthRenderer(this.trace);
+ 
+  String get activities {
+
+    if(trace.activities == null){
+      return "";
+    }
+    if(trace.activities.isEmpty){
+      return "";
+    }
+    Iterator iter = trace.activities.iterator ;
+    iter.moveNext();
+    String activities =   I18n.translate("activity-"+iter.current);
+    while( iter.moveNext() ){
+      activities += ", ${I18n.translate("activity-"+iter.current)}"; 
+    }
+    return activities;
+  }
+  
+}
+
+class TraceRenderer extends TraceLigthRenderer{
   
   TraceAnalysisRenderer traceAnalysisRenderer ;
-  Trace trace;
   String gpxUrl ;
   String permanentTraceUrl ;
   
-  TraceRenderer(Trace trace,String permanentTraceUrl,String gpxUrl){
-    this.trace= trace;
+  TraceRenderer(Trace trace,String permanentTraceUrl,String gpxUrl): super(trace){
     this.permanentTraceUrl=permanentTraceUrl;
     this.gpxUrl = gpxUrl;
     trace.traceAnalysis.gpxUrl = gpxUrl;
@@ -46,7 +70,7 @@ class TraceRenderer {
     }
     return description;
   }
-  
+
 }
 
 class TraceAnalysisRenderer {

@@ -3,7 +3,7 @@
 part of trails;
 
 /** Template, traceSearchView, for rendering the view. */
-Future traceSearchView(HttpConnect connect, {traces}) { //#2
+Future traceSearchView(HttpConnect connect, {traceLigthRenderers}) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
@@ -42,6 +42,7 @@ Future traceSearchView(HttpConnect connect, {traces}) { //#2
             <tr>  
               <th>Auteur</th>  
               <th>Trace</th>  
+              <th>Activités</th>  
               <th>Distance</th>  
               <th>Dénivelé</th>
               <th>Sommet</th>
@@ -53,78 +54,84 @@ Future traceSearchView(HttpConnect connect, {traces}) { //#2
           
 """); //#16
 
-    for (var trace in traces) { //for#31
+    for (var traceLigthRenderer in traceLigthRenderers) { //for#32
 
       response.write("""              <tr>  
-                  <td>"""); //#32
+                  <td>"""); //#33
 
-      response.write(Rsp.nnx(trace.creator)); //#33
+      response.write(Rsp.nnx(traceLigthRenderer.trace.creator)); //#34
 
 
       response.write("""</td>  
-                  <td><a href="/trace/"""); //#33
+                  <td><a href="/trace/"""); //#34
 
-      response.write(Rsp.nnx(trace.key)); //#34
+      response.write(Rsp.nnx(traceLigthRenderer.trace.key)); //#35
 
 
-      response.write(""""  target="_blank">"""); //#34
+      response.write(""""  target="_blank">"""); //#35
 
-      response.write(Rsp.nnx(trace.title)); //#34
+      response.write(Rsp.nnx(traceLigthRenderer.trace.title)); //#35
 
 
       response.write("""</a> </td>  
-                  <td>"""); //#34
+                  <td>"""); //#35
 
-      response.write(Rsp.nnx((trace.length/1000).round())); //#35
+      response.write(Rsp.nnx(traceLigthRenderer.activities)); //#36
+
+
+      response.write("""</td>
+                  <td>"""); //#36
+
+      response.write(Rsp.nnx((traceLigthRenderer.trace.length/1000).round())); //#37
 
 
       response.write(""" km</td>  
-                  <td>"""); //#35
-
-      response.write(Rsp.nnx(trace.up)); //#36
-
-
-      response.write(""" m</td>
-                  <td>"""); //#36
-
-      response.write(Rsp.nnx(trace.upperPointElevetion.round())); //#37
-
-
-      response.write(""" m</td>
                   <td>"""); //#37
 
-      response.write(Rsp.nnx(trace.inclinationUp)); //#38
+      response.write(Rsp.nnx(traceLigthRenderer.trace.up)); //#38
+
+
+      response.write(""" m</td>
+                  <td>"""); //#38
+
+      response.write(Rsp.nnx(traceLigthRenderer.trace.upperPointElevetion.round())); //#39
+
+
+      response.write(""" m</td>
+                  <td>"""); //#39
+
+      response.write(Rsp.nnx(traceLigthRenderer.trace.inclinationUp)); //#40
 
 
       response.write(""" %</td>
-                  <td>"""); //#38
+                  <td>"""); //#40
 
-      response.write(Rsp.nnx(trace.difficulty)); //#39
+      response.write(Rsp.nnx(traceLigthRenderer.trace.difficulty)); //#41
 
 
       response.write(""" pt</td>
               </tr>  
-"""); //#39
+"""); //#41
     } //for
 
     response.write("""    
           </tbody>  
         </table>
         
-"""); //#42
+"""); //#44
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#47
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#49
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#48
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#50
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""               <div class="text-warning  form-error-message" >Actuellement en construction : localisation sur une carte des traces gps</div>
-"""); //#49
+"""); //#51
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -137,7 +144,7 @@ Future traceSearchView(HttpConnect connect, {traces}) { //#2
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#52
+"""); //#54
 
       return new Future.value();
     }); //end-of-include

@@ -28,67 +28,102 @@ Future traceAddFormView(HttpConnect connect, {traceFormRenderer}) { //#2
     response.write("""        <h1>Ajout d'une trace gpx</h1>
 
         <form id="trace-add-form" role="form"  action="/trace" method="post" accept-charset="UTF-8" enctype="multipart/form-data" >
-          <div class="form-group form-trace-add">
-            <input name="title" type="text" class="form-control"  placeholder="Titre">
-          </div>
-          <div class="form-group form-trace-add">
-            <textarea name="description" class="form-control" rows="15" cols="100" placeholder="Description du parcours" ></textarea>
-          </div>          
-          <div class="form-group form-trace-add" >
-               <div>
+          <table  style="width: 100% ; ">
+          <tr>
+             <td style="width: 20%;" ></td>
+             <td colspan="2" style="width: * ; text-align: center;"   >
+                <div class="form-inputs" >
+                    <input name="title" type="text" class="form-control" style="width: 80%" placeholder="Titre">
+                </div>
+             </td>
+             <td style="width: 20%" ></td>
+          </tr>
+          <tr>
+             <td  ></td>
+             <td colspan="2" style="width: * ; text-align: center;"  >
+                <div class="form-inputs">
+                  <textarea name="description" class="form-control" style="width: 80%" rows="12" placeholder="Description du parcours" ></textarea>
+                </div>              
+             </td>
+             <td  ></td>
+          </tr>
+          <tr>
+             <td  ></td>
+             <td style="width: 20%  ; " ></td>
+             <td style="width: * ; text-align: left ;"  >
+              <div class="form-inputs" >
+                   <div>
 """); //#11
 
-    for (var activity in traceFormRenderer.activities.keys) { //for#22
+    for (var activity in traceFormRenderer.activities.keys) { //for#39
 
-      response.write("""                    <div><input type="checkbox" name=\""""); //#23
+      response.write("""                        <div><input type="checkbox" name=\""""); //#40
 
-      response.write(Rsp.nnx(activity)); //#23
+      response.write(Rsp.nnx(activity)); //#40
 
 
-      response.write(""""  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#23
+      response.write(""""  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#40
 
-      response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#23
+      response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#40
 
 
       response.write("""</span></div>
-"""); //#23
+"""); //#40
     } //for
 
-    response.write("""               </div> 
-          </div>
-          <div class="form-group">
-            <input name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
-          </div>
-          <button type="submit"  class="btn btn-default btn-add-trace loading-on-click">Ajouter cette trace</button>
+    response.write("""                   </div> 
+              </div>             
+             </td>
+             <td  ></td>
+          </tr>
+          <tr>
+             <td  ></td>
+             <td colspan="2" style="width: * ; text-align: center;"  >
+                <div class="form-inputs" >
+                  <input name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
+                </div>             
+             </td>
+             <td  ></td>
+          </tr> 
+          <tr>
+             <td  ></td>
+             <td colspan="2" style="width: * ; text-align: center;"  >
+                <div class="form-inputs" >
+                 <button type="submit"  class="btn btn-default btn-add-trace loading-on-click">Ajouter cette trace</button>
+                </div> 
+             </td>
+             <td  ></td>
+          </tr>                              
+          </table>
         </form>
-"""); //#25
+"""); //#42
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#33
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#68
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     response.write("""
 
-"""); //#34
+"""); //#69
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#36
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#71
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     response.write("""
 
-"""); //#37
+"""); //#72
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#39
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#74
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""
 
-"""); //#40
+"""); //#75
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -98,7 +133,7 @@ Future traceAddFormView(HttpConnect connect, {traceFormRenderer}) { //#2
     <script type="application/dart" src="/client/traceAddForm.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#43
+</html>"""); //#78
 
       return new Future.value();
     }); //end-of-include

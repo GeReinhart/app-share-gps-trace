@@ -16,7 +16,7 @@ class I18n{
                                                  }  
                               } ;
 
-  static String translate(String lang,String key) { 
+  static String translateForLang(String lang,String key) { 
     String translation = "***no translation for ${key} in ${lang}***" ;
     if( _translations.containsKey(lang) &&  _translations[lang].containsKey(key)  ){
       translation = _translations[lang][key]; 
@@ -24,5 +24,8 @@ class I18n{
     return translation;
   }
 
+  static String translate(String key) { 
+    return translateForLang(defaultLang,key);
+  }
   
 }

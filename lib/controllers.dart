@@ -133,8 +133,18 @@ class TraceController{
     String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
 
     return HttpBodyHandler.processRequest(connect.request).then((body) {
-      String title = body.body['title'];
-      String description = body.body['description'];
+      Map parameters = body.body as Map ;
+      String title = parameters['title'];
+      String description = parameters['description'];
+      List<String> activities = new List<String>();
+      String activityPrefix = "activity-";
+      parameters.forEach((k,v){
+            if ( k.toString().startsWith(activityPrefix) ){
+              activities.add(  k.substring(activityPrefix.length)  );
+            }
+          }       
+      );
+      
       HttpBodyFileUpload fileUploaded = body.body['gpxUploadedFile'];
       final file = new File(tempFile);
       return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
@@ -144,7 +154,7 @@ class TraceController{
               Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
               trace.title = title ;
               trace.description = description ;
-              
+              trace.activities = activities; 
               return _persistence.saveOrUpdateTrace(trace).then((trace) {
                 return connect.forward("/trace/" + trace.key) ;
               });
@@ -205,7 +215,11 @@ class TraceController{
   
   Future traceSearch(HttpConnect connect) {
     return _persistence.getTraces().then((traces) {
-      return traceSearchView(connect, traces:traces);
+      List<TraceLigthRenderer> traceLigthRenderers = new List<TraceLigthRenderer>();
+      if ( traces.isNotEmpty  ){
+        traces.forEach((trace)=>(traceLigthRenderers.add(new TraceLigthRenderer(trace))  ));
+      }
+      return traceSearchView(connect, traceLigthRenderers:traceLigthRenderers);
     });
     
   }

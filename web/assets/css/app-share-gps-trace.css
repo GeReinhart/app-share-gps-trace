@@ -210,3 +210,14 @@ space-persitent-menu{
   font-weight: normal;
   text-align: center;
 }
+
+
+.form-inputs{
+  margin-top: 10px;   
+}
+
+.form-separator{
+  border-style: solid;
+  border-color: gray;
+  border-bottom: thin;   
+}
