@@ -53,6 +53,10 @@ packages:
     description: path
     source: hosted
     version: "0.9.0"
+  petitparser:
+    description: petitparser
+    source: hosted
+    version: "1.0.0"
   rikulo_commons:
     description: rikulo_commons
     source: hosted
@@ -80,7 +84,3 @@ packages:
     description: unmodifiable_collection
     source: hosted
     version: "0.9.0"
-  xml:
-    description: xml
-    source: hosted
-    version: "0.9.5"

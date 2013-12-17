@@ -38,6 +38,13 @@ main() {
       expect(trace.inclinationDown, equals(3));
     });
     
+    file = new File("test/resources/12590_with_errors.gpx");
+    TraceAnalysis.fromGpxFile(file).then((trace){
+      expect(trace.length, equals(8224));   
+      expect(trace.up, equals(6));
+      expect(trace.down, equals(35));
+    });
+    
     file = new File("test/resources/16231.gpx");
     TraceAnalysis.fromGpxFile(file).then((trace){
       expect(trace.length, equals(35855));   
@@ -62,13 +69,5 @@ main() {
   });
   
   
-  test('Load gpx url', () {
-    String url ="https://s3-eu-west-1.amazonaws.com/la-boussole-files/test-console/16186.gpx";
-    TraceAnalysis.fromGpxUrl(url).then((trace){
-      expect(trace.length, equals(27539));   
-      expect(trace.up, equals(958));
-      expect(trace.down, equals(959));
-    });
-  });
   
 }

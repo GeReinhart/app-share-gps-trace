@@ -2,7 +2,7 @@
 import 'dart:io';
 import 'dart:async';
 import 'dart:math' as Math ;
-import 'package:xml/xml.dart';
+import 'package:petitparser/xml.dart';
 
 class TraceAnalysis {
  
@@ -60,24 +60,47 @@ class TraceAnalysis {
   }  
   
   void  _loadFromContent( String gpxFileContent ){
-    XmlElement myXmlTree = XML.parse(gpxFileContent);
-    XmlCollection<XmlNode> trkptNodes = myXmlTree.queryAll("trkpt") ;
+
     List<TracePoint> points = new List<TracePoint>();
     
-    for (var iter = trkptNodes.iterator; iter.moveNext();) {
-      XmlNode trkptNode = iter.current;
+    var parser = new XmlParser();
+    XmlDocument xmlDocument = parser.parse(gpxFileContent).value;
+    Iterator allNodesIter= xmlDocument.where((xmlNode) =>(xmlNode is XmlElement )).iterator ;
+    
+    TracePoint previousPoint = null;
+    for (; allNodesIter.moveNext();) {
+      XmlNode trkptNode = allNodesIter.current;
       XmlElement trkptElement = (trkptNode as XmlElement);
+      XmlName name = trkptElement.name;
+      if (name.toString() != "trkpt"){
+        continue;
+      }
+      if ((trkptElement.parent  as XmlElement).name.toString()  != "trkseg"){
+        continue;
+      }
       
+      try{
       TracePoint currentPoint = new TracePoint();
-      currentPoint.latitude =  double.parse( trkptElement.attributes["lat"] );
-      currentPoint.longitude =  double.parse( trkptElement.attributes["lon"] );
+      currentPoint.latitude  =  double.parse( trkptElement.getAttribute("lat") );
+      currentPoint.longitude =  double.parse( trkptElement.getAttribute("lon") );        
       
-      XmlCollection<XmlNode> eleNodes = trkptElement.query("ele") ;
-      if (eleNodes.length > 0){
-        currentPoint.elevetion = double.parse( (eleNodes[0]as XmlElement).text );
+      Iterator eleIterator =  trkptElement.where((xmlNode) =>(xmlNode is XmlElement ) ).iterator ;
+      for  ( ;eleIterator.moveNext() ;){
+        XmlElement eleElement = eleIterator.current;
+        if (eleElement.name.toString() != "ele"){
+          continue;
+        }
+        currentPoint.elevetion = double.parse( eleElement.firstChild.toString() );
+      }
+      if ( currentPoint.elevetion == null && previousPoint != null ){
+        currentPoint.elevetion = previousPoint.elevetion;
       }
       
       points.add(currentPoint) ;
+      previousPoint = currentPoint;
+      }catch(e) {
+        print('Loading gpx file error: $e'); 
+      }
     }
     _loadFromPoints( points  );
   }
@@ -108,19 +131,22 @@ class TraceAnalysis {
       }
       else{
         currentDistance = distance(previousPoint,currentPoint) ;
-        currentElevetionDiff = currentPoint.elevetion - previousPoint.elevetion ;
-
-        if( currentPoint.elevetion > _upperPoint.elevetion ){
-          _upperPoint = currentPoint;
-        }
-        if( currentPoint.elevetion < _lowerPoint.elevetion ){
-          _lowerPoint = currentPoint;
-        }
         
-        if ( previousPoint.elevetion <   currentPoint.elevetion ){
-          _up += currentElevetionDiff ;
-        }else{
-          _down -= currentElevetionDiff ;
+        if ( currentPoint.elevetion != null && previousPoint.elevetion != null ){
+          currentElevetionDiff = currentPoint.elevetion - previousPoint.elevetion ;
+  
+          if( currentPoint.elevetion > _upperPoint.elevetion ){
+            _upperPoint = currentPoint;
+          }
+          if( currentPoint.elevetion < _lowerPoint.elevetion ){
+            _lowerPoint = currentPoint;
+          }
+          
+          if ( previousPoint.elevetion <   currentPoint.elevetion ){
+            _up += currentElevetionDiff ;
+          }else{
+            _down -= currentElevetionDiff ;
+          }
         }
 
         if ( currentDistance > 0  ){

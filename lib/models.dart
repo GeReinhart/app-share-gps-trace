@@ -185,19 +185,22 @@ class TraceData{
     _points = new List<TracePoint>();
     
     var latIter = latStringList.iterator;
-    var longIter = longStringList.iterator ;    
+    var longIter = longStringList.iterator ; 
     for (var eleIter = eleStringList.iterator; eleIter.moveNext();) {
       latIter.moveNext();
       longIter.moveNext();
       String latString = latIter.current;
       String longString = longIter.current;
       String eleString = eleIter.current;
+      
       if (!latString.isEmpty){ 
         TracePoint currentPoint = new TracePoint();
         currentPoint.latitude = double.parse(latString);
         currentPoint.longitude = double.parse(longString);
-        currentPoint.elevetion = double.parse(eleString);
-        _points.add(currentPoint);
+        if ( !eleString.isEmpty  ){
+          currentPoint.elevetion = double.parse(eleString);
+          _points.add(currentPoint);
+        }
       }
     }
   }

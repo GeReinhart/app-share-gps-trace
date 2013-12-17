@@ -12,7 +12,7 @@ dependencies:
   rikulo_security: 
     git: git://github.com/rikulo/security.git
   stream: '1.0.0'
-  xml: any
+  petitparser: '1.0.0'
   http_server: any
   unittest: any
  
