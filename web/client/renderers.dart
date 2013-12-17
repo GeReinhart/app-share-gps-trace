@@ -20,12 +20,22 @@ class TraceFormRenderer {
 }
 
 
-class TraceLigthRenderer{
+class LigthTraceRenderer{
   
   Trace trace;
   
-  TraceLigthRenderer(this.trace);
+  LigthTraceRenderer(this.trace);
  
+  String get key => (trace.key);
+  String get creator => (trace.creator);
+  String get title => (trace.title);
+  String get titleWithUrl => ('<a href="/trace/${key}"  target="_blank">${title}</a>' ) ;
+  String get length => ("${trace.length/1000.round()} km") ;
+  String get up => ("${trace.up} m") ;
+  String get upperPointElevetion => ("${trace.upperPointElevetion.round()} m") ;
+  String get inclinationUp => ("${trace.inclinationUp} %") ;  
+  String get difficulty => ("${trace.difficulty} pt") ;  
+  
   String get activities {
 
     if(trace.activities == null){
@@ -43,9 +53,11 @@ class TraceLigthRenderer{
     return activities;
   }
   
+  
+  
 }
 
-class TraceRenderer extends TraceLigthRenderer{
+class TraceRenderer extends LigthTraceRenderer{
   
   TraceAnalysisRenderer traceAnalysisRenderer ;
   String gpxUrl ;

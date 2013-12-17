@@ -1,4 +1,4 @@
-
+import 'dart:convert';
 
 class LoginForm{
   String login;
@@ -97,3 +97,86 @@ class RegisterForm{
   
   bool get success => _success == "true" ;
 }
+
+
+
+class SearchForm{
+  
+  String creator;
+  String activities;
+  List<LightTrace> results;
+  
+  SearchForm();
+  
+  SearchForm.fromMap(Map jsonMap){
+    _fromMap(jsonMap);
+  }
+  
+  void _fromMap(Map jsonMap){
+    creator = jsonMap["creator"] ;
+    activities = jsonMap["activities"] ;
+    results = new List<LightTrace>();
+    List<Map> resultsAsJson = jsonMap["results"] ;
+    if (resultsAsJson!= null && resultsAsJson.isNotEmpty  ){
+      resultsAsJson.forEach((traceAsJson){
+        results.add(new LightTrace.fromMap(traceAsJson)) ;
+      });
+    }
+  }
+  
+  Map toJson() {
+    return {'creator': creator,
+             'activities': activities,
+             'results':results};
+  }
+  
+}
+
+
+class LightTrace{
+  String key;
+  String creator ;
+  String title ;
+  String activities ;
+  String length;
+  String up;
+  String upperPointElevetion;
+  String inclinationUp;
+  String difficulty;
+  
+  LightTrace(this.key, this.creator, this.title, this.activities, this.length, this.up, this.upperPointElevetion, this.inclinationUp, this.difficulty);
+  
+  LightTrace.fromMap(Map jsonMap){
+    _fromMap(jsonMap);
+  }
+  
+  void _fromMap(Map jsonMap){
+    key = jsonMap['key'] ;
+    creator = jsonMap['creator'] ;
+    title = jsonMap['title'] ;
+    activities = jsonMap['activities'] ;
+    length = jsonMap['length'] ;
+    up = jsonMap['up'] ;
+    upperPointElevetion = jsonMap['upperPointElevetion'] ;    
+    inclinationUp = jsonMap['inclinationUp'] ;    
+    difficulty = jsonMap['difficulty'] ;  
+  }
+  
+  Map toJson() {
+    return {'key': key,
+             'creator': creator,
+             'title': title,
+             'activities': activities,
+             'length':length,
+             'up':up,
+             'upperPointElevetion':upperPointElevetion,
+             'inclinationUp':inclinationUp,
+             'difficulty':difficulty
+            };
+  }
+  
+}
+
+
+
+

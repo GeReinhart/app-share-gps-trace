@@ -3,7 +3,7 @@
 part of trails;
 
 /** Template, traceSearchView, for rendering the view. */
-Future traceSearchView(HttpConnect connect, {traceLigthRenderers}) { //#2
+Future traceSearchView(HttpConnect connect, {lightTraceRenderers}) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
@@ -29,11 +29,15 @@ Future traceSearchView(HttpConnect connect, {traceLigthRenderers}) { //#2
 
         <h1>Rechercher une trace gps</h1>
         <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher par auteur, difficulté, localisation...</div>
+        
+        <div class="form-group form-search">
+            <input  type="text" class="form-control input-creator"  placeholder="Auteur">
+        </div>
 """); //#11
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#15
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#19
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     response.write("""      
@@ -50,88 +54,92 @@ Future traceSearchView(HttpConnect connect, {traceLigthRenderers}) { //#2
               <th>Difficulté</th>
             </tr>  
           </thead>  
-          <tbody>  
-          
-"""); //#16
+          <tbody id="search-result-body" >  
+             <tr id="search-result-row"  >
+                  <td></td>  
+                  <td></td>  
+                  <td></td>
+                  <td></td>  
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+             </tr>
+"""); //#20
 
-    for (var traceLigthRenderer in traceLigthRenderers) { //for#32
+    for (var lightTraceRenderer in lightTraceRenderers) { //for#45
 
-      response.write("""              <tr>  
-                  <td>"""); //#33
+      response.write("""              <tr class="search-default-results" >  
+                  <td>"""); //#46
 
-      response.write(Rsp.nnx(traceLigthRenderer.trace.creator)); //#34
+      response.write(Rsp.nnx(lightTraceRenderer.creator)); //#47
 
 
       response.write("""</td>  
-                  <td><a href="/trace/"""); //#34
+                  <td>"""); //#47
 
-      response.write(Rsp.nnx(traceLigthRenderer.trace.key)); //#35
-
-
-      response.write(""""  target="_blank">"""); //#35
-
-      response.write(Rsp.nnx(traceLigthRenderer.trace.title)); //#35
+      response.write(Rsp.nnx(lightTraceRenderer.titleWithUrl, encode: 'none')); //#48
 
 
-      response.write("""</a> </td>  
-                  <td>"""); //#35
+      response.write("""</td>  
+                  <td>"""); //#48
 
-      response.write(Rsp.nnx(traceLigthRenderer.activities)); //#36
+      response.write(Rsp.nnx(lightTraceRenderer.activities)); //#49
 
 
       response.write("""</td>
-                  <td>"""); //#36
+                  <td>"""); //#49
 
-      response.write(Rsp.nnx((traceLigthRenderer.trace.length/1000).round())); //#37
-
-
-      response.write(""" km</td>  
-                  <td>"""); //#37
-
-      response.write(Rsp.nnx(traceLigthRenderer.trace.up)); //#38
+      response.write(Rsp.nnx(lightTraceRenderer.length)); //#50
 
 
-      response.write(""" m</td>
-                  <td>"""); //#38
+      response.write("""</td>  
+                  <td>"""); //#50
 
-      response.write(Rsp.nnx(traceLigthRenderer.trace.upperPointElevetion.round())); //#39
-
-
-      response.write(""" m</td>
-                  <td>"""); //#39
-
-      response.write(Rsp.nnx(traceLigthRenderer.trace.inclinationUp)); //#40
+      response.write(Rsp.nnx(lightTraceRenderer.up)); //#51
 
 
-      response.write(""" %</td>
-                  <td>"""); //#40
+      response.write("""</td>
+                  <td>"""); //#51
 
-      response.write(Rsp.nnx(traceLigthRenderer.trace.difficulty)); //#41
+      response.write(Rsp.nnx(lightTraceRenderer.upperPointElevetion)); //#52
 
 
-      response.write(""" pt</td>
+      response.write("""</td>
+                  <td>"""); //#52
+
+      response.write(Rsp.nnx(lightTraceRenderer.inclinationUp)); //#53
+
+
+      response.write("""</td>
+                  <td>"""); //#53
+
+      response.write(Rsp.nnx(lightTraceRenderer.difficulty)); //#54
+
+
+      response.write("""</td>
               </tr>  
-"""); //#41
+"""); //#54
     } //for
 
     response.write("""    
           </tbody>  
         </table>
         
-"""); //#44
+"""); //#57
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#49
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#62
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#50
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#63
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""               <div class="text-warning  form-error-message" >Actuellement en construction : localisation sur une carte des traces gps</div>
-"""); //#51
+"""); //#64
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -144,7 +152,7 @@ Future traceSearchView(HttpConnect connect, {traceLigthRenderers}) { //#2
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#54
+"""); //#67
 
       return new Future.value();
     }); //end-of-include

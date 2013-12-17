@@ -80,6 +80,7 @@ class TracesServer{
 
           
           "/trace.search":  _traceController.traceSearch,
+          "/trace.as_search": _traceController.aTraceSearch,
           
         },/*
         filterMapping: {

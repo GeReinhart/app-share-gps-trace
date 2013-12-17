@@ -62,7 +62,7 @@ class TraceController{
     
     return _decodePostedJson(connect.request,
                         new Map.from(connect.request.uri.queryParameters))
-                             .then((Map<String, String> params) {
+                             .then((Map params) {
 
       final RegisterForm form = new RegisterForm.fromMap(params );
       if ( !form.validate() ){
@@ -88,7 +88,31 @@ class TraceController{
     });
   }
   
-  Future<Map<String, String>> _decodePostedJson(
+  Future aTraceSearch(HttpConnect connect) {
+    return _decodePostedJson(connect.request,
+        new Map.from(connect.request.uri.queryParameters))
+        .then((Map params) {
+
+          final SearchForm form = new SearchForm.fromMap(params );
+
+            return  _persistence.getTracesByCreator(form.creator).then((traces){
+              form.results = new List();
+              if (traces != null){
+                traces.forEach((trace){
+                    LigthTraceRenderer traceLightRenderer = new LigthTraceRenderer(trace);
+                    LightTrace  lightTrace = new   LightTrace(traceLightRenderer.key, traceLightRenderer.creator, traceLightRenderer.titleWithUrl, traceLightRenderer.activities, 
+                        traceLightRenderer.length, traceLightRenderer.up, traceLightRenderer.upperPointElevetion, 
+                        traceLightRenderer.inclinationUp, traceLightRenderer.difficulty);
+                    form.results.add(lightTrace) ;
+                });
+              }
+              return _writeFormIntoResponse(connect.response, form); 
+            });
+          
+        });
+  }
+  
+  Future<Map> _decodePostedJson(
       Stream<List<int>> request, [Map<String, String> parameters])
       => readAsString(request)
          .then((String data) {
@@ -215,11 +239,11 @@ class TraceController{
   
   Future traceSearch(HttpConnect connect) {
     return _persistence.getTraces().then((traces) {
-      List<TraceLigthRenderer> traceLigthRenderers = new List<TraceLigthRenderer>();
+      List<LigthTraceRenderer> lightTraceRenderers = new List<LigthTraceRenderer>();
       if ( traces.isNotEmpty  ){
-        traces.forEach((trace)=>(traceLigthRenderers.add(new TraceLigthRenderer(trace))  ));
+        traces.forEach((trace)=>(lightTraceRenderers.add(new LigthTraceRenderer(trace))  ));
       }
-      return traceSearchView(connect, traceLigthRenderers:traceLigthRenderers);
+      return traceSearchView(connect, lightTraceRenderers:lightTraceRenderers);
     });
     
   }
