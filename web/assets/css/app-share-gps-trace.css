@@ -34,16 +34,21 @@ p {
 	margin-left: 30px;
 	margin-right: 30px;
   
-  text-align:left;
+   text-align:left;
+   text-indent:10%;
 }
+
 
 ul{
   text-align:left;
+  list-style-position: inside;
 }
 
 ul li {
 	margin-left: 20px;
 	margin-right: 30px;
+    text-indent:12%;
+    
 }
 
 .table {

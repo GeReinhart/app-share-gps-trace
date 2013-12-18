@@ -97,7 +97,7 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
             <tr>  
               <th style="width: 10%" >Auteur</th>  
               <th style="width: *" >Trace</th>  
-              <th style="width: 10%" >Activités</th>  
+              <th style="width: 15%" >Activités</th>  
               <th style="width: 10%" >Distance</th>  
               <th style="width: 10%" >Dénivelé</th>
               <th style="width: 10%" >Sommet</th>
