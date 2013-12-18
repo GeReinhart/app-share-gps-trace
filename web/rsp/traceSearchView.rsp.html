@@ -1,4 +1,4 @@
-[:page partOf="trails" args="lightTraceRenderers"]
+[:page partOf="trails" args="lightTraceRenderers,traceFormRenderer"]
 <!DOCTYPE html>
 <html>
  <head>
@@ -10,25 +10,61 @@
       [:var nw]
 
         <h1>Rechercher une trace gps</h1>
-        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher par auteur, difficulté, localisation...</div>
         
-        <div class="form-group form-search">
-            <input  type="text" class="form-control input-creator"  placeholder="Auteur">
-        </div>
+        <table  style="width: 100% ; ">
+          <tr>
+             <td style="width: 20%;" ></td>
+             <td style="width: 30%;" >Textuelle</td>
+             <td colspan="2" style="width: * ; text-align: left;"   >
+                <div class="form-group form-search">
+                    <input  type="text" class="form-control search-form-inputs search-form-input-text"  placeholder="">
+                </div>
+             </td>
+             <td style="width: 20%" ></td>
+          </tr>
+          <tr>
+             <td  ></td>
+             <td  >Activités</td>
+             <td style="width: * ; text-align: left ;"  >
+              <div class="form-inputs" >
+                   <div>
+                    [:for activity in traceFormRenderer.activities.keys]
+                        <div><input type="checkbox"  class="search-form-inputs search-form-input-activity"  name="[=activity]"  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >[=traceFormRenderer.activities[activity]]</span></div>
+                    [/for]
+                   </div> 
+              </div>             
+             </td>
+             <td  ></td>
+          </tr>    
+          
+          <tr>
+             <td  ></td>
+             <td colspan="2" style="width: * ; text-align: center;"  >
+                <div class="form-inputs" >
+                 <button type="submit"  class="btn btn-primary search-form-btn">Rechercher</button>
+                </div> 
+             </td>
+             <td  ></td>
+          </tr>           
+                
+        </table>        
+        
+
+        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher par auteur, difficulté, localisation...</div>
       [/var]
       [:var ne ]
       
-        <table class="table table-striped" style="margin-top: 40px">  
+        <table class="table table-striped" style="width: 100% ;margin-top: 40px">  
           <thead>  
             <tr>  
-              <th>Auteur</th>  
-              <th>Trace</th>  
-              <th>Activités</th>  
-              <th>Distance</th>  
-              <th>Dénivelé</th>
-              <th>Sommet</th>
-              <th>Pente</th>
-              <th>Difficulté</th>
+              <th style="width: 10%" >Auteur</th>  
+              <th style="width: *" >Trace</th>  
+              <th style="width: 10%" >Activités</th>  
+              <th style="width: 10%" >Distance</th>  
+              <th style="width: 10%" >Dénivelé</th>
+              <th style="width: 10%" >Sommet</th>
+              <th style="width: 10%" >Pente</th>
+              <th style="width: 10%" >Difficulté</th>
             </tr>  
           </thead>  
           <tbody id="search-result-body" >  

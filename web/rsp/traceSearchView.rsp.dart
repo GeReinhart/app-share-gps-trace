@@ -3,7 +3,7 @@
 part of trails;
 
 /** Template, traceSearchView, for rendering the view. */
-Future traceSearchView(HttpConnect connect, {lightTraceRenderers}) { //#2
+Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
@@ -28,30 +28,81 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers}) { //#2
     response.write("""
 
         <h1>Rechercher une trace gps</h1>
-        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher par auteur, difficulté, localisation...</div>
         
-        <div class="form-group form-search">
-            <input  type="text" class="form-control input-creator"  placeholder="Auteur">
-        </div>
+        <table  style="width: 100% ; ">
+          <tr>
+             <td style="width: 20%;" ></td>
+             <td style="width: 30%;" >Textuelle</td>
+             <td colspan="2" style="width: * ; text-align: left;"   >
+                <div class="form-group form-search">
+                    <input  type="text" class="form-control search-form-inputs search-form-input-text"  placeholder="">
+                </div>
+             </td>
+             <td style="width: 20%" ></td>
+          </tr>
+          <tr>
+             <td  ></td>
+             <td  >Activités</td>
+             <td style="width: * ; text-align: left ;"  >
+              <div class="form-inputs" >
+                   <div>
 """); //#11
+
+    for (var activity in traceFormRenderer.activities.keys) { //for#31
+
+      response.write("""                        <div><input type="checkbox"  class="search-form-inputs search-form-input-activity"  name=\""""); //#32
+
+      response.write(Rsp.nnx(activity)); //#32
+
+
+      response.write(""""  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#32
+
+      response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#32
+
+
+      response.write("""</span></div>
+"""); //#32
+    } //for
+
+    response.write("""                   </div> 
+              </div>             
+             </td>
+             <td  ></td>
+          </tr>    
+          
+          <tr>
+             <td  ></td>
+             <td colspan="2" style="width: * ; text-align: center;"  >
+                <div class="form-inputs" >
+                 <button type="submit"  class="btn btn-primary search-form-btn">Rechercher</button>
+                </div> 
+             </td>
+             <td  ></td>
+          </tr>           
+                
+        </table>        
+        
+
+        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher par auteur, difficulté, localisation...</div>
+"""); //#34
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#19
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#55
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     response.write("""      
-        <table class="table table-striped" style="margin-top: 40px">  
+        <table class="table table-striped" style="width: 100% ;margin-top: 40px">  
           <thead>  
             <tr>  
-              <th>Auteur</th>  
-              <th>Trace</th>  
-              <th>Activités</th>  
-              <th>Distance</th>  
-              <th>Dénivelé</th>
-              <th>Sommet</th>
-              <th>Pente</th>
-              <th>Difficulté</th>
+              <th style="width: 10%" >Auteur</th>  
+              <th style="width: *" >Trace</th>  
+              <th style="width: 10%" >Activités</th>  
+              <th style="width: 10%" >Distance</th>  
+              <th style="width: 10%" >Dénivelé</th>
+              <th style="width: 10%" >Sommet</th>
+              <th style="width: 10%" >Pente</th>
+              <th style="width: 10%" >Difficulté</th>
             </tr>  
           </thead>  
           <tbody id="search-result-body" >  
@@ -65,81 +116,81 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers}) { //#2
                   <td></td>
                   <td></td>
              </tr>
-"""); //#20
+"""); //#56
 
-    for (var lightTraceRenderer in lightTraceRenderers) { //for#45
+    for (var lightTraceRenderer in lightTraceRenderers) { //for#81
 
       response.write("""              <tr class="search-default-results" >  
-                  <td>"""); //#46
+                  <td>"""); //#82
 
-      response.write(Rsp.nnx(lightTraceRenderer.creator)); //#47
-
-
-      response.write("""</td>  
-                  <td>"""); //#47
-
-      response.write(Rsp.nnx(lightTraceRenderer.titleWithUrl, encode: 'none')); //#48
+      response.write(Rsp.nnx(lightTraceRenderer.creator)); //#83
 
 
       response.write("""</td>  
-                  <td>"""); //#48
+                  <td>"""); //#83
 
-      response.write(Rsp.nnx(lightTraceRenderer.activities)); //#49
-
-
-      response.write("""</td>
-                  <td>"""); //#49
-
-      response.write(Rsp.nnx(lightTraceRenderer.length)); //#50
+      response.write(Rsp.nnx(lightTraceRenderer.titleWithUrl, encode: 'none')); //#84
 
 
       response.write("""</td>  
-                  <td>"""); //#50
+                  <td>"""); //#84
 
-      response.write(Rsp.nnx(lightTraceRenderer.up)); //#51
-
-
-      response.write("""</td>
-                  <td>"""); //#51
-
-      response.write(Rsp.nnx(lightTraceRenderer.upperPointElevetion)); //#52
+      response.write(Rsp.nnx(lightTraceRenderer.activities)); //#85
 
 
       response.write("""</td>
-                  <td>"""); //#52
+                  <td>"""); //#85
 
-      response.write(Rsp.nnx(lightTraceRenderer.inclinationUp)); //#53
+      response.write(Rsp.nnx(lightTraceRenderer.length)); //#86
+
+
+      response.write("""</td>  
+                  <td>"""); //#86
+
+      response.write(Rsp.nnx(lightTraceRenderer.up)); //#87
 
 
       response.write("""</td>
-                  <td>"""); //#53
+                  <td>"""); //#87
 
-      response.write(Rsp.nnx(lightTraceRenderer.difficulty)); //#54
+      response.write(Rsp.nnx(lightTraceRenderer.upperPointElevetion)); //#88
+
+
+      response.write("""</td>
+                  <td>"""); //#88
+
+      response.write(Rsp.nnx(lightTraceRenderer.inclinationUp)); //#89
+
+
+      response.write("""</td>
+                  <td>"""); //#89
+
+      response.write(Rsp.nnx(lightTraceRenderer.difficulty)); //#90
 
 
       response.write("""</td>
               </tr>  
-"""); //#54
+"""); //#90
     } //for
 
     response.write("""    
           </tbody>  
         </table>
         
-"""); //#57
+"""); //#93
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#62
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#98
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#63
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#99
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""               <div class="text-warning  form-error-message" >Actuellement en construction : localisation sur une carte des traces gps</div>
-"""); //#64
+"""); //#100
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -152,7 +203,7 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers}) { //#2
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#67
+"""); //#103
 
       return new Future.value();
     }); //end-of-include

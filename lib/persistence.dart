@@ -16,6 +16,8 @@ abstract class PersistenceLayer{
 
   Future<List<Trace>>  getTracesByActivity(String activity) ;
 
+  Future<List<Trace>>  getTracesByFilters(SearchFilters filters) ;
+  
   Future<Trace>  getTraceById(String id) ;
   
   Future<Trace>  getTraceByKey(String key) ;
@@ -33,6 +35,12 @@ abstract class PersistenceLayer{
   Future<User> saveOrUpdateUser(User user);
 }
 
+
+class SearchFilters{
+  String search;
+  String creator;
+  List<String> activities = new List<String>() ;
+}
 
 class MongoPersistence implements PersistenceLayer{
   
@@ -100,6 +108,29 @@ class MongoPersistence implements PersistenceLayer{
               });
   }
 
+  Future<List<Trace>>  getTracesByFilters(SearchFilters filters) {
+    
+    List<Trace> traces = new List();
+    SelectorBuilder selector = where.exists("key") ;
+    if ( filters.search != null && filters.search.isNotEmpty ){
+      selector.and(where.match("title", filters.search));
+    }
+    if ( filters.creator != null && filters.creator.isNotEmpty ){
+      selector.and(where.eq("creator", filters.creator));
+    }
+    if ( filters.activities != null && filters.activities.isNotEmpty ){
+      filters.activities.forEach((a)=>(selector.and(where.eq("activities", a))));
+    }    
+    return _traceCollection.find(selector).forEach((jsonTrace){
+                Trace trace = new Trace.fromJson(jsonTrace);
+                traces.add(trace);
+              })
+             .then((_) {
+                  return traces;
+              });
+  }
+  
+  
   Future<Trace> getTraceById(String id) {
     return _traceCollection.findOne(where.eq("_id", id))
           .then((jsonTrace) {

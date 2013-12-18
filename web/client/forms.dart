@@ -101,9 +101,10 @@ class RegisterForm{
 
 
 class SearchForm{
-  
+
+  String search;
   String creator;
-  String activities;
+  String _activities;
   List<LightTrace> results;
   
   SearchForm();
@@ -113,8 +114,9 @@ class SearchForm{
   }
   
   void _fromMap(Map jsonMap){
+    search = jsonMap["search"] ;
     creator = jsonMap["creator"] ;
-    activities = jsonMap["activities"] ;
+    _activities = jsonMap["activities"] ;
     results = new List<LightTrace>();
     List<Map> resultsAsJson = jsonMap["results"] ;
     if (resultsAsJson!= null && resultsAsJson.isNotEmpty  ){
@@ -125,9 +127,26 @@ class SearchForm{
   }
   
   Map toJson() {
-    return {'creator': creator,
-             'activities': activities,
+    return {'search': search,
+             'creator': creator,
+             'activities': _activities,
              'results':results};
+  }
+  
+  void addActivity(String activity){
+    if(_activities != null && _activities.isNotEmpty){
+      _activities += ",${activity}";
+    }else{
+      _activities = activity;
+    }
+  }
+  
+  List<String> get activities{
+    if(_activities != null && _activities.isNotEmpty){
+      return _activities.split(",");
+    }else{
+      return new List<String>();
+    }
   }
   
 }

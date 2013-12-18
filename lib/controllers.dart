@@ -94,8 +94,12 @@ class TraceController{
         .then((Map params) {
 
           final SearchForm form = new SearchForm.fromMap(params );
-
-            return  _persistence.getTracesByCreator(form.creator).then((traces){
+            SearchFilters filters = new SearchFilters();
+            filters.search = form.search;
+            filters.creator = form.creator;
+            filters.activities = form.activities;
+            
+            return  _persistence.getTracesByFilters(filters).then((traces){
               form.results = new List();
               if (traces != null){
                 traces.forEach((trace){
@@ -243,7 +247,7 @@ class TraceController{
       if ( traces.isNotEmpty  ){
         traces.forEach((trace)=>(lightTraceRenderers.add(new LigthTraceRenderer(trace))  ));
       }
-      return traceSearchView(connect, lightTraceRenderers:lightTraceRenderers);
+      return traceSearchView(connect, lightTraceRenderers:lightTraceRenderers, traceFormRenderer: new TraceFormRenderer());
     });
     
   }

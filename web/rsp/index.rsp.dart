@@ -31,8 +31,8 @@ Future index(HttpConnect connect) { //#2
 
     if (currentUser(request.session) == null) { //if#13
 
-      response.write("""           <button  type="submit" class="btn btn-default btn-login">Se connecter</button>
-           <button  type="submit" class="btn btn-default btn-register">S'enregister</button>
+      response.write("""           <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>
+           <button  type="submit" class="btn btn-warning btn-register">S'enregister</button>
 """); //#14
     } //if
 

@@ -23,7 +23,7 @@ Future loginForm(HttpConnect connect) { //#3
           <div class="form-group">
             <input name="s_password" type="password" class="form-control" id="password" placeholder="Mot de passe">
           </div>        
-          <button type="submit" class="btn btn-default loading-on-click">Se connecter</button>
+          <button type="submit" class="btn btn-primary loading-on-click">Se connecter</button>
         </form>
 """); //#6
 

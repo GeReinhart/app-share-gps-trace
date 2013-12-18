@@ -160,6 +160,35 @@ main() {
           });
         })        
         
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.creator = "Gex" ;
+          filter.activities.add("unknown") ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter 1");
+            expect(traces.length, 0) ;   
+          });
+        })  
+        
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.creator = "Gex" ;
+          filter.activities.add("trek") ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter 2");
+            expect(traces.length, 1) ;   
+          });
+        })          
+        
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.creator = "unknown" ;
+          filter.activities.add("trek") ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter 3");
+            expect(traces.length, 0) ;   
+          });
+        })        
         
         .whenComplete((){
           print("close db");

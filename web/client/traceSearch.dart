@@ -8,10 +8,9 @@ import "forms.dart";
 void main() {
   SpacesLayout layout = new SpacesLayout(180,70,50);
   
-  querySelector(".form-control").onKeyUp.listen((e) {
+  querySelector(".search-form-btn").onClick.listen((e) {
     submitRequest(layout);
-  });
-  
+  });  
 }
 
 void submitRequest(SpacesLayout layout){
@@ -52,7 +51,15 @@ void submitRequest(SpacesLayout layout){
 
   request.open("POST",  "/trace.as_search", async: false);
   SearchForm form =  new  SearchForm( );
-  form.creator = (querySelector(".input-creator") as InputElement ).value ;
+  form.search = (querySelector(".search-form-input-text") as InputElement ).value ;
+  querySelectorAll(".search-form-input-activity").forEach((e){
+    CheckboxInputElement  activity= e as CheckboxInputElement;
+    if (activity.checked){
+      form.addActivity(activity.name.substring("activity-".length, activity.name.length));
+    }
+  }) ;
+  
+  
   request.send(JSON.encode(form.toJson()));
 }
 
