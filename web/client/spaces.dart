@@ -55,7 +55,7 @@ class SpacesLayout{
     querySelector(spaceCenter).onMouseDown.listen((mouseEvent) {
       _startMovingCenterPosition = mouseEvent ;
       _movingCenter = true ;
-      _toggleMenu();
+      toggleMenu();
       querySelector(spaceCenter + " a img").attributes["src"] = "/assets/img/compass_275_red.png";
     });
 
@@ -98,7 +98,7 @@ class SpacesLayout{
     loadingInTheCenter();
   }
   
-  void _toggleMenu(){
+  void toggleMenu(){
     _toggleMenuBySelector(spaceMenu);
     _toggleMenuBySelector(spaceContextualMenu);
   }

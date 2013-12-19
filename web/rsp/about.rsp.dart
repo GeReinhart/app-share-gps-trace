@@ -44,7 +44,7 @@ Future about(HttpConnect connect) { //#2
 <p>L'interface se veut sobre et efficace : présenter uniquement les informations nécessaires pour ne pas polluer
  les utilisateurs de détails superflus ou de publicités.</p>
 
-<p>Enfin, l’intégralité du code fournissant cette application est ouvert et disponible sur <a href="https://github.com/GeReinhart/app-share-gps-trace"  target="_blank" >github</a>.</p>
+<p>Enfin, l’intégralité du code fournissant cette application est ouvert et disponible sur <a href="https://github.com/GeReinhart/app-share-gps-trace"  target="_blank" >GitHub</a>.</p>
            
            
 """); //#11

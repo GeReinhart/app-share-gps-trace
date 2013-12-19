@@ -25,32 +25,6 @@ Future index(HttpConnect connect) { //#2
     var _0 = new StringBuffer(); _cs_.add(connect); //var#10
     connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
-    response.write("""        
-        <div class="form-group">
-"""); //#11
-
-    if (currentUser(request.session) == null) { //if#13
-
-      response.write("""           <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>
-           <button  type="submit" class="btn btn-warning btn-register">S'enregister</button>
-"""); //#14
-    } //if
-
-    response.write("""           <div class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
-        </div>
-        
-"""); //#17
-
-    connect = _cs_.removeLast(); response = connect.response;
-
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#21
-    connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
-
-    connect = _cs_.removeLast(); response = connect.response;
-
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#22
-    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
-
     response.write("""        <div class="main-welcome"   >
            <div>
             <h1>La boussole</h1>
@@ -62,15 +36,39 @@ Future index(HttpConnect connect) { //#2
             <p>
           </div>
         </div>      
-"""); //#23
+"""); //#11
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#35
-    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#23
+    connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
-    response.write("""       
-"""); //#36
+    connect = _cs_.removeLast(); response = connect.response;
+
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#24
+    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+
+    response.write("""        
+        <div class="form-group">
+"""); //#25
+
+    if (currentUser(request.session) == null) { //if#27
+
+      response.write("""           <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>&nbsp;
+           <button  type="submit" class="btn btn-default btn-register">S'enregister</button>&nbsp;
+"""); //#28
+    } //if
+
+    response.write("""           <button  type="submit" class="btn btn-warning btn-search">Rechercher une trace</button>
+        </div>
+        <div style="margin-top: 20px"  class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
+        
+"""); //#31
+
+    connect = _cs_.removeLast(); response = connect.response;
+
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#36
+    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 

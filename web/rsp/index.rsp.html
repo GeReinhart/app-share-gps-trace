@@ -7,19 +7,7 @@
   </head>
   <body>   
     [:include spaces]
-      [:var nw]
-        
-        <div class="form-group">
-          [:if currentUser(request.session) == null]
-           <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>
-           <button  type="submit" class="btn btn-warning btn-register">S'enregister</button>
-          [/if]
-           <div class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
-        </div>
-        
-      [/var]
-      [:var ne /]
-      [:var sw ]
+      [:var nw ]
         <div class="main-welcome"   >
            <div>
             <h1>La boussole</h1>
@@ -32,8 +20,20 @@
           </div>
         </div>      
       [/var]
+      [:var ne /]
+      [:var sw]
+        
+        <div class="form-group">
+          [:if currentUser(request.session) == null]
+           <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>&nbsp;
+           <button  type="submit" class="btn btn-default btn-register">S'enregister</button>&nbsp;
+          [/if]
+           <button  type="submit" class="btn btn-warning btn-search">Rechercher une trace</button>
+        </div>
+        <div style="margin-top: 20px"  class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
+        
+      [/var]
       [:var se ]
-       
       [/var]
     [/include]  
     <script type="application/dart" src="/client/index.dart"></script>

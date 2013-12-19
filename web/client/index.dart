@@ -2,7 +2,7 @@ import "dart:html";
 import 'spaces.dart';
 
 void main() {
-  SpacesLayout layout = new SpacesLayout(180,50,50);
+  SpacesLayout layout = new SpacesLayout(180,30,70);
   
   querySelectorAll(".btn-login").onClick.listen((e) {
     window.location.href = "/login";
@@ -11,5 +11,10 @@ void main() {
   querySelectorAll(".btn-register").onClick.listen((e) {
     window.location.href = "/register";
   });
+  querySelectorAll(".btn-search").onClick.listen((e) {
+    window.location.href = "/trace.search";
+  });
+  
+  layout.toggleMenu();
 }
 
