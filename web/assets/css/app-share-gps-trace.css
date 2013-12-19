@@ -82,6 +82,19 @@ ul li {
   vertical-align:middle; text-align:center;
 }
 
+.space-west {
+  border-right-width: 1px;
+  border-right-color: black;
+  border-right-style: solid;
+
+  /* Initial values */
+  position: absolute;
+  right: 608.5px;
+  width: 606.5px;
+  height: 0px;
+
+}
+
 .space-north-west {
   border-bottom-width: 1px;
   border-bottom-color: black;

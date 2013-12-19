@@ -57,17 +57,22 @@ Future index(HttpConnect connect) { //#2
       response.write("""           <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>&nbsp;
            <button  type="submit" class="btn btn-default btn-register">S'enregister</button>&nbsp;
 """); //#28
+
+    } else { //else#30
+
+      response.write("""           <button  type="submit" class="btn btn-primary btn-login">Ajouter une trace</button>&nbsp;
+"""); //#31
     } //if
 
     response.write("""           <button  type="submit" class="btn btn-warning btn-search">Rechercher une trace</button>
         </div>
         <div style="margin-top: 20px"  class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
         
-"""); //#31
+"""); //#33
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#36
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#38
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
@@ -77,7 +82,7 @@ Future index(HttpConnect connect) { //#2
       response.write("""    <script type="application/dart" src="/client/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#39
+</html>"""); //#41
 
       return new Future.value();
     }); //end-of-include

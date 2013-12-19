@@ -3,7 +3,7 @@
 part of trails;
 
 /** Template, spaces, for rendering the view. */
-Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
+Future spaces(HttpConnect connect, {w, nw, ne, sw, se}) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
@@ -13,11 +13,22 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
   return Rsp.nnf(loading(new HttpConnect.chain(connect))).then((_) { //include#2
 
     response.write("""<div class="spaces" >
+    <div class="space space-west"  > 
+      <div class="inner-space" >
+          """); //#3
+
+    response.write(Rsp.nnx(w, encode: 'none')); //#6
+
+
+    response.write("""
+
+       </div>
+    </div>
 	<div class="space space-north-west"  > 
 	  <div class="inner-space" >
-        """); //#3
+        """); //#6
 
-    response.write(Rsp.nnx(nw, encode: 'none')); //#6
+    response.write(Rsp.nnx(nw, encode: 'none')); //#11
 
 
     response.write("""
@@ -26,9 +37,9 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
 	</div>
 	<div class="space space-north-east"  >
 	  <div class="inner-space" >
-        """); //#6
+        """); //#11
 
-    response.write(Rsp.nnx(ne, encode: 'none')); //#11
+    response.write(Rsp.nnx(ne, encode: 'none')); //#16
 
 
     response.write("""
@@ -37,9 +48,9 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
     </div>
 	<div class="space space-south-west"  > 
 	  <div class="inner-space" >
-        """); //#11
+        """); //#16
 
-    response.write(Rsp.nnx(sw, encode: 'none')); //#16
+    response.write(Rsp.nnx(sw, encode: 'none')); //#21
 
 
     response.write("""
@@ -48,25 +59,25 @@ Future spaces(HttpConnect connect, {nw, ne, sw, se}) { //#2
  	</div>
 	<div class="space space-south-east"  >
 	  <div class="inner-space" >
-        """); //#16
+        """); //#21
 
-    response.write(Rsp.nnx(se, encode: 'none')); //#21
+    response.write(Rsp.nnx(se, encode: 'none')); //#26
 
 
     response.write("""
 
   	  </div>
 	</div>
-"""); //#21
-
-    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#24
-
-      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#25
-
-        response.write("""</div>
 """); //#26
 
-        return Rsp.nnf(persistentMenu(new HttpConnect.chain(connect))).then((_) { //include#27
+    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#29
+
+      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#30
+
+        response.write("""</div>
+"""); //#31
+
+        return Rsp.nnf(persistentMenu(new HttpConnect.chain(connect))).then((_) { //include#32
 
           return new Future.value();
         }); //end-of-include

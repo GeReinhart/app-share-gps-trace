@@ -6,7 +6,7 @@ import 'spaces.dart';
 import "forms.dart";
 
 void main() {
-  SpacesLayout layout = new SpacesLayout(180,70,50);
+  SpacesLayout layout = new SpacesLayout.withWestSpace(180,70,50);
   
   querySelector(".search-form-btn").onClick.listen((e) {
     submitRequest(layout);

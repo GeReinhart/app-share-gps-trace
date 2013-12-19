@@ -184,17 +184,12 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
     var _2 = new StringBuffer(); _cs_.add(connect); //var#98
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
-    connect = _cs_.removeLast(); response = connect.response;
-
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#99
-    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
-
     response.write("""               <div class="text-warning  form-error-message" >Actuellement en construction : localisation sur une carte des traces gps</div>
-"""); //#100
+"""); //#99
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+    return Rsp.nnf(spaces(new HttpConnect.chain(connect), w: _0.toString(), ne: _1.toString(), se: _2.toString())).then((_) { //include#9
 
       response.write("""    
     
@@ -203,7 +198,7 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#103
+"""); //#102
 
       return new Future.value();
     }); //end-of-include

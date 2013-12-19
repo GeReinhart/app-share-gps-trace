@@ -9,6 +9,7 @@ class SpacesLayout{
   
   String spaces = ".spaces" ;
   String spaceElements  = ".space"  ;
+  String spaceW  = ".space-west";
   String spaceNW  = ".space-north-west";
   String spaceNE  = ".space-north-east";
   String spaceSW  = ".space-south-west";
@@ -26,6 +27,8 @@ class SpacesLayout{
   double centerRight ;
   double centerTop ;
   
+  bool showWestSpace = false;
+  
   SpacesPositions postions ;
   
   MouseEvent _startMovingCenterPosition ;
@@ -34,16 +37,21 @@ class SpacesLayout{
   StreamController centerMovedController = new StreamController.broadcast();
   
   SpacesLayout(this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
-    
-    centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
-    centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
-    
     _init();
   }
+
+  SpacesLayout.withWestSpace(this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
+    showWestSpace = true;
+    _init();
+  }
+
   
   Stream get centerMoved => centerMovedController.stream;
   
   void _init(){
+    centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
+    centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
+    
     Dropdown.use();
     
     organizeSpaces();
@@ -142,13 +150,27 @@ class SpacesLayout{
   void organizeSpaces(){
 
     postions = new SpacesPositions();
+    postions.spaceW_Right = centerRight+1 ;
+    postions.spaceW_Top = 0.0 ;
+    postions.spaceW_Width = window.innerWidth - centerRight-1 ;
+    postions.spaceW_Height = window.innerHeight.toDouble();
+
+    querySelector(spaceW) 
+    ..style.position = 'absolute'
+    ..style.zIndex = showWestSpace?"100":"90" 
+    ..style.right  = (postions.spaceW_Right).toString() + "px" 
+    ..style.top    = (postions.spaceW_Top).toString() + "px" 
+    ..style.width  = (postions.spaceW_Width).toString() + "px"
+    ..style.height = (postions.spaceW_Height).toString() + "px" ;
+    
     postions.spaceNW_Right = centerRight+1 ;
     postions.spaceNW_Top = 0.0 ;
     postions.spaceNW_Width = window.innerWidth - centerRight-1 ;
     postions.spaceNW_Height = centerTop ;
-    
+
     querySelector(spaceNW) 
     ..style.position = 'absolute'
+    ..style.zIndex = showWestSpace?"90":"100"
     ..style.right  = (postions.spaceNW_Right).toString() + "px" 
     ..style.top    = (postions.spaceNW_Top).toString() + "px" 
     ..style.width  = (postions.spaceNW_Width).toString() + "px"
@@ -173,6 +195,7 @@ class SpacesLayout{
     
     querySelector(spaceSW)
     ..style.position = 'absolute'
+    ..style.zIndex = showWestSpace?"90":"100"
     ..style.right  = (postions.spaceSW_Right).toString() + "px" 
     ..style.top    = (postions.spaceSW_Top).toString() + "px" 
     ..style.width  = (postions.spaceSW_Width).toString() + "px"
@@ -271,6 +294,11 @@ class SpacesPositions{
   
   int windowWidth = window.innerWidth;
   int windowHeight = window.innerHeight;
+
+  double spaceW_Right ;
+  double spaceW_Top ;
+  double spaceW_Width ;
+  double spaceW_Height ;
   
   double spaceNW_Right ;
   double spaceNW_Top ;
