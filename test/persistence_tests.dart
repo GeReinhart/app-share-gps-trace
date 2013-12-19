@@ -189,6 +189,42 @@ main() {
             expect(traces.length, 0) ;   
           });
         })        
+
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.search = "Vercors" ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter search  on title");
+            expect(traces.length, 1) ;   
+          });
+        })  
+        
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.search = "vercors" ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter search  on title ignore case");
+            expect(traces.length, 1) ;   
+          });
+        })        
+        
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.search = "gex" ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter search  on creator");
+            expect(traces.length, 1) ;   
+          });
+        })
+        
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.search = "description" ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter search  on description");
+            expect(traces.length, 1) ;   
+          });
+        })
         
         .whenComplete((){
           print("close db");

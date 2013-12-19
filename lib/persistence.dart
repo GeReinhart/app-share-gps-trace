@@ -113,10 +113,15 @@ class MongoPersistence implements PersistenceLayer{
     List<Trace> traces = new List();
     SelectorBuilder selector = where.exists("key") ;
     if ( filters.search != null && filters.search.isNotEmpty ){
-      selector.and(where.match("title", filters.search));
+      selector.and(
+          
+          where.match("title", filters.search, caseInsensitive: true )
+      .or(where.match("creator", filters.search, caseInsensitive: true ))
+      .or(where.match("description", filters.search, caseInsensitive: true ))
+          );
     }
     if ( filters.creator != null && filters.creator.isNotEmpty ){
-      selector.and(where.eq("creator", filters.creator));
+      selector.and(where.match("creator", filters.creator, caseInsensitive: true));
     }
     if ( filters.activities != null && filters.activities.isNotEmpty ){
       filters.activities.forEach((a)=>(selector.and(where.eq("activities", a))));
