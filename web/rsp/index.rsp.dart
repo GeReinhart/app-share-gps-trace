@@ -60,7 +60,7 @@ Future index(HttpConnect connect) { //#2
 
     } else { //else#30
 
-      response.write("""           <button  type="submit" class="btn btn-primary btn-login">Ajouter une trace</button>&nbsp;
+      response.write("""           <button  type="submit" class="btn btn-primary btn-add">Ajouter une trace</button>&nbsp;
 """); //#31
     } //if
 
