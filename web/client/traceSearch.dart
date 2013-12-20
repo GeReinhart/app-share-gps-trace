@@ -58,7 +58,17 @@ void submitRequest(SpacesLayout layout){
       form.addActivity(activity.name.substring("activity-".length, activity.name.length));
     }
   }) ;
-  
+
+  form.lengthGt              = (querySelector(".search-form-input-length-gt") as InputElement ).value ;  
+  form.lengthLt              = (querySelector(".search-form-input-length-lt") as InputElement ).value ;  
+  form.upGt                  = (querySelector(".search-form-input-up-gt") as InputElement ).value ;  
+  form.upLt                  = (querySelector(".search-form-input-up-lt") as InputElement ).value ;  
+  form.upperPointElevetionGt = (querySelector(".search-form-input-upper-point-elevetion-gt") as InputElement ).value ;  
+  form.upperPointElevetionLt = (querySelector(".search-form-input-upper-point-elevetion-lt") as InputElement ).value ;  
+  form.inclinationUpGt       = (querySelector(".search-form-input-inclination-up-gt") as InputElement ).value ;  
+  form.inclinationUpLt       = (querySelector(".search-form-input-inclination-up-lt") as InputElement ).value ;  
+  form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
+  form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
   
   request.send(JSON.encode(form.toJson()));
 }

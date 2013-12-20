@@ -199,16 +199,19 @@ ul li {
 .important-text{
     font-size: medium;
     font-weight: bold;
-    color : #030B42;
+    color : black;
     margin-bottom: 10px;
 }
 
 .note-text{
     font-style: italic;
-    color : #030B42;
+    color : black;
     margin-top: 5px;
 }
 
+.number-input{
+  width: 50px
+}
 
 
 .main-welcome {
@@ -255,3 +258,4 @@ ul li {
   border-color: gray;
   border-bottom: thin;   
 }
+

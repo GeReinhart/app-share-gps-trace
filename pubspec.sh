@@ -42,5 +42,5 @@ copyFromCache "stream" "1.0.0"
 copyFromCache "unittest" "0.9.0"
 copyFromCache "unmodifiable_collection" "0.9.0"
 copyFromCache "petitparser" "1.0.0"
-
+copyFromCache "intl" "0.9.1"
 

@@ -29,20 +29,20 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
 
         <h1>Rechercher une trace gps</h1>
         
-        <table  style="width: 100% ; ">
+        <table style="width: 100% ; ">
           <tr>
-             <td style="width: 20%;" ></td>
-             <td style="width: 30%;" >Textuelle</td>
+             <td style="width: 2%;" ></td>
+             <td style="width: 30%;" ><span class="important-text" >Textuelle</span></td>
              <td colspan="2" style="width: * ; text-align: left;"   >
                 <div class="form-group form-search">
                     <input  type="text" class="form-control search-form-inputs search-form-input-text"  placeholder="">
                 </div>
              </td>
-             <td style="width: 20%" ></td>
+             <td style="width: 2%" ></td>
           </tr>
           <tr>
              <td  ></td>
-             <td  >Activités</td>
+             <td  ><span class="important-text" >Activités</span></td>
              <td style="width: * ; text-align: left ;"  >
               <div class="form-inputs" >
                    <div>
@@ -71,6 +71,71 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
           </tr>    
           
           <tr>
+             <td ></td>
+             <td ><span class="important-text" >Distance</span></td>
+             <td colspan="2" style="width: * ; text-align: left;"   >
+                <div class="form-inputs form-group form-length">
+                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-length-gt"  placeholder="">
+                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-length-lt"  placeholder="">
+                    km
+                </div>
+             </td>
+             <td ></td>
+          </tr>          
+          
+          <tr>
+             <td ></td>
+             <td ><span class="important-text" >Dénivelé</span></td>
+             <td colspan="2" style="width: * ; text-align: left;"   >
+                <div class="form-inputs form-group form-up">
+                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-up-gt"  placeholder="">
+                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-up-lt"  placeholder="">
+                    m
+                </div>
+             </td>
+             <td ></td>
+          </tr>          
+          
+          <tr>
+             <td ></td>
+             <td ><span class="important-text" >Sommet</span></td>
+             <td colspan="2" style="width: * ; text-align: left;"   >
+                <div class="form-inputs form-group form-upper-point-elevetion">
+                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-upper-point-elevetion-gt"  placeholder="">
+                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-upper-point-elevetion-lt"  placeholder="">
+                    m
+                </div>
+             </td>
+             <td ></td>
+          </tr>   
+          
+         <tr>
+             <td ></td>
+             <td ><span class="important-text" >Pente</span></td>
+             <td colspan="2" style="width: * ; text-align: left;"   >
+                <div class="form-inputs form-group form-inclination-up">
+                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-inclination-up-gt"  placeholder="">
+                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-inclination-up-lt"  placeholder="">
+                    %
+                </div>
+             </td>
+             <td ></td>
+          </tr>          
+                 
+         <tr>
+             <td ></td>
+             <td ><span class="important-text" >Difficulté</span></td>
+             <td colspan="2" style="width: * ; text-align: left;"   >
+                <div class="form-inputs form-group form-difficulty">
+                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-difficulty-gt"  placeholder="">
+                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-difficulty-lt"  placeholder="">
+                    pt
+                </div>
+             </td>
+             <td ></td>
+          </tr>
+          
+          <tr>
              <td  ></td>
              <td colspan="2" style="width: * ; text-align: center;"  >
                 <div class="form-inputs" >
@@ -83,12 +148,12 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
         </table>        
         
 
-        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher par auteur, difficulté, localisation...</div>
+        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher localisation, département ou massif...</div>
 """); //#34
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#55
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#120
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     response.write("""      
@@ -116,76 +181,76 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
                   <td></td>
                   <td></td>
              </tr>
-"""); //#56
+"""); //#121
 
-    for (var lightTraceRenderer in lightTraceRenderers) { //for#81
+    for (var lightTraceRenderer in lightTraceRenderers) { //for#146
 
       response.write("""              <tr class="search-default-results" >  
-                  <td>"""); //#82
+                  <td>"""); //#147
 
-      response.write(Rsp.nnx(lightTraceRenderer.creator)); //#83
-
-
-      response.write("""</td>  
-                  <td>"""); //#83
-
-      response.write(Rsp.nnx(lightTraceRenderer.titleWithUrl, encode: 'none')); //#84
+      response.write(Rsp.nnx(lightTraceRenderer.creator)); //#148
 
 
       response.write("""</td>  
-                  <td>"""); //#84
+                  <td>"""); //#148
 
-      response.write(Rsp.nnx(lightTraceRenderer.activities)); //#85
-
-
-      response.write("""</td>
-                  <td>"""); //#85
-
-      response.write(Rsp.nnx(lightTraceRenderer.length)); //#86
+      response.write(Rsp.nnx(lightTraceRenderer.titleWithUrl, encode: 'none')); //#149
 
 
       response.write("""</td>  
-                  <td>"""); //#86
+                  <td>"""); //#149
 
-      response.write(Rsp.nnx(lightTraceRenderer.up)); //#87
-
-
-      response.write("""</td>
-                  <td>"""); //#87
-
-      response.write(Rsp.nnx(lightTraceRenderer.upperPointElevetion)); //#88
+      response.write(Rsp.nnx(lightTraceRenderer.activities)); //#150
 
 
       response.write("""</td>
-                  <td>"""); //#88
+                  <td>"""); //#150
 
-      response.write(Rsp.nnx(lightTraceRenderer.inclinationUp)); //#89
+      response.write(Rsp.nnx(lightTraceRenderer.length)); //#151
+
+
+      response.write("""</td>  
+                  <td>"""); //#151
+
+      response.write(Rsp.nnx(lightTraceRenderer.up)); //#152
 
 
       response.write("""</td>
-                  <td>"""); //#89
+                  <td>"""); //#152
 
-      response.write(Rsp.nnx(lightTraceRenderer.difficulty)); //#90
+      response.write(Rsp.nnx(lightTraceRenderer.upperPointElevetion)); //#153
+
+
+      response.write("""</td>
+                  <td>"""); //#153
+
+      response.write(Rsp.nnx(lightTraceRenderer.inclinationUp)); //#154
+
+
+      response.write("""</td>
+                  <td>"""); //#154
+
+      response.write(Rsp.nnx(lightTraceRenderer.difficulty)); //#155
 
 
       response.write("""</td>
               </tr>  
-"""); //#90
+"""); //#155
     } //for
 
     response.write("""    
           </tbody>  
         </table>
         
-"""); //#93
+"""); //#158
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#98
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#163
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     response.write("""               <div class="text-warning  form-error-message" >Actuellement en construction : localisation sur une carte des traces gps</div>
-"""); //#99
+"""); //#164
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -198,7 +263,7 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#102
+"""); //#167
 
       return new Future.value();
     }); //end-of-include

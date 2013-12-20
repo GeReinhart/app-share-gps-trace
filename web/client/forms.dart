@@ -105,6 +105,20 @@ class SearchForm{
   String search;
   String creator;
   String _activities;
+  
+  String lengthGt;
+  String upGt ;
+  String inclinationUpGt;
+  String startPointElevetionGt;
+  String upperPointElevetionGt;
+  String difficultyGt;
+  String lengthLt;
+  String upLt ;
+  String inclinationUpLt;
+  String startPointElevetionLt;
+  String upperPointElevetionLt;
+  String difficultyLt;
+  
   List<LightTrace> results;
   
   SearchForm();
@@ -117,6 +131,20 @@ class SearchForm{
     search = jsonMap["search"] ;
     creator = jsonMap["creator"] ;
     _activities = jsonMap["activities"] ;
+
+    lengthGt = jsonMap["lengthGt"] ;
+    upGt = jsonMap["upGt"] ;
+    inclinationUpGt = jsonMap["inclinationUpGt"] ;
+    startPointElevetionGt = jsonMap["startPointElevetionGt"] ;
+    upperPointElevetionGt = jsonMap["upperPointElevetionGt"] ;
+    difficultyGt = jsonMap["difficultyGt"] ;
+    lengthLt = jsonMap["lengthLt"] ;
+    upLt = jsonMap["upLt"] ;
+    inclinationUpLt = jsonMap["inclinationUpLt"] ;
+    startPointElevetionLt = jsonMap["startPointElevetionLt"] ;
+    upperPointElevetionLt = jsonMap["upperPointElevetionLt"] ;
+    difficultyLt = jsonMap["difficultyLt"] ;
+        
     results = new List<LightTrace>();
     List<Map> resultsAsJson = jsonMap["results"] ;
     if (resultsAsJson!= null && resultsAsJson.isNotEmpty  ){
@@ -130,6 +158,18 @@ class SearchForm{
     return {'search': search,
              'creator': creator,
              'activities': _activities,
+             'lengthGt': lengthGt,             
+             'upGt': upGt,             
+             'inclinationUpGt': inclinationUpGt,             
+             'startPointElevetionGt': startPointElevetionGt,             
+             'upperPointElevetionGt': upperPointElevetionGt,             
+             'difficultyGt': difficultyGt,             
+             'lengthLt': lengthLt,             
+             'upLt': upLt,             
+             'inclinationUpLt': inclinationUpLt,             
+             'startPointElevetionLt': startPointElevetionLt,             
+             'upperPointElevetionLt': upperPointElevetionLt,             
+             'difficultyLt': difficultyLt,             
              'results':results};
   }
   
