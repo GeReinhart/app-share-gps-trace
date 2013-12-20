@@ -28,9 +28,6 @@ main() {
     expect(trace.buildKey(), equals("gex/l\'%C3%A9chelle")); 
   });
   
-  test('Trace activities domain', () {
-    
-    expect(TraceDomains.getActivitiesTraduction("fr","trek"), equals("rando")); 
-  });
+
   
 }
