@@ -54,17 +54,17 @@ Future index(HttpConnect connect) { //#2
 
     if (currentUser(request.session) == null) { //if#27
 
-      response.write("""           <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>&nbsp;
-           <button  type="submit" class="btn btn-default btn-register">S'enregister</button>&nbsp;
+      response.write("""           <button  type="submit" class="btn btn-primary btn-login loading-on-click">Se connecter</button>&nbsp;
+           <button  type="submit" class="btn btn-default btn-register loading-on-click">S'enregister</button>&nbsp;
 """); //#28
 
     } else { //else#30
 
-      response.write("""           <button  type="submit" class="btn btn-primary btn-add">Ajouter une trace</button>&nbsp;
+      response.write("""           <button  type="submit" class="btn btn-primary btn-add loading-on-click">Ajouter une trace</button>&nbsp;
 """); //#31
     } //if
 
-    response.write("""           <button  type="submit" class="btn btn-warning btn-search">Rechercher une trace</button>
+    response.write("""           <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
         </div>
         <div style="margin-top: 20px"  class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
         

@@ -139,7 +139,7 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
              <td  ></td>
              <td colspan="2" style="width: * ; text-align: center;"  >
                 <div class="form-inputs" >
-                 <button type="submit"  class="btn btn-primary search-form-btn">Rechercher</button>
+                 <button type="submit"  class="btn btn-primary search-form-btn loading-on-click">Rechercher</button>
                 </div> 
              </td>
              <td  ></td>

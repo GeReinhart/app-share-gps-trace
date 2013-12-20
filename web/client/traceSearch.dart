@@ -5,15 +5,17 @@ import 'package:bootjack/bootjack.dart';
 import 'spaces.dart';
 import "forms.dart";
 
+SpacesLayout layout;
+
 void main() {
-  SpacesLayout layout = new SpacesLayout.withWestSpace(180,70,50);
+  layout = new SpacesLayout.withWestSpace(180,70,50);
   
   querySelector(".search-form-btn").onClick.listen((e) {
-    submitRequest(layout);
+    submitRequest();
   });  
 }
 
-void submitRequest(SpacesLayout layout){
+void submitRequest(){
   layout.startLoading();
   
   HttpRequest request = new HttpRequest();
