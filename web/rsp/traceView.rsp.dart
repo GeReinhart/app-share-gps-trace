@@ -43,26 +43,26 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
 
 
       response.write("""</h1>
-                         
-               <div class="trace-description" >
+               <div class="trace-activities important-text" >
                  """); //#14
 
-      response.write(Rsp.nnx(traceRenderer.description, encode: 'none')); //#17
+      response.write(Rsp.nnx(traceRenderer.activities)); //#16
 
 
       response.write("""
 
                </div>
-               <div class="trace-activities" >
-                 """); //#17
+                         
+               <div class="trace-description" >
+                 """); //#16
 
-      response.write(Rsp.nnx(traceRenderer.activities)); //#20
+      response.write(Rsp.nnx(traceRenderer.description, encode: 'none')); //#20
 
 
       response.write("""
 
                </div>
-               <div class="trace-creator" >
+               <div class="trace-creator note-text" >
                  trace ajoutée par """); //#20
 
       response.write(Rsp.nnx(traceRenderer.trace.creator)); //#23
@@ -71,28 +71,37 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
       response.write("""
 
                </div>
-               <div   style="margin-top: 20px"><a href=\""""); //#23
+               <div class="trace-lastupdate note-text" >
+                 mise à jour le """); //#23
 
-      response.write(Rsp.nnx(traceRenderer.permanentTraceUrl)); //#25
+      response.write(Rsp.nnx(traceRenderer.lastUpdateDate)); //#26
+
+
+      response.write("""
+
+               </div>
+               <div   style="margin-top: 20px"><a href=\""""); //#26
+
+      response.write(Rsp.nnx(traceRenderer.permanentTraceUrl)); //#28
 
 
       response.write("""">Lien permanent</a></div>
                
-"""); //#25
+"""); //#28
 
       connect = _cs_.removeLast(); response = connect.response;
 
-      var _2 = new StringBuffer(); _cs_.add(connect); //var#28
+      var _2 = new StringBuffer(); _cs_.add(connect); //var#31
       connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
-      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#29
+      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#32
 
         connect = _cs_.removeLast(); response = connect.response;
 
-        var _3 = new StringBuffer(); _cs_.add(connect); //var#31
+        var _3 = new StringBuffer(); _cs_.add(connect); //var#34
         connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#32
+        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#35
 
           connect = _cs_.removeLast(); response = connect.response;
 
@@ -102,9 +111,9 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
     <div class="space-contextual-menu"  >
         <ul role="menu" class="dropdown-menu"  id="contextual-menu">
           <li role="presentation" class="dropdown-header">Trace gps</li>
-          <li role="presentation"><a href=\""""); //#35
+          <li role="presentation"><a href=\""""); //#38
 
-            response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#39
+            response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#42
 
 
             response.write("""" tabindex="-1" role="menuitem">Fichier gpx</a></li>
@@ -117,7 +126,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
-</html>"""); //#39
+</html>"""); //#42
 
             return new Future.value();
           }); //end-of-include

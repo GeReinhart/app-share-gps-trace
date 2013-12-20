@@ -124,6 +124,7 @@ main() {
             trace.description = "ma description" ;
             trace.activities = ["trek","bike"] ;
             String builtKey = trace.buildKey() ;
+            DateTime dateTime = new DateTime.now();
             
             return persitence.saveOrUpdateTrace(trace).then((trace) {
                 return persitence.getTraceById(trace.id).then((loadedTrace) {
@@ -133,6 +134,7 @@ main() {
                   expect(loadedTrace.upperPointElevetion, traceAnalysis.upperPoint.elevetion) ;
                   expect(loadedTrace.key, builtKey) ; 
                   expect(loadedTrace.activities[0], "trek") ;
+                  expect(loadedTrace.creationDate.day, dateTime.day) ;
                   
                   return persitence.getTraceByKey(builtKey).then((loadedTrace) {
                     expect(loadedTrace.description, trace.description) ;   

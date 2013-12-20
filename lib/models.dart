@@ -17,6 +17,9 @@ class Trace {
   
   List<String> activities = [];
   
+  int _creationDateInMilliseconds ;
+  int _lastUpdateDateInMilliseconds ;
+  
   double startPointLatitude;
   double startPointLongitude;
   double startPointElevetion;
@@ -44,6 +47,8 @@ class Trace {
     description = map['description'];
     activities = map['activities'];
     gpxUrl = map['gpxUrl'];
+    _creationDateInMilliseconds = map['creationDate'];
+    _lastUpdateDateInMilliseconds = map['lastUpdateDate'];
     
     _traceDataId = map['traceDataId'];
     startPointLatitude = map['startPointLatitude'];
@@ -59,7 +64,9 @@ class Trace {
 
   
   Map toJson() {
-    return {'_id': id,'key': key,'creator': creator, 'title': title, 'description': description, 
+    return {'_id': id,'key': key,'creator': creator, 
+      'title': title, 'description': description, 
+      'creationDate': _creationDateInMilliseconds, 'lastUpdateDate': _lastUpdateDateInMilliseconds,
       'activities' : activities,
       'traceDataId': _traceDataId,
       'gpxUrl' : gpxUrl,
@@ -121,6 +128,28 @@ class Trace {
   String  get cleanId {
     return id.substring("ObjectId(\"".length , id.length -2 ) ;
   }
+  
+  DateTime get creationDate => (_buildDate(this._creationDateInMilliseconds));
+  
+  DateTime get lastUpdateDate  => (_buildDate(this._lastUpdateDateInMilliseconds));
+  
+  DateTime _buildDate(int millisecondsSinceEpoch){
+    if (millisecondsSinceEpoch== null){
+      return new DateTime.now();
+    }else{
+      return new DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+    }
+  }
+  
+  void creation(){
+    this._creationDateInMilliseconds = new DateTime.now().millisecondsSinceEpoch;
+    this._lastUpdateDateInMilliseconds = this._creationDateInMilliseconds;
+  }
+  
+  void update(){
+    this._lastUpdateDateInMilliseconds = new DateTime.now().millisecondsSinceEpoch;
+  }
+  
   
   String  buildKey() {
     Pattern pattern = new RegExp(' ');

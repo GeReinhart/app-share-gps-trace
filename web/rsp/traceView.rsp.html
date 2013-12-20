@@ -12,15 +12,18 @@
       [/var]
       [:var ne ]
                <h1>[=traceRenderer.trace.title]</h1>
+               <div class="trace-activities important-text" >
+                 [=traceRenderer.activities]
+               </div>
                          
                <div class="trace-description" >
                  [=traceRenderer.description, encode: 'none']
                </div>
-               <div class="trace-activities" >
-                 [=traceRenderer.activities]
-               </div>
-               <div class="trace-creator" >
+               <div class="trace-creator note-text" >
                  trace ajoutée par [=traceRenderer.trace.creator]
+               </div>
+               <div class="trace-lastupdate note-text" >
+                 mise à jour le [=traceRenderer.lastUpdateDate]
                </div>
                <div   style="margin-top: 20px"><a href="[=traceRenderer.permanentTraceUrl]">Lien permanent</a></div>
                

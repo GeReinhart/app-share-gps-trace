@@ -1,4 +1,5 @@
 
+import 'package:intl/intl.dart';
 import "../../lib/trace.dart" ;
 import "../../lib/models.dart" ;
 import "../../lib/i18n.dart" ;
@@ -83,6 +84,13 @@ class TraceRenderer extends LigthTraceRenderer{
     return description;
   }
 
+  String get lastUpdateDate{
+    if(trace.lastUpdateDate != null){
+      var formatter = new DateFormat('dd/MM/yyyy');
+      return formatter.format(trace.lastUpdateDate);
+    }
+  }
+  
 }
 
 class TraceAnalysisRenderer {

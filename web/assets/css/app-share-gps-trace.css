@@ -167,7 +167,7 @@ ul li {
   z-index: 99 ;
 }
 
-space-persitent-menu{
+.space-persitent-menu{
     z-index: 99 ;
 }
 
@@ -194,6 +194,22 @@ space-persitent-menu{
 .inverse-video-display a:active{
     color: white;
 }
+
+
+.important-text{
+    font-size: medium;
+    font-weight: bold;
+    color : #030B42;
+    margin-bottom: 10px;
+}
+
+.note-text{
+    font-style: italic;
+    color : #030B42;
+    margin-top: 5px;
+}
+
+
 
 .main-welcome {
  /* background-image: url('/assets/img/welcome_autumn.jpg') ;
