@@ -123,6 +123,14 @@ main() {
             trace.title = "Tour du Vercors - Autrans - Saint Nizier du Moucherotte";
             trace.description = "ma description" ;
             trace.activities = ["trek","bike"] ;
+            
+            trace.difficulty = 100 ;
+            trace.inclinationUp = 10 ;
+            trace.length = 10000 ;
+            trace.up = 200;
+            trace.startPointElevetion = 2000.0;
+            trace.upperPointElevetion = 3000.0;
+            
             String builtKey = trace.buildKey() ;
             DateTime dateTime = new DateTime.now();
             
@@ -227,6 +235,51 @@ main() {
             expect(traces.length, 1) ;   
           });
         })
+       
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.difficultyGt = 90 ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter search  on difficultyGt");
+            expect(traces.length, 1) ;   
+          });
+        })        
+        
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.difficultyGt = 110 ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter search  on difficultyGt false");
+            expect(traces.length, 0) ;   
+          });
+        })  
+        
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.difficultyLt = 90 ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter search  on difficultyLt false");
+            expect(traces.length, 0) ;   
+          });
+        })        
+        
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.difficultyLt = 110 ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter search  on difficultyLt");
+            expect(traces.length, 1) ;   
+          });
+        })         
+        
+        .then((_){
+          SearchFilters filter = new SearchFilters();
+          filter.difficultyLt = 100 ;
+          return persitence.getTracesByFilters(filter).then((traces) {
+            print("Test get by traces by filter search  on difficultyLt equals");
+            expect(traces.length, 1) ;   
+          });
+        }) 
         
         .whenComplete((){
           print("close db");

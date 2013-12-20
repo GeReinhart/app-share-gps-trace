@@ -40,6 +40,18 @@ class SearchFilters{
   String search;
   String creator;
   List<String> activities = new List<String>() ;
+  num    lengthGt;
+  num    upGt ;
+  num    inclinationUpGt;
+  double startPointElevetionGt;
+  double upperPointElevetionGt;
+  int    difficultyGt;
+  num    lengthLt;
+  num    upLt ;
+  num    inclinationUpLt;
+  double startPointElevetionLt;
+  double upperPointElevetionLt;
+  int    difficultyLt;
 }
 
 class MongoPersistence implements PersistenceLayer{
@@ -114,7 +126,6 @@ class MongoPersistence implements PersistenceLayer{
     SelectorBuilder selector = where.exists("key") ;
     if ( filters.search != null && filters.search.isNotEmpty ){
       selector.and(
-          
           where.match("title", filters.search, caseInsensitive: true )
       .or(where.match("creator", filters.search, caseInsensitive: true ))
       .or(where.match("description", filters.search, caseInsensitive: true ))
@@ -126,6 +137,42 @@ class MongoPersistence implements PersistenceLayer{
     if ( filters.activities != null && filters.activities.isNotEmpty ){
       filters.activities.forEach((a)=>(selector.and(where.eq("activities", a))));
     }    
+    if ( filters.difficultyGt != null  ){
+      selector.and(where.gte("difficulty", filters.difficultyGt));
+    }  
+    if ( filters.difficultyLt != null  ){
+      selector.and(where.lte("difficulty", filters.difficultyLt));
+    }
+    if ( filters.lengthGt != null  ){
+      selector.and(where.gte("length", filters.lengthGt));
+    }  
+    if ( filters.lengthLt != null  ){
+      selector.and(where.lte("length", filters.lengthLt));
+    }    
+    if ( filters.upGt != null  ){
+      selector.and(where.gte("up", filters.upGt));
+    }  
+    if ( filters.upLt != null  ){
+      selector.and(where.lte("up", filters.upLt));
+    }
+    if ( filters.inclinationUpGt != null  ){
+      selector.and(where.gte("inclinationUp", filters.inclinationUpGt));
+    }  
+    if ( filters.inclinationUpLt != null  ){
+      selector.and(where.lte("inclinationUp", filters.inclinationUpLt));
+    }    
+    if ( filters.startPointElevetionGt != null  ){
+      selector.and(where.gte("startPointElevetion", filters.startPointElevetionGt));
+    }  
+    if ( filters.startPointElevetionLt != null  ){
+      selector.and(where.lte("startPointElevetion", filters.startPointElevetionLt));
+    }    
+    if ( filters.upperPointElevetionGt != null  ){
+      selector.and(where.gte("upperPointElevetionGt", filters.upperPointElevetionGt));
+    }  
+    if ( filters.upperPointElevetionLt != null  ){
+      selector.and(where.lte("upperPointElevetionLt", filters.upperPointElevetionLt));
+    }     
     return _traceCollection.find(selector).forEach((jsonTrace){
                 Trace trace = new Trace.fromJson(jsonTrace);
                 traces.add(trace);
