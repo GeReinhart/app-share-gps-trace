@@ -168,10 +168,10 @@ class MongoPersistence implements PersistenceLayer{
       selector.and(where.lte("startPointElevetion", filters.startPointElevetionLt));
     }    
     if ( filters.upperPointElevetionGt != null  ){
-      selector.and(where.gte("upperPointElevetionGt", filters.upperPointElevetionGt));
+      selector.and(where.gte("upperPointElevetion", filters.upperPointElevetionGt));
     }  
     if ( filters.upperPointElevetionLt != null  ){
-      selector.and(where.lte("upperPointElevetionLt", filters.upperPointElevetionLt));
+      selector.and(where.lte("upperPointElevetion", filters.upperPointElevetionLt));
     }     
     return _traceCollection.find(selector).forEach((jsonTrace){
                 Trace trace = new Trace.fromJson(jsonTrace);
