@@ -38,7 +38,7 @@ Future searchResults(HttpConnect connect, {lightTraceRenderers}) { //#2
              </tr>
 """); //#2
 
-  for (var lightTraceRenderer in lightTraceRenderers) { //for#27
+  for (var lightTraceRenderer in lightTraceRenderers.traces) { //for#27
 
     response.write("""              <tr class="search-default-results" >  
                   <td>"""); //#28

@@ -17,7 +17,7 @@ Future persistentMenu(HttpConnect connect) { //#2
 
 
   response.write("""</span>
-  <span  ><a class="loading-on-click" href="/about"  >À propos</a></span>
+  <span style="background-color: white;" ><a class="loading-on-click" href="/about"  >À propos</a></span>
   <span class="inverse-video-display" ><a class="loading-on-click" href="/disclaimer"  >Mentions légales</a></span>
 
 </div>

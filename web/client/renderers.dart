@@ -20,6 +20,25 @@ class TraceFormRenderer {
   
 }
 
+class LigthTraceRenderers {
+  
+  List<LigthTraceRenderer> traces ;
+  
+  TracePoint  get baryCenter{
+    if (traces!= null && traces.isNotEmpty){
+      return new TracePoint.basic( 45.299041 , 5.94017 ) ;
+    }else{
+      double lat =0.0;
+      double long = 0.0;
+      traces.forEach(  (traceRenderer){
+         lat+= traceRenderer.trace.startPointLatitude ;
+         long += traceRenderer.trace.startPointLongitude;
+      });
+      return new TracePoint.basic( lat / traces.length , long / traces.length ) ;
+    }
+  }
+  
+}
 
 class LigthTraceRenderer{
   
@@ -36,7 +55,6 @@ class LigthTraceRenderer{
   String get upperPointElevetion => ("${trace.upperPointElevetion.round()} m") ;
   String get inclinationUp => ("${trace.inclinationUp} %") ;  
   String get difficulty => ("${trace.difficulty} pt") ;  
-  
   String get activities {
 
     if(trace.activities == null){

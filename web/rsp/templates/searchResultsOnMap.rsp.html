@@ -1,3 +1,35 @@
 [:page partOf="trails" args="lightTraceRenderers"]
 
-<div class="text-warning  form-error-message" >Actuellement en construction : localisation sur une carte des traces gps</div>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACqUcoVGLVERGKxv09yqg9jv1iykUDJjA&sensor=false">
+    </script>
+    <script type="text/javascript">
+
+
+      function initialize() {
+        var myLatlng = new google.maps.LatLng([=lightTraceRenderers.baryCenter.latitude]  ,[=lightTraceRenderers.baryCenter.longitude]);
+        var mapOptions = {
+          zoom: 9,
+          center: myLatlng
+        }
+        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+      
+      [:for lightTraceRenderer in lightTraceRenderers.traces]
+         new google.maps.Marker({
+          position:   new google.maps.LatLng([=lightTraceRenderer.trace.startPointLatitude]  ,[=lightTraceRenderer.trace.startPointLongitude]),
+          map: map,
+          title: '[=lightTraceRenderer.title]'
+        });
+      [/for]
+      
+      }
+      
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+
+      
+    </script>
+
+    <div id="map-canvas"  class="space" ></div>
+

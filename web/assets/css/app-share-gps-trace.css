@@ -69,15 +69,18 @@ ul li {
 
 .space {
   z-index: 100 ;
+  position: absolute;
   overflow-x: auto;
   background-color: white; 
   margin: 0px; 
   padding: 0px; 
   text-align:center;
+  width: 100%;
+  height: 100%;
 }
 
 .inner-space {
-  margin: 10px; 
+  margin: 0px; 
   padding: 0px; 
   vertical-align:middle; text-align:center;
 }

@@ -271,11 +271,13 @@ class TraceController{
   
   Future traceSearch(HttpConnect connect) {
     return _persistence.getTraces().then((traces) {
-      List<LigthTraceRenderer> lightTraceRenderers = new List<LigthTraceRenderer>();
+      List<LigthTraceRenderer> lightTraceRendererList = new List<LigthTraceRenderer>();
       if ( traces.isNotEmpty  ){
-        traces.forEach((trace)=>(lightTraceRenderers.add(new LigthTraceRenderer(trace))  ));
+        traces.forEach((trace)=>(lightTraceRendererList.add(new LigthTraceRenderer(trace))  ));
       }
-      return traceSearchView(connect, lightTraceRenderers:lightTraceRenderers, traceFormRenderer: new TraceFormRenderer());
+      LigthTraceRenderers ligthTraceRenderers = new LigthTraceRenderers();
+      ligthTraceRenderers.traces = lightTraceRendererList;
+      return traceSearchView(connect, lightTraceRenderers:ligthTraceRenderers, traceFormRenderer: new TraceFormRenderer());
     });
     
   }
