@@ -16,42 +16,45 @@ void main() {
 }
 
 void submitRequest(){
-  layout.startLoading();
-  
   HttpRequest request = new HttpRequest();
-  
-  request.onReadyStateChange.listen((_) {
-    
-    if (request.readyState == HttpRequest.DONE ) {
 
-      removeResults(".search-default-results");
-      removeResults(".search-results");
-      
-      SearchForm form = new SearchForm.fromMap(JSON.decode(request.responseText));
-      
-      Element searchResultRow=  querySelector("#search-result-row");
-      Element searchResultBody=  querySelector("#search-result-body");
-      if (form.results != null && form.results.isNotEmpty){
-        
-        form.results.forEach((ligthTrace){
-          Element searchResultCurrentRow = searchResultRow.clone(true) ;
-          searchResultCurrentRow.className = "search-results" ;
-          searchResultCurrentRow.children[0].innerHtml = ligthTrace.creator;
-          searchResultCurrentRow.children[1].innerHtml = ligthTrace.title;
-          searchResultCurrentRow.children[2].innerHtml = ligthTrace.activities;
-          searchResultCurrentRow.children[3].innerHtml = ligthTrace.length;
-          searchResultCurrentRow.children[4].innerHtml = ligthTrace.up;
-          searchResultCurrentRow.children[5].innerHtml = ligthTrace.upperPointElevetion;
-          searchResultCurrentRow.children[6].innerHtml = ligthTrace.inclinationUp;
-          searchResultCurrentRow.children[7].innerHtml = ligthTrace.difficulty;
-          searchResultBody.append(searchResultCurrentRow);
-        });
-      }
-      layout.stopLoading();
+  layout.startLoading();
+  request.onReadyStateChange.listen((_) {
+    if (request.readyState == HttpRequest.DONE ) {
+      displaySearchResults(request);
     }
   });
+  sendSearchRequest(request);
+  removeResults(".search-default-results");
+  removeResults(".search-results");
+}
 
-  request.open("POST",  "/trace.as_search", async: false);
+void displaySearchResults(HttpRequest request){
+  SearchForm form = new SearchForm.fromMap(JSON.decode(request.responseText));
+  
+  Element searchResultRow=  querySelector("#search-result-row");
+  Element searchResultBody=  querySelector("#search-result-body");
+  if (form.results != null && form.results.isNotEmpty){
+    
+    form.results.forEach((ligthTrace){
+      Element searchResultCurrentRow = searchResultRow.clone(true) ;
+      searchResultCurrentRow.className = "search-results" ;
+      searchResultCurrentRow.children[0].innerHtml = ligthTrace.creator;
+      searchResultCurrentRow.children[1].innerHtml = ligthTrace.title;
+      searchResultCurrentRow.children[2].innerHtml = ligthTrace.activities;
+      searchResultCurrentRow.children[3].innerHtml = ligthTrace.length;
+      searchResultCurrentRow.children[4].innerHtml = ligthTrace.up;
+      searchResultCurrentRow.children[5].innerHtml = ligthTrace.upperPointElevetion;
+      searchResultCurrentRow.children[6].innerHtml = ligthTrace.inclinationUp;
+      searchResultCurrentRow.children[7].innerHtml = ligthTrace.difficulty;
+      searchResultBody.append(searchResultCurrentRow);
+    });
+  }
+  layout.stopLoading();
+}
+
+void sendSearchRequest(HttpRequest request){
+  request.open("POST",  "/trace.as_search", async: true);
   SearchForm form =  new  SearchForm( );
   form.search = (querySelector(".search-form-input-text") as InputElement ).value ;
   querySelectorAll(".search-form-input-activity").forEach((e){
@@ -71,9 +74,10 @@ void submitRequest(){
   form.inclinationUpLt       = (querySelector(".search-form-input-inclination-up-lt") as InputElement ).value ;  
   form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
   form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
-  
   request.send(JSON.encode(form.toJson()));
+
 }
+
 
 
 void removeResults(String selector){

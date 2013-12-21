@@ -24,7 +24,7 @@ Future spaces(HttpConnect connect, {w, nw, ne, sw, se}) { //#2
 
        </div>
     </div>
-	<div class="space space-north-west"  > 
+ 	<div class="space space-north-west"  > 
 	  <div class="inner-space" >
         """); //#6
 
