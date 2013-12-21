@@ -25,247 +25,40 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
     var _0 = new StringBuffer(); _cs_.add(connect); //var#10
     connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
-    response.write("""
-
-        <h1>Rechercher une trace gps</h1>
-        
-        <table style="width: 100% ; ">
-          <tr>
-             <td style="width: 2%;" ></td>
-             <td style="width: 30%;" ><span class="important-text" >Textuelle</span></td>
-             <td colspan="2" style="width: * ; text-align: left;"   >
-                <div class="form-group form-search">
-                    <input  type="text" class="form-control search-form-inputs search-form-input-text"  placeholder="">
-                </div>
-             </td>
-             <td style="width: 2%" ></td>
-          </tr>
-          <tr>
-             <td  ></td>
-             <td  ><span class="important-text" >Activités</span></td>
-             <td style="width: * ; text-align: left ;"  >
-              <div class="form-inputs" >
-                   <div>
+    response.write("""        <h1>Rechercher une trace gps</h1>
 """); //#11
 
-    for (var activity in traceFormRenderer.activities.keys) { //for#31
+    return Rsp.nnf(searchForm(new HttpConnect.chain(connect), traceFormRenderer: traceFormRenderer)).then((_) { //include#12
 
-      response.write("""                        <div><input type="checkbox"  class="search-form-inputs search-form-input-activity"  name=\""""); //#32
+      connect = _cs_.removeLast(); response = connect.response;
 
-      response.write(Rsp.nnx(activity)); //#32
+      var _1 = new StringBuffer(); _cs_.add(connect); //var#14
+      connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
+      return Rsp.nnf(searchResults(new HttpConnect.chain(connect), lightTraceRenderers: lightTraceRenderers)).then((_) { //include#15
 
-      response.write(""""  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#32
+        connect = _cs_.removeLast(); response = connect.response;
 
-      response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#32
+        var _2 = new StringBuffer(); _cs_.add(connect); //var#17
+        connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
+        return Rsp.nnf(searchResultsOnMap(new HttpConnect.chain(connect), lightTraceRenderers: lightTraceRenderers)).then((_) { //include#18
 
-      response.write("""</span></div>
-"""); //#32
-    } //for
+          connect = _cs_.removeLast(); response = connect.response;
 
-    response.write("""                   </div> 
-              </div>             
-             </td>
-             <td  ></td>
-          </tr>    
-          
-          <tr>
-             <td ></td>
-             <td ><span class="important-text" >Distance</span></td>
-             <td colspan="2" style="width: * ; text-align: left;"   >
-                <div class="form-inputs form-group form-length">
-                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-length-gt"  placeholder="">
-                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-length-lt"  placeholder="">
-                    km
-                </div>
-             </td>
-             <td ></td>
-          </tr>          
-          
-          <tr>
-             <td ></td>
-             <td ><span class="important-text" >Dénivelé</span></td>
-             <td colspan="2" style="width: * ; text-align: left;"   >
-                <div class="form-inputs form-group form-up">
-                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-up-gt"  placeholder="">
-                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-up-lt"  placeholder="">
-                    m
-                </div>
-             </td>
-             <td ></td>
-          </tr>          
-          
-          <tr>
-             <td ></td>
-             <td ><span class="important-text" >Sommet</span></td>
-             <td colspan="2" style="width: * ; text-align: left;"   >
-                <div class="form-inputs form-group form-upper-point-elevetion">
-                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-upper-point-elevetion-gt"  placeholder="">
-                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-upper-point-elevetion-lt"  placeholder="">
-                    m
-                </div>
-             </td>
-             <td ></td>
-          </tr>   
-          
-         <tr>
-             <td ></td>
-             <td ><span class="important-text" >Pente</span></td>
-             <td colspan="2" style="width: * ; text-align: left;"   >
-                <div class="form-inputs form-group form-inclination-up">
-                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-inclination-up-gt"  placeholder="">
-                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-inclination-up-lt"  placeholder="">
-                    %
-                </div>
-             </td>
-             <td ></td>
-          </tr>          
-                 
-         <tr>
-             <td ></td>
-             <td ><span class="important-text" >Difficulté</span></td>
-             <td colspan="2" style="width: * ; text-align: left;"   >
-                <div class="form-inputs form-group form-difficulty">
-                    de <input  type="text" class="form-control number-input search-form-inputs search-form-input-difficulty-gt"  placeholder="">
-                    à  <input  type="text" class="form-control number-input search-form-inputs search-form-input-difficulty-lt"  placeholder="">
-                    pt
-                </div>
-             </td>
-             <td ></td>
-          </tr>
-          
-          <tr>
-             <td  ></td>
-             <td colspan="2" style="width: * ; text-align: center;"  >
-                <div class="form-inputs" >
-                 <button type="submit"  class="btn btn-primary search-form-btn loading-on-click">Rechercher</button>
-                </div> 
-             </td>
-             <td  ></td>
-          </tr>           
-                
-        </table>        
-        
+          return Rsp.nnf(spaces(new HttpConnect.chain(connect), w: _0.toString(), ne: _1.toString(), se: _2.toString())).then((_) { //include#9
 
-        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher localisation, département ou massif...</div>
-"""); //#34
-
-    connect = _cs_.removeLast(); response = connect.response;
-
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#120
-    connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
-
-    response.write("""      
-        <table class="table table-striped" style="width: 100% ;margin-top: 40px">  
-          <thead>  
-            <tr>  
-              <th style="width: 10%" >Auteur</th>  
-              <th style="width: *" >Trace</th>  
-              <th style="width: 15%" >Activités</th>  
-              <th style="width: 10%" >Distance</th>  
-              <th style="width: 10%" >Dénivelé</th>
-              <th style="width: 10%" >Sommet</th>
-              <th style="width: 10%" >Pente</th>
-              <th style="width: 10%" >Difficulté</th>
-            </tr>  
-          </thead>  
-          <tbody id="search-result-body" >  
-             <tr id="search-result-row"  >
-                  <td></td>  
-                  <td></td>  
-                  <td></td>
-                  <td></td>  
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-             </tr>
-"""); //#121
-
-    for (var lightTraceRenderer in lightTraceRenderers) { //for#146
-
-      response.write("""              <tr class="search-default-results" >  
-                  <td>"""); //#147
-
-      response.write(Rsp.nnx(lightTraceRenderer.creator)); //#148
-
-
-      response.write("""</td>  
-                  <td>"""); //#148
-
-      response.write(Rsp.nnx(lightTraceRenderer.titleWithUrl, encode: 'none')); //#149
-
-
-      response.write("""</td>  
-                  <td>"""); //#149
-
-      response.write(Rsp.nnx(lightTraceRenderer.activities)); //#150
-
-
-      response.write("""</td>
-                  <td>"""); //#150
-
-      response.write(Rsp.nnx(lightTraceRenderer.length)); //#151
-
-
-      response.write("""</td>  
-                  <td>"""); //#151
-
-      response.write(Rsp.nnx(lightTraceRenderer.up)); //#152
-
-
-      response.write("""</td>
-                  <td>"""); //#152
-
-      response.write(Rsp.nnx(lightTraceRenderer.upperPointElevetion)); //#153
-
-
-      response.write("""</td>
-                  <td>"""); //#153
-
-      response.write(Rsp.nnx(lightTraceRenderer.inclinationUp)); //#154
-
-
-      response.write("""</td>
-                  <td>"""); //#154
-
-      response.write(Rsp.nnx(lightTraceRenderer.difficulty)); //#155
-
-
-      response.write("""</td>
-              </tr>  
-"""); //#155
-    } //for
-
-    response.write("""    
-          </tbody>  
-        </table>
-        
-"""); //#158
-
-    connect = _cs_.removeLast(); response = connect.response;
-
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#163
-    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
-
-    response.write("""               <div class="text-warning  form-error-message" >Actuellement en construction : localisation sur une carte des traces gps</div>
-"""); //#164
-
-    connect = _cs_.removeLast(); response = connect.response;
-
-    return Rsp.nnf(spaces(new HttpConnect.chain(connect), w: _0.toString(), ne: _1.toString(), se: _2.toString())).then((_) { //include#9
-
-      response.write("""    
-    
-    
+            response.write("""    
     <script type="application/dart" src="/client/traceSearch.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#167
+"""); //#21
 
-      return new Future.value();
+            return new Future.value();
+          }); //end-of-include
+        }); //end-of-include
+      }); //end-of-include
     }); //end-of-include
   }); //end-of-include
 }

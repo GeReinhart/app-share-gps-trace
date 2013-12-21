@@ -25,7 +25,7 @@ Future disclaimer(HttpConnect connect) { //#2
     var _0 = new StringBuffer(); _cs_.add(connect); //var#10
     connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
-    response.write("""           <h1>Mention légales de la-boussole</h1>
+    response.write("""           <h1>Mentions légales de la-boussole</h1>
            <div class="text-warning  form-error-message" >En construction : texte décivant les mentions légales.</div>
 """); //#11
 
