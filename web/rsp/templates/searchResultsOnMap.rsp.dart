@@ -41,8 +41,8 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
 
   for (var lightTraceRenderer in lightTraceRenderers.traces) { //for#18
 
-    response.write("""         new google.maps.Marker({
-          position:   new google.maps.LatLng("""); //#19
+    response.write("""           new google.maps.Marker({
+            position:   new google.maps.LatLng("""); //#19
 
     response.write(Rsp.nnx(lightTraceRenderer.trace.startPointLatitude)); //#20
 
@@ -53,14 +53,14 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
 
 
     response.write("""),
-          map: map,
-          title: '"""); //#20
+            map: map,
+            title: \""""); //#20
 
     response.write(Rsp.nnx(lightTraceRenderer.title)); //#22
 
 
-    response.write("""'
-        });
+    response.write(""""
+          });
 """); //#22
   } //for
 
