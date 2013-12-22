@@ -5,31 +5,63 @@
     </script>
     <script type="text/javascript">
 
-
-      function initialize() {
-        var myLatlng = new google.maps.LatLng([=lightTraceRenderers.baryCenter.latitude]  ,[=lightTraceRenderers.baryCenter.longitude]);
-        var mapOptions = {
-          zoom: 9,
-          center: myLatlng
-        }
-        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
+      var map = null ;
+      var markers = {};
       
-        [:for lightTraceRenderer in lightTraceRenderers.traces]
-           new google.maps.Marker({
-            position:   new google.maps.LatLng([=lightTraceRenderer.trace.startPointLatitude]  ,[=lightTraceRenderer.trace.startPointLongitude]),
-            map: map,
-            title: "[=lightTraceRenderer.title]"
+      function addMarker(targetMap,  key,  title, lat, long ){
+        if(key in markers){
+          markers[key].setMap(map) ;
+        }else{
+          markers[key] = new google.maps.Marker({
+            position:   new google.maps.LatLng(lat,long),
+            map: targetMap,
+            title: title
           });
+        }
+      }
+
+      function addMarkerToMap( key,  title, lat, long ){
+        addMarker(map,  key,  title, lat, long ) ;
+      }      
+      
+      function removeMarker(key){
+        if(key in markers){
+          markers[key].setMap(null) ;
+        }
+      }
+
+      function removeAllMarkers(){
+        for (var key in markers) {
+          markers[key].setMap(null);
+        }
+      }
+      
+      function initialize() {
+
+        var baryCenter = new google.maps.LatLng([=lightTraceRenderers.baryCenter.latitude],
+                                                 [=lightTraceRenderers.baryCenter.longitude]);
+        
+        var mapOptions = { zoom: 9,
+                           mapTypeControl: false,
+                           zoomControl: false,
+                           center: baryCenter};
+        
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        
+        [:for lightTraceRenderer in lightTraceRenderers.traces]
+        addMarker(map,
+                  "[=lightTraceRenderer.keyJsSafe]", 
+                  "[=lightTraceRenderer.titleJsSafe]",
+                  [=lightTraceRenderer.trace.startPointLatitude],
+                  [=lightTraceRenderer.trace.startPointLongitude] ) ;
         [/for]
       
       }
       
       google.maps.event.addDomListener(window, 'load', initialize);
-
-
       
     </script>
-
     <div id="map-canvas"  class="space" ></div>
+
+    
 

@@ -122,7 +122,8 @@ class TraceController{
                     LigthTraceRenderer traceLightRenderer = new LigthTraceRenderer(trace);
                     LightTrace  lightTrace = new   LightTrace(traceLightRenderer.key, traceLightRenderer.creator, traceLightRenderer.titleWithUrl, traceLightRenderer.activities, 
                         traceLightRenderer.length, traceLightRenderer.up, traceLightRenderer.upperPointElevetion, 
-                        traceLightRenderer.inclinationUp, traceLightRenderer.difficulty);
+                        traceLightRenderer.inclinationUp, traceLightRenderer.difficulty,
+                        traceLightRenderer.trace.startPointLatitude,traceLightRenderer.trace.startPointLongitude );
                     form.results.add(lightTrace) ;
                 });
               }

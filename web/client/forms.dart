@@ -202,8 +202,12 @@ class LightTrace{
   String upperPointElevetion;
   String inclinationUp;
   String difficulty;
+  num startPointLatitude;
+  num startPointLongitude;
   
-  LightTrace(this.key, this.creator, this.title, this.activities, this.length, this.up, this.upperPointElevetion, this.inclinationUp, this.difficulty);
+  LightTrace(this.key, this.creator, this.title, this.activities, this.length,
+             this.up, this.upperPointElevetion, this.inclinationUp, this.difficulty,
+             this.startPointLatitude , this.startPointLongitude  );
   
   LightTrace.fromMap(Map jsonMap){
     _fromMap(jsonMap);
@@ -219,6 +223,8 @@ class LightTrace{
     upperPointElevetion = jsonMap['upperPointElevetion'] ;    
     inclinationUp = jsonMap['inclinationUp'] ;    
     difficulty = jsonMap['difficulty'] ;  
+    startPointLatitude = jsonMap['startPointLatitude'] ;  
+    startPointLongitude = jsonMap['startPointLongitude'] ;  
   }
   
   Map toJson() {
@@ -230,9 +236,14 @@ class LightTrace{
              'up':up,
              'upperPointElevetion':upperPointElevetion,
              'inclinationUp':inclinationUp,
-             'difficulty':difficulty
+             'difficulty':difficulty,
+             'startPointLatitude':startPointLatitude,
+             'startPointLongitude':startPointLongitude
             };
   }
+  
+  String get keyJsSafe => (this.key.replaceAll("'", "#"));
+  String get titleJsSafe => (this.title.replaceAll("'", ""));  
   
 }
 

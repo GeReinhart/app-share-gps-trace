@@ -17,65 +17,102 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
     </script>
     <script type="text/javascript">
 
+      var map = null ;
+      var markers = {};
+      
+      function addMarker(targetMap,  key,  title, lat, long ){
+        if(key in markers){
+          markers[key].setMap(map) ;
+        }else{
+          markers[key] = new google.maps.Marker({
+            position:   new google.maps.LatLng(lat,long),
+            map: targetMap,
+            title: title
+          });
+        }
+      }
 
+      function addMarkerToMap( key,  title, lat, long ){
+        addMarker(map,  key,  title, lat, long ) ;
+      }      
+      
+      function removeMarker(key){
+        if(key in markers){
+          markers[key].setMap(null) ;
+        }
+      }
+
+      function removeAllMarkers(){
+        for (var key in markers) {
+          markers[key].setMap(null);
+        }
+      }
+      
       function initialize() {
-        var myLatlng = new google.maps.LatLng("""); //#2
 
-  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.latitude)); //#10
+        var baryCenter = new google.maps.LatLng("""); //#2
+
+  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.latitude)); //#41
 
 
-  response.write("""  ,"""); //#10
+  response.write(""",
+                                                 """); //#41
 
-  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.longitude)); //#10
+  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.longitude)); //#42
 
 
   response.write(""");
-        var mapOptions = {
-          zoom: 9,
-          center: myLatlng
-        }
-        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        
+        var mapOptions = { zoom: 9,
+                           mapTypeControl: false,
+                           zoomControl: false,
+                           center: baryCenter};
+        
+        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        
+"""); //#42
 
-      
-"""); //#10
+  for (var lightTraceRenderer in lightTraceRenderers.traces) { //for#51
 
-  for (var lightTraceRenderer in lightTraceRenderers.traces) { //for#18
+    response.write("""        addMarker(map,
+                  \""""); //#52
 
-    response.write("""           new google.maps.Marker({
-            position:   new google.maps.LatLng("""); //#19
-
-    response.write(Rsp.nnx(lightTraceRenderer.trace.startPointLatitude)); //#20
-
-
-    response.write("""  ,"""); //#20
-
-    response.write(Rsp.nnx(lightTraceRenderer.trace.startPointLongitude)); //#20
+    response.write(Rsp.nnx(lightTraceRenderer.keyJsSafe)); //#53
 
 
-    response.write("""),
-            map: map,
-            title: \""""); //#20
+    response.write("""", 
+                  \""""); //#53
 
-    response.write(Rsp.nnx(lightTraceRenderer.title)); //#22
+    response.write(Rsp.nnx(lightTraceRenderer.titleJsSafe)); //#54
 
 
-    response.write(""""
-          });
-"""); //#22
+    response.write("""",
+                  """); //#54
+
+    response.write(Rsp.nnx(lightTraceRenderer.trace.startPointLatitude)); //#55
+
+
+    response.write(""",
+                  """); //#55
+
+    response.write(Rsp.nnx(lightTraceRenderer.trace.startPointLongitude)); //#56
+
+
+    response.write(""" ) ;
+"""); //#56
   } //for
 
   response.write("""      
       }
       
       google.maps.event.addDomListener(window, 'load', initialize);
-
-
       
     </script>
-
     <div id="map-canvas"  class="space" ></div>
 
-"""); //#25
+    
+
+"""); //#58
 
   return new Future.value();
 }

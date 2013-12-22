@@ -1,6 +1,7 @@
 import "dart:html";
 import "dart:convert";
 import 'package:bootjack/bootjack.dart';
+import 'package:js/js.dart' as js;
 
 import 'spaces.dart';
 import "forms.dart";
@@ -36,6 +37,7 @@ void displaySearchResults(HttpRequest request){
   Element searchResultBody=  querySelector("#search-result-body");
   if (form.results != null && form.results.isNotEmpty){
     
+    js.context.removeAllMarkers();
     form.results.forEach((ligthTrace){
       Element searchResultCurrentRow = searchResultRow.clone(true) ;
       searchResultCurrentRow.className = "search-results" ;
@@ -48,6 +50,8 @@ void displaySearchResults(HttpRequest request){
       searchResultCurrentRow.children[6].innerHtml = ligthTrace.inclinationUp;
       searchResultCurrentRow.children[7].innerHtml = ligthTrace.difficulty;
       searchResultBody.append(searchResultCurrentRow);
+      
+      js.context.addMarkerToMap( ligthTrace.keyJsSafe,  ligthTrace.titleJsSafe, ligthTrace.startPointLatitude,ligthTrace.startPointLongitude );
     });
   }
   layout.stopLoading();
