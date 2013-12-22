@@ -35,9 +35,9 @@ void displaySearchResults(HttpRequest request){
   
   Element searchResultRow=  querySelector("#search-result-row");
   Element searchResultBody=  querySelector("#search-result-body");
+  js.context.removeAllMarkers();
   if (form.results != null && form.results.isNotEmpty){
     
-    js.context.removeAllMarkers();
     form.results.forEach((ligthTrace){
       Element searchResultCurrentRow = searchResultRow.clone(true) ;
       searchResultCurrentRow.className = "search-results" ;
