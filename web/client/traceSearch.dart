@@ -54,7 +54,7 @@ void displaySearchResults(HttpRequest request){
       js.context.addMarkerToMap( ligthTrace.keyJsSafe,  ligthTrace.titleJsSafe, ligthTrace.startPointLatitude,ligthTrace.startPointLongitude );
     });
     
-    //js.context.fitMapViewPortWithMarkers();
+    js.context.fitMapViewPortWithMarkers();
   }
   layout.stopLoading();
 }
