@@ -1,7 +1,7 @@
 import "dart:html";
 import "dart:convert";
 import 'package:bootjack/bootjack.dart';
-import 'package:js/js.dart' as js;
+//import 'package:js/js.dart' as js;
 
 import 'spaces.dart';
 import "forms.dart";
@@ -35,7 +35,7 @@ void displaySearchResults(HttpRequest request){
   
   Element searchResultRow=  querySelector("#search-result-row");
   Element searchResultBody=  querySelector("#search-result-body");
-  js.context.removeAllMarkers();
+  //js.context.removeAllMarkers();
   if (form.results != null && form.results.isNotEmpty){
     
     form.results.forEach((ligthTrace){
@@ -51,10 +51,10 @@ void displaySearchResults(HttpRequest request){
       searchResultCurrentRow.children[7].innerHtml = ligthTrace.difficulty;
       searchResultBody.append(searchResultCurrentRow);
       
-      js.context.addMarkerToMap( ligthTrace.keyJsSafe,  ligthTrace.titleJsSafe, ligthTrace.startPointLatitude,ligthTrace.startPointLongitude );
+      //js.context.addMarkerToMap( ligthTrace.keyJsSafe,  ligthTrace.titleJsSafe, ligthTrace.startPointLatitude,ligthTrace.startPointLongitude );
     });
     
-    js.context.fitMapViewPortWithMarkers();
+    //js.context.fitMapViewPortWithMarkers();
   }
   layout.stopLoading();
 }
@@ -81,7 +81,7 @@ void sendSearchRequest(HttpRequest request){
   form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
   form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
 
-  var map = js.context.map ;
+  /*var map = js.context.map ;
   
   var locationFilter = ( querySelector(".search-form-input-location") as CheckboxInputElement).checked;
   if (locationFilter && map !=null){
@@ -89,7 +89,7 @@ void sendSearchRequest(HttpRequest request){
     form.mapBoundNELong = map.getBounds().getNorthEast().lng();
     form.mapBoundSWLat = map.getBounds().getSouthWest().lat();
     form.mapBoundSWLong = map.getBounds().getSouthWest().lng();
-  }
+  }*/
   
   request.send(JSON.encode(form.toJson()));
 
