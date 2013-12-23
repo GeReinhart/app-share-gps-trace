@@ -83,11 +83,11 @@ void sendSearchRequest(HttpRequest request){
 
 
   var locationFilter = ( querySelector(".search-form-input-location") as CheckboxInputElement).checked;
-  if (locationFilter && js.context.map !=null){
-    form.mapBoundNELat = js.context.map.getBounds().getNorthEast().lat();
-    form.mapBoundNELong = js.context.map.getBounds().getNorthEast().lng();
-    form.mapBoundSWLat = js.context.map.getBounds().getSouthWest().lat();
-    form.mapBoundSWLong = js.context.map.getBounds().getSouthWest().lng();
+  if (locationFilter ){
+    form.mapBoundNELat = js.context.getMapBounds().getNorthEast().lat();
+    form.mapBoundNELong = js.context.getMapBounds().getNorthEast().lng();
+    form.mapBoundSWLat = js.context.getMapBounds().getSouthWest().lat();
+    form.mapBoundSWLong = js.context.getMapBounds().getSouthWest().lng();
   }
   
   request.send(JSON.encode(form.toJson()));
