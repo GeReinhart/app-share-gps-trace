@@ -81,15 +81,14 @@ void sendSearchRequest(HttpRequest request){
   form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
   form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
 
-  /*var map = js.context.map ;
-  
+
   var locationFilter = ( querySelector(".search-form-input-location") as CheckboxInputElement).checked;
-  if (locationFilter && map !=null){
-    form.mapBoundNELat = map.getBounds().getNorthEast().lat();
-    form.mapBoundNELong = map.getBounds().getNorthEast().lng();
-    form.mapBoundSWLat = map.getBounds().getSouthWest().lat();
-    form.mapBoundSWLong = map.getBounds().getSouthWest().lng();
-  }*/
+  if (locationFilter && js.context.map !=null){
+    form.mapBoundNELat = js.context.map.getBounds().getNorthEast().lat();
+    form.mapBoundNELong = js.context.map.getBounds().getNorthEast().lng();
+    form.mapBoundSWLat = js.context.map.getBounds().getSouthWest().lat();
+    form.mapBoundSWLong = js.context.map.getBounds().getSouthWest().lng();
+  }
   
   request.send(JSON.encode(form.toJson()));
 
