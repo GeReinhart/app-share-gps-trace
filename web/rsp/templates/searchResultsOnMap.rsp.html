@@ -51,10 +51,19 @@
         }
       }
       
-      function getMapBounds(){
-         return map.getBounds() ;
+      function getMapBoundsNELat(){
+         return map.getBounds().getNorthEast().lat() ;
       }
-      
+      function getMapBoundsNELong(){
+         return map.getBounds().getNorthEast().lng() ;
+      }
+      function getMapBoundsSWLat(){
+         return map.getBounds().getSouthWest().lat() ;
+      }
+      function getMapBoundsSWLong(){
+         return map.getBounds().getSouthWest().lng() ;
+      }      
+     
       
       function initialize() {
 
