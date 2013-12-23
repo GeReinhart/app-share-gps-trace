@@ -80,6 +80,17 @@ void sendSearchRequest(HttpRequest request){
   form.inclinationUpLt       = (querySelector(".search-form-input-inclination-up-lt") as InputElement ).value ;  
   form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
   form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
+
+  var map = js.context.map ;
+  
+  var locationFilter = ( querySelector(".search-form-input-location") as CheckboxInputElement).checked;
+  if (locationFilter && map !=null){
+    form.mapBoundNELat = map.getBounds().getNorthEast().lat();
+    form.mapBoundNELong = map.getBounds().getNorthEast().lng();
+    form.mapBoundSWLat = map.getBounds().getSouthWest().lat();
+    form.mapBoundSWLong = map.getBounds().getSouthWest().lng();
+  }
+  
   request.send(JSON.encode(form.toJson()));
 
 }

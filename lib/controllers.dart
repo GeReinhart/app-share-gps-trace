@@ -115,6 +115,11 @@ class TraceController{
             filters.upperPointElevetionLt = castToNum(form.upperPointElevetionLt,1);
             filters.difficultyLt = castToNum(form.difficultyLt,1);
             
+            filters.mapBoundNELat = form.mapBoundNELat ;
+            filters.mapBoundNELong  = form.mapBoundNELong ;
+            filters.mapBoundSWLat  = form.mapBoundSWLat ;
+            filters.mapBoundSWLong  = form.mapBoundSWLong ;
+            
             return  _persistence.getTracesByFilters(filters).then((traces){
               form.results = new List();
               if (traces != null){

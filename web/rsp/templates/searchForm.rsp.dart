@@ -118,6 +118,17 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
              <td ></td>
           </tr>
           
+         <tr>
+             <td ></td>
+             <td ><span class="important-text"  >Localisation</span></td>
+             <td colspan="2" style="width: * ; text-align: left;"   >
+              <div class="form-inputs" >
+                        <div><input type="checkbox"  class="search-form-inputs search-form-input-location"  name="search-location"  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >visible sur la carte courante</span></div>
+              </div>
+             </td>
+             <td ></td>
+          </tr>          
+          
           <tr>
              <td  ></td>
              <td colspan="2" style="width: * ; text-align: center;"  >
@@ -131,7 +142,6 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
         </table> 
         
         
-        <div class="text-warning  form-error-message" >Actuellement en construction : la possibilité de rechercher localisation, département ou massif...</div>
         
 """); //#23
 

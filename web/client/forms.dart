@@ -119,6 +119,11 @@ class SearchForm{
   String upperPointElevetionLt;
   String difficultyLt;
   
+  double mapBoundNELat ;
+  double mapBoundNELong ;
+  double mapBoundSWLat ;
+  double mapBoundSWLong ;
+  
   List<LightTrace> results;
   
   SearchForm();
@@ -145,6 +150,11 @@ class SearchForm{
     upperPointElevetionLt = jsonMap["upperPointElevetionLt"] ;
     difficultyLt = jsonMap["difficultyLt"] ;
         
+    mapBoundNELat = jsonMap["mapBoundNELat"] ;
+    mapBoundNELong = jsonMap["mapBoundNELong"] ;
+    mapBoundSWLat = jsonMap["mapBoundSWLat"] ;
+    mapBoundSWLong = jsonMap["mapBoundSWLong"] ;    
+    
     results = new List<LightTrace>();
     List<Map> resultsAsJson = jsonMap["results"] ;
     if (resultsAsJson!= null && resultsAsJson.isNotEmpty  ){
@@ -169,7 +179,11 @@ class SearchForm{
              'inclinationUpLt': inclinationUpLt,             
              'startPointElevetionLt': startPointElevetionLt,             
              'upperPointElevetionLt': upperPointElevetionLt,             
-             'difficultyLt': difficultyLt,             
+             'difficultyLt': difficultyLt,  
+             'mapBoundNELat': mapBoundNELat,               
+             'mapBoundNELong': mapBoundNELong,               
+             'mapBoundSWLat': mapBoundSWLat,               
+             'mapBoundSWLong': mapBoundSWLong,               
              'results':results};
   }
   

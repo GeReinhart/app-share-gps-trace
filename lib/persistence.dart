@@ -52,6 +52,10 @@ class SearchFilters{
   double startPointElevetionLt;
   double upperPointElevetionLt;
   int    difficultyLt;
+  double mapBoundNELat ;
+  double mapBoundNELong ;
+  double mapBoundSWLat ;
+  double mapBoundSWLong ;
 }
 
 class MongoPersistence implements PersistenceLayer{
@@ -173,6 +177,22 @@ class MongoPersistence implements PersistenceLayer{
     if ( filters.upperPointElevetionLt != null  ){
       selector.and(where.lte("upperPointElevetion", filters.upperPointElevetionLt));
     }     
+    
+    if ( filters.mapBoundNELat != null  ){
+      selector.and(where.lte("startPointLatitude", filters.mapBoundNELat));
+    }  
+    if ( filters.mapBoundNELong != null  ){
+      selector.and(where.lte("startPointLongitude", filters.mapBoundNELong));
+    }    
+    if ( filters.mapBoundSWLat != null  ){
+      selector.and(where.gte("startPointLatitude", filters.mapBoundSWLat));
+    }  
+    if ( filters.mapBoundSWLong != null  ){
+      selector.and(where.gte("startPointLongitude", filters.mapBoundSWLong));
+    } 
+    
+    
+    
     return _traceCollection.find(selector).forEach((jsonTrace){
                 Trace trace = new Trace.fromJson(jsonTrace);
                 traces.add(trace);
