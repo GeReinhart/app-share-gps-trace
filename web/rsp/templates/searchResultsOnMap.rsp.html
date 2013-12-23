@@ -35,16 +35,32 @@
           markers[key].setMap(null);
         }
       }
+
+      function fitMapViewPortWithMarkers(){
+        
+        var bounds = new google.maps.LatLngBounds ();
+        for (var key in markers) {
+          marker = markers[key];
+          if (  marker.getMap() != null ){
+            bounds.extend (marker.getPosition());
+          }
+        }        
+        map.fitBounds (bounds);
+        if (map.getZoom() > 12){
+          map.setZoom(12);
+        }
+      }
       
       function initialize() {
 
         var baryCenter = new google.maps.LatLng([=lightTraceRenderers.baryCenter.latitude],
                                                  [=lightTraceRenderers.baryCenter.longitude]);
         
-        var mapOptions = { zoom: 9,
+        var mapOptions = { zoom : 9,
                            mapTypeControl: false,
                            zoomControl: false,
-                           center: baryCenter};
+                           center : baryCenter
+        					};
         
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
         
@@ -56,6 +72,7 @@
                   [=lightTraceRenderer.trace.startPointLongitude] ) ;
         [/for]
       
+        fitMapViewPortWithMarkers();
       }
       
       google.maps.event.addDomListener(window, 'load', initialize);
