@@ -20,6 +20,8 @@ do
     cp "$clientDir/$clientFile" "$clientDir/$prefixFile-$clientFile"
     dart2js "$clientDir/$prefixFile-$clientFile" -o "$clientDir/$prefixFile-$clientFile.js"
 done
+cp "web/assets/css/app-share-gps-trace.css" "web/assets/css/$prefixFile-app-share-gps-trace.css"
+
 
 viewDir="web/rsp"
 viewFiles=`grep -r "type=\"application/dart\"" "$viewDir" | grep -v packages | awk -F":" '{print $1}' `
@@ -28,12 +30,12 @@ for viewFile  in $viewFiles
 do
    sed -i "s:src=\"/client/:src=\"/client/$prefixFile-:" "$viewFile"
 done
-
+sed -i "s:app-share-gps-trace.css:$prefixFile-app-share-gps-trace.css:" "web/rsp/templates/assetsimports.html"
 
 git config --global user.email "support@drone.io"
 git config --global user.name "Drone Server"
 git status 
 
 git add .
-git commit -m "add compiled files"
+git commit -m "add compiled and prefixed files"
 
