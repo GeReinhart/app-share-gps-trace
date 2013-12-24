@@ -62,18 +62,35 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
           map.setZoom(12);
         }
       }
+     
+      function isOnTheMap(lat, long){
+        return  lat  <= map.getBounds().getNorthEast().lat()
+            &&   lat  >= map.getBounds().getSouthWest().lat()
+            &&   long <= map.getBounds().getNorthEast().lng()
+            &&   long >= map.getBounds().getSouthWest().lng()   ;
+      }
+      
+      function updateSearchFormBounds(){
+        document.getElementById('search-form-input-location-ne-lat').value = map.getBounds().getNorthEast().lat() ;
+        document.getElementById('search-form-input-location-ne-long').value = map.getBounds().getNorthEast().lng() ;
+        document.getElementById('search-form-input-location-sw-lat').value = map.getBounds().getSouthWest().lat() ;
+        document.getElementById('search-form-input-location-sw-long').value = map.getBounds().getSouthWest().lng() ;
+        
+        document.getElementById('search-form-js-dart-bridge').value = new Date().getTime();
+        
+      }
       
       function initialize() {
 
         var baryCenter = new google.maps.LatLng("""); //#2
 
-  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.latitude)); //#56
+  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.latitude)); //#73
 
 
   response.write(""",
-                                                 """); //#56
+                                                 """); //#73
 
-  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.longitude)); //#57
+  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.longitude)); //#74
 
 
   response.write(""");
@@ -85,44 +102,13 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
         					};
         
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        
-"""); //#57
-
-  for (var lightTraceRenderer in lightTraceRenderers.traces) { //for#67
-
-    response.write("""        addMarker(map,
-                  \""""); //#68
-
-    response.write(Rsp.nnx(lightTraceRenderer.keyJsSafe)); //#69
-
-
-    response.write("""", 
-                  \""""); //#69
-
-    response.write(Rsp.nnx(lightTraceRenderer.titleJsSafe)); //#70
-
-
-    response.write("""",
-                  """); //#70
-
-    response.write(Rsp.nnx(lightTraceRenderer.trace.startPointLatitude)); //#71
-
-
-    response.write(""",
-                  """); //#71
-
-    response.write(Rsp.nnx(lightTraceRenderer.trace.startPointLongitude)); //#72
-
-
-    response.write(""" ) ;
-"""); //#72
-  } //for
-
-  response.write("""      
-        fitMapViewPortWithMarkers();
+        google.maps.event.addListener(map, 'center_changed', updateSearchFormBounds);
+        google.maps.event.addListener(map, 'bounds_changed', updateSearchFormBounds);
+                
       }
       
       google.maps.event.addDomListener(window, 'load', initialize);
+      
       
     </script>
     <div id="map-canvas"  class="space" ></div>

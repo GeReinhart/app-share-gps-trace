@@ -48,7 +48,7 @@ class LigthTraceRenderer{
   LigthTraceRenderer(this.trace);
  
   String get key => (trace.key);
-  String get keyJsSafe => (trace.key.replaceAll("'", "#"));
+  String get keyJsSafe => (trace.key.replaceAll("/", "_").replaceAll("'", "-"));
   String get creator => (trace.creator);
   String get title => (trace.title);
   String get titleJsSafe => (trace.title.replaceAll("'", ""));

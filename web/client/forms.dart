@@ -256,7 +256,7 @@ class LightTrace{
             };
   }
   
-  String get keyJsSafe => (this.key.replaceAll("'", "#"));
+  String get keyJsSafe => (this.key.replaceAll("/", "_").replaceAll("'", "-"));
   String get titleJsSafe => (this.title.replaceAll("'", ""));  
   
 }

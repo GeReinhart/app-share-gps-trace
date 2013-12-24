@@ -50,20 +50,23 @@
           map.setZoom(12);
         }
       }
-      
-      function getMapBoundsNELat(){
-         return map.getBounds().getNorthEast().lat() ;
-      }
-      function getMapBoundsNELong(){
-         return map.getBounds().getNorthEast().lng() ;
-      }
-      function getMapBoundsSWLat(){
-         return map.getBounds().getSouthWest().lat() ;
-      }
-      function getMapBoundsSWLong(){
-         return map.getBounds().getSouthWest().lng() ;
-      }      
      
+      function isOnTheMap(lat, long){
+        return  lat  <= map.getBounds().getNorthEast().lat()
+            &&   lat  >= map.getBounds().getSouthWest().lat()
+            &&   long <= map.getBounds().getNorthEast().lng()
+            &&   long >= map.getBounds().getSouthWest().lng()   ;
+      }
+      
+      function updateSearchFormBounds(){
+        document.getElementById('search-form-input-location-ne-lat').value = map.getBounds().getNorthEast().lat() ;
+        document.getElementById('search-form-input-location-ne-long').value = map.getBounds().getNorthEast().lng() ;
+        document.getElementById('search-form-input-location-sw-lat').value = map.getBounds().getSouthWest().lat() ;
+        document.getElementById('search-form-input-location-sw-long').value = map.getBounds().getSouthWest().lng() ;
+        
+        document.getElementById('search-form-js-dart-bridge').value = new Date().getTime();
+        
+      }
       
       function initialize() {
 
@@ -77,19 +80,13 @@
         					};
         
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        
-        [:for lightTraceRenderer in lightTraceRenderers.traces]
-        addMarker(map,
-                  "[=lightTraceRenderer.keyJsSafe]", 
-                  "[=lightTraceRenderer.titleJsSafe]",
-                  [=lightTraceRenderer.trace.startPointLatitude],
-                  [=lightTraceRenderer.trace.startPointLongitude] ) ;
-        [/for]
-      
-        fitMapViewPortWithMarkers();
+        google.maps.event.addListener(map, 'center_changed', updateSearchFormBounds);
+        google.maps.event.addListener(map, 'bounds_changed', updateSearchFormBounds);
+                
       }
       
       google.maps.event.addDomListener(window, 'load', initialize);
+      
       
     </script>
     <div id="map-canvas"  class="space" ></div>

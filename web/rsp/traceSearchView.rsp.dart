@@ -35,7 +35,7 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
       var _1 = new StringBuffer(); _cs_.add(connect); //var#14
       connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
-      return Rsp.nnf(searchResults(new HttpConnect.chain(connect), lightTraceRenderers: lightTraceRenderers)).then((_) { //include#15
+      return Rsp.nnf(searchResults(new HttpConnect.chain(connect))).then((_) { //include#15
 
         connect = _cs_.removeLast(); response = connect.response;
 

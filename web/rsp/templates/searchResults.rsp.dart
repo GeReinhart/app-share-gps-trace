@@ -3,7 +3,7 @@
 part of trails;
 
 /** Template, searchResults, for rendering the view. */
-Future searchResults(HttpConnect connect, {lightTraceRenderers}) { //#2
+Future searchResults(HttpConnect connect) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
@@ -36,67 +36,9 @@ Future searchResults(HttpConnect connect, {lightTraceRenderers}) { //#2
                   <td></td>
                   <td></td>
              </tr>
-"""); //#2
-
-  for (var lightTraceRenderer in lightTraceRenderers.traces) { //for#27
-
-    response.write("""              <tr class="search-default-results" >  
-                  <td>"""); //#28
-
-    response.write(Rsp.nnx(lightTraceRenderer.creator)); //#29
-
-
-    response.write("""</td>  
-                  <td>"""); //#29
-
-    response.write(Rsp.nnx(lightTraceRenderer.titleWithUrl, encode: 'none')); //#30
-
-
-    response.write("""</td>  
-                  <td>"""); //#30
-
-    response.write(Rsp.nnx(lightTraceRenderer.activities)); //#31
-
-
-    response.write("""</td>
-                  <td>"""); //#31
-
-    response.write(Rsp.nnx(lightTraceRenderer.length)); //#32
-
-
-    response.write("""</td>  
-                  <td>"""); //#32
-
-    response.write(Rsp.nnx(lightTraceRenderer.up)); //#33
-
-
-    response.write("""</td>
-                  <td>"""); //#33
-
-    response.write(Rsp.nnx(lightTraceRenderer.upperPointElevetion)); //#34
-
-
-    response.write("""</td>
-                  <td>"""); //#34
-
-    response.write(Rsp.nnx(lightTraceRenderer.inclinationUp)); //#35
-
-
-    response.write("""</td>
-                  <td>"""); //#35
-
-    response.write(Rsp.nnx(lightTraceRenderer.difficulty)); //#36
-
-
-    response.write("""</td>
-              </tr>  
-"""); //#36
-  } //for
-
-  response.write("""    
           </tbody>  
         </table>
-"""); //#39
+"""); //#2
 
   return new Future.value();
 }

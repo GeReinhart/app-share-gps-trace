@@ -96,7 +96,15 @@
              <td ><span class="important-text"  >Localisation</span></td>
              <td colspan="2" style="width: * ; text-align: left;"   >
               <div class="form-inputs" >
-                        <div><input type="checkbox"  class="search-form-inputs search-form-input-location"  name="search-location"  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >visible sur la carte courante</span></div>
+                        <div>
+                          <input type="checkbox"  class="search-form-inputs search-form-input-location"  name="search-location"  style="vertical-align: middle;"  >&nbsp;&nbsp;
+                          <span style="vertical-align: middle;"  >filtre sur le zoom actuel de la carte : les traces seront visibles sur la carte de droite.</span>
+                        </div>
+                        <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-ne-lat" />
+                        <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-ne-long" />
+                        <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-sw-lat" />
+                        <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-sw-long" />
+                        <input type="hidden" id="search-form-js-dart-bridge" />                                                
               </div>
              </td>
              <td ></td>

@@ -1,4 +1,4 @@
-[:page partOf="trails" args="lightTraceRenderers"]
+[:page partOf="trails" ]
 
         <table class="table table-striped" style="width: 100% ;margin-top: 40px">  
           <thead>  
@@ -24,18 +24,5 @@
                   <td></td>
                   <td></td>
              </tr>
-             [:for lightTraceRenderer in lightTraceRenderers.traces]
-              <tr class="search-default-results" >  
-                  <td>[=lightTraceRenderer.creator]</td>  
-                  <td>[=lightTraceRenderer.titleWithUrl, encode: 'none']</td>  
-                  <td>[=lightTraceRenderer.activities]</td>
-                  <td>[=lightTraceRenderer.length]</td>  
-                  <td>[=lightTraceRenderer.up]</td>
-                  <td>[=lightTraceRenderer.upperPointElevetion]</td>
-                  <td>[=lightTraceRenderer.inclinationUp]</td>
-                  <td>[=lightTraceRenderer.difficulty]</td>
-              </tr>  
-             [/for]
-    
           </tbody>  
         </table>

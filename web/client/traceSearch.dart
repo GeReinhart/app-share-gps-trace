@@ -1,19 +1,27 @@
 import "dart:html";
 import "dart:convert";
-import 'package:bootjack/bootjack.dart';
+import "dart:async" ;
 import 'package:js/js.dart' as js;
 
 import 'spaces.dart';
 import "forms.dart";
 
 SpacesLayout layout;
+Map<String,LightTrace> resultsMap = new Map();
+Map<String,LightTrace> hiddenResultsMap = new Map();
+
+const TIMEOUT = const Duration(seconds: 1);
+String lastTimeMapChange = "";
+
 
 void main() {
   layout = new SpacesLayout.withWestSpace(180,70,50);
+  submitRequest();
   
   querySelector(".search-form-btn").onClick.listen((e) {
     submitRequest();
   });  
+  new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
 }
 
 void submitRequest(){
@@ -26,7 +34,6 @@ void submitRequest(){
     }
   });
   sendSearchRequest(request);
-  removeResults(".search-default-results");
   removeResults(".search-results");
 }
 
@@ -36,22 +43,12 @@ void displaySearchResults(HttpRequest request){
   Element searchResultRow=  querySelector("#search-result-row");
   Element searchResultBody=  querySelector("#search-result-body");
   js.context.removeAllMarkers();
+  
+  setResultsMap(form.results);
   if (form.results != null && form.results.isNotEmpty){
-    
-    form.results.forEach((ligthTrace){
-      Element searchResultCurrentRow = searchResultRow.clone(true) ;
-      searchResultCurrentRow.className = "search-results" ;
-      searchResultCurrentRow.children[0].innerHtml = ligthTrace.creator;
-      searchResultCurrentRow.children[1].innerHtml = ligthTrace.title;
-      searchResultCurrentRow.children[2].innerHtml = ligthTrace.activities;
-      searchResultCurrentRow.children[3].innerHtml = ligthTrace.length;
-      searchResultCurrentRow.children[4].innerHtml = ligthTrace.up;
-      searchResultCurrentRow.children[5].innerHtml = ligthTrace.upperPointElevetion;
-      searchResultCurrentRow.children[6].innerHtml = ligthTrace.inclinationUp;
-      searchResultCurrentRow.children[7].innerHtml = ligthTrace.difficulty;
-      searchResultBody.append(searchResultCurrentRow);
-      
-      js.context.addMarkerToMap( ligthTrace.keyJsSafe,  ligthTrace.titleJsSafe, ligthTrace.startPointLatitude,ligthTrace.startPointLongitude );
+      form.results.forEach((lightTrace){
+      displaySearchResult( searchResultBody, searchResultRow,  lightTrace) ;
+      js.context.addMarkerToMap( lightTrace.keyJsSafe,  lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude );
     });
     
     js.context.fitMapViewPortWithMarkers();
@@ -59,8 +56,79 @@ void displaySearchResults(HttpRequest request){
   layout.stopLoading();
 }
 
+void displaySearchResult(Element searchResultBody,Element searchResultRow, LightTrace lightTrace){
+  Element searchResultCurrentRow = searchResultRow.clone(true) ;
+  searchResultCurrentRow.className = "search-results key-${lightTrace.keyJsSafe}" ;
+  searchResultCurrentRow.children[0].innerHtml = lightTrace.creator;
+  searchResultCurrentRow.children[1].innerHtml = lightTrace.title;
+  searchResultCurrentRow.children[2].innerHtml = lightTrace.activities;
+  searchResultCurrentRow.children[3].innerHtml = lightTrace.length;
+  searchResultCurrentRow.children[4].innerHtml = lightTrace.up;
+  searchResultCurrentRow.children[5].innerHtml = lightTrace.upperPointElevetion;
+  searchResultCurrentRow.children[6].innerHtml = lightTrace.inclinationUp;
+  searchResultCurrentRow.children[7].innerHtml = lightTrace.difficulty;
+  searchResultBody.append(searchResultCurrentRow);
+}
+
+
+void setResultsMap(List<LightTrace> results){
+  if (results != null && results.isNotEmpty){
+    results.forEach((lightTrace){
+      resultsMap[ lightTrace.keyJsSafe ] = lightTrace;
+    });
+    hiddenResultsMap = new Map();
+  }else{
+    resultsMap = new Map();
+    hiddenResultsMap = new Map();
+  }
+}
+
+void shouldUpdateSearchResultsDisplay(){
+  
+  String newTimeMapChange = (querySelector("#search-form-js-dart-bridge") as InputElement).value;
+  if ( newTimeMapChange != lastTimeMapChange ){
+    lastTimeMapChange = newTimeMapChange;
+    updateSearchResultsDisplay();
+  }
+  new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
+}
+
+void updateSearchResultsDisplay(){
+  Element searchResultRow=  querySelector("#search-result-row");
+  Element searchResultBody=  querySelector("#search-result-body");
+  Map<String,LightTrace> updatedResultsMap = new Map();
+  Map<String,LightTrace> updatedHiddenResultsMap = new Map();
+  Map<String,LightTrace> allResultsMap = new Map();
+  hiddenResultsMap.forEach((key,lightTrace)=>(allResultsMap[key]= lightTrace));
+  resultsMap.forEach((key,lightTrace)=>(allResultsMap[key]= lightTrace));
+  
+  allResultsMap.forEach((key,lightTrace){
+    if ( js.context.isOnTheMap( lightTrace.startPointLatitude,lightTrace.startPointLongitude  )  ){
+      updatedResultsMap[key] = lightTrace;
+      if(!resultsMap.containsKey(key)){
+        displaySearchResult( searchResultBody, searchResultRow,  lightTrace) ;
+      }
+    }else{
+      updatedHiddenResultsMap[key] = lightTrace;
+      if(resultsMap.containsKey(key)){
+        removeResults( ".key-${lightTrace.keyJsSafe}"  ) ;
+      }
+
+    }
+  });
+  
+  resultsMap = updatedResultsMap;
+  hiddenResultsMap = updatedHiddenResultsMap;
+}
+
+
 void sendSearchRequest(HttpRequest request){
   request.open("POST",  "/trace.as_search", async: true);
+  SearchForm form = new  SearchForm( );
+  request.send(JSON.encode(form.toJson()));
+}
+
+SearchForm buildSearchFormFromPage(){
   SearchForm form =  new  SearchForm( );
   form.search = (querySelector(".search-form-input-text") as InputElement ).value ;
   querySelectorAll(".search-form-input-activity").forEach((e){
@@ -81,26 +149,22 @@ void sendSearchRequest(HttpRequest request){
   form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
   form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
 
-
   var locationFilter = ( querySelector(".search-form-input-location") as CheckboxInputElement).checked;
   if (locationFilter ){
-    form.mapBoundNELat = js.context.getMapBoundsNELat();
-    form.mapBoundNELong = js.context.getMapBoundsNELong();
-    form.mapBoundSWLat = js.context.getMapBoundsSWLat();
-    form.mapBoundSWLong = js.context.getMapBoundsSWLong();
+    form.mapBoundNELat = double.parse((querySelector('#search-form-input-location-ne-lat')as InputElement ).value);
+    form.mapBoundNELong = double.parse((querySelector('#search-form-input-location-ne-long')as InputElement ).value);
+    form.mapBoundSWLat = double.parse((querySelector('#search-form-input-location-sw-lat')as InputElement ).value);
+    form.mapBoundSWLong = double.parse((querySelector('#search-form-input-location-sw-long')as InputElement ).value);
   }
-  
-  request.send(JSON.encode(form.toJson()));
-
+  return form;
 }
 
 
-
 void removeResults(String selector){
-  Element defaultResult = querySelector(selector);
-  while(defaultResult != null){
-    defaultResult.remove();
-    defaultResult = querySelector(selector);
+  Element result = querySelector(selector);
+  while(result != null){
+    result.remove();
+    result = querySelector(selector);
   }
 }
 
