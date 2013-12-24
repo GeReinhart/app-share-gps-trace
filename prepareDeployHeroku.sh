@@ -34,10 +34,6 @@ git config --global user.email "support@drone.io"
 git config --global user.name "Drone Server"
 git status 
 
-git add "web/client/$prefixFile-*"
-git add web/client/*.dart.js
-git add web/client/*.dart.js.deps
-git add web/client/*.dart.js.map
-git add web/client/*.dart.precompiled.js
+git add .
 git commit -m "add compiled files"
 
