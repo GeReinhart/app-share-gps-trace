@@ -213,7 +213,14 @@ class TraceController{
           .then((_) {
             return TraceAnalysis.fromGpxFile(file).then((traceAnalysis){
               
-              Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
+              TraceRawDataPurger traceRawDataPurger = new TraceRawDataPurger( 1000/12 , 4000  ) ;
+              
+              TraceRawData data = new TraceRawData();
+              data.points = traceAnalysis.points ;
+              TraceRawData purgedData = traceRawDataPurger.purge(data);
+              TraceAnalysis purgeTraceAnalysis = new TraceAnalysis.fromPoints(purgedData);
+              
+              Trace trace = new Trace.fromTraceAnalysis(user.login, purgeTraceAnalysis); 
               trace.title = title ;
               trace.description = description ;
               trace.activities = activities; 
