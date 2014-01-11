@@ -1,6 +1,6 @@
 
 import 'package:intl/intl.dart';
-import "../../lib/trace.dart" ;
+import "package:gps_trace/gps_trace.dart";
 import "../../lib/models.dart" ;
 import "../../lib/i18n.dart" ;
 
@@ -88,8 +88,7 @@ class TraceRenderer extends LigthTraceRenderer{
   TraceRenderer(Trace trace,String permanentTraceUrl,String gpxUrl): super(trace){
     this.permanentTraceUrl=permanentTraceUrl;
     this.gpxUrl = gpxUrl;
-    trace.traceAnalysis.gpxUrl = gpxUrl;
-    this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis);
+    this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis,gpxUrl);
   }
   
   String get description {
@@ -116,9 +115,10 @@ class TraceRenderer extends LigthTraceRenderer{
 
 class TraceAnalysisRenderer {
   
+  String gpxUrl;
   TraceAnalysis _traceAnalysis ;
   
-  TraceAnalysisRenderer(this._traceAnalysis);
+  TraceAnalysisRenderer(this._traceAnalysis, this.gpxUrl);
   
   List<TracePointRenderer> get points {
     List<TracePointRenderer> tracePointRenderers = new List<TracePointRenderer>();
@@ -128,8 +128,6 @@ class TraceAnalysisRenderer {
     return tracePointRenderers ;
   }
  
-  String get gpxUrl => _traceAnalysis.gpxUrl ;
-
   TracePoint get startPoint => _traceAnalysis.startPoint ;
   
   int get skyElevetionInMeters => _traceAnalysis.upperPoint.elevetion.round() + 500 ;
@@ -141,8 +139,6 @@ class TraceAnalysisRenderer {
   num get up => _traceAnalysis.up ;
   
   num get inclinationUp => _traceAnalysis.inclinationUp ;
-  
-  DistanceInclinationElevetion get maxInclinationUp => _traceAnalysis.maxInclinationUp ;
   
   int get upperPointElevetion => _traceAnalysis.upperPoint.elevetion.round();
   

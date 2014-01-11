@@ -10,13 +10,13 @@ import "package:rikulo_security/plugin.dart";
 import "package:rikulo_security/security.dart";
 import "package:stream/stream.dart";
 import "package:rikulo_commons/convert.dart" ;
+import "package:gps_trace/gps_trace.dart";
 
 import  "../web/shared/forms.dart";
 import  "../web/client/renderers.dart";
 import  "models.dart";
 import  "persistence.dart";
 import  "aaa.dart";
-import  "trace.dart";
 
 part "../web/rsp/login.rsp.dart";
 part "../web/rsp/about.rsp.dart" ;

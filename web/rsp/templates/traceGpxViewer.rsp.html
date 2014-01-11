@@ -1,7 +1,7 @@
-[:page partOf="trails" args="traceAnalysisRenderer"]
+[:page partOf="trails" args="traceRenderer"]
 
-[:if traceAnalysisRenderer != null]
+[:if traceRenderer != null]
       <div id="traceGpxViewer" style="overflow-x:hidden ; overflow-y:hidden ;  ">
-        <iframe src="http://www.visugpx.com/ign/?gpx=[=traceAnalysisRenderer.gpxUrl]" name="GPX-View" scrolling="no" marginheight=0 marginwidth=0 frameborder=0 width=1500 height=1500></iframe>
+        <iframe src="http://www.visugpx.com/ign/?gpx=[=traceRenderer.gpxUrl]" name="GPX-View" scrolling="no" marginheight=0 marginwidth=0 frameborder=0 width=1500 height=1500></iframe>
       </div>
 [/if]

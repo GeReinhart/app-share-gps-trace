@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:io';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:unittest/unittest.dart';
+import "package:gps_trace/gps_trace.dart";
 import '../lib/models.dart' ;
 import '../lib/persistence.dart' ;
-import '../lib/trace.dart';
 
 const String mongoUrl = "mongodb://127.0.0.1/test-traces-persitence" ;
 

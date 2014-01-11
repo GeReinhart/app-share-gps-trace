@@ -1,5 +1,5 @@
 
-import '../lib/trace.dart';
+import "package:gps_trace/gps_trace.dart";
 
 class Trace {
   
@@ -196,7 +196,9 @@ class TraceData{
   
   TraceAnalysis toTraceAnalysis(){
     TraceAnalysis traceAnalysis = new TraceAnalysis();
-    return new TraceAnalysis.fromPoints(points);
+    TraceRawData data = new TraceRawData();
+    data.points=points;
+    return new TraceAnalysis.fromPoints(data);
   }
   
   List<TracePoint> get points{

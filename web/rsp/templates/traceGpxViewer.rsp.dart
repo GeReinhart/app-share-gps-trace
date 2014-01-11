@@ -3,19 +3,19 @@
 part of trails;
 
 /** Template, traceGpxViewer, for rendering the view. */
-Future traceGpxViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
+Future traceGpxViewer(HttpConnect connect, {traceRenderer}) { //#3
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  if (traceAnalysisRenderer != null) { //if#3
+  if (traceRenderer != null) { //if#3
 
     response.write("""      <div id="traceGpxViewer" style="overflow-x:hidden ; overflow-y:hidden ;  ">
         <iframe src="http://www.visugpx.com/ign/?gpx="""); //#4
 
-    response.write(Rsp.nnx(traceAnalysisRenderer.gpxUrl)); //#5
+    response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#5
 
 
     response.write("""" name="GPX-View" scrolling="no" marginheight=0 marginwidth=0 frameborder=0 width=1500 height=1500></iframe>
