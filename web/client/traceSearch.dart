@@ -124,7 +124,7 @@ void updateSearchResultsDisplay(){
 
 void sendSearchRequest(HttpRequest request){
   request.open("POST",  "/trace.as_search", async: true);
-  SearchForm form = new  SearchForm( );
+  SearchForm form = buildSearchFormFromPage();
   request.send(JSON.encode(form.toJson()));
 }
 
