@@ -10,7 +10,7 @@ function test-dart-sources {
 	dart test/test_runner.dart || { echo 'test-dart-sources failed' ; exit 1; }
 }
 
-function prefix-assets{
+function prefix-assets {
 	prefixFile=`date +"%Y%m%d%H%M%S"`
 	echo "prefix is $prefixFile"
 
