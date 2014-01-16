@@ -1,5 +1,4 @@
 
-
 library trails;
 
 import "dart:io";
@@ -213,12 +212,7 @@ class TraceController{
           .then((_) {
             return TraceAnalysis.fromGpxFile(file).then((traceAnalysis){
               
-              TraceRawDataPurger traceRawDataPurger = new TraceRawDataPurger( 1000/12 , 4000  ) ;
-              
-              TraceRawData data = new TraceRawData();
-              data.points = traceAnalysis.points ;
-              TraceRawData purgedData = traceRawDataPurger.purge(data);
-              TraceAnalysis purgeTraceAnalysis = new TraceAnalysis.fromPoints(purgedData);
+              TraceAnalysis purgeTraceAnalysis = traceAnalysis.computeNewPurgedTraceAnalysis(idealMaxPointNumber: 3500);
               
               Trace trace = new Trace.fromTraceAnalysis(user.login, purgeTraceAnalysis); 
               trace.title = title ;
