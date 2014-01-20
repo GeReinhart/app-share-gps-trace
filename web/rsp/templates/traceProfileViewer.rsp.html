@@ -17,7 +17,7 @@
             var data = google.visualization.arrayToDataTable([
                                                               ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ],
 
-                                                              [:for point in traceAnalysisRenderer.points]
+                                                              [:for point in traceAnalysisRenderer.profilePoints]
                                                               [  [=point.distanceInMeters],   [=traceAnalysisRenderer.skyElevetionInMeters], [=point.elevetionInMeters], [=point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters)], [=point.scatteredInMeters], [=point.thornyInMeters], [=point.leafyInMeters], [=point.meadowInMeters]           ],
                                                               [/for]
                                                               

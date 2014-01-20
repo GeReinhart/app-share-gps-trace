@@ -20,13 +20,13 @@ class Trace {
   int _creationDateInMilliseconds ;
   int _lastUpdateDateInMilliseconds ;
   
-  double startPointLatitude;
-  double startPointLongitude;
-  double startPointElevetion;
+  num startPointLatitude;
+  num startPointLongitude;
+  num startPointElevetion;
   num    length;
   num    up ;
   num    inclinationUp;
-  double    upperPointElevetion;
+  num    upperPointElevetion;
   int    difficulty;
   String _traceDataId ;
   
@@ -152,8 +152,8 @@ class Trace {
   
   
   String  buildKey() {
-    Pattern pattern = new RegExp(' ');
-    String titleAsKey = title.toLowerCase() ;
+    String titleAsKey = title.toLowerCase().replaceAll('é', 'e').replaceAll('è', 'e') ;
+    Pattern pattern = new RegExp('[^a-zA-Z0-9]');
     titleAsKey = titleAsKey.replaceAll(pattern, "_");
     return  Uri.encodeComponent(creator) + "/" + Uri.encodeComponent(titleAsKey) ;
   }

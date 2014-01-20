@@ -35,7 +35,7 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
 
 """); //#11
 
-    for (var point in traceAnalysisRenderer.points) { //for#20
+    for (var point in traceAnalysisRenderer.profilePoints) { //for#20
 
       response.write("""                                                              [  """); //#21
 

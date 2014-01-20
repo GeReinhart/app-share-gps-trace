@@ -84,11 +84,13 @@ class TraceRenderer extends LigthTraceRenderer{
   TraceAnalysisRenderer traceAnalysisRenderer ;
   String gpxUrl ;
   String permanentTraceUrl ;
+  TraceRawData profileData ;
   
   TraceRenderer(Trace trace,String permanentTraceUrl,String gpxUrl): super(trace){
     this.permanentTraceUrl=permanentTraceUrl;
     this.gpxUrl = gpxUrl;
-    this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis,gpxUrl);
+    this.profileData = trace.traceAnalysis.computeProfile();
+    this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis,profileData,gpxUrl);
   }
   
   String get description {
@@ -117,8 +119,9 @@ class TraceAnalysisRenderer {
   
   String gpxUrl;
   TraceAnalysis _traceAnalysis ;
+  TraceRawData profileData;
   
-  TraceAnalysisRenderer(this._traceAnalysis, this.gpxUrl);
+  TraceAnalysisRenderer(this._traceAnalysis, this.profileData, this.gpxUrl);
   
   List<TracePointRenderer> get points {
     List<TracePointRenderer> tracePointRenderers = new List<TracePointRenderer>();
@@ -127,7 +130,15 @@ class TraceAnalysisRenderer {
     }
     return tracePointRenderers ;
   }
- 
+
+  List<TracePointRenderer> get profilePoints {
+    List<TracePointRenderer> tracePointRenderers = new List<TracePointRenderer>();
+    for(TracePoint tracePoint in   profileData.points ){
+      tracePointRenderers.add(   new TracePointRenderer(tracePoint)) ;
+    }
+    return tracePointRenderers ;
+  }  
+  
   TracePoint get startPoint => _traceAnalysis.startPoint ;
   
   int get skyElevetionInMeters => _traceAnalysis.upperPoint.elevetion.round() + 500 ;
