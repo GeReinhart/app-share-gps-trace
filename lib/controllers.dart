@@ -157,7 +157,7 @@ class TraceController{
   
   Future _writeFormIntoResponse(HttpResponse response, form){
     response
-      ..headers.contentType = new ContentType("application", "json", charset: "utf-8");
+      ..headers.contentType = new ContentType("application", "json", charset: "utf-8")
       ..write( JSON.encode( form.toJson()) );  
     return new Future.value(); 
   }
