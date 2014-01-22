@@ -35,7 +35,7 @@ packages:
     version: "0.5.3+5"
   gps_trace:
     description:
-      ref: "0.2.0"
+      ref: null
       resolved-ref: a4db35f3b0d54ff0f4d4afc77eb6d3085905a602
       url: "git://github.com/GeReinhart/dart-gps-trace.git"
     source: git
