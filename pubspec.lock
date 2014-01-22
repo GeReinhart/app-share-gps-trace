@@ -33,13 +33,6 @@ packages:
     description: dquery
     source: hosted
     version: "0.5.3+5"
-  gps_trace:
-    description:
-      ref: null
-      resolved-ref: a4db35f3b0d54ff0f4d4afc77eb6d3085905a602
-      url: "git://github.com/GeReinhart/dart-gps-trace.git"
-    source: git
-    version: "0.0.0"
   http_server:
     description: http_server
     source: hosted
