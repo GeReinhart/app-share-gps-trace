@@ -99,7 +99,6 @@ class RegisterForm{
   bool get success => _success == "true" ;
 }
 
-
 class SearchForm{
 
   String search;
@@ -131,6 +130,62 @@ class SearchForm{
   SearchForm.fromMap(Map jsonMap){
     _fromMap(jsonMap);
   }
+  
+  bool equals( SearchForm other){
+    if ( ! _stringEquals(search, other.search) ) return false ;
+    if ( ! _stringEquals(creator, other.creator) ) return false ;
+    if ( ! _stringEquals(_activities, other._activities) ) return false ;
+    if ( ! _stringEquals(lengthGt, other.lengthGt) ) return false ;
+    if ( ! _stringEquals(inclinationUpGt, other.inclinationUpGt) ) return false ;
+    if ( ! _stringEquals(startPointElevetionGt, other.startPointElevetionGt) ) return false ;
+    if ( ! _stringEquals(upperPointElevetionGt, other.upperPointElevetionGt) ) return false ;
+
+    if ( ! _stringEquals(difficultyGt, other.difficultyGt) ) return false ;
+    if ( ! _stringEquals(lengthLt, other.lengthLt) ) return false ;
+    if ( ! _stringEquals(upLt, other.upLt) ) return false ;
+    if ( ! _stringEquals(inclinationUpLt, other.inclinationUpLt) ) return false ;
+    if ( ! _stringEquals(startPointElevetionLt, other.startPointElevetionLt) ) return false ;
+    if ( ! _stringEquals(upperPointElevetionLt, other.upperPointElevetionLt) ) return false ;
+    if ( ! _stringEquals(difficultyLt, other.difficultyLt) ) return false ;
+
+    if ( ! _doubleEquals(mapBoundNELat, other.mapBoundNELat) ) return false ;
+    if ( ! _doubleEquals(mapBoundNELong, other.mapBoundNELong) ) return false ;
+    if ( ! _doubleEquals(mapBoundSWLat, other.mapBoundSWLat) ) return false ;
+    if ( ! _doubleEquals(mapBoundSWLong, other.mapBoundSWLong) ) return false ;
+    
+    return true;
+    
+  }
+  
+  bool _stringEquals(String s1, String s2){
+    if ( s1 == null && s2 == null  ){
+      return true;
+    }
+    if ( s1 != null && s1.isEmpty && s2 == null  ){
+      return true;
+    }
+    if ( s2 != null && s2.isEmpty && s1 == null  ){
+      return true;
+    }
+    if ( s2 != null && s2.isEmpty && s1 != null && s1.isEmpty  ){
+      return true;
+    }    
+    return s1 == s2 ;
+  }
+
+  bool _doubleEquals(double s1, double s2){
+    if ( s1 == null && s2 == null  ){
+      return true;
+    }
+    if ( s1 != null  && s2 == null  ){
+      return false;
+    }
+    if ( s2 != null  && s1 == null  ){
+      return false;
+    }
+    return s1 == s2 ;
+  }
+
   
   void _fromMap(Map jsonMap){
     search = jsonMap["search"] ;

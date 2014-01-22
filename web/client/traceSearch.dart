@@ -10,48 +10,57 @@ SpacesLayout layout;
 Map<String,LightTrace> resultsMap = new Map();
 Map<String,LightTrace> hiddenResultsMap = new Map();
 
-const TIMEOUT = const Duration(seconds: 1);
-String lastTimeMapChange = "";
-
+const TIMEOUT = const Duration(milliseconds: 1500);
+String   lastTimeMapChange = "";
+DateTime lastTimeFiltersChange = null;
+SearchForm lastSearchFormSubmited = null;
+bool waitingForResult = false ;
+bool firstRequest = true ;
 
 void main() {
   layout = new SpacesLayout.withWestSpace(180,70,50);
-  submitRequest();
+  submitRequest(mapFilter:false);
   
-  querySelector(".search-form-btn").onClick.listen((e) {
-    submitRequest();
-  });  
+  querySelectorAll(".search-form-inputs").onChange.listen((e){
+    lastTimeFiltersChange = new DateTime.now();
+  });
+  
+
   new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
 }
 
-void submitRequest(){
+void submitRequest({mapFilter:true}){
   HttpRequest request = new HttpRequest();
 
   layout.startLoading();
   request.onReadyStateChange.listen((_) {
     if (request.readyState == HttpRequest.DONE ) {
-      displaySearchResults(request);
+      waitingForResult = false;
+      displaySearchResults(request,fitMapViewPortWithMarkers:firstRequest);
+      firstRequest=false;
     }
   });
-  sendSearchRequest(request);
-  removeResults(".search-results");
+  sendSearchRequest(request, mapFilter:mapFilter);
+  //removeResults(".search-results");
 }
 
-void displaySearchResults(HttpRequest request){
+void displaySearchResults(HttpRequest request, {fitMapViewPortWithMarkers:true}){
   SearchForm form = new SearchForm.fromMap(JSON.decode(request.responseText));
+  lastSearchFormSubmited = form ;
   
   Element searchResultRow=  querySelector("#search-result-row");
   Element searchResultBody=  querySelector("#search-result-body");
   js.context.removeAllMarkers();
-  
+  removeResults(".search-results");
   setResultsMap(form.results);
   if (form.results != null && form.results.isNotEmpty){
       form.results.forEach((lightTrace){
       displaySearchResult( searchResultBody, searchResultRow,  lightTrace) ;
       js.context.addMarkerToMap( lightTrace.keyJsSafe,  lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude );
     });
-    
-    js.context.fitMapViewPortWithMarkers();
+    if (fitMapViewPortWithMarkers){
+      js.context.fitMapViewPortWithMarkers();
+    }
   }
   layout.stopLoading();
 }
@@ -86,16 +95,23 @@ void setResultsMap(List<LightTrace> results){
 void shouldUpdateSearchResultsDisplay(){
   
   String newTimeMapChange = (querySelector("#search-form-js-dart-bridge") as InputElement).value;
-  if ( newTimeMapChange != lastTimeMapChange ){
-    lastTimeMapChange = newTimeMapChange;
+  bool shouldSubmitRequest = false ;
+  if ( lastSearchFormSubmited != null && ! waitingForResult  ){
+    SearchForm  currentSearchForm = buildSearchFormFromPage() ;
+    if (!lastSearchFormSubmited.equals(currentSearchForm)){
+      shouldSubmitRequest = true;
+    }
+  }
+  if ( shouldSubmitRequest ){
     updateSearchResultsDisplay();
+    submitRequest();
   }
   new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
 }
 
 void updateSearchResultsDisplay(){
-  Element searchResultRow=  querySelector("#search-result-row");
-  Element searchResultBody=  querySelector("#search-result-body");
+  Element searchResultRow  =  querySelector("#search-result-row");
+  Element searchResultBody =  querySelector("#search-result-body");
   Map<String,LightTrace> updatedResultsMap = new Map();
   Map<String,LightTrace> updatedHiddenResultsMap = new Map();
   Map<String,LightTrace> allResultsMap = new Map();
@@ -122,13 +138,14 @@ void updateSearchResultsDisplay(){
 }
 
 
-void sendSearchRequest(HttpRequest request){
+void sendSearchRequest(HttpRequest request, {mapFilter:true}){
   request.open("POST",  "/trace.as_search", async: true);
-  SearchForm form = buildSearchFormFromPage();
+  SearchForm form = buildSearchFormFromPage(mapFilter:mapFilter);
   request.send(JSON.encode(form.toJson()));
+  waitingForResult = true;
 }
 
-SearchForm buildSearchFormFromPage(){
+SearchForm buildSearchFormFromPage({mapFilter:true}){
   SearchForm form =  new  SearchForm( );
   form.search = (querySelector(".search-form-input-text") as InputElement ).value ;
   querySelectorAll(".search-form-input-activity").forEach((e){
@@ -149,13 +166,13 @@ SearchForm buildSearchFormFromPage(){
   form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
   form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
 
-  var locationFilter = ( querySelector(".search-form-input-location") as CheckboxInputElement).checked;
-  if (locationFilter ){
-    form.mapBoundNELat = double.parse((querySelector('#search-form-input-location-ne-lat')as InputElement ).value);
+  if(mapFilter){
+    form.mapBoundNELat  = double.parse((querySelector('#search-form-input-location-ne-lat') as InputElement ).value);
     form.mapBoundNELong = double.parse((querySelector('#search-form-input-location-ne-long')as InputElement ).value);
-    form.mapBoundSWLat = double.parse((querySelector('#search-form-input-location-sw-lat')as InputElement ).value);
+    form.mapBoundSWLat  = double.parse((querySelector('#search-form-input-location-sw-lat') as InputElement ).value);
     form.mapBoundSWLong = double.parse((querySelector('#search-form-input-location-sw-long')as InputElement ).value);
   }
+
   return form;
 }
 

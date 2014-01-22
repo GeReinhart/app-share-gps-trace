@@ -90,6 +90,15 @@ class TraceRenderer extends LigthTraceRenderer{
     this.permanentTraceUrl=permanentTraceUrl;
     this.gpxUrl = gpxUrl;
     this.profileData = trace.traceAnalysis.computeProfile();
+    
+    //////////////////////////////////
+    
+    TraceRawData rawData = new TraceRawData.fromPoints(trace.points);
+    TraceAnalysis tracePrint = new TraceAnalysis.fromPoints(rawData);
+    print ("trace ${trace.title}: difficuly : ${trace.difficulty}") ; 
+    
+    //////////////////////////////////    
+    
     this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis,profileData,gpxUrl);
   }
   

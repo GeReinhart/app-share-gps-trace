@@ -14,12 +14,14 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
 
         <table style="width: 100% ; ">
           <tr>
-             <td style="width: 2%;" ></td>
+             <td style="width: 2%;" >   </td>
              <td style="width: 30%;" ><span class="important-text" >Textuelle</span></td>
              <td colspan="2" style="width: * ; text-align: left;"   >
                 <div class="form-group form-search">
                     <input  type="text" class="form-control search-form-inputs search-form-input-text"  placeholder="">
                 </div>
+                
+                <span id="display"/>
              </td>
              <td style="width: 2%" ></td>
           </tr>
@@ -31,20 +33,20 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
                    <div>
 """); //#2
 
-  for (var activity in traceFormRenderer.activities.keys) { //for#20
+  for (var activity in traceFormRenderer.activities.keys) { //for#22
 
-    response.write("""                        <div><input type="checkbox"  class="search-form-inputs search-form-input-activity"  name=\""""); //#21
+    response.write("""                        <div><input type="checkbox"  class="search-form-inputs search-form-input-activity"  name=\""""); //#23
 
-    response.write(Rsp.nnx(activity)); //#21
+    response.write(Rsp.nnx(activity)); //#23
 
 
-    response.write(""""  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#21
+    response.write(""""  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#23
 
-    response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#21
+    response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#23
 
 
     response.write("""</span></div>
-"""); //#21
+"""); //#23
   } //for
 
   response.write("""                   </div> 
@@ -124,8 +126,7 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
              <td colspan="2" style="width: * ; text-align: left;"   >
               <div class="form-inputs" >
                         <div>
-                          <input type="checkbox"  class="search-form-inputs search-form-input-location"  name="search-location"  style="vertical-align: middle;"  >&nbsp;&nbsp;
-                          <span style="vertical-align: middle;"  >filtre sur le zoom actuel de la carte : les traces seront visibles sur la carte de droite.</span>
+                           <span style="vertical-align: middle;"  >filtre sur le zoom actuel de la carte : les traces seront visibles sur la carte de droite.</span>
                         </div>
                         <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-ne-lat" />
                         <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-ne-long" />
@@ -137,21 +138,13 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
              <td ></td>
           </tr>          
           
-          <tr>
-             <td  ></td>
-             <td colspan="2" style="width: * ; text-align: center;"  >
-                <div class="form-inputs" >
-                 <button type="submit"  class="btn btn-primary search-form-btn loading-on-click">Rechercher</button>
-                </div> 
-             </td>
-             <td  ></td>
-          </tr>           
+          
                 
         </table> 
         
         
         
-"""); //#23
+"""); //#25
 
   return new Future.value();
 }
