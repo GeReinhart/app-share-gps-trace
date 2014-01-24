@@ -85,11 +85,11 @@ class MongoPersistence implements PersistenceLayer{
     return _mongodb.close();
   }
   
-  Future<List<Trace>> getTraces() {
+  Future<List<Trace>> getTraces({limit:25}) {
     
     List<Trace> traces = new List();
     
-    return _traceCollection.find(where.sortBy('_id', descending: true)).forEach((jsonTrace){
+    return _traceCollection.find(where.sortBy('lastUpdateDate', descending: true).limit(limit)).forEach((jsonTrace){
                 Trace trace = new Trace.fromJson(jsonTrace);
                 traces.add(trace);
               })
@@ -124,10 +124,10 @@ class MongoPersistence implements PersistenceLayer{
               });
   }
 
-  Future<List<Trace>>  getTracesByFilters(SearchFilters filters) {
+  Future<List<Trace>>  getTracesByFilters(SearchFilters filters, {limit:25}) {
     
     List<Trace> traces = new List();
-    SelectorBuilder selector = where.exists("key") ;
+    SelectorBuilder selector = where.exists("key").sortBy('lastUpdateDate', descending: true).limit(limit) ;
     if ( filters.search != null && filters.search.isNotEmpty ){
       selector.and(
           where.match("title", filters.search, caseInsensitive: true )
