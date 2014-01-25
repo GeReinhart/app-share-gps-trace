@@ -12,15 +12,103 @@ Future traceGpxViewer(HttpConnect connect, {traceRenderer}) { //#3
 
   if (traceRenderer != null) { //if#3
 
-    response.write("""      <div id="traceGpxViewer" style="overflow-x:hidden ; overflow-y:hidden ;  ">
-        <iframe src="http://www.visugpx.com/ign/?gpx="""); //#4
+    response.write("""
 
-    response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#5
+      <div id="traceGpxViewer" ></div>
+      <script type="text/javascript" src="http://api.ign.fr/geoportail/api/js/latest/Geoportal.js"><!-- --></script>
+      <script type="text/javascript">
+              var iv= null;
+                window.onload= function() {
+                
+                        iv= Geoportal.load(
+                                 // div's ID:
+                                 'traceGpxViewer',
+                                 // API's keys:
+                                 ['gnst6zrvh2tnhhulo1kovnh1'],
+                                 {// map's center :
+                                                // longitude:
+                                                lon:"""); //#4
+
+    response.write(Rsp.nnx(traceRenderer.traceAnalysisRenderer.startPoint.longitude)); //#18
 
 
-    response.write("""" name="GPX-View" scrolling="no" marginheight=0 marginwidth=0 frameborder=0 width=1500 height=1500></iframe>
-      </div>
-"""); //#5
+    response.write(""",
+                                                // latitude:
+                                                lat:"""); //#18
+
+    response.write(Rsp.nnx(traceRenderer.traceAnalysisRenderer.startPoint.latitude)); //#20
+
+
+    response.write("""
+
+                                 },
+                                 //zoom level 
+                                 5,
+                                 //options
+                                 {
+                                   // viewerClass:Geoportal.Viewer.Default, //pour mettre la boite à outil standard (zoom, coordonnées, gestion des couches de données..)
+                                   
+                                   layers:['GEOGRAPHICALGRIDSYSTEMS.MAPS','ORTHOIMAGERY.ORTHOPHOTOS','CADASTRALPARCELS.PARCELS'],
+                                   
+                                   layersOptions:{'GEOGRAPHICALGRIDSYSTEMS.MAPS':{visibility:true,opacity:1,  minZoomLevel:1,maxZoomLevel:18},
+                                     'ORTHOIMAGERY.ORTHOPHOTOS':{visibility:false,opacity:1, minZoomLevel:1, maxZoomLevel:18},
+                                     'CADASTRALPARCELS.PARCELS':{visibility:false,opacity:1, minZoomLevel:12,maxZoomLevel:18}
+                                   },
+                                     
+                                   onView: function() {
+                                       
+                                       viewer=this.getViewer();
+                                       //viewer.getMap().setProxyUrl('ign/proxy.php?url=');
+                                       
+                                       /* style de la trace */
+                                       var styleTrace = new OpenLayers.StyleMap({
+                                         "default": new OpenLayers.Style({
+                                           
+                                           strokeColor: '#ff0000',
+                                           strokeOpacity: 0.8,
+                                           strokeWidth:5
+                                           
+                                         }),
+                                         "select": new OpenLayers.Style({
+                                           strokeColor: '#FF0000',
+                                         })
+                                       });
+                                       
+                                       /* ajout du fichier gpx   */
+                                       gpxLayer = viewer.getMap().addLayer(
+                                           "GPX",
+                                           "trace",
+                                           \""""); //#20
+
+    response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#58
+
+
+    response.write("""",
+                                           {
+                                             visibility: true,
+                                             opacity:0.8,
+                                             styleMap: styleTrace,
+                                             eventListeners:{
+                                               'loadend':function(){
+                                                 if (this.maxExtent) {
+                                                   this.map.zoomToExtent(this.maxExtent);
+                                                   this.setVisibility(true);
+                                                 }
+                                               }
+                                             }
+                                           }
+                                       );
+
+                                   },
+                                   overlays:{}
+                                 }
+                                 
+                        );
+ 
+                };
+     </script>
+     
+"""); //#58
   } //if
 
   return new Future.value();
