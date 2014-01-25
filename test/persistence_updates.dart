@@ -27,7 +27,7 @@ main() {
 
         .then((_){
 
-          return persitence.getTraces().then((traces) {
+          return persitence.getTraces(limit: 100000).then((traces) {
             if ( traces.isNotEmpty  ){
               
               return Future.forEach(traces, (trace){
@@ -38,7 +38,7 @@ main() {
                   TraceAnalysis newTrace = new TraceAnalysis.fromPoints(rawData);
                   trace.up = newTrace.up ;
                   trace.difficulty = newTrace.difficulty ;
-                  trace.inclinationUp = newTrace.inclinationUp ;          
+                  trace.inclinationUp = newTrace.inclinationUp ;  
                   print( "Saving analysis for " + trace.key + " with difficulty ${newTrace.difficulty} " ) ; 
                   return persitence.saveOrUpdateTrace(trace);                  
                 } );

@@ -10,13 +10,13 @@ abstract class PersistenceLayer{
 
   void close();
 
-  Future<List<Trace>>  getTraces() ;
+  Future<List<Trace>>  getTraces({limit:25}) ;
   
   Future<List<Trace>>  getTracesByCreator(String creator) ;
 
   Future<List<Trace>>  getTracesByActivity(String activity) ;
 
-  Future<List<Trace>>  getTracesByFilters(SearchFilters filters) ;
+  Future<List<Trace>>  getTracesByFilters(SearchFilters filters,{limit:25}) ;
   
   Future<Trace>  getTraceById(String id) ;
   
