@@ -10,6 +10,9 @@ const String mongoUrl = "mongodb://127.0.0.1/test-traces-persitence" ;
 
 main() {
   
+  TraceAnalyser traceAnalyser = new TraceAnalyser();
+
+  
   test('Persistence tests', () {
 
     Db db = new Db(mongoUrl);
@@ -116,7 +119,7 @@ main() {
         .then((_){
           
           File file = new File("test/resources/12590.gpx");
-          return TraceAnalysis.fromGpxFile(file).then((traceAnalysis){
+          return traceAnalyser.buildTraceAnalysisFromGpxFile(file).then((traceAnalysis){
             
             TracePoint firstPoint = traceAnalysis.points[0] ; 
             Trace trace = new Trace.fromTraceAnalysis("Gex", traceAnalysis); 
