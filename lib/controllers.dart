@@ -44,6 +44,7 @@ class TraceController{
   Crypto _crypto ;
   Security _security ;
   String _appUri ;
+  TraceAnalyser _traceAnalyser = new TraceAnalyser();
   
   TraceController(this._persistence, this._crypto, this._appUri){
 
@@ -196,6 +197,7 @@ class TraceController{
       Map parameters = body.body as Map ;
       String title = parameters['title'];
       String description = parameters['description'];
+      String smoothing = parameters['smoothing'];
       List<String> activities = new List<String>();
       String activityPrefix = "activity-";
       parameters.forEach((k,v){
@@ -204,17 +206,17 @@ class TraceController{
             }
           }       
       );
+      SmoothingParameters smoothingParameters = SmoothingParameters.get( SmoothingLevel.fromString(smoothing ));
       
       HttpBodyFileUpload fileUploaded = body.body['gpxUploadedFile'];
       final file = new File(tempFile);
       return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
           .then((_) {
-            return TraceAnalysis.fromGpxFile(file).then((traceAnalysis){
+            return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
               
-              TraceAnalysis purgeTraceAnalysis = traceAnalysis.computeNewPurgedTraceAnalysis(idealMaxPointNumber: 3500);
-              
-              Trace trace = new Trace.fromTraceAnalysis(user.login, purgeTraceAnalysis); 
+              Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
               trace.title = title ;
+              trace.smoothing = smoothing;
               trace.description = description ;
               trace.activities = activities; 
               return _persistence.saveOrUpdateTrace(trace).then((trace) {

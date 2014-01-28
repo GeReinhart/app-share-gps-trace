@@ -15,6 +15,8 @@ class Trace {
   
   String gpxUrl ;
   
+  String smoothing;
+  
   List<String> activities = [];
   
   int _creationDateInMilliseconds ;
@@ -47,6 +49,7 @@ class Trace {
     description = map['description'];
     activities = map['activities'];
     gpxUrl = map['gpxUrl'];
+    smoothing = map['smoothing'];
     _creationDateInMilliseconds = map['creationDate'];
     _lastUpdateDateInMilliseconds = map['lastUpdateDate'];
     
@@ -70,6 +73,7 @@ class Trace {
       'activities' : activities,
       'traceDataId': _traceDataId,
       'gpxUrl' : gpxUrl,
+      'smoothing' : smoothing,
       'startPointLatitude': startPointLatitude,
       'startPointLongitude': startPointLongitude,
       'startPointElevetion': startPointElevetion,
@@ -124,6 +128,10 @@ class Trace {
     }
     return _points;
   }
+  TraceRawData get rawData{
+    return new TraceRawData.fromPoints(points);
+  }
+  
   
   String  get cleanId {
     return id.substring("ObjectId(\"".length , id.length -2 ) ;
@@ -195,10 +203,8 @@ class TraceData{
   }
   
   TraceAnalysis toTraceAnalysis(){
-    TraceAnalysis traceAnalysis = new TraceAnalysis();
-    TraceRawData data = new TraceRawData();
-    data.points=points;
-    return new TraceAnalysis.fromPoints(data);
+    TraceRawData data = new TraceRawData.fromPoints(points);
+    return new TraceAnalysis.fromRawData(data);
   }
   
   List<TracePoint> get points{

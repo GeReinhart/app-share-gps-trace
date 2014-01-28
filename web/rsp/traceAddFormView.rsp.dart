@@ -89,6 +89,20 @@ Future traceAddFormView(HttpConnect connect, {traceFormRenderer}) { //#2
              <td  ></td>
              <td colspan="2" style="width: * ; text-align: center;"  >
                 <div class="form-inputs" >
+                   <select  name="smoothing" >
+                    <option value="no">Aucun lissage</option>
+                    <option value="low">Lissage faible</option>
+                    <option value="medium">Lissage moyen</option>
+                    <option value="high">Lissage fort</option>
+                  </select>
+                </div>             
+             </td>
+             <td  ></td>
+          </tr>          
+          <tr>
+             <td  ></td>
+             <td colspan="2" style="width: * ; text-align: center;"  >
+                <div class="form-inputs" >
                  <button type="submit"  class="btn btn-primary btn-add-trace loading-on-click">Ajouter cette trace</button>
                 </div> 
              </td>
@@ -100,30 +114,30 @@ Future traceAddFormView(HttpConnect connect, {traceFormRenderer}) { //#2
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#68
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#82
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     response.write("""
 
-"""); //#69
+"""); //#83
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#71
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#85
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     response.write("""
 
-"""); //#72
+"""); //#86
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#74
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#88
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""
 
-"""); //#75
+"""); //#89
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -133,7 +147,7 @@ Future traceAddFormView(HttpConnect connect, {traceFormRenderer}) { //#2
     <script type="application/dart" src="/client/traceAddForm.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#78
+</html>"""); //#92
 
       return new Future.value();
     }); //end-of-include

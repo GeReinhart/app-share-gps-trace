@@ -81,6 +81,7 @@ class LigthTraceRenderer{
 
 class TraceRenderer extends LigthTraceRenderer{
   
+  TraceAnalyser _traceAnalyser = new TraceAnalyser();
   TraceAnalysisRenderer traceAnalysisRenderer ;
   String gpxUrl ;
   String permanentTraceUrl ;
@@ -89,16 +90,7 @@ class TraceRenderer extends LigthTraceRenderer{
   TraceRenderer(Trace trace,String permanentTraceUrl,String gpxUrl): super(trace){
     this.permanentTraceUrl=permanentTraceUrl;
     this.gpxUrl = gpxUrl;
-    this.profileData = trace.traceAnalysis.computeProfile();
-    
-    //////////////////////////////////
-    
-    TraceRawData rawData = new TraceRawData.fromPoints(trace.points);
-    TraceAnalysis tracePrint = new TraceAnalysis.fromPoints(rawData);
-    print ("trace ${trace.title}: difficuly : ${trace.difficulty}") ; 
-    
-    //////////////////////////////////    
-    
+    this.profileData = _traceAnalyser.buildProfile(trace.rawData);
     this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis,profileData,gpxUrl);
   }
   
