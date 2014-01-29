@@ -256,6 +256,8 @@ class User {
   
   String lastName ;
   
+  bool admin;
+  
   User(this.login, this.encryptedPassword, this.firstName, this.lastName);
 
   User.withLogin(this.login, this.encryptedPassword);
@@ -265,13 +267,14 @@ class User {
   User.fromJson(Map map) {
     id = map['_id'];
     login = map['login'];
+    admin = map['admin'] == null ? false : map['admin'];
     encryptedPassword = map['encryptedPassword'];
     firstName = map['firstName'];
     lastName = map['lastName'];
   }
   
   Map toJson() {
-    return {'_id': id,'login': login, 'encryptedPassword': encryptedPassword, 
+    return {'_id': id,'login': login,'admin': admin, 'encryptedPassword': encryptedPassword, 
       'firstName': firstName, 'lastName': lastName};
   }
   

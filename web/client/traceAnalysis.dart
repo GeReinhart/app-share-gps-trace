@@ -1,15 +1,53 @@
-import 'spaces.dart';
-import 'dart:html';
+import "dart:html";
+import "dart:convert";
+import 'package:bootjack/bootjack.dart';
+
+import "spaces.dart";
+import "forms.dart";
 import 'package:js/js.dart' as js;
 
+SpacesLayout layout ;
+
 void main() {
-  SpacesLayout layout = new SpacesLayout(180,30,35);
+  layout = new SpacesLayout(180,30,35);
   moveTraceViewers(layout.postions);
   
   layout.centerMoved.listen((_){
     moveTraceViewers( _ as SpacesPositions);
   });
 
+  querySelectorAll(".trace-delete-menu").onClick.listen((event){
+    callDeleteConfirmation();
+  });
+  
+  
+}
+
+void callDeleteConfirmation() {
+
+    layout.startLoading();
+    
+    HttpRequest request = new HttpRequest();
+    
+    request.onReadyStateChange.listen((_) {
+      
+      if (request.readyState == HttpRequest.DONE ) {
+
+        DeleteTraceForm form = new DeleteTraceForm.fromJson(JSON.decode(request.responseText));
+        var message = querySelector(".form-error-message");
+        if (form.success){
+          window.location.assign('/trace.search');
+        }
+        
+        layout.stopLoading();
+      }
+    });
+
+    request.open("POST",  "/trace.as_delete", async: false);
+    
+    DeleteTraceForm form =  new  DeleteTraceForm( querySelector("[data-key]").attributes["data-key"] );
+    request.send(JSON.encode(form.toJson()));
+  
 }
 
 void moveTraceViewers(SpacesPositions spacesPositions ){

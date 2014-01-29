@@ -37,7 +37,12 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
       var _1 = new StringBuffer(); _cs_.add(connect); //var#13
       connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
-      response.write("""               <h1>"""); //#14
+      response.write("""               <h1 class="data-key" data-key=\""""); //#14
+
+      response.write(Rsp.nnx(traceRenderer.trace.key)); //#14
+
+
+      response.write(""""   >"""); //#14
 
       response.write(Rsp.nnx(traceRenderer.trace.title)); //#14
 
@@ -117,6 +122,16 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
 
 
             response.write("""" tabindex="-1" role="menuitem">Fichier gpx</a></li>
+"""); //#42
+
+            if (currentUser(request.session) != null && currentUser(request.session).login == traceRenderer.trace.creator) { //if#43
+
+              response.write("""            <li role="presentation"><a class="trace-delete-menu" href="#" tabindex="-1" role="menuitem">Supprimer</a></li>
+"""); //#44
+            } //if
+
+            response.write("""          
+          
        </ul>
     </div>
     
@@ -126,7 +141,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
-</html>"""); //#42
+</html>"""); //#46
 
             return new Future.value();
           }); //end-of-include

@@ -98,6 +98,27 @@ class RegisterForm{
   bool get success => _success == "true" ;
 }
 
+class DeleteTraceForm{
+  String key;
+  String _success = "true" ;
+
+  DeleteTraceForm(this.key);
+
+  DeleteTraceForm.fromJson(Map map) {
+    _fromJson(map);
+  }
+  
+  void _fromJson(Map map) {
+    key = map['key'];
+    _success = map['_success'];
+  }
+  
+  Map toJson() {
+    return {'key': key, '_success':_success};
+  }
+  
+  bool get success => _success == "true" ;
+}
 
 
 class SearchForm{

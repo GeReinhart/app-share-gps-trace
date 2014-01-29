@@ -20,6 +20,8 @@ main() {
     DbCollection userCollection;
     PersistenceLayer persitence = new MongoPersistence(mongoUrl);
     
+    String traceKey ;
+    
     return db.open()
         
         .then((_){
@@ -32,9 +34,12 @@ main() {
 
           print("add users");
           userCollection = db.collection('users');
+          User admin = new User.withId("3","la-boussole", "", "", "");
+          admin.admin=true;
           return userCollection.insertAll(
               [new User.withId("1","Gex", "lakdsjgghkldsjag", "Gérald", "Reinhart").toJson(),
-               new User.withId("2","SonicRonan", "lakddsgsdkldsjag", "Ronan", "Gueguen").toJson()] 
+               new User.withId("2","SonicRonan", "lakddsgsdkldsjag", "Ronan", "Gueguen").toJson(),
+               admin.toJson()] 
           );    
           
         })
@@ -51,9 +56,12 @@ main() {
           
           return persitence.getUsers().then((users) {
             print("Test get users");
-            expect(users.length, 2) ;    
-            expect(users.elementAt(0).login, "Gex") ;    
-            expect(users.elementAt(1).login, "SonicRonan") ;    
+            expect(users.length, 3) ;    
+            expect(users.elementAt(0).login, "Gex") ;
+            expect(users.elementAt(0).admin, false) ;
+            expect(users.elementAt(1).login, "SonicRonan") ;
+            expect(users.elementAt(2).login, "la-boussole") ;
+            expect(users.elementAt(2).admin, true) ;
           });
           
           
@@ -134,7 +142,7 @@ main() {
             trace.startPointElevetion = 2000.0;
             trace.upperPointElevetion = 3000.0;
             
-            String builtKey = trace.buildKey() ;
+            traceKey = trace.buildKey() ;
             DateTime dateTime = new DateTime.now();
             
             return persitence.saveOrUpdateTrace(trace).then((trace) {
@@ -143,11 +151,11 @@ main() {
                   expect(loadedTrace.description, trace.description) ;   
                   expect(loadedTrace.traceAnalysis.points[0].toString(), firstPoint.toString()) ; 
                   expect(loadedTrace.upperPointElevetion, traceAnalysis.upperPoint.elevetion) ;
-                  expect(loadedTrace.key, builtKey) ; 
+                  expect(loadedTrace.key, traceKey) ; 
                   expect(loadedTrace.activities[0], "trek") ;
                   expect(loadedTrace.creationDate.day, dateTime.day) ;
                   
-                  return persitence.getTraceByKey(builtKey).then((loadedTrace) {
+                  return persitence.getTraceByKey(traceKey).then((loadedTrace) {
                     expect(loadedTrace.description, trace.description) ;   
                   });
                   
@@ -283,6 +291,16 @@ main() {
             expect(traces.length, 1) ;   
           });
         }) 
+
+        .then((_){
+          return persitence.deleteTraceByKey(traceKey).then((_) {
+            return persitence.getTraceByKey(traceKey).then((loadedTrace) {
+              print("Test delete trace");
+              expect(loadedTrace, null) ;   
+            });  
+          });
+        }) 
+        
         
         .whenComplete((){
           print("close db");

@@ -95,7 +95,7 @@ class TraceController{
         new Map.from(connect.request.uri.queryParameters))
         .then((Map params) {
 
-          final SearchForm form = new SearchForm.fromMap(params );
+            final SearchForm form = new SearchForm.fromMap(params );
             SearchFilters filters = new SearchFilters();
             filters.search = form.search;
             filters.creator = form.creator;
@@ -137,6 +137,20 @@ class TraceController{
         });
   }
   
+  Future aTraceDelete(HttpConnect connect) {
+    return _decodePostedJson(connect.request,
+        new Map.from(connect.request.uri.queryParameters))
+        .then((Map params) {
+
+          final DeleteTraceForm form = new DeleteTraceForm.fromJson(params );
+          
+          return _persistence.deleteTraceByKey(form.key).then((_){
+            return _writeFormIntoResponse(connect.response, form); 
+          });
+          
+    });
+  }
+
   num castToNum(String value, int times){
     if (value == null){
       return null;

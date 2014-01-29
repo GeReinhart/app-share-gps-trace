@@ -11,7 +11,7 @@
         [:include traceProfileViewer traceAnalysisRenderer="[=traceRenderer.traceAnalysisRenderer]" /]
       [/var]
       [:var ne ]
-               <h1>[=traceRenderer.trace.title]</h1>
+               <h1 class="data-key" data-key="[=traceRenderer.trace.key]"   >[=traceRenderer.trace.title]</h1>
                <div class="trace-activities important-text" >
                  [=traceRenderer.activities]
                </div>
@@ -40,6 +40,11 @@
         <ul role="menu" class="dropdown-menu"  id="contextual-menu">
           <li role="presentation" class="dropdown-header">Trace gps</li>
           <li role="presentation"><a href="[=traceRenderer.gpxUrl]" tabindex="-1" role="menuitem">Fichier gpx</a></li>
+          [:if currentUser(request.session) != null && currentUser(request.session).login == traceRenderer.trace.creator   ]
+            <li role="presentation"><a class="trace-delete-menu" href="#" tabindex="-1" role="menuitem">Supprimer</a></li>
+          [/if]
+          
+          
        </ul>
     </div>
     
