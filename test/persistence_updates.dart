@@ -7,8 +7,9 @@ import '../lib/models.dart' ;
 import '../lib/persistence.dart' ;
 
 const String mongoUrl = "mongodb://127.0.0.1/test-traces-persitence" ;
-
 main() {
+  
+  TraceAnalyser traceAnalyser = new TraceAnalyser();
   
   test('Persistence tests', () {
 
@@ -35,7 +36,7 @@ main() {
                 return persitence.getTraceByKey(trace.key).then( (traceWithPoints) {
                   print( "Compute analysis for " + traceWithPoints.key ) ; 
                   TraceRawData rawData=  new TraceRawData.fromPoints( traceWithPoints.points );
-                  TraceAnalysis newTrace = new TraceAnalysis.fromPoints(rawData);
+                  TraceAnalysis newTrace = new TraceAnalysis.fromRawData(rawData);
                   trace.up = newTrace.up ;
                   trace.difficulty = newTrace.difficulty ;
                   trace.inclinationUp = newTrace.inclinationUp ;  

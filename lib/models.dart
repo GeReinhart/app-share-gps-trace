@@ -160,9 +160,8 @@ class Trace {
   
   
   String  buildKey() {
-    String titleAsKey = title.toLowerCase().replaceAll('é', 'e').replaceAll('è', 'e') ;
-    Pattern pattern = new RegExp('[^a-zA-Z0-9]');
-    titleAsKey = titleAsKey.replaceAll(pattern, "_");
+    String titleAsKey = title.toLowerCase() ;
+    titleAsKey = titleAsKey.replaceAll(' ', "_").replaceAll("'", "_").replaceAll('"', "_");
     return  Uri.encodeComponent(creator) + "/" + Uri.encodeComponent(titleAsKey) ;
   }
 }

@@ -17,15 +17,15 @@ main() {
 
   
   test('Trace key', () {
-    Map traceAsJson = {'creator': "gex", 'title': "Tour du Vercors - Autrans - Saint Nizier du Moucherotte"  };
+    Map traceAsJson = {'creator': "gex", 'title': "La Franche Verte d'Échirolles - Le tour classique"  };
     Trace trace = new Trace.fromJson(traceAsJson);
-    expect(trace.buildKey(), equals("gex/tour_du_vercors___autrans___saint_nizier_du_moucherotte")); 
+    expect(trace.buildKey(), equals("gex/la_franche_verte_d_%C3%A9chirolles_-_le_tour_classique")); 
   });
 
   test('Trace key url encode', () {
     Map traceAsJson = {'creator': "gex", 'title': "L'échelle"  };
     Trace trace = new Trace.fromJson(traceAsJson);
-    expect(trace.buildKey(), equals("gex/l_echelle")); 
+    expect(trace.buildKey(), equals("gex/l_%C3%A9chelle")); 
   });
   
 
