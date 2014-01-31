@@ -158,12 +158,31 @@ class Trace {
     this._lastUpdateDateInMilliseconds = new DateTime.now().millisecondsSinceEpoch;
   }
   
-  
   String  buildKey() {
-    String titleAsKey = title.toLowerCase() ;
-    titleAsKey = titleAsKey.replaceAll(' ', "_").replaceAll("'", "_").replaceAll('"', "_");
-    return  Uri.encodeComponent(creator) + "/" + Uri.encodeComponent(titleAsKey) ;
+
+    return   _removeAccentAndSpecialCharacters(creator) + "/" +
+              _removeAccentAndSpecialCharacters(title) ;
   }
+  
+  String _removeAccentAndSpecialCharacters(String s){
+    String clean = s.toLowerCase().replaceAll('é', 'e').replaceAll('è', 'e')
+        .replaceAll('ê', 'e').replaceAll('ë', 'e')
+          .replaceAll('à', 'a').replaceAll('á', 'a')
+            .replaceAll('â', 'a').replaceAll('ä', 'a')
+              .replaceAll('ã', 'a').replaceAll('ì', 'i')
+                .replaceAll('í', 'i').replaceAll('î', 'i')
+                  .replaceAll('ï', 'i').replaceAll('ò', 'o')
+                    .replaceAll('ó', 'o').replaceAll('ô', 'o')                                           
+                      .replaceAll('õ', 'o').replaceAll('ö', 'o')                                           
+                        .replaceAll('ù', 'u').replaceAll('ú', 'u')                                           
+                          .replaceAll('û', 'u').replaceAll('ü', 'u')                                           
+                            .replaceAll('ý', 'y').replaceAll('ÿ', 'y')                                           
+                              .replaceAll('ñ', 'n');                                           
+    
+    Pattern pattern = new RegExp('[^\-a-zA-Z0-9]');
+    return clean.replaceAll(pattern, "_");
+  }
+  
 }
 
 class TraceDomains{

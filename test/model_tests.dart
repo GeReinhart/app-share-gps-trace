@@ -16,17 +16,22 @@ main() {
   });
 
   
-  test('Trace key', () {
+  test('Trace key encoding', () {
     Map traceAsJson = {'creator': "gex", 'title': "La Franche Verte d'Échirolles - Le tour classique"  };
     Trace trace = new Trace.fromJson(traceAsJson);
-    expect(trace.buildKey(), equals("gex/la_franche_verte_d_%C3%A9chirolles_-_le_tour_classique")); 
+    expect(trace.buildKey(), equals("gex/la_franche_verte_d_echirolles_-_le_tour_classique")); 
+
+    traceAsJson = {'creator': "gex", 'title': "L'échelle"  };
+    trace = new Trace.fromJson(traceAsJson);
+    expect(trace.buildKey(), equals("gex/l_echelle")); 
+
+    traceAsJson = {'creator': "géRald", 'title': "àèìòùáéíóúýâêîôûãñõäëïöüÿ&£@"  };
+    trace = new Trace.fromJson(traceAsJson);
+    expect(trace.buildKey(), equals("gerald/aeiouaeiouyaeiouanoaeiouy___")); 
+
   });
 
-  test('Trace key url encode', () {
-    Map traceAsJson = {'creator': "gex", 'title': "L'échelle"  };
-    Trace trace = new Trace.fromJson(traceAsJson);
-    expect(trace.buildKey(), equals("gex/l_%C3%A9chelle")); 
-  });
+
   
 
   
