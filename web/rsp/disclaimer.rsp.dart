@@ -13,7 +13,7 @@ Future disclaimer(HttpConnect connect) { //#2
   response.write("""<!DOCTYPE html>
 <html>
  <head>
-     <title>La Boussole - mentions légales</title>
+     <title>La Boussole - mentions légales et conditions d'utilisation</title>
 """); //#2
 
   return connect.include("/rsp/templates/assetsimports.html").then((_) { //include#6
@@ -25,27 +25,106 @@ Future disclaimer(HttpConnect connect) { //#2
     var _0 = new StringBuffer(); _cs_.add(connect); //var#10
     connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
-    response.write("""           <h1>Mentions légales de la-boussole</h1>
+    response.write("""           <h1>Mentions légales et conditions d'utilisation de la-boussole.info</h1>
            <div class="text-warning  form-error-message" >En construction : texte décivant les mentions légales.</div>
+           
+<h2>1 - Mentions légales</h2>
+
+  <p>la-boussole.info est un site web réalisé, maintenu et représenté par Gérald Reinhart en tant que particulier :
+    <ul>
+      <li>Gérald Reinhart</li>
+      <li>8 place Valmy</li>
+      <li>38130 Echirolles, France</li>
+      <li>mail: gerald [point] reinhart [at] gmail [point] com</li>
+    </ul>
+  </p>
+  <p>Ce site est hébergé par <a href="https://www.heroku.com/contact" target="_blank" >Heroku</a> :
+    <ul>
+      <li>Heroku, Inc.</li>
+      <li>650 7th Street</li>
+      <li>San Francisco, CA, USA</li>
+    </ul>
+  </p>
+  <p>Conformément à la loi "Informatique et Libertés" du 6 janvier 1978, modifiée par la loi du 6 août 2004, la dispense n°6 indique que les particuliers à titre privé sont dispensé de déclaration :
+        </p>
+        <p class="gx-text-quote"><a href="http://www.cnil.fr/vos-obligations/declarer-a-la-cnil/dispense/mon-secteur-dactivite/mon-theme/mon-fichier/dispense-selectionnee/dec-mode/DISPLAYSINGLEFICHEDISP/dis-uid/38/?tx_oxcscnildeclaration_pi1[sauid]=0&tx_oxcscnildeclaration_pi1[tuid]=0&cHash=c3a74d11e8a0a37723657455eb47d703" target="_blank" >Résumé</a>: La dispense n°6 concerne les sites web ou blogs mis en œuvre par des particuliers à titre privé qui peuvent permettre, d’une part, la collecte de données à caractère personnel de personnes qui s’y connectent et, d’autre part, la diffusion de données à caractère personnel (nom, images de personnes ou tout autre élément permettant d’identifier une personne physique).
+        </p>
+        <p class="gx-text-quote">La diffusion et la collecte de données à caractère personnel opérées à partir d’un site web dans le cadre d’activités professionnelles, politiques, ou associatives restent soumises à une déclaration préalable auprès de la CNIL.
+        </p>
+  <p><a href="http://www.legifrance.gouv.fr/jopdf/common/jo_pdf.jsp?numJO=0&dateJO=20051217&numTexte=79&pageDebut=&pageFin=">CF  texte complet de la dispense n°6</a>
+  </p>
+
+<h2>2 - Limitation de responsabilité</h2>
+
+  <p class="gx-text-very-important">L'UTILISATION DU SITE La-BOUSSOLE.INFO SE FAIT SOUS L'ENTIERE RESPONSABILITE DES INTERNAUTES.</p>
+
+<h3>2.1 - Pertes de données et autres dommages</h3>
+  <p>Sous réserve des dispositions légales applicables, la-boussole.info ne saurait être tenue pour responsable de tout dommage direct ou indirect, notamment, mais non limitativement pertes de profits, de clientèles, de données, de biens incorporels, pouvant intervenir du fait de l'utilisation ou de l'impossibilité d'utilisation du site la-boussole.info, et plus généralement, de tout événement ayant un lien avec le site et/ou tout site tiers.</p>
+  <p>En particulier, tout matériel téléchargé et/ou obtenu de quelque manière que ce soit lors de l'utilisation du site l'est à vos risques et périls. la-boussole.info ne pourra être tenu pour responsable d'éventuels dommages ou pertes de données subis par votre ordinateur.</p>
+
+<h3>2.2 - Responsabilité lors de la pratique d'une activité en montagne</h3>
+  <p>La pratique des activités sportives de montagne exige une connaissance maîtrisée du terrain et l'acceptation d'un degré de risque adapté aux capacités de chacun. la-boussole.info recommande aux visiteurs du site la plus grande prudence dans l'interprétation et l'utilisation des données fournies par la communauté.
+la-boussole.info ne garantit pas l'exactitude et l'exhaustivité des indications fournies (description d’itinéraires, description des conditions de course, commentaires des forums, conseils pratiques et médicaux,…) directement sur ce site. Ces renseignements non contractuels ne peuvent en aucun cas engager la responsabilité de la-boussole.info, ni celle des auteurs des textes.</p>
+  <p>Ces renseignements ne peuvent, en outre, se substituer à l'avis d'un professionnel qualifié au moment de l’action engagée sur le terrain. la-boussole.info décline toute responsabilité eu égard aux incidents de toute nature résultant de l’utilisation ou de l’interprétation des informations diffusées sur son site Internet.</p>
+
+<h2>3 - Limitation de garanties</h2>
+
+  <p>Le site est fournis en l'état, accessible en fonction de sa disponibilité, sans aucune garantie expresse ou implicite de la part de la-boussole.info.</p>
+  <p>la-boussole.info en particulier ne garantit pas que :
+    <ul>
+      <li>le site, les contenus et produits proposés répondront parfaitement à vos attentes,</li>
+      <li>le site fonctionnera de façon ininterrompue et sans erreurs,</li>
+      <li>les erreurs seront corrigées.</li>
+    </ul>
+  </p>
+  <p>Aucun conseil et aucune information, écrits ou oraux, obtenus par vous de la part de la-boussole.info ou lors de l'utilisation du site ne sont susceptibles de créer une quelconque garantie non expressément prévue.</p>
+
+<h2>4 - Propriété intellectuelle et droits d'auteurs</h2>
+
+  <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/"><img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/fr/88x31.png" /></a>
+L’ensemble du contenu de ce site web, sauf exception signalée, est mis à disposition sous <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/">licence BY NC ND 3.0 France</a>.</p>
+
+  <p>Pour tout document diffusé sous licence CC by-nc-nd, vous êtes libre :
+    <ul>
+      <li>de reproduire, distribuer et communiquer le document au public,</li>
+      <li>sans restriction de durée,</li>
+    </ul>
+  </p>
+  <p>selon les conditions suivantes :
+    <ul>
+      <li>by = Paternité : obligation de citer le nom de l'auteur original et de donner le lien vers le document original.</li>
+      <li>nc = Pas d'Utilisation Commerciale (Non Commercial work) : interdiction d'utiliser ce document à des fins commerciales.</li>
+      <li>nd = Pas de Modification (Non Derivative work) : interdiction de modifier, de transformer ou d'adapter ce document (seule la copie est donc autorisée).</li>
+    </ul>
+  </p>
+  <p>obligation de mentionner la licence : CC by-nc-nd.</p>
+  <p>La licence CC by-nc-nd accorde les droits ci-dessus à tout le monde, en particulier à la-boussole.info, qui peut diffuser le document sur le site la-boussole.info sans restriction de durée.</p>
+
+<h2>5 - Fermeture ou suspension du site</h2>
+
+  <p>la-boussole.info se réserve la possibilité, lorsqu'elle le souhaite, de modifier, d'interrompre temporairement ou de façon permanente, tout ou partie de ce site Internet sans préavis ni indemnités. la-boussole.info ne pourra en aucun cas être tenue pour responsable des conséquences éventuelles d'une telle modification.</p>           
+           
+           
+           
 """); //#11
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#14
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#93
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#15
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#94
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#17
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#96
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""       
-"""); //#18
+"""); //#97
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -54,7 +133,7 @@ Future disclaimer(HttpConnect connect) { //#2
       response.write("""    <script type="application/dart" src="/client/largeDisplay.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#21
+</html>"""); //#100
 
       return new Future.value();
     }); //end-of-include
