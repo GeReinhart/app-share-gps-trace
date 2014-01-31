@@ -26,7 +26,7 @@ Future disclaimer(HttpConnect connect) { //#2
     connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
     response.write("""           <h1>Mentions légales et conditions d'utilisation de la-boussole.info</h1>
-           <div class="text-warning  form-error-message" >En construction : texte décivant les mentions légales.</div>
+           
            
 <h2>1 - Mentions légales</h2>
 
@@ -51,12 +51,12 @@ Future disclaimer(HttpConnect connect) { //#2
         </p>
         <p class="gx-text-quote">La diffusion et la collecte de données à caractère personnel opérées à partir d’un site web dans le cadre d’activités professionnelles, politiques, ou associatives restent soumises à une déclaration préalable auprès de la CNIL.
         </p>
-  <p><a href="http://www.legifrance.gouv.fr/jopdf/common/jo_pdf.jsp?numJO=0&dateJO=20051217&numTexte=79&pageDebut=&pageFin=">CF  texte complet de la dispense n°6</a>
+  <p><a target="_blank"  href="http://www.legifrance.gouv.fr/jopdf/common/jo_pdf.jsp?numJO=0&dateJO=20051217&numTexte=79&pageDebut=&pageFin=">CF  texte complet de la dispense n°6</a>
   </p>
 
 <h2>2 - Limitation de responsabilité</h2>
 
-  <p class="gx-text-very-important">L'UTILISATION DU SITE La-BOUSSOLE.INFO SE FAIT SOUS L'ENTIERE RESPONSABILITE DES INTERNAUTES.</p>
+  <p class="gx-text-very-important">L'UTILISATION DU SITE LA-BOUSSOLE.INFO SE FAIT SOUS L'ENTIERE RESPONSABILITE DES INTERNAUTES.</p>
 
 <h3>2.1 - Pertes de données et autres dommages</h3>
   <p>Sous réserve des dispositions légales applicables, la-boussole.info ne saurait être tenue pour responsable de tout dommage direct ou indirect, notamment, mais non limitativement pertes de profits, de clientèles, de données, de biens incorporels, pouvant intervenir du fait de l'utilisation ou de l'impossibilité d'utilisation du site la-boussole.info, et plus généralement, de tout événement ayant un lien avec le site et/ou tout site tiers.</p>
@@ -82,7 +82,7 @@ la-boussole.info ne garantit pas l'exactitude et l'exhaustivité des indications
 <h2>4 - Propriété intellectuelle et droits d'auteurs</h2>
 
   <p><a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/"><img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/fr/88x31.png" /></a>
-L’ensemble du contenu de ce site web, sauf exception signalée, est mis à disposition sous <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/">licence BY NC ND 3.0 France</a>.</p>
+L’ensemble du contenu de ce site web, sauf exception signalée, est mis à disposition sous <a rel="license"  target="_blank"  href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/">licence Creative Commons BY NC ND 3.0 France</a>.</p>
 
   <p>Pour tout document diffusé sous licence CC by-nc-nd, vous êtes libre :
     <ul>
@@ -104,27 +104,61 @@ L’ensemble du contenu de ce site web, sauf exception signalée, est mis à dis
 
   <p>la-boussole.info se réserve la possibilité, lorsqu'elle le souhaite, de modifier, d'interrompre temporairement ou de façon permanente, tout ou partie de ce site Internet sans préavis ni indemnités. la-boussole.info ne pourra en aucun cas être tenue pour responsable des conséquences éventuelles d'une telle modification.</p>           
            
+<h2>6 - Liens hypertextes</h2>
+
+<h3>6.1 - Liens vers le site la-boussole.info</h3>
+
+	<p>Les liens hypertextes pointant sur n'importe quelle page du site la-boussole.info (pages d'accueil ou pages internes) sont autorisés et fortement encouragés. Toutefois, la-boussole.info n'exerce aucun contrôle sur les sites de tiers et n'assume par conséquent aucune responsabilité quant aux contenus, produits, services, informations, matériaux, logiciels des sites externes comportant un lien hypertexte vers le site la-boussole.info.</p>
+
+<h3>6.2 - Liens hypertextes en direction de sites tiers</h3>
+
+	<p>Le site la-boussole.info peut contenir des liens vers des sites de tiers.</p>
+	<p>la-boussole.info n'exerce aucun contrôle sur ces sites et n'assume par conséquent aucune responsabilité quant à la disponibilité de ces sites, leur contenu, publicité et sur les produits et/ou services disponibles sur ou à partir de ces sites. la-boussole.info ne sera aucunement responsable des dommages directs ou indirects pouvant survenir à l'occasion de l'accès de l'internaute à un site tiers ou lors de l'utilisation des services proposés sur ces sites.</p>
+
+<h2>7 - Conditions découlant de l'interactivité du site</h2>
+
+	<p>En ajoutant un contenu (texte, image ou autre) dans l'une des rubriques interactives du site la-boussole.info, l'internaute cède expressément et gracieusement à la-boussole.info le droit de diffusion de ce contenu (reproduction, représentation, adaptation) par tout moyen (tout support et en tout format connu ou inconnu à ce jour), pour le monde entier et pour la durée de la propriété intellectuelle actuelle ou à venir. Les droits d'auteur restent réservés.</p>
+
+	<p>la-boussole.info se réserve la possibilité discrétionnaire de publier ou non les contributions qu'elle reçoit sur ce site Internet, de les modifier, de les adapter ou de les traduire en toute langue, de les conserver en ligne ou de les supprimer à tout moment.</p>
+
+	<p>L'internaute est seul et unique responsable du contenu qu'il ajoute au site la-boussole.info. A ce titre, il garantit la-boussole.info contre tout recours et/ou action judiciaire qui pourrait découler de sa diffusion. Il répond notamment pénalement et/ou financièrement seul des éventuelles atteintes aux droits de la personne, droit à la vie privée, droit à la dignité humaine et droits d'auteur que causerait sa contribution.</p>
+
+	<p>Les contributions des internautes n'engagent que leur auteur et ne représentent en aucun cas une prise de position officielle de la-boussole.info.</p>
+
+<h2>8 - Droit applicable et litiges</h2>
+
+ LE SITE LA-BOUSSOLE.INFO EST SOUMIS AU DROIT FRANÇAIS.
+
+<h2>9 - Droit d'accés et réctification des données personnelles</h2>
+
+	<p>Les informations recueillies lors de l'inscription au site la-boussole.info sont nécessaires pour le fonctionnement du site. Elles font l’objet d’un traitement informatique. En application des articles 39 et suivants de la loi « informatique et libertés » du 6 janvier 1978 modifiée, vous bénéficiez d’un droit d’accès, de modification, et de rectification et de suppression aux informations qui vous concernent. Si vous souhaitez exercer ce droit d'accès et obtenir communication des informations vous concernant, veuillez vous adresser exclusivement par email : gerald [dot] reinhart [at] gmail [dot] com.</p>
+
+<h2>10 - Mise à jour</h2>
+
+	<p>la-boussole.info se réserve le droit de mettre à jour la présente notice légale à tout moment. Nous vous invitons donc à visiter cette page régulièrement.</p>
+
+	<p>Dernière mise à jour : 31 janvier 2014</p>
            
            
 """); //#11
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#93
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#127
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#94
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#128
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#96
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#130
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     response.write("""       
-"""); //#97
+"""); //#131
 
     connect = _cs_.removeLast(); response = connect.response;
 
@@ -133,7 +167,8 @@ L’ensemble du contenu de ce site web, sauf exception signalée, est mis à dis
       response.write("""    <script type="application/dart" src="/client/largeDisplay.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#100
+</html>
+"""); //#134
 
       return new Future.value();
     }); //end-of-include

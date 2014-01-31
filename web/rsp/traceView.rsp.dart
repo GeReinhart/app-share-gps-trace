@@ -68,7 +68,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
 
                </div>
                <div class="trace-creator note-text" >
-                 trace ajoutée par """); //#20
+                 <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/"><img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/fr/88x31.png" /></a>&nbsp;trace ajoutée par """); //#20
 
       response.write(Rsp.nnx(traceRenderer.trace.creator)); //#23
 
@@ -85,14 +85,9 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
       response.write("""
 
                </div>
-               <div   style="margin-top: 20px"><a href=\""""); //#26
-
-      response.write(Rsp.nnx(traceRenderer.permanentTraceUrl)); //#28
-
-
-      response.write("""">Lien permanent</a></div>
                
-"""); //#28
+               
+"""); //#26
 
       connect = _cs_.removeLast(); response = connect.response;
 
@@ -143,7 +138,8 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
-</html>"""); //#50
+</html>
+"""); //#50
 
               return new Future.value();
             }); //end-of-include
