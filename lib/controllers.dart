@@ -141,19 +141,37 @@ class TraceController{
   }
   
   Future aTraceDelete(HttpConnect connect) {
+    
+    User user =  currentUser(connect.request.session);
+    if (user == null  ){
+      return  forbiddenAction(connect) ;
+    }
+    
     return _decodePostedJson(connect.request,
         new Map.from(connect.request.uri.queryParameters))
         .then((Map params) {
 
           final DeleteTraceForm form = new DeleteTraceForm.fromJson(params );
-          
-          return _persistence.deleteTraceByKey(form.key).then((_){
+
+          return _persistence.getTraceByKey(form.key).then((trace){
+            
+            if (user.login == trace.creator || user.admin  ){
+              return _persistence.deleteTraceByKey(form.key).then((_){
+                return _writeFormIntoResponse(connect.response, form); 
+              });              
+            }else{
+              return forbiddenAction(connect) ;
+            }
             return _writeFormIntoResponse(connect.response, form); 
           });
-          
     });
   }
 
+  
+  Future forbiddenAction(HttpConnect connect){
+    return connect.forward("/403") ;
+  }
+  
   num castToNum(String value, int times){
     if (value == null){
       return null;

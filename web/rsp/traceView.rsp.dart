@@ -124,7 +124,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
             response.write("""" tabindex="-1" role="menuitem">Fichier gpx</a></li>
 """); //#42
 
-            if (currentUser(request.session) != null && currentUser(request.session).login == traceRenderer.trace.creator) { //if#43
+            if (currentUser(request.session) != null && ( currentUser(request.session).login == traceRenderer.trace.creator || currentUser(request.session).admin   )) { //if#43
 
               response.write("""            <li role="presentation"><a class="trace-delete-menu" href="#" tabindex="-1" role="menuitem">Supprimer</a></li>
 """); //#44
