@@ -17,6 +17,7 @@ import  "persistence.dart";
 import  "aaa.dart";
 
 part "../web/rsp/login.rsp.dart";
+part "../web/rsp/sandbox.rsp.dart";
 part "../web/rsp/about.rsp.dart" ;
 part "../web/rsp/register.rsp.dart";
 part "../web/rsp/index.rsp.dart";
@@ -37,6 +38,8 @@ part "../web/rsp/templates/persistentMenu.rsp.dart";
 part "../web/rsp/templates/searchForm.rsp.dart";
 part "../web/rsp/templates/searchResults.rsp.dart";
 part "../web/rsp/templates/searchResultsOnMap.rsp.dart";
+
+part "../web/rsp/widgets/confirmWidget.rsp.dart";
 
 class TraceController{
   
@@ -191,6 +194,10 @@ class TraceController{
 
   Future disclaimerShow(HttpConnect connect) {
     return disclaimer(connect);
+  }
+  
+  Future sandboxShow(HttpConnect connect) {
+    return sandbox(connect);
   }
   
   

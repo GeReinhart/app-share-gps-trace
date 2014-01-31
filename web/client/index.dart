@@ -16,7 +16,5 @@ void main() {
   querySelectorAll(".btn-search").onClick.listen((e) {
     window.location.href = "/trace.search";
   });
-  
-  layout.toggleMenu();
 }
 

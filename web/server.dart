@@ -81,7 +81,9 @@ class TracesServer{
           
           "/trace.search":  _traceController.traceSearch,
           "/trace.as_search": _traceController.aTraceSearch,
-          "/trace.as_delete": _traceController.aTraceDelete
+          "/trace.as_delete": _traceController.aTraceDelete,
+          
+          "/sandbox": _traceController.sandboxShow
           
         },/*
         filterMapping: {

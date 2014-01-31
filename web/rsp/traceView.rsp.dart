@@ -130,20 +130,23 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
 """); //#44
             } //if
 
-            response.write("""          
-          
-       </ul>
+            response.write("""       </ul>
     </div>
     
-    
+"""); //#46
+
+            return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace ${Rsp.nns(traceRenderer.trace.title)}")).then((_) { //include#49
+
+              response.write("""    
     
     <script type="application/dart" src="/client/traceAnalysis.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
-</html>"""); //#46
+</html>"""); //#50
 
-            return new Future.value();
+              return new Future.value();
+            }); //end-of-include
           }); //end-of-include
         }); //end-of-include
       }); //end-of-include

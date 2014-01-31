@@ -43,11 +43,10 @@
           [:if currentUser(request.session) != null && currentUser(request.session).login == traceRenderer.trace.creator   ]
             <li role="presentation"><a class="trace-delete-menu" href="#" tabindex="-1" role="menuitem">Supprimer</a></li>
           [/if]
-          
-          
        </ul>
     </div>
     
+    [:include confirmWidget confirmId="deleteConfirmModal" confirmTitle="Confirmation" confirmText="Je confirme la suppression définitive de la trace [=traceRenderer.trace.title]"   /]
     
     
     <script type="application/dart" src="/client/traceAnalysis.dart"></script>

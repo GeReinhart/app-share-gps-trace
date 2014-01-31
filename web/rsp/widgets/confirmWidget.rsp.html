@@ -1,0 +1,18 @@
+[:page partOf="trails" args="confirmId,confirmTitle,confirmText"]
+
+    <div id="[=confirmId]" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>[=confirmTitle]</h3>
+          </div>
+          <div class="modal-body">
+            <p>[=confirmText]</p>
+          </div>
+          <div class="modal-footer">
+            <button id="[=confirmId]-btn-ok" class="btn btn-primary">OK</button>
+            <button id="[=confirmId]-btn-cancel" class="btn btn-default">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div> 

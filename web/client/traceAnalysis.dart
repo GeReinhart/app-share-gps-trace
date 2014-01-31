@@ -5,11 +5,16 @@ import 'package:bootjack/bootjack.dart';
 import "spaces.dart";
 import "forms.dart";
 import 'package:js/js.dart' as js;
+import "widgets/confirm.dart" ;
+import "widgets/events.dart" ;
 
 SpacesLayout layout ;
+ConfirmWidget deleteConfirm ;
 
 void main() {
   layout = new SpacesLayout(180,30,35);
+  deleteConfirm = new ConfirmWidget("deleteConfirmModal", deleteTrace);
+  
   moveTraceViewers(layout.postions);
   
   layout.centerMoved.listen((_){
@@ -17,38 +22,43 @@ void main() {
   });
 
   querySelectorAll(".trace-delete-menu").onClick.listen((event){
-    callDeleteConfirmation();
+    deleteConfirm.showConfirmModal();
   });
   
   
 }
 
-void callDeleteConfirmation() {
+void deleteTrace(OKCancelEvent event) {
 
-    layout.startLoading();
-    
-    HttpRequest request = new HttpRequest();
-    
-    request.onReadyStateChange.listen((_) {
-      
-      if (request.readyState == HttpRequest.DONE ) {
-
-        DeleteTraceForm form = new DeleteTraceForm.fromJson(JSON.decode(request.responseText));
-        var message = querySelector(".form-error-message");
-        if (form.success){
-          window.location.assign('/trace.search');
-        }
-        
-        layout.stopLoading();
-      }
-    });
-
-    request.open("POST",  "/trace.as_delete", async: false);
-    
-    DeleteTraceForm form =  new  DeleteTraceForm( querySelector("[data-key]").attributes["data-key"] );
-    request.send(JSON.encode(form.toJson()));
+  if (event.cancel){
+    return;
+  }
+  layout.startLoading();
   
+  HttpRequest request = new HttpRequest();
+  
+  request.onReadyStateChange.listen((_) {
+    
+    if (request.readyState == HttpRequest.DONE ) {
+
+      DeleteTraceForm form = new DeleteTraceForm.fromJson(JSON.decode(request.responseText));
+      var message = querySelector(".form-error-message");
+      if (form.success){
+        window.location.assign('/trace.search');
+      }
+      
+      layout.stopLoading();
+    }
+  });
+
+  request.open("POST",  "/trace.as_delete", async: false);
+  
+  DeleteTraceForm form =  new  DeleteTraceForm( querySelector("[data-key]").attributes["data-key"] );
+  request.send(JSON.encode(form.toJson()));
+
 }
+
+
 
 void moveTraceViewers(SpacesPositions spacesPositions ){
   
@@ -95,6 +105,7 @@ void moveTraceViewers(SpacesPositions spacesPositions ){
   }
   
 }
+
 
 
 
