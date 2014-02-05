@@ -16,10 +16,8 @@ import  "models.dart";
 import  "persistence.dart";
 import  "aaa.dart";
 
-part "../web/rsp/login.rsp.dart";
 part "../web/rsp/sandbox.rsp.dart";
 part "../web/rsp/about.rsp.dart" ;
-part "../web/rsp/register.rsp.dart";
 part "../web/rsp/index.rsp.dart";
 part "../web/rsp/traceAddFormView.rsp.dart" ;
 part "../web/rsp/traceView.rsp.dart" ;
@@ -28,20 +26,46 @@ part "../web/rsp/traceSearchView.rsp.dart" ;
 part "../web/rsp/disclaimer.rsp.dart" ;
 part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/loading.rsp.dart";
-part "../web/rsp/templates/menu.rsp.dart";
 part "../web/rsp/templates/center.rsp.dart";
-part "../web/rsp/templates/loginForm.rsp.dart";
 part "../web/rsp/templates/traceGpxViewer.rsp.dart";
 part "../web/rsp/templates/traceProfileViewer.rsp.dart";
 part "../web/rsp/templates/traceStatisticsViewer.rsp.dart";
-part "../web/rsp/templates/persistentMenu.rsp.dart";
 part "../web/rsp/templates/searchForm.rsp.dart";
 part "../web/rsp/templates/searchResults.rsp.dart";
 part "../web/rsp/templates/searchResultsOnMap.rsp.dart";
 
 part "../web/rsp/widgets/confirmWidget.rsp.dart";
+part "../web/rsp/widgets/loginWidget.rsp.dart";
+part "../web/rsp/widgets/logoutWidget.rsp.dart";
+part "../web/rsp/widgets/registerWidget.rsp.dart";
+part "../web/rsp/widgets/persistentMenuWidget.rsp.dart";
+part "../web/rsp/widgets/connectedUserWidget.rsp.dart";
+part "../web/rsp/widgets/menuWidget.rsp.dart";
 
-class TraceController{
+
+class ServerController{
+  
+}
+
+class JsonFeatures {
+  
+  Future<Map> decodePostedJson(
+      Stream<List<int>> request, [Map<String, String> parameters])
+      => readAsString(request)
+         .then((String data) {
+          return JSON.decode(data); 
+   });
+  
+  Future postJson(HttpResponse response, ToJson form){
+    response
+      ..headers.contentType = new ContentType("application", "json", charset: "utf-8")
+      ..write( JSON.encode( form.toJson()) );  
+    return new Future.value(); 
+  }
+  
+}
+
+class TraceController extends ServerController with JsonFeatures{
   
   PersistenceLayer _persistence ;
   Crypto _crypto ;
@@ -63,38 +87,10 @@ class TraceController{
   Security get security => _security ;
   
   
-  Future aRegister(HttpConnect connect) {
-    
-    return _decodePostedJson(connect.request,
-                        new Map.from(connect.request.uri.queryParameters))
-                             .then((Map params) {
-
-      final RegisterForm form = new RegisterForm.fromMap(params );
-      if ( !form.validate() ){
-        return _writeFormIntoResponse(connect.response, form);
-      }else{
-        return  _persistence.getUserByLogin(form.login).then((user){
-            if (user != null){
-              
-              form.setErrorLoginExists();
-              return _writeFormIntoResponse(connect.response, form); 
-              
-            }else{   
-              
-              User user = new User.withLogin(form.login,_crypto.encryptPassword(form.password));
-              print ("# Register user "+ user.toJson().toString());
-              return _persistence.saveOrUpdateUser(user)
-                .then((_){
-                return _writeFormIntoResponse(connect.response, form);                        
-              });
-            }
-          });
-      }
-    });
-  }
+  
   
   Future aTraceSearch(HttpConnect connect) {
-    return _decodePostedJson(connect.request,
+    return decodePostedJson(connect.request,
         new Map.from(connect.request.uri.queryParameters))
         .then((Map params) {
 
@@ -134,7 +130,7 @@ class TraceController{
                     form.results.add(lightTrace) ;
                 });
               }
-              return _writeFormIntoResponse(connect.response, form); 
+              return postJson(connect.response, form); 
             });
           
         });
@@ -147,7 +143,7 @@ class TraceController{
       return  forbiddenAction(connect) ;
     }
     
-    return _decodePostedJson(connect.request,
+    return decodePostedJson(connect.request,
         new Map.from(connect.request.uri.queryParameters))
         .then((Map params) {
 
@@ -157,12 +153,12 @@ class TraceController{
             
             if (user.login == trace.creator || user.admin  ){
               return _persistence.deleteTraceByKey(form.key).then((_){
-                return _writeFormIntoResponse(connect.response, form); 
+                return postJson(connect.response, form); 
               });              
             }else{
               return forbiddenAction(connect) ;
             }
-            return _writeFormIntoResponse(connect.response, form); 
+            return postJson(connect.response, form); 
           });
     });
   }
@@ -184,19 +180,9 @@ class TraceController{
     }
   }
   
-  Future<Map> _decodePostedJson(
-      Stream<List<int>> request, [Map<String, String> parameters])
-      => readAsString(request)
-         .then((String data) {
-          return JSON.decode(data); 
-   });
+
   
-  Future _writeFormIntoResponse(HttpResponse response, form){
-    response
-      ..headers.contentType = new ContentType("application", "json", charset: "utf-8")
-      ..write( JSON.encode( form.toJson()) );  
-    return new Future.value(); 
-  }
+
   
   Future login(HttpConnect connect) {
     return _security.login(connect);
@@ -330,3 +316,98 @@ class TraceController{
   }
   
 }
+
+
+
+
+class UserServerController extends ServerController with JsonFeatures{
+  
+  PersistenceLayer _persistence ;
+  Crypto _crypto ;
+  Security _security ;
+  
+  UserServerController(this._persistence, this._crypto){
+
+    final authenticator = new Authentication(_persistence,_crypto) ;
+    final accessControl = new SimpleAccessControl({
+      "/.*": ["user", "admin"]
+    });
+  
+    _security = new Security(authenticator, accessControl);
+  }
+
+  
+  Future<LoginForm> _login(HttpConnect connect, String login, String password){
+    
+    LoginForm form = new LoginForm(login,null) ;
+    return _security.login(connect, rememberMe:true, redirect: false, 
+        username: login,
+        password: password).then((_){
+          return _persistence.getUserByLogin(login).then((user){
+            form.admin = user.admin;
+            return form; 
+          } );
+        } ).catchError((ex) {
+          form.error = "login failure" ;
+          return form; 
+        });
+  }
+
+  Future jsonLogout(HttpConnect connect) {
+    return _security.logout(connect, redirect: false).then((_){
+       LoginForm logoutForm = new LoginForm(null,null) ;
+       return  postJson(connect.response, logoutForm);
+    }); 
+  }
+  
+  Future jsonLogin(HttpConnect connect) {
+    return decodePostedJson(connect.request,
+        new Map.from(connect.request.uri.queryParameters))
+        .then((Map params) {
+          LoginForm loginForm = new LoginForm.fromJson(params);
+          return _login(connect, loginForm.login, loginForm.password)
+                       .then((form){
+                           postJson(connect.response, form.resetPassword());
+                       });
+    });
+  }
+  
+  
+  Future jsonRegister(HttpConnect connect) {
+    
+    return decodePostedJson(connect.request,
+                        new Map.from(connect.request.uri.queryParameters))
+                             .then((Map params) {
+
+      final RegisterForm registerForm = new RegisterForm.fromMap(params );
+      if ( !registerForm.validate() ){
+        return postJson(connect.response, registerForm);
+      }else{
+        return  _persistence.getUserByLogin(registerForm.login).then((user){
+            if (user != null){
+              registerForm.setErrorLoginExists();
+              return postJson(connect.response, registerForm); 
+            }else{   
+              
+              User user = new User.withLogin(registerForm.login,_crypto.encryptPassword(registerForm.password));
+              print ("# Register user "+ user.toJson().toString());
+
+              return _persistence.saveOrUpdateUser(user).then((_){
+                return _login(connect, registerForm.login, registerForm.password)
+                    .then((form){
+                      postJson(connect.response, registerForm.resetPassword());
+                    });
+              });
+            }
+          });
+      }
+    });
+  }
+  
+  
+  
+  
+  
+}
+
+

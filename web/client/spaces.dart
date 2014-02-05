@@ -3,9 +3,14 @@
 import 'dart:html';
 import 'dart:async';
 import 'package:bootjack/bootjack.dart';
+import "events.dart";
+import "controllers.dart" ;
+import "widgets/persistentMenu.dart" ;
+import "widgets/menu.dart" ;
+import "widgets/loading.dart" ;
 
 
-class SpacesLayout{
+class SpacesLayout implements LoadingShower  {
   
   String spaces = ".spaces" ;
   String spaceElements  = ".space"  ;
@@ -29,18 +34,22 @@ class SpacesLayout{
   
   bool showWestSpace = false;
   
+  UserClientController _userClientController ;
   SpacesPositions postions ;
+  PersistentMenuWidget _persistentMenuWidget ;
+  MenuWidget _menuWidget;
   
   MouseEvent _startMovingCenterPosition ;
   var _movingCenter = false;
   
   StreamController centerMovedController = new StreamController.broadcast();
+
   
-  SpacesLayout(this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
+  SpacesLayout(this._userClientController,  this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
     _init();
   }
 
-  SpacesLayout.withWestSpace(this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
+  SpacesLayout.withWestSpace(this._userClientController, this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
     showWestSpace = true;
     _init();
   }
@@ -49,6 +58,11 @@ class SpacesLayout{
   Stream get centerMoved => centerMovedController.stream;
   
   void _init(){
+    _persistentMenuWidget = new PersistentMenuWidget("persistentMenu",_userClientController) ;
+    _menuWidget = new MenuWidget("menu",_userClientController) ;
+    _userClientController.setLoginLogoutEventCallBack( _persistentMenuWidget.loginLogoutEvent) ;
+    _userClientController.setLoginLogoutEventCallBack( _menuWidget.loginLogoutEvent) ;
+    
     centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
     centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
     
@@ -121,8 +135,6 @@ class SpacesLayout{
       menu.classes.remove("open") ;
     }
   }
-  
-  
   
   void _moveCenter(Point start, Point end){
     double centerRightComputed =   -end.x + start.x  + centerRight ;
@@ -222,13 +234,15 @@ class SpacesLayout{
     querySelector(spaceCenter + " a img").attributes["src"] = "/assets/img/compass_275.png";
     
     var menuItemsNumber = 6;
-    querySelector(spaceMenu)
-    ..style.position = 'absolute'
-    ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top   = centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize *  ( 1                )  /6 ).toString()+ "px" 
-                                                      : (centerTop+1  - centerSize *  ( menuItemsNumber  )  /6 ).toString()+ "px"
-    ..style.width = centerSize.toString()+ "px"
-    ..style.height = "0px" ;   
+    querySelectorAll(spaceMenu).forEach( (e){
+      e
+      ..style.position = 'absolute'
+      ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
+      ..style.top   = centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize *  ( 1                )  /6 ).toString()+ "px"
+                                                        : (centerTop+1  - centerSize *  ( menuItemsNumber  )  /6 ).toString()+ "px"
+      ..style.width = centerSize.toString()+ "px"
+      ..style.height = "0px" ;   
+    }) ;
 
     var contextualMenuItemsNumber = 2;
     querySelectorAll(spaceContextualMenu)
@@ -286,6 +300,15 @@ class SpacesLayout{
   void stopLoading(){
     querySelector(spaceLoading).style.zIndex = "10" ;
   }
+  
+  void _loginLogoutEvent(LoginLogoutEvent event){
+    if (! event.isLogout){
+      _persistentMenuWidget.userLoggedAs(event.login, event.isAdmin) ;
+    }else{
+      _persistentMenuWidget.anonymeUser();
+    }
+  }
+
 }
 
 class SpacesPositions{

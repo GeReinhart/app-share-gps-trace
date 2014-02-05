@@ -49,13 +49,19 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
           return Rsp.nnf(spaces(new HttpConnect.chain(connect), w: _0.toString(), ne: _1.toString(), se: _2.toString())).then((_) { //include#9
 
             response.write("""    
-    <script type="application/dart" src="/client/traceSearch.dart"></script>
+"""); //#21
+
+            return Rsp.nnf(loginWidget(new HttpConnect.chain(connect), loginId: "loginModal")).then((_) { //include#22
+
+              response.write("""    
+    <script type="application/dart" src="/client/pages/traceSearch.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#21
+"""); //#23
 
-            return new Future.value();
+              return new Future.value();
+            }); //end-of-include
           }); //end-of-include
         }); //end-of-include
       }); //end-of-include

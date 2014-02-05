@@ -5,6 +5,7 @@ class ModalWidget{
   
   void initModalWidget(){
     Modal.use();
+    Transition.use();
   }
   
   void showModalWidget(String id){

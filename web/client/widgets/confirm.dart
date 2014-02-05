@@ -3,7 +3,7 @@ import 'dart:async';
 
 import "widget.dart" ;
 import "modal.dart" ;
-import "events.dart" ;
+import "../events.dart" ;
 
 class ConfirmWidget extends Widget with ModalWidget, OKCancelEventProducer {
   

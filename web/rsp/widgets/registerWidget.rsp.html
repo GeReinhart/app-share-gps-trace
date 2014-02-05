@@ -1,0 +1,27 @@
+[:page partOf="trails" args="registerId"]
+
+    <div id="[=registerId]" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Enregistrement</h3>
+          </div>
+          <div class="modal-body">
+              <div class="form-group form-login">
+                <input  id="[=registerId]-login" type="text" class="form-control"  placeholder="Login">
+              </div>
+              <div class="form-group form-password">
+                <input id="[=registerId]-password"  type="password" class="form-control"  placeholder="Mot de passe">
+              </div>        
+              <div class="form-group form-passwordConfirm">
+                <input id="[=registerId]-password-confirm" type="password" class="form-control"  placeholder="Confirmation mot de passe">
+              </div>     
+          </div>
+          <div class="modal-footer">
+              <div id="[=registerId]-error-message" class="text-warning" ></div>
+              <button id="[=registerId]-btn-submit" type="submit" class="btn btn-primary btn-submit-register">S'enregister</button>
+              <button id="[=registerId]-btn-cancel" class="btn btn-default">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>         

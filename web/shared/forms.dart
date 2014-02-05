@@ -1,29 +1,44 @@
 
+abstract class ToJson{
+  Map toJson() ;
+}
 
-
-class LoginForm{
+class LoginForm implements ToJson{
   String login;
+  String _admin = "false";
   String password;
   String error = null;
 
   LoginForm(this.login,this.password);
 
+  LoginForm.forLogout();
+  
   LoginForm.fromJson(Map map) {
     _fromJson(map);
   }
   
   void _fromJson(Map map) {
     login = map['login'];
+    _admin = map['admin'];
     password = map['password'];
     error = map['error'];
   }
   
   Map toJson() {
-    return {'login': login,'password': password,'error':error};
+    return {'login': login,'admin': _admin,'password': password,'error':error};
   }
 
+  LoginForm resetPassword(){
+    password = null ;
+    return this;
+  }
+  
+  void set admin(bool admin) { _admin = admin.toString() ;}
+   
   bool get isSuccess => error==null;
+  bool get isAdmin => "true" == _admin;
 }
+
 
 const int REGISTER_PASSWORD_MIN_LENGTH = 5 ;
 const int REGISTER_LOGIN_MIN_LENGTH = 3 ;
@@ -38,24 +53,26 @@ const String REGISTER_FIELD_PASSWORD = "password" ;
 const String REGISTER_FIELD_PASSWORD_CONFIRM = "passwordConfirm" ;
 
 
-class RegisterForm{
+class RegisterForm implements ToJson{
   
   String login;
   String password;
   String passwordConfirm;
+  String _admin = "false" ;
   String _success = "true" ;
   String error = null;
   String errorField = null;
   
   RegisterForm( this.login, this.password, this.passwordConfirm );
   
-  RegisterForm.fromMap(Map<String, String> params){
+  RegisterForm.fromMap(Map params){
     _fromMap(params);
   }
   
-  void _fromMap(Map<String, String> params){
+  void _fromMap(Map params){
     login = params["login"] ;
     password = params["password"] ;
+    _admin = params["admin"] ;
     passwordConfirm = params["passwordConfirm"] ;
     _success = params["_success"] ;
     error = params["error"] ;
@@ -65,6 +82,7 @@ class RegisterForm{
   Map toJson() {
     return {'login': login,
              'password': password,
+             'admin': _admin,
              'passwordConfirm':passwordConfirm,
              '_success':_success,
              'error':error,
@@ -81,6 +99,12 @@ class RegisterForm{
     setError(REGISTER_ERROR_LOGIN_EXISTS,REGISTER_FIELD_LOGIN);
   }
   
+  RegisterForm resetPassword(){
+    password = null ;
+    passwordConfirm = null ;
+    return this;
+  }
+  
   bool validate(){
     
     if (password == null ||  password != null && password.length < REGISTER_PASSWORD_MIN_LENGTH ){
@@ -93,13 +117,18 @@ class RegisterForm{
       setError( REGISTER_ERROR_LOGIN_MIN_LENGTH, REGISTER_FIELD_LOGIN) ;
     }
     
-    return success ;
+    return isSuccess ;
   }
   
-  bool get success => _success == "true" ;
+  
+  
+  void set admin(bool admin) { _admin = admin.toString() ;}
+  
+  bool get isSuccess => _success == "true" ;
+  bool get isAdmin => _admin == "true" ;
 }
 
-class DeleteTraceForm{
+class DeleteTraceForm implements ToJson{
   String key;
   String _success = "true" ;
 
@@ -121,7 +150,7 @@ class DeleteTraceForm{
   bool get success => _success == "true" ;
 }
 
-class SearchForm{
+class SearchForm  implements ToJson{
 
   String search;
   String creator;
@@ -282,9 +311,7 @@ class SearchForm{
   
 }
 
-
-
-class LightTrace{
+class LightTrace implements ToJson{
   String key;
   String creator ;
   String title ;

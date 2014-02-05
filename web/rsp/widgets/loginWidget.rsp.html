@@ -1,30 +1,23 @@
 [:page partOf="trails" args="loginId"]
 
-
-
-    <div id="[=confirmId]" class="modal fade" tabindex="-1" role="dialog">
+    <div id="[=loginId]" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h3>Connection</h3>
           </div>
           <div class="modal-body">
-              [:if request.uri.queryParameters["retry"] != null]
-              <div class="text-warning">Mauvais login ou mot de passe.</div>
-              [/if]
-              <form role="form"  action="/s_login" method="post" accept-charset="UTF-8">
                 <div class="form-group">
-                  <input name="s_username" type="text" class="form-control" id="login" placeholder="Login">
+                  <input id="[=loginId]-input-login" type="text" class="form-control"  placeholder="Login">
                 </div>
                 <div class="form-group">
-                  <input name="s_password" type="password" class="form-control" id="password" placeholder="Mot de passe">
+                  <input id="[=loginId]-input-password" type="password" class="form-control"  placeholder="Mot de passe">
                 </div>        
-                <button type="submit" class="btn btn-primary loading-on-click">Se connecter</button>
-              </form>
           </div>
           <div class="modal-footer">
-            <button id="[=confirmId]-btn-ok" class="btn btn-primary">OK</button>
-            <button id="[=confirmId]-btn-cancel" class="btn btn-default">Annuler</button>
+            <button id="[=loginId]-btn-login" type="submit" class="btn btn-primary">Se connecter</button>
+            <button id="[=loginId]-btn-cancel" class="btn btn-default">Annuler</button>
+             <div id="[=loginId]-error-message" class="text-warning" ></div>
           </div>
         </div>
       </div>

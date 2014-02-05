@@ -279,6 +279,11 @@ class User {
   
   User(this.login, this.encryptedPassword, this.firstName, this.lastName);
 
+  User.withFields({String login:null, bool admin:false  }){
+    this.login = login ;
+    this.admin = admin ;
+  }
+  
   User.withLogin(this.login, this.encryptedPassword);
   
   User.withId(this.id,this.login, this.encryptedPassword, this.firstName, this.lastName);

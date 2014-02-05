@@ -50,39 +50,48 @@ Future index(HttpConnect connect) { //#2
 
     response.write("""        
         <div class="form-group">
-"""); //#25
+           <div id="index-btn-when-anonymous" """); //#25
 
-    if (currentUser(request.session) == null) { //if#27
+    if (currentUser(request.session) != null) { //if#27
 
-      response.write("""           <button  type="submit" class="btn btn-primary btn-login loading-on-click">Se connecter</button>&nbsp;
-           <button  type="submit" class="btn btn-default btn-register loading-on-click">S'enregister</button>&nbsp;
-"""); //#28
-
-    } else { //else#30
-
-      response.write("""           <button  type="submit" class="btn btn-primary btn-add loading-on-click">Ajouter une trace</button>&nbsp;
-"""); //#31
+      response.write("""class="gx-hidden\""""); //#27
     } //if
 
-    response.write("""           <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
+    response.write(""" >
+              <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>&nbsp;
+              <button  type="submit" class="btn btn-default btn-register">S'enregister</button>&nbsp;
+              <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
+           </div>
+           <div id="index-btn-when-logged" """); //#27
+
+    if (currentUser(request.session) == null) { //if#32
+
+      response.write("""class="gx-hidden\""""); //#32
+    } //if
+
+    response.write("""  >
+             <button  type="submit" class="btn btn-primary btn-add loading-on-click">Ajouter une trace</button>&nbsp;
+             <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
+           </div>
         </div>
         <div style="margin-top: 20px"  class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
         
-"""); //#33
+"""); //#32
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#38
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#40
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-      response.write("""    <script type="application/dart" src="/client/index.dart"></script>
+      response.write("""     
+    <script type="application/dart" src="/client/pages/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#41
+</html>"""); //#43
 
       return new Future.value();
     }); //end-of-include

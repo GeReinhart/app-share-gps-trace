@@ -1,0 +1,2 @@
+[:page partOf="trails" ]
+  <div class="gx-hidden" [:if currentUser(request.session) != null ]data-connected-user-login="[=currentUser(request.session).login]" data-connected-user-login="[=currentUser(request.session).admin]" [/if]  ></div>

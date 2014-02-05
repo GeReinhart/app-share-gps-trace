@@ -10,19 +10,6 @@ import  "../lib/persistence.dart";
 import  "../lib/aaa.dart";
 import  "../lib/controllers.dart";
 
-part "rsp/login.rsp.dart";
-part "rsp/register.rsp.dart";
-part "rsp/index.rsp.dart";
-part "rsp/templates/menu.rsp.dart";
-part "rsp/templates/center.rsp.dart";
-part "rsp/templates/loading.rsp.dart";
-part "rsp/templates/spaces.rsp.dart";
-part "rsp/templates/loginForm.rsp.dart";
-part "rsp/templates/traceGpxViewer.rsp.dart";
-part "rsp/templates/traceProfileViewer.rsp.dart";
-part "rsp/templates/traceStatisticsViewer.rsp.dart";
-part "rsp/templates/persistentMenu.rsp.dart";
-
 
 class TracesServer{
   
@@ -30,6 +17,7 @@ class TracesServer{
   int port;
   
   TraceController _traceController;
+  UserServerController _userServerController;
   
   TracesServer(this.host,this.port){
     createApplicationContext();
@@ -50,6 +38,7 @@ class TracesServer{
     _persistenceLayer.open();
     Crypto _crypto = new Crypto();
     _traceController = new TraceController(_persistenceLayer,_crypto,appUri) ;
+    _userServerController = new UserServerController(_persistenceLayer,_crypto) ;
   }
   
   
@@ -57,13 +46,15 @@ class TracesServer{
     new StreamServer(
         uriMapping: {
           "/": index, 
+
+          "/j_register": _userServerController.jsonRegister,
+          "/j_login": _userServerController.jsonLogin,
+          "/j_logout": _userServerController.jsonLogout,
+          
           "/about": _traceController.aboutShow,
           "/disclaimer": _traceController.disclaimerShow,
           
-          "/register": register, 
-          "/as_register": _traceController.aRegister,
-
-          "/login": login, 
+          
           "/s_login": _traceController.login,
 
           "/s_logout": _traceController.logout,

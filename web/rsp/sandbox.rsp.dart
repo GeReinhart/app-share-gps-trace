@@ -52,19 +52,12 @@ Future sandbox(HttpConnect connect) { //#2
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
       response.write("""    
-"""); //#20
-
-      return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace truc muche")).then((_) { //include#21
-
-        response.write("""    
-    
-    <script type="application/dart" src="/client/sandbox.dart"></script>
+    <script type="application/dart" src="/client/pages/sandbox.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#22
+</html>"""); //#20
 
-        return new Future.value();
-      }); //end-of-include
+      return new Future.value();
     }); //end-of-include
   }); //end-of-include
 }

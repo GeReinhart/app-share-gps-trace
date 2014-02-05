@@ -72,14 +72,25 @@ Future spaces(HttpConnect connect, {w, nw, ne, sw, se}) { //#2
 
     return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#29
 
-      return Rsp.nnf(menu(new HttpConnect.chain(connect))).then((_) { //include#30
+      return Rsp.nnf(menuWidget(new HttpConnect.chain(connect), menuId: "menu")).then((_) { //include#30
 
-        response.write("""</div>
-"""); //#31
+        return Rsp.nnf(persistentMenuWidget(new HttpConnect.chain(connect), persistentMenuId: "persistentMenu")).then((_) { //include#31
 
-        return Rsp.nnf(persistentMenu(new HttpConnect.chain(connect))).then((_) { //include#32
+          return Rsp.nnf(loginWidget(new HttpConnect.chain(connect), loginId: "loginModal")).then((_) { //include#32
 
-          return new Future.value();
+            return Rsp.nnf(registerWidget(new HttpConnect.chain(connect), registerId: "registerModal")).then((_) { //include#33
+
+              return Rsp.nnf(connectedUserWidget(new HttpConnect.chain(connect))).then((_) { //include#34
+
+                return Rsp.nnf(logoutWidget(new HttpConnect.chain(connect), logoutId: "logoutSilent")).then((_) { //include#35
+
+                  response.write("""</div>"""); //#36
+
+                  return new Future.value();
+                }); //end-of-include
+              }); //end-of-include
+            }); //end-of-include
+          }); //end-of-include
         }); //end-of-include
       }); //end-of-include
     }); //end-of-include

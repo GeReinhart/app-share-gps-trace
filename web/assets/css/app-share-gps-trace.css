@@ -1,3 +1,18 @@
+
+
+
+.gx-hidden{
+  z-index: 1 ;
+  position: absolute;
+  display: none;
+}
+
+
+
+
+
+
+
 body { 
   float:left;
 }
@@ -179,9 +194,11 @@ ul li {
   z-index: 99 ;
 }
 
+
 .space-contextual-menu {
   z-index: 99 ;
 }
+
 
 .space-persitent-menu{
     z-index: 99 ;

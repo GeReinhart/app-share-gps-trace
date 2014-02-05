@@ -313,7 +313,6 @@ class MongoPersistence implements PersistenceLayer{
     
     if(user.id == null){
             user.id = new ObjectId().toString();
-            user.admin = true;
             return _userCollection.insert(user.toJson()).then((_){
                 return user;
             });

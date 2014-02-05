@@ -27,6 +27,10 @@
   	  </div>
 	</div>
     [:include center/]
-    [:include menu/]
+    [:include menuWidget menuId="menu" /]
+    [:include persistentMenuWidget persistentMenuId="persistentMenu"/]
+    [:include loginWidget loginId="loginModal"   /]
+    [:include registerWidget registerId="registerModal"   /]
+    [:include connectedUserWidget   /]
+    [:include logoutWidget logoutId="logoutSilent"   /]
 </div>
-[:include persistentMenu/]
