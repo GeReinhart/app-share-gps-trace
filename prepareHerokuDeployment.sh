@@ -14,7 +14,7 @@ function prefix-assets {
 	prefixFile=`date +"%Y%m%d%H%M%S"`
 	echo "prefix is $prefixFile"
 
-	clientDir="web/client/pages"
+	clientDir="web/client"
 	clientFiles=`grep -r "main()" $clientDir   | grep -v packages |  awk -F":" '{print $1}' | awk -F"/" '{print $3}' `
 
 	for clientFile  in $clientFiles
@@ -36,7 +36,7 @@ function prefix-assets {
 function dart-2-js {
 
 	echo "dart-2-js"
-	clientDir="web/client/pages"
+	clientDir="web/client"
 	clientFiles=`grep -r "main()" $clientDir   | grep -v packages |  awk -F":" '{print $1}' | awk -F"/" '{print $3}' `
 
 	for clientFile  in $clientFiles
