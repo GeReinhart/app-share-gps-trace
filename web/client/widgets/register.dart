@@ -32,6 +32,7 @@ class RegisterWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
 
   void _callRegister(){
       
+      startLoading();
       HttpRequest request = new HttpRequest();
       
       request.onReadyStateChange.listen((_) {
@@ -42,6 +43,7 @@ class RegisterWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
           var message = querySelector("#${this.id}-error-message");
           if (form.isSuccess){
             hideModalWidget(id);
+            stopLoading();
             sendLoginEvent(form.login, form.isAdmin);
           }else {
             switch (form.error) {
@@ -62,7 +64,7 @@ class RegisterWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
         }
       });
 
-      request.open("POST",  "/j_register", async: false);
+      request.open("POST",  "/j_register", async: true);
       RegisterForm form =  new  RegisterForm( (querySelector("#${this.id}-login") as InputElement).value,
           (querySelector("#${this.id}-password") as InputElement).value,
           (querySelector("#${this.id}-password-confirm") as InputElement).value);

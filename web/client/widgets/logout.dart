@@ -34,7 +34,7 @@ class LogoutWidget extends Widget with LoginLogoutEventProducer {
         }
       });
 
-      request.open("POST",  "/j_logout", async: false);
+      request.open("POST",  "/j_logout", async: true);
       LoginForm logoutForm =  new  LoginForm.forLogout();
       request.send(JSON.encode(logoutForm.toJson()));
   }

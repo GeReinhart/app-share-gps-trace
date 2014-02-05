@@ -42,6 +42,7 @@ class LoginWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
   
   void _callLogin(){
       
+      startLoading();
       HttpRequest request = new HttpRequest();
       
       request.onReadyStateChange.listen((_) {
@@ -51,6 +52,7 @@ class LoginWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
           var message = querySelector("#${id}-error-message");
           if (form.isSuccess){
             hideModalWidget(id);
+            stopLoading();
             sendLoginEvent(form.login, form.isAdmin);
           }else {
             message.text = "Le login ou le mot de passe est incorrect" ;
@@ -58,7 +60,7 @@ class LoginWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
         }
       });
 
-      request.open("POST",  "/j_login", async: false);
+      request.open("POST",  "/j_login", async: true);
       String login =  (querySelector("#${id}-input-login") as InputElement ).value ;
       String password =  (querySelector("#${id}-input-password") as InputElement ).value ;
       LoginForm form =  new  LoginForm(login,password);
