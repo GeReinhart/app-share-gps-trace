@@ -1,0 +1,21 @@
+[:page partOf="trails"]
+<!DOCTYPE html>
+<html>
+ <head>
+     <title>La Boussole - opération non autorisée</title>
+     [:include "/rsp/templates/assetsimports.html"/]   
+  </head>
+  <body>   
+    [:include spaces]
+      [:var nw]
+           <h1>Opération non autorisée</h1>
+      [/var]
+      [:var ne /]
+      [:var sw /]
+      [:var se /]
+    [/include]  
+    
+    <script type="application/dart" src="/client/pages/error.dart"></script>
+    <script src="/packages/browser/dart.js"></script>
+  </body>
+</html>

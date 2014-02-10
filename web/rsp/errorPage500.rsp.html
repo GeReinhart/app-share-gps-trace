@@ -1,0 +1,23 @@
+[:page partOf="trails"]
+<!DOCTYPE html>
+<html>
+ <head>
+     <title>La Boussole - erreur du serveur</title>
+     [:include "/rsp/templates/assetsimports.html"/]   
+  </head>
+  <body>   
+    [:include spaces]
+      [:var nw]
+           <h1>Erreur coté serveur</h1>
+           <p>Veuillez réessayer l'opération plus tard.</p>
+           <p>Si le problème persiste, merci de contacter le gestionnaire de la-boussole.</p>
+      [/var]
+      [:var ne /]
+      [:var sw /]
+      [:var se /]
+    [/include]  
+    
+    <script type="application/dart" src="/client/pages/error.dart"></script>
+    <script src="/packages/browser/dart.js"></script>
+  </body>
+</html>

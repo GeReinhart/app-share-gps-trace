@@ -18,6 +18,7 @@ class TracesServer{
   
   TraceController _traceController;
   UserServerController _userServerController;
+  ErrorServerController _errorServerController;
   
   TracesServer(this.host,this.port){
     createApplicationContext();
@@ -39,6 +40,7 @@ class TracesServer{
     Crypto _crypto = new Crypto();
     _traceController = new TraceController(_persistenceLayer,_crypto,appUri) ;
     _userServerController = new UserServerController(_persistenceLayer,_crypto) ;
+    _errorServerController = new ErrorServerController();
   }
   
   
@@ -81,7 +83,9 @@ class TracesServer{
           "/trace\.add.*": _traceController.security.filter
         },*/
         errorMapping: {
-          "404": "/404.html"
+          "403": _errorServerController.errorPage403Show,
+          "404": _errorServerController.errorPage404Show,
+           "500": _errorServerController.errorPage500Show
         }
     ).start(address:host, port:port);
   }

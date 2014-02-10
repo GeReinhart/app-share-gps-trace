@@ -19,6 +19,9 @@ import  "aaa.dart";
 part "../web/rsp/sandbox.rsp.dart";
 part "../web/rsp/about.rsp.dart" ;
 part "../web/rsp/index.rsp.dart";
+part "../web/rsp/errorPage403.rsp.dart";
+part "../web/rsp/errorPage404.rsp.dart";
+part "../web/rsp/errorPage500.rsp.dart";
 part "../web/rsp/traceAddFormView.rsp.dart" ;
 part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/traceFormatGpxView.rsp.dart" ;
@@ -404,9 +407,21 @@ class UserServerController extends ServerController with JsonFeatures{
     });
   }
   
+}
+
+class ErrorServerController extends ServerController {
   
+  Future errorPage403Show(HttpConnect connect){
+    return errorPage403(connect);
+  }
+
+  Future errorPage404Show(HttpConnect connect){
+    return errorPage404(connect);
+  }
   
-  
+  Future errorPage500Show(HttpConnect connect){
+    return errorPage500(connect);
+  }
   
 }
 

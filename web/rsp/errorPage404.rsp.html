@@ -1,0 +1,22 @@
+[:page partOf="trails"]
+<!DOCTYPE html>
+<html>
+ <head>
+     <title>La Boussole - page non trouvée</title>
+     [:include "/rsp/templates/assetsimports.html"/]   
+  </head>
+  <body>   
+    [:include spaces]
+      [:var nw]
+           <h1>Page non trouvée</h1>
+           <p>La page à la quelle vous essayez d'accèder n'existe pas ou a été déplacée.</p>
+      [/var]
+      [:var ne /]
+      [:var sw /]
+      [:var se /]
+    [/include]  
+    
+    <script type="application/dart" src="/client/pages/error.dart"></script>
+    <script src="/packages/browser/dart.js"></script>
+  </body>
+</html>

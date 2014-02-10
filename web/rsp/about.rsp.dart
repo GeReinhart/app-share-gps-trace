@@ -111,19 +111,14 @@ Future about(HttpConnect connect) { //#2
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
       response.write("""    
-"""); //#77
-
-      return Rsp.nnf(loginWidget(new HttpConnect.chain(connect), loginId: "loginModal")).then((_) { //include#78
-
-        response.write("""    
     
-    <script type="application/dart" src="/client/pages/index.dart"></script>
+    
+    <script type="application/dart" src="/client/pages/about.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#79
+</html>"""); //#77
 
-        return new Future.value();
-      }); //end-of-include
+      return new Future.value();
     }); //end-of-include
   }); //end-of-include
 }

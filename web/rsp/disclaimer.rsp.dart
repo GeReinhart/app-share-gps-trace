@@ -165,20 +165,15 @@ L’ensemble du contenu de ce site web, sauf exception signalée, est mis à dis
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
       response.write("""    
-"""); //#134
-
-      return Rsp.nnf(loginWidget(new HttpConnect.chain(connect), loginId: "loginModal")).then((_) { //include#135
-
-        response.write("""    
     
-    <script type="application/dart" src="/client/pages/index.dart"></script>
+    
+    <script type="application/dart" src="/client/pages/disclaimer.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#136
+"""); //#134
 
-        return new Future.value();
-      }); //end-of-include
+      return new Future.value();
     }); //end-of-include
   }); //end-of-include
 }
