@@ -7,40 +7,42 @@
   </head>
   <body>   
     [:include spaces]
-      [:var nw ]
-        <div class="main-welcome"   >
-           <div>
-            <h1>La boussole</h1>
-            <h2>Partager vos traces GPS</h2>
-            <p>Que ce soit pour aller marcher en famille, randonner en montagne ou courir dans les bois c&apos;est toujours plus confortable de suivre notre gps. 
-            Le but de <em>la-boussole</em> est de vous proposer une manière innovante de partager et de rechercher la trace GPS qu'il vous faut.</p>
-            <p>
-            <p>Comme dans la vraie vie, vous pouvez utiliser la boussole de cette application pour naviguer dans le site mais également pour agrandir la partie de la page qui vous intéresse en déplaçant celle-ci. Essayez !</p>
-            <p>
-          </div>
-        </div>      
-      [/var]
-      [:var ne /]
-      [:var sw]
-        
-        <div class="form-group">
-           <div id="index-btn-when-anonymous" [:if currentUser(request.session) != null]class="gx-hidden"[/if] >
-              <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>&nbsp;
-              <button  type="submit" class="btn btn-default btn-register">S'enregister</button>&nbsp;
-              <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
-           </div>
-           <div id="index-btn-when-logged" [:if currentUser(request.session) == null]class="gx-hidden"[/if]  >
-             <button  type="submit" class="btn btn-primary btn-add loading-on-click">Ajouter une trace</button>&nbsp;
-             <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
-           </div>
+      [:var nw]
+        [:include loadingWidget loadingId="loadingNW" size="50" /]
+        <div id="disclaimerNW" class="gx-hidden" >
+           [:include disclaimerTextFragment /]    
         </div>
-        <div style="margin-top: 20px"  class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
-        
+        <div id="indexNW" class="gx-hidden"  >
+           [:include indexTextFragment /] 
+        </div>
+        <div id="aboutNW" class="gx-hidden" >
+             [:include aboutApplicationFragment /]
+        </div>        
+      [/var]
+      [:var ne ]
+        [:include loadingWidget loadingId="loadingNE" size="50" /]
+        <div id="aboutNE" class="gx-hidden" >
+             [:include aboutDevFragment /] 
+        </div>
+      [/var]
+      [:var sw ]
+        [:include loadingWidget loadingId="loadingSW" size="50" /]
+        <div id="indexSW" class="gx-hidden"  >
+           [:include indexButtonsFragment /] 
+        </div>
+        <div id="aboutSW" class="gx-hidden" >
+             [:include aboutFeedbacksFragment /]
+        </div>        
       [/var]
       [:var se ]
+        [:include loadingWidget loadingId="loadingSE" size="50" /]
+        <div id="aboutSE" class="gx-hidden" >
+             [:include aboutAuthorFragment /]
+        </div>        
       [/var]
-    [/include] 
-     
+    [/include]  
+    [:include sharedWidgets sharedWidgetsId="sharedWidgets" /]
+    
     <script type="application/dart" src="/client/pages/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>

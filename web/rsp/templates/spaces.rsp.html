@@ -1,5 +1,7 @@
 [:page partOf="trails" args="w, nw, ne, sw, se"]
-[:include loading/]
+<div class="space-loading">
+    <img  height="180px" width="180px" src="/assets/img/spinner.gif"></img>
+</div>
 <div class="spaces" >
     <div class="space space-west"  > 
       <div class="inner-space" >
@@ -26,11 +28,7 @@
         [=se, encode: 'none']
   	  </div>
 	</div>
-    [:include center/]
-    [:include menuWidget menuId="menu" /]
-    [:include persistentMenuWidget persistentMenuId="persistentMenu"/]
-    [:include loginWidget loginId="loginModal"   /]
-    [:include registerWidget registerId="registerModal"   /]
-    [:include connectedUserWidget   /]
-    [:include logoutWidget logoutId="logoutSilent"   /]
+    <div class="space-center" >
+        <img style="cursor:move" height="180px" width="180px" src="/assets/img/compass_275.png"></img>
+    </div>
 </div>

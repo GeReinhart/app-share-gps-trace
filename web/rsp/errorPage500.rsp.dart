@@ -49,14 +49,16 @@ Future errorPage500(HttpConnect connect) { //#2
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-      response.write("""    
-    <script type="application/dart" src="/client/pages/error.dart"></script>
+      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#19
+
+        response.write("""    <script type="application/dart" src="/client/pages/error.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#19
+"""); //#20
 
-      return new Future.value();
+        return new Future.value();
+      }); //end-of-include
     }); //end-of-include
   }); //end-of-include
 }

@@ -25,75 +25,104 @@ Future index(HttpConnect connect) { //#2
     var _0 = new StringBuffer(); _cs_.add(connect); //var#10
     connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
-    response.write("""        <div class="main-welcome"   >
-           <div>
-            <h1>La boussole</h1>
-            <h2>Partager vos traces GPS</h2>
-            <p>Que ce soit pour aller marcher en famille, randonner en montagne ou courir dans les bois c&apos;est toujours plus confortable de suivre notre gps. 
-            Le but de <em>la-boussole</em> est de vous proposer une manière innovante de partager et de rechercher la trace GPS qu'il vous faut.</p>
-            <p>
-            <p>Comme dans la vraie vie, vous pouvez utiliser la boussole de cette application pour naviguer dans le site mais également pour agrandir la partie de la page qui vous intéresse en déplaçant celle-ci. Essayez !</p>
-            <p>
-          </div>
-        </div>      
-"""); //#11
+    return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingNW", size: "50")).then((_) { //include#11
 
-    connect = _cs_.removeLast(); response = connect.response;
+      response.write("""        <div id="disclaimerNW" class="gx-hidden" >
+"""); //#12
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#23
-    connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
+      return Rsp.nnf(disclaimerTextFragment(new HttpConnect.chain(connect))).then((_) { //include#13
 
-    connect = _cs_.removeLast(); response = connect.response;
+        response.write("""        </div>
+        <div id="indexNW" class="gx-hidden"  >
+"""); //#14
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#24
-    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+        return Rsp.nnf(indexTextFragment(new HttpConnect.chain(connect))).then((_) { //include#16
 
-    response.write("""        
-        <div class="form-group">
-           <div id="index-btn-when-anonymous" """); //#25
+          response.write("""        </div>
+        <div id="aboutNW" class="gx-hidden" >
+"""); //#17
 
-    if (currentUser(request.session) != null) { //if#27
+          return Rsp.nnf(aboutApplicationFragment(new HttpConnect.chain(connect))).then((_) { //include#19
 
-      response.write("""class="gx-hidden\""""); //#27
-    } //if
+            response.write("""        </div>        
+"""); //#20
 
-    response.write(""" >
-              <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>&nbsp;
-              <button  type="submit" class="btn btn-default btn-register">S'enregister</button>&nbsp;
-              <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
-           </div>
-           <div id="index-btn-when-logged" """); //#27
+            connect = _cs_.removeLast(); response = connect.response;
 
-    if (currentUser(request.session) == null) { //if#32
+            var _1 = new StringBuffer(); _cs_.add(connect); //var#22
+            connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
-      response.write("""class="gx-hidden\""""); //#32
-    } //if
+            return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingNE", size: "50")).then((_) { //include#23
 
-    response.write("""  >
-             <button  type="submit" class="btn btn-primary btn-add loading-on-click">Ajouter une trace</button>&nbsp;
-             <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
-           </div>
-        </div>
-        <div style="margin-top: 20px"  class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
-        
+              response.write("""        <div id="aboutNE" class="gx-hidden" >
+"""); //#24
+
+              return Rsp.nnf(aboutDevFragment(new HttpConnect.chain(connect))).then((_) { //include#25
+
+                response.write("""        </div>
+"""); //#26
+
+                connect = _cs_.removeLast(); response = connect.response;
+
+                var _2 = new StringBuffer(); _cs_.add(connect); //var#28
+                connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+
+                return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSW", size: "50")).then((_) { //include#29
+
+                  response.write("""        <div id="indexSW" class="gx-hidden"  >
+"""); //#30
+
+                  return Rsp.nnf(indexButtonsFragment(new HttpConnect.chain(connect))).then((_) { //include#31
+
+                    response.write("""        </div>
+        <div id="aboutSW" class="gx-hidden" >
 """); //#32
 
-    connect = _cs_.removeLast(); response = connect.response;
+                    return Rsp.nnf(aboutFeedbacksFragment(new HttpConnect.chain(connect))).then((_) { //include#34
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#40
-    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+                      response.write("""        </div>        
+"""); //#35
 
-    connect = _cs_.removeLast(); response = connect.response;
+                      connect = _cs_.removeLast(); response = connect.response;
 
-    return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+                      var _3 = new StringBuffer(); _cs_.add(connect); //var#37
+                      connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-      response.write("""     
+                      return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSE", size: "50")).then((_) { //include#38
+
+                        response.write("""        <div id="aboutSE" class="gx-hidden" >
+"""); //#39
+
+                        return Rsp.nnf(aboutAuthorFragment(new HttpConnect.chain(connect))).then((_) { //include#40
+
+                          response.write("""        </div>        
+"""); //#41
+
+                          connect = _cs_.removeLast(); response = connect.response;
+
+                          return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+
+                            return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#44
+
+                              response.write("""    
     <script type="application/dart" src="/client/pages/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#43
+</html>"""); //#45
 
-      return new Future.value();
+                              return new Future.value();
+                            }); //end-of-include
+                          }); //end-of-include
+                        }); //end-of-include
+                      }); //end-of-include
+                    }); //end-of-include
+                  }); //end-of-include
+                }); //end-of-include
+              }); //end-of-include
+            }); //end-of-include
+          }); //end-of-include
+        }); //end-of-include
+      }); //end-of-include
     }); //end-of-include
   }); //end-of-include
 }

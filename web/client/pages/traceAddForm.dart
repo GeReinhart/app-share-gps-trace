@@ -10,8 +10,7 @@ import "../controllers.dart" ;
 
 class TraceAddFormPage extends Page {
   
-  TraceAddFormPage(): super(180,20,80){
-  }
+  TraceAddFormPage(): super("traceadd",180,20,80);
   
 }
 

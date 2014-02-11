@@ -1,16 +1,28 @@
-
-
-import "dart:html";
-import '../spaces.dart';
 import 'page.dart';
 
 class AboutPage extends Page {
   
-  AboutPage(): super(180,40,60){
+  AboutPage(): super("about",180,50,50);
+  
+  void showPage() {
+    layout.moveCenterInitialPosition();
+    loadingNW.startLoading();
+    showBySelector("#${name}NW");
+    loadingNW.stopLoading();
+
+    loadingNE.startLoading();
+    showBySelector("#${name}NE");
+    loadingNE.stopLoading();
+
+    loadingSW.startLoading();
+    showBySelector("#${name}SW");
+    loadingSW.stopLoading();
+
+    loadingSE.startLoading();
+    showBySelector("#${name}SE");
+    loadingSE.stopLoading();
+
   }
 }
 
 
-void main() {
-  AboutPage page = new AboutPage();
-}

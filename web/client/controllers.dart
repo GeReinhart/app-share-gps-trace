@@ -4,6 +4,7 @@ import 'dart:async';
 
 import "events.dart" ;
 import "models.dart";
+import "pages/page.dart";
 import "widgets/loading.dart";
 import "widgets/login.dart";
 import "widgets/register.dart";
@@ -11,6 +12,46 @@ import "widgets/logout.dart";
 
 class ClientController{
   
+}
+
+class PagesController extends ClientController{
+  
+  static const PAGE_CHANGE_CHECK_TIMEOUT = const Duration(milliseconds: 300);
+  
+  Page _currentPage = null ;
+  List<Page> _pages = new List<Page>();
+  
+  PagesController(this._pages){
+    _init();
+  }
+  
+  void _init(){
+    new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
+  }
+  
+  void _mayChangePage(){
+   
+   Page targetPage = null ;
+   Page defaultPage = _pages.first; 
+   if ( !window.location.href.contains("#") ){
+     targetPage = defaultPage;
+   }
+   
+   String anchor =  window.location.href.substring(window.location.href.indexOf("#")+1) ;
+   targetPage = _pages.firstWhere(  (page) => anchor.startsWith(page.name) ,  orElse: () => defaultPage );
+   
+   if (targetPage == _currentPage){
+     new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
+     return ;
+   }  
+   
+   if( _currentPage != null  ){
+      _currentPage.hidePage(); 
+   }
+   _currentPage = targetPage ;
+   _currentPage.showPage(); 
+   new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
+  }
 }
 
 class UserClientController extends ClientController with LoginLogoutEventProducer{

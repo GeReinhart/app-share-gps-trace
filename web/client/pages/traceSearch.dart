@@ -25,7 +25,7 @@ class TraceSearchPage extends Page {
   bool waitingForResult = false ;
   bool firstRequest = true ;
 
-  TraceSearchPage(): super.withWestSpace(180,70,50){
+  TraceSearchPage(): super.withWestSpace("search",180,70,50){
 
     submitRequest(mapFilter:false);
     

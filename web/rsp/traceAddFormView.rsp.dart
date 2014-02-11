@@ -146,7 +146,7 @@ Future traceAddFormView(HttpConnect connect, {traceFormRenderer}) { //#2
       response.write("""    
 """); //#92
 
-      return Rsp.nnf(loginWidget(new HttpConnect.chain(connect), loginId: "loginModal")).then((_) { //include#93
+      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#93
 
         response.write("""    
     <script type="application/dart" src="/client/pages/traceAddForm.dart"></script>

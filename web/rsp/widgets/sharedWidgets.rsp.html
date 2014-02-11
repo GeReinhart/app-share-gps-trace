@@ -1,0 +1,10 @@
+[:page partOf="trails" args="sharedWidgetsId"]
+
+<div id="[=sharedWidgetsId]" class="gx-hidden"  >
+    [:include menuWidget menuId="menu" /]
+    [:include persistentMenuWidget persistentMenuId="persistentMenu"/]
+    [:include loginWidget loginId="loginModal"   /]
+    [:include registerWidget registerId="registerModal"   /]
+    [:include connectedUserWidget   /]
+    [:include logoutWidget logoutId="logoutSilent"   /]
+</div>

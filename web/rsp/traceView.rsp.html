@@ -47,7 +47,7 @@
     </div>
     
     [:include confirmWidget confirmId="deleteConfirmModal" confirmTitle="Confirmation" confirmText="Je confirme la suppression définitive de la trace [=traceRenderer.trace.title]"   /]
-    [:include loginWidget loginId="loginModal"   /]
+    [:include sharedWidgets sharedWidgetsId="sharedWidgets" /] 
     
     <script type="application/dart" src="/client/pages/traceAnalysis.dart"></script>
     <script src="/packages/browser/dart.js"></script>

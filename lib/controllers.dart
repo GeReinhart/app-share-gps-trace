@@ -17,7 +17,6 @@ import  "persistence.dart";
 import  "aaa.dart";
 
 part "../web/rsp/sandbox.rsp.dart";
-part "../web/rsp/about.rsp.dart" ;
 part "../web/rsp/index.rsp.dart";
 part "../web/rsp/errorPage403.rsp.dart";
 part "../web/rsp/errorPage404.rsp.dart";
@@ -26,10 +25,7 @@ part "../web/rsp/traceAddFormView.rsp.dart" ;
 part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/traceFormatGpxView.rsp.dart" ;
 part "../web/rsp/traceSearchView.rsp.dart" ;
-part "../web/rsp/disclaimer.rsp.dart" ;
 part "../web/rsp/templates/spaces.rsp.dart";
-part "../web/rsp/templates/loading.rsp.dart";
-part "../web/rsp/templates/center.rsp.dart";
 part "../web/rsp/templates/traceGpxViewer.rsp.dart";
 part "../web/rsp/templates/traceProfileViewer.rsp.dart";
 part "../web/rsp/templates/traceStatisticsViewer.rsp.dart";
@@ -44,9 +40,24 @@ part "../web/rsp/widgets/registerWidget.rsp.dart";
 part "../web/rsp/widgets/persistentMenuWidget.rsp.dart";
 part "../web/rsp/widgets/connectedUserWidget.rsp.dart";
 part "../web/rsp/widgets/menuWidget.rsp.dart";
+part "../web/rsp/widgets/sharedWidgets.rsp.dart";
+part "../web/rsp/widgets/loadingWidget.rsp.dart";
+
+part "../web/rsp/fragments/indexTextFragment.rsp.dart";
+part "../web/rsp/fragments/indexButtonsFragment.rsp.dart";
+part "../web/rsp/fragments/disclaimerTextFragment.rsp.dart";
+part "../web/rsp/fragments/aboutApplicationFragment.rsp.dart";
+part "../web/rsp/fragments/aboutFeedbacksFragment.rsp.dart";
+part "../web/rsp/fragments/aboutDevFragment.rsp.dart";
+part "../web/rsp/fragments/aboutAuthorFragment.rsp.dart";
+
 
 
 class ServerController{
+  
+  Future forbiddenAction(HttpConnect connect){
+    return connect.forward("/403") ;
+  }
   
 }
 
@@ -167,9 +178,7 @@ class TraceController extends ServerController with JsonFeatures{
   }
 
   
-  Future forbiddenAction(HttpConnect connect){
-    return connect.forward("/403") ;
-  }
+
   
   num castToNum(String value, int times){
     if (value == null){
@@ -182,26 +191,7 @@ class TraceController extends ServerController with JsonFeatures{
       }
     }
   }
-  
-
-  
-
-  
-  Future login(HttpConnect connect) {
-    return _security.login(connect);
-  }
-  
-  Future logout(HttpConnect connect) {
-    return _security.logout(connect);
-  }
-  
-  Future aboutShow(HttpConnect connect) {
-    return about(connect);
-  }
-
-  Future disclaimerShow(HttpConnect connect) {
-    return disclaimer(connect);
-  }
+ 
   
   Future sandboxShow(HttpConnect connect) {
     return sandbox(connect);
@@ -407,6 +397,32 @@ class UserServerController extends ServerController with JsonFeatures{
     });
   }
   
+}
+
+class FragmentsController extends ServerController{
+  
+  Future indexButtons(HttpConnect connect){
+    return indexButtonsFragment(connect);
+  }
+  Future indexText(HttpConnect connect){
+    return indexTextFragment(connect);
+  }
+  Future disclaimerText(HttpConnect connect){
+    return disclaimerTextFragment(connect);
+  }  
+  Future aboutApplication(HttpConnect connect){
+    return aboutApplicationFragment(connect);
+  }
+  Future aboutFeedbacks(HttpConnect connect){
+    return aboutFeedbacksFragment(connect);
+  }  
+  Future aboutDev(HttpConnect connect){
+    return aboutDevFragment(connect);
+  }   
+  Future aboutAuthor(HttpConnect connect){
+    return aboutAuthorFragment(connect);
+  }   
+
 }
 
 class ErrorServerController extends ServerController {

@@ -1,15 +1,15 @@
-
-import "dart:html";
-import '../spaces.dart';
 import 'page.dart';
 
 class DisclaimerPage extends Page {
   
-  DisclaimerPage(): super(180,30,70){
+  DisclaimerPage(): super("disclaimer",180,25,75);
+  
+  void showPage() {
+    layout.moveCenterInitialPosition();
+    loadingNW.startLoading();
+    showBySelector("#${name}NW");
+    loadingNW.stopLoading();
   }
 }
 
 
-void main() {
-  DisclaimerPage page = new DisclaimerPage();
-}

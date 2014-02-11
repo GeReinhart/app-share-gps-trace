@@ -132,7 +132,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
 
             return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace ${Rsp.nns(traceRenderer.trace.title)}")).then((_) { //include#49
 
-              return Rsp.nnf(loginWidget(new HttpConnect.chain(connect), loginId: "loginModal")).then((_) { //include#50
+              return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#50
 
                 response.write("""    
     <script type="application/dart" src="/client/pages/traceAnalysis.dart"></script>

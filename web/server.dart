@@ -18,6 +18,7 @@ class TracesServer{
   
   TraceController _traceController;
   UserServerController _userServerController;
+  FragmentsController _fragmentsController;
   ErrorServerController _errorServerController;
   
   TracesServer(this.host,this.port){
@@ -40,6 +41,7 @@ class TracesServer{
     Crypto _crypto = new Crypto();
     _traceController = new TraceController(_persistenceLayer,_crypto,appUri) ;
     _userServerController = new UserServerController(_persistenceLayer,_crypto) ;
+    _fragmentsController = new FragmentsController();
     _errorServerController = new ErrorServerController();
   }
   
@@ -53,15 +55,15 @@ class TracesServer{
           "/j_login": _userServerController.jsonLogin,
           "/j_logout": _userServerController.jsonLogout,
           
-          "/about": _traceController.aboutShow,
-          "/disclaimer": _traceController.disclaimerShow,
+          "/f_index_text" : _fragmentsController.indexText,
+          "/f_index_buttons" : _fragmentsController.indexButtons,
+          "/f_disclaimer_text" : _fragmentsController.disclaimerText,
+          "/f_about_application" : _fragmentsController.aboutApplication,
+          "/f_about_dev" : _fragmentsController.aboutDev,          
+          "/f_about_feedbacks" : _fragmentsController.aboutFeedbacks,
+          "/f_about_author" : _fragmentsController.aboutAuthor,
           
           
-          "/s_login": _traceController.login,
-
-          "/s_logout": _traceController.logout,
-          "/logout":  _traceController.logout,
-
           "get:/trace.add": _traceController.traceAddForm,          
           "post:/trace": _traceController.traceAddFormSubmit,
           

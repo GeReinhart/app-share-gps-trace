@@ -51,7 +51,7 @@ Future traceSearchView(HttpConnect connect, {lightTraceRenderers,traceFormRender
             response.write("""    
 """); //#21
 
-            return Rsp.nnf(loginWidget(new HttpConnect.chain(connect), loginId: "loginModal")).then((_) { //include#22
+            return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#22
 
               response.write("""    
     <script type="application/dart" src="/client/pages/traceSearch.dart"></script>

@@ -10,89 +10,69 @@ Future spaces(HttpConnect connect, {w, nw, ne, sw, se}) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  return Rsp.nnf(loading(new HttpConnect.chain(connect))).then((_) { //include#2
-
-    response.write("""<div class="spaces" >
+  response.write("""<div class="space-loading">
+    <img  height="180px" width="180px" src="/assets/img/spinner.gif"></img>
+</div>
+<div class="spaces" >
     <div class="space space-west"  > 
       <div class="inner-space" >
-          """); //#3
+          """); //#2
 
-    response.write(Rsp.nnx(w, encode: 'none')); //#6
+  response.write(Rsp.nnx(w, encode: 'none')); //#8
 
 
-    response.write("""
+  response.write("""
 
        </div>
     </div>
  	<div class="space space-north-west"  > 
 	  <div class="inner-space" >
-        """); //#6
+        """); //#8
 
-    response.write(Rsp.nnx(nw, encode: 'none')); //#11
+  response.write(Rsp.nnx(nw, encode: 'none')); //#13
 
 
-    response.write("""
+  response.write("""
 
   	  </div>
 	</div>
 	<div class="space space-north-east"  >
 	  <div class="inner-space" >
-        """); //#11
+        """); //#13
 
-    response.write(Rsp.nnx(ne, encode: 'none')); //#16
+  response.write(Rsp.nnx(ne, encode: 'none')); //#18
 
 
-    response.write("""
+  response.write("""
 
   	  </div>
     </div>
 	<div class="space space-south-west"  > 
 	  <div class="inner-space" >
-        """); //#16
+        """); //#18
 
-    response.write(Rsp.nnx(sw, encode: 'none')); //#21
+  response.write(Rsp.nnx(sw, encode: 'none')); //#23
 
 
-    response.write("""
+  response.write("""
 
   	  </div>
  	</div>
 	<div class="space space-south-east"  >
 	  <div class="inner-space" >
-        """); //#21
+        """); //#23
 
-    response.write(Rsp.nnx(se, encode: 'none')); //#26
+  response.write(Rsp.nnx(se, encode: 'none')); //#28
 
 
-    response.write("""
+  response.write("""
 
   	  </div>
 	</div>
-"""); //#26
+    <div class="space-center" >
+        <img style="cursor:move" height="180px" width="180px" src="/assets/img/compass_275.png"></img>
+    </div>
+</div>"""); //#28
 
-    return Rsp.nnf(center(new HttpConnect.chain(connect))).then((_) { //include#29
-
-      return Rsp.nnf(menuWidget(new HttpConnect.chain(connect), menuId: "menu")).then((_) { //include#30
-
-        return Rsp.nnf(persistentMenuWidget(new HttpConnect.chain(connect), persistentMenuId: "persistentMenu")).then((_) { //include#31
-
-          return Rsp.nnf(loginWidget(new HttpConnect.chain(connect), loginId: "loginModal")).then((_) { //include#32
-
-            return Rsp.nnf(registerWidget(new HttpConnect.chain(connect), registerId: "registerModal")).then((_) { //include#33
-
-              return Rsp.nnf(connectedUserWidget(new HttpConnect.chain(connect))).then((_) { //include#34
-
-                return Rsp.nnf(logoutWidget(new HttpConnect.chain(connect), logoutId: "logoutSilent")).then((_) { //include#35
-
-                  response.write("""</div>"""); //#36
-
-                  return new Future.value();
-                }); //end-of-include
-              }); //end-of-include
-            }); //end-of-include
-          }); //end-of-include
-        }); //end-of-include
-      }); //end-of-include
-    }); //end-of-include
-  }); //end-of-include
+  return new Future.value();
 }

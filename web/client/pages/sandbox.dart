@@ -6,19 +6,17 @@ import '../widgets/persistentMenu.dart' ;
 import '../events.dart' ;
 import '../controllers.dart' ;
 
+import 'disclaimer.dart' ;
+import 'index.dart' ;
+import 'about.dart' ;
 
-
-class SandBoxPage extends Page {
-  
-  SandBoxPage(): super(180,30,35){
-    querySelectorAll(".btn-action").onClick.listen((e) {
-      showLoginModal();
-    });
-  }
-  
-}
 
 void main() {
-  SandBoxPage page = new SandBoxPage();
+  List<Page> pages = new List<Page>();
+  pages.add(new DisclaimerPage());  
+  pages.add(new IndexPage());
+  pages.add(new AboutPage());
+  PagesController pagesController = new PagesController(pages);
+  
 }
 

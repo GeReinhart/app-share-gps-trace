@@ -1,5 +1,3 @@
-
-
 import 'dart:html';
 import 'dart:async';
 import 'package:bootjack/bootjack.dart';
@@ -29,6 +27,9 @@ class SpacesLayout implements LoadingShower  {
   int centerTopPercentPosition;
   int centerSize ;
 
+  double _initialCenterRight ;
+  double _initialCenterTop ;
+  
   double centerRight ;
   double centerTop ;
   
@@ -65,6 +66,8 @@ class SpacesLayout implements LoadingShower  {
     
     centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
     centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
+    _initialCenterRight = centerRight ;
+    _initialCenterTop = centerTop ;
     
     Dropdown.use();
     
@@ -78,7 +81,7 @@ class SpacesLayout implements LoadingShower  {
       _startMovingCenterPosition = mouseEvent ;
       _movingCenter = true ;
       toggleMenu();
-      querySelector(spaceCenter + " a img").attributes["src"] = "/assets/img/compass_275_red.png";
+      querySelector(spaceCenter + " img").attributes["src"] = "/assets/img/compass_275_red.png";
     });
 
     querySelector(spaceCenter).onMouseLeave.listen((mouseEvent) {
@@ -134,6 +137,13 @@ class SpacesLayout implements LoadingShower  {
       menu.style.zIndex = "99" ;
       menu.classes.remove("open") ;
     }
+  }
+  
+  void moveCenterInitialPosition(){
+    centerRight = _initialCenterRight ;
+    centerTop = _initialCenterTop ;
+    organizeSpaces();
+    loadingInTheCenter();
   }
   
   void _moveCenter(Point start, Point end){
@@ -231,7 +241,7 @@ class SpacesLayout implements LoadingShower  {
     ..style.top = (centerTop    - centerSize /2      ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = centerSize.toString()+ "px" ;  
-    querySelector(spaceCenter + " a img").attributes["src"] = "/assets/img/compass_275.png";
+    querySelector(spaceCenter + " img").attributes["src"] = "/assets/img/compass_275.png";
     
     var menuItemsNumber = 6;
     querySelectorAll(spaceMenu).forEach( (e){
@@ -343,6 +353,3 @@ class SpacesPositions{
   double spaceSE_Width ;
   double spaceSE_Height ;
 }
-
-
-

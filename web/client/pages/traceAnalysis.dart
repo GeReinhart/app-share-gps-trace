@@ -15,7 +15,7 @@ class TraceAnalysisPage extends Page {
 
   ConfirmWidget _deleteConfirm ;
   
-  TraceAnalysisPage(): super(180,30,35){
+  TraceAnalysisPage(): super("trace",180,30,35){
     _deleteConfirm = new ConfirmWidget("deleteConfirmModal", deleteTrace);
     
     moveTraceViewers(layout.postions);

@@ -25,39 +25,110 @@ Future sandbox(HttpConnect connect) { //#2
     var _0 = new StringBuffer(); _cs_.add(connect); //var#10
     connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
-    response.write("""      
-        
-"""); //#11
+    return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingNW", size: "50")).then((_) { //include#11
 
-    connect = _cs_.removeLast(); response = connect.response;
+      response.write("""        <div id="disclaimerNW" class="gx-hidden" >
+"""); //#12
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#14
-    connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
+      return Rsp.nnf(disclaimerTextFragment(new HttpConnect.chain(connect))).then((_) { //include#13
 
-    connect = _cs_.removeLast(); response = connect.response;
+        response.write("""        </div>
+        <div id="indexNW" class="gx-hidden"  >
+"""); //#14
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#15
-    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+        return Rsp.nnf(indexTextFragment(new HttpConnect.chain(connect))).then((_) { //include#16
 
-    response.write("""                   <button  type="submit" class="btn btn-primary btn-action">Action</button>
-"""); //#16
+          response.write("""        </div>
+        <div id="aboutNW" class="gx-hidden" >
+"""); //#17
 
-    connect = _cs_.removeLast(); response = connect.response;
+          return Rsp.nnf(aboutApplicationFragment(new HttpConnect.chain(connect))).then((_) { //include#19
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#18
-    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+            response.write("""        </div>        
+"""); //#20
 
-    connect = _cs_.removeLast(); response = connect.response;
+            connect = _cs_.removeLast(); response = connect.response;
 
-    return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+            var _1 = new StringBuffer(); _cs_.add(connect); //var#22
+            connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
-      response.write("""    
+            response.write("""        <a  href="#disclaimer" >disclaimer</a>&nbsp;
+        <a  href="#index" >index</a>&nbsp;
+        <a  href="#about" >about</a>&nbsp;
+              
+"""); //#23
+
+            return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingNE", size: "50")).then((_) { //include#27
+
+              response.write("""        <div id="aboutNE" class="gx-hidden" >
+"""); //#28
+
+              return Rsp.nnf(aboutDevFragment(new HttpConnect.chain(connect))).then((_) { //include#29
+
+                response.write("""        </div>
+"""); //#30
+
+                connect = _cs_.removeLast(); response = connect.response;
+
+                var _2 = new StringBuffer(); _cs_.add(connect); //var#32
+                connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+
+                return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSW", size: "50")).then((_) { //include#33
+
+                  response.write("""        <div id="indexSW" class="gx-hidden"  >
+"""); //#34
+
+                  return Rsp.nnf(indexButtonsFragment(new HttpConnect.chain(connect))).then((_) { //include#35
+
+                    response.write("""        </div>
+        <div id="aboutSW" class="gx-hidden" >
+"""); //#36
+
+                    return Rsp.nnf(aboutFeedbacksFragment(new HttpConnect.chain(connect))).then((_) { //include#38
+
+                      response.write("""        </div>        
+"""); //#39
+
+                      connect = _cs_.removeLast(); response = connect.response;
+
+                      var _3 = new StringBuffer(); _cs_.add(connect); //var#41
+                      connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+
+                      return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSE", size: "50")).then((_) { //include#42
+
+                        response.write("""        <div id="aboutSE" class="gx-hidden" >
+"""); //#43
+
+                        return Rsp.nnf(aboutAuthorFragment(new HttpConnect.chain(connect))).then((_) { //include#44
+
+                          response.write("""        </div>        
+"""); //#45
+
+                          connect = _cs_.removeLast(); response = connect.response;
+
+                          return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+
+                            return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#48
+
+                              response.write("""         
     <script type="application/dart" src="/client/pages/sandbox.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
-</html>"""); //#20
+</html>"""); //#49
 
-      return new Future.value();
+                              return new Future.value();
+                            }); //end-of-include
+                          }); //end-of-include
+                        }); //end-of-include
+                      }); //end-of-include
+                    }); //end-of-include
+                  }); //end-of-include
+                }); //end-of-include
+              }); //end-of-include
+            }); //end-of-include
+          }); //end-of-include
+        }); //end-of-include
+      }); //end-of-include
     }); //end-of-include
   }); //end-of-include
 }
