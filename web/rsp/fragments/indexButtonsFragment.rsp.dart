@@ -21,7 +21,7 @@ Future indexButtonsFragment(HttpConnect connect) { //#2
   response.write(""" >
               <button  type="submit" class="btn btn-primary btn-login">Se connecter</button>&nbsp;
               <button  type="submit" class="btn btn-default btn-register">S'enregister</button>&nbsp;
-              <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
+              <button  type="submit" class="btn btn-warning btn-search ">Rechercher une trace</button>
            </div>
            <div id="index-btn-when-logged" """); //#3
 
@@ -32,7 +32,7 @@ Future indexButtonsFragment(HttpConnect connect) { //#2
 
   response.write("""  >
              <button  type="submit" class="btn btn-primary btn-add">Ajouter une trace</button>&nbsp;
-             <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
+             <button  type="submit" class="btn btn-warning btn-search ">Rechercher une trace</button>
            </div>
         </div>
         <div style="margin-top: 20px"  class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>

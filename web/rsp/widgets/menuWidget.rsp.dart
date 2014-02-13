@@ -35,7 +35,7 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
   response.write(""" > 
               <ul role="menu" class="dropdown-menu" >
                 <li role="presentation" class="dropdown-header">Traces gps</li>
-                <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
+                <li role="presentation"><a  href="/#trace_search" tabindex="-1" role="menuitem">Rechercher</a></li>
                 <li class="divider" role="presentation"></li>
                 <li role="presentation" class="dropdown-header">Compte</li>
                 <li role="presentation"><a  id=\""""); //#3
@@ -71,7 +71,7 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
   response.write(""" >
               <ul role="menu" class="dropdown-menu"  >
                 <li role="presentation" class="dropdown-header">Traces gps</li>
-                <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
+                <li role="presentation"><a  href="/#trace_search" tabindex="-1" role="menuitem">Rechercher</a></li>
                 <li role="presentation"><a  href="/#trace_form" tabindex="-1" role="menuitem">Ajouter</a></li>
                 <li class="divider" role="presentation"></li>
                 <li role="presentation" class="dropdown-header """); //#13
@@ -115,7 +115,7 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
   response.write(""" >
               <ul role="menu" class="dropdown-menu"  >
                 <li role="presentation" class="dropdown-header">Traces gps</li>
-                <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
+                <li role="presentation"><a  href="/#trace_search" tabindex="-1" role="menuitem">Rechercher</a></li>
                 <li role="presentation"><a  href="/#trace_form" tabindex="-1" role="menuitem">Ajouter</a></li>
                 <li class="divider" role="presentation"></li>
                 <li role="presentation" class="dropdown-header """); //#23

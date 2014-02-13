@@ -41,7 +41,7 @@ class TracesServer{
     Crypto _crypto = new Crypto();
     _traceController = new TraceController(_persistenceLayer,_crypto,appUri) ;
     _userServerController = new UserServerController(_persistenceLayer,_crypto) ;
-    _fragmentsController = new FragmentsController();
+    _fragmentsController = new FragmentsController(_persistenceLayer);
     _errorServerController = new ErrorServerController();
   }
   
@@ -49,11 +49,13 @@ class TracesServer{
   void start(){
     new StreamServer(
         uriMapping: {
-          "/": index, 
+          "/": _traceController.indexShow, 
 
           "/j_register": _userServerController.jsonRegister,
           "/j_login": _userServerController.jsonLogin,
           "/j_logout": _userServerController.jsonLogout,
+          "/j_trace_search": _traceController.jsonTraceSearch,
+          "/j_trace_delete": _traceController.jsonTraceDelete,
           
           "/f_index_text" : _fragmentsController.indexText,
           "/f_index_buttons" : _fragmentsController.indexButtons,
@@ -63,7 +65,11 @@ class TracesServer{
           "/f_about_feedbacks" : _fragmentsController.aboutFeedbacks,
           "/f_about_author" : _fragmentsController.aboutAuthor,
           "/f_trace_add_form": _fragmentsController.traceAddForm, 
+          "/f_trace_search_form": _fragmentsController.traceSearchForm, 
+          "/f_trace_search_results": _fragmentsController.traceSearchResults, 
+          "/f_trace_search_map": _fragmentsController.traceSearchMap, 
 
+          
           "post:/trace": _traceController.traceAddFormSubmit,
           
           "/trace/id-(traceId:[^/]*)": _traceController.traceShowById,
@@ -73,9 +79,7 @@ class TracesServer{
           "/trace.gpx/(creator:[^/]*)/(titleKey:[^/]*)": _traceController.traceFormatGpxShowByKey,
 
           
-          "/trace.search":  _traceController.traceSearch,
-          "/trace.as_search": _traceController.aTraceSearch,
-          "/trace.as_delete": _traceController.aTraceDelete,
+
           
           
         },/*

@@ -4,6 +4,7 @@ import 'page.dart';
 import 'disclaimer.dart';
 import 'about.dart';
 import 'traceForm.dart';
+import 'traceSearch.dart';
 import "../widgets/sharedWidgets.dart" ;
 import "../widgets/login.dart" ;
 import "../widgets/loading.dart" ;
@@ -26,7 +27,7 @@ class IndexPage extends Page {
       window.location.href = "/#trace_form";
     });
     querySelectorAll(".btn-search").onClick.listen((e) {
-      window.location.href = "/trace.search";
+      window.location.href = "/#trace_search";
     });    
   }
   
@@ -59,6 +60,7 @@ void main() {
   pages.add(new DisclaimerPage(pageContext));  
   pages.add(new AboutPage(pageContext));
   pages.add(new TraceFormPage(pageContext));
+  pages.add(new TraceSearchPage(pageContext));
   PagesController pagesController = new PagesController(pages);
 }
 

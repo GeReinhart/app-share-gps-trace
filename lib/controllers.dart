@@ -22,7 +22,6 @@ part "../web/rsp/errors/errorPage404.rsp.dart";
 part "../web/rsp/errors/errorPage500.rsp.dart";
 part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/traceFormatGpxView.rsp.dart" ;
-part "../web/rsp/traceSearchView.rsp.dart" ;
 part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/traceGpxViewer.rsp.dart";
 part "../web/rsp/templates/traceProfileViewer.rsp.dart";
@@ -49,6 +48,9 @@ part "../web/rsp/fragments/aboutFeedbacksFragment.rsp.dart";
 part "../web/rsp/fragments/aboutDevFragment.rsp.dart";
 part "../web/rsp/fragments/aboutAuthorFragment.rsp.dart";
 part "../web/rsp/fragments/traceFormFragment.rsp.dart";
+part "../web/rsp/fragments/traceSearchFormFragment.rsp.dart";
+part "../web/rsp/fragments/traceSearchResultsFragment.rsp.dart";
+part "../web/rsp/fragments/traceSearchMapFragment.rsp.dart";
 
 class ServerController{
   
@@ -98,9 +100,19 @@ class TraceController extends ServerController with JsonFeatures{
   Security get security => _security ;
   
   
+  Future indexShow(HttpConnect connect){
+    return _persistence.getTraces().then((traces) {
+      List<LigthTraceRenderer> lightTraceRendererList = new List<LigthTraceRenderer>();
+      if ( traces.isNotEmpty  ){
+        traces.forEach((trace)=>(lightTraceRendererList.add(new LigthTraceRenderer(trace))  ));
+      }
+      LigthTraceRenderers ligthTraceRenderers = new LigthTraceRenderers();
+      ligthTraceRenderers.traces = lightTraceRendererList;
+      return index(connect, lightTraceRenderers:ligthTraceRenderers, traceFormRenderer: new TraceFormRenderer());
+    });
+  }
   
-  
-  Future aTraceSearch(HttpConnect connect) {
+  Future jsonTraceSearch(HttpConnect connect) {
     return decodePostedJson(connect.request,
         new Map.from(connect.request.uri.queryParameters))
         .then((Map params) {
@@ -147,7 +159,7 @@ class TraceController extends ServerController with JsonFeatures{
         });
   }
   
-  Future aTraceDelete(HttpConnect connect) {
+  Future jsonTraceDelete(HttpConnect connect) {
     
     User user =  currentUser(connect.request.session);
     if (user == null  ){
@@ -282,18 +294,7 @@ class TraceController extends ServerController with JsonFeatures{
     });
   }  
   
-  Future traceSearch(HttpConnect connect) {
-    return _persistence.getTraces().then((traces) {
-      List<LigthTraceRenderer> lightTraceRendererList = new List<LigthTraceRenderer>();
-      if ( traces.isNotEmpty  ){
-        traces.forEach((trace)=>(lightTraceRendererList.add(new LigthTraceRenderer(trace))  ));
-      }
-      LigthTraceRenderers ligthTraceRenderers = new LigthTraceRenderers();
-      ligthTraceRenderers.traces = lightTraceRendererList;
-      return traceSearchView(connect, lightTraceRenderers:ligthTraceRenderers, traceFormRenderer: new TraceFormRenderer());
-    });
-    
-  }
+
   
 }
 
@@ -388,6 +389,10 @@ class UserServerController extends ServerController with JsonFeatures{
 
 class FragmentsController extends ServerController{
   
+  PersistenceLayer _persistence ;
+  
+  FragmentsController(this._persistence);
+  
   Future indexButtons(HttpConnect connect){
     return indexButtonsFragment(connect);
   }
@@ -412,7 +417,23 @@ class FragmentsController extends ServerController{
   Future traceAddForm(HttpConnect connect){
     return traceFormFragment(connect,traceFormRenderer: new TraceFormRenderer());
   }     
-
+  Future traceSearchForm(HttpConnect connect){
+    return traceSearchFormFragment(connect,traceFormRenderer: new TraceFormRenderer());
+  }  
+  Future traceSearchResults(HttpConnect connect){
+    return traceSearchResultsFragment(connect);
+  }
+  Future traceSearchMap(HttpConnect connect){
+    return _persistence.getTraces().then((traces) {
+      List<LigthTraceRenderer> lightTraceRendererList = new List<LigthTraceRenderer>();
+      if ( traces.isNotEmpty  ){
+        traces.forEach((trace)=>(lightTraceRendererList.add(new LigthTraceRenderer(trace))  ));
+      }
+      LigthTraceRenderers ligthTraceRenderers = new LigthTraceRenderers();
+      ligthTraceRenderers.traces = lightTraceRendererList;
+      return traceSearchMapFragment(connect, lightTraceRenderers:ligthTraceRenderers);
+    });
+  }
 }
 
 class ErrorServerController extends ServerController {

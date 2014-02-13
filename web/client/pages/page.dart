@@ -58,7 +58,7 @@ abstract class Page{
   int _centerRightPercentPosition ;
   int _centerTopPercentPosition ;
   bool _showWestSpace;
-  
+  Set<String> receivedFragments = new Set<String>();
   PageContext _context ;
   
   Page( this._name, this._context, this._centerRightPercentPosition, this._centerTopPercentPosition,this._showWestSpace ){
@@ -84,7 +84,7 @@ abstract class Page{
     layout.organizeSpaces(_centerRightPercentPosition,_centerTopPercentPosition,showWestSpace:_showWestSpace );
   }
   
-  void getAndShowElement(String resourceUrl, String elementSelector){
+  void getAndShowElement(String resourceUrl, String fragmentSelector){
     
     loadingNW.startLoading();
     HttpRequest request = new HttpRequest();
@@ -103,11 +103,14 @@ abstract class Page{
            ..allowElement('div', attributes: ['style'])
            ..allowElement('input', attributes: ['style'])
            ..allowElement('textarea', attributes: ['style'])
+           ..allowElement('th', attributes: ['width'])
+           ..allowElement('script')
            ..allowElement('td', attributes: ['style']);
         
-        querySelector(elementSelector).setInnerHtml(formContent, validator: _htmlValidator) ;
+        querySelector(fragmentSelector).setInnerHtml(formContent, validator: _htmlValidator) ;
+        fragmentReceived(fragmentSelector);
         loadingNW.stopLoading();
-        showBySelector(elementSelector);
+        showBySelector(fragmentSelector);
       }
     });
     request.open("GET",  resourceUrl, async: true);
@@ -135,6 +138,10 @@ abstract class Page{
   void loginLogoutEvent(LoginLogoutEvent event) {
   }
 
+  void fragmentReceived(String fragmentSelector){
+    receivedFragments.add(fragmentSelector);
+  }
+  
   void showPage();
 
   void initPage(){

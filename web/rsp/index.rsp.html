@@ -1,4 +1,4 @@
-[:page partOf="trails"]
+[:page partOf="trails" args="lightTraceRenderers,traceFormRenderer"]
 <!DOCTYPE html>
 <html>
  <head>
@@ -7,6 +7,12 @@
   </head>
   <body>   
     [:include spaces]
+      [:var w]
+        [:include loadingWidget loadingId="loadingW" size="50" /]
+        <div id="trace_searchW" class="gx-hidden" >
+              [:include traceSearchFormFragment traceFormRenderer="[=traceFormRenderer]" /]
+        </div>
+      [/var]
       [:var nw]
         [:include loadingWidget loadingId="loadingNW" size="50" /]
         <div id="disclaimerNW" class="gx-hidden" ></div>
@@ -17,6 +23,9 @@
       [:var ne ]
         [:include loadingWidget loadingId="loadingNE" size="50" /]
         <div id="aboutNE" class="gx-hidden" ></div>
+        <div id="trace_searchNE" class="gx-hidden" >
+           [:include traceSearchResultsFragment /]
+        </div>
       [/var]
       [:var sw ]
         [:include loadingWidget loadingId="loadingSW" size="50" /]
@@ -28,6 +37,9 @@
       [:var se ]
         [:include loadingWidget loadingId="loadingSE" size="50" /]
         <div id="aboutSE"      class="gx-hidden" ></div>        
+        <div id="trace_searchSE" class="gx-hidden" >
+           [:include traceSearchMapFragment lightTraceRenderers="[=lightTraceRenderers]" /]
+        </div>
       [/var]
     [/include]  
     [:include sharedWidgets sharedWidgetsId="sharedWidgets" /]

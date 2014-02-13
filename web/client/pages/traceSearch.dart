@@ -25,8 +25,9 @@ class TraceSearchPage extends Page {
   bool waitingForResult = false ;
   bool firstRequest = true ;
 
-  TraceSearchPage(PageContext context): super("search",context,70,50,true){
+  TraceSearchPage(PageContext context): super("trace_search",context,70,50,true);
 
+  void _initTraceSearchPage(){
     submitRequest(mapFilter:false);
     
     querySelectorAll(".search-form-inputs").onChange.listen((e){
@@ -35,11 +36,7 @@ class TraceSearchPage extends Page {
     
     new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
   }
-
-
-
-
-
+  
   void submitRequest({mapFilter:true}){
     HttpRequest request = new HttpRequest();
   
@@ -155,7 +152,7 @@ class TraceSearchPage extends Page {
   
   
   void sendSearchRequest(HttpRequest request, {mapFilter:true}){
-    request.open("POST",  "/trace.as_search", async: true);
+    request.open("POST",  "/j_trace_search", async: true);
     SearchForm form = buildSearchFormFromPage(mapFilter:mapFilter);
     request.send(JSON.encode(form.toJson()));
     waitingForResult = true;
@@ -203,10 +200,12 @@ class TraceSearchPage extends Page {
 
   void showPage() {
     organizeSpaces();
+    showBySelector("#${name}W");
+    showBySelector("#${name}NE");
+    showBySelector("#${name}SE");
+    _initTraceSearchPage();
   }
+  
+
 }
 
-void main() {
-  TraceSearchPage page = new TraceSearchPage(new PageContext());
-  page.organizeSpaces();
-}

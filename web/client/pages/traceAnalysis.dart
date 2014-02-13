@@ -47,14 +47,14 @@ class TraceAnalysisPage extends Page {
         DeleteTraceForm form = new DeleteTraceForm.fromJson(JSON.decode(request.responseText));
         var message = querySelector(".form-error-message");
         if (form.success){
-          window.location.assign('/trace.search');
+          window.location.assign('/#trace_search');
         }
         
         layout.stopLoading();
       }
     });
   
-    request.open("POST",  "/trace.as_delete", async: false);
+    request.open("POST",  "/j_trace_delete", async: false);
     
     DeleteTraceForm form =  new  DeleteTraceForm( querySelector("[data-key]").attributes["data-key"] );
     request.send(JSON.encode(form.toJson()));
