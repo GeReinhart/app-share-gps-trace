@@ -17,7 +17,7 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
              <td style="width: 2%;" >   </td>
              <td style="width: 30%;" ><span class="important-text" >Textuelle</span></td>
              <td colspan="2" style="width: * ; text-align: left;"   >
-                <div class="form-group form-search">
+                <div class="form-inputs form-group form-search">
                     <input  type="text" class="form-control search-form-inputs search-form-input-text"  placeholder="">
                 </div>
                 

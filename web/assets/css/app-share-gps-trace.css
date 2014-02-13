@@ -297,7 +297,11 @@ ul li {
 
 .form-inputs{
   margin-top: 10px;  
-   
+  text-align: left;
+}
+
+td .form-inputs, .form-inputs div, .form-inputs div div{
+  text-align: left; 
 }
 
 .form-separator{
