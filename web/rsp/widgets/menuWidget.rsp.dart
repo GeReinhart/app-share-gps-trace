@@ -43,13 +43,13 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
   response.write(Rsp.nnx(menuId)); //#9
 
 
-  response.write("""-login" href="#" tabindex="-1" role="menuitem">Se connecter</a></li>
+  response.write("""-login" class="gx-as-link" tabindex="-1" role="menuitem">Se connecter</a></li>
                 <li role="presentation"><a  id=\""""); //#9
 
   response.write(Rsp.nnx(menuId)); //#10
 
 
-  response.write("""-register" href="#" tabindex="-1" role="menuitem">S'enregistrer</a></li>
+  response.write("""-register" class="gx-as-link"  tabindex="-1" role="menuitem">S'enregistrer</a></li>
               </ul>
          </div>    
         <div id=\""""); //#10
@@ -59,7 +59,7 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
 
   response.write("""-when-user" """); //#13
 
-  if (currentUser(request.session) == null || currentUser(request.session) != null  && currentUser(request.session).admin) { //if#13
+  if (currentUser(request.session) == null || currentUser(request.session) != null  && ! currentUser(request.session).admin) { //if#13
 
     response.write("""class="space-menu gx-hidden\""""); //#13
 
@@ -72,7 +72,7 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
               <ul role="menu" class="dropdown-menu"  >
                 <li role="presentation" class="dropdown-header">Traces gps</li>
                 <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
-                <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter</a></li>
+                <li role="presentation"><a  href="/#trace_form" tabindex="-1" role="menuitem">Ajouter</a></li>
                 <li class="divider" role="presentation"></li>
                 <li role="presentation" class="dropdown-header """); //#13
 
@@ -93,7 +93,7 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
   response.write(Rsp.nnx(menuId)); //#20
 
 
-  response.write("""-logout" href="#" tabindex="-1" role="menuitem">Se déconnecter</a></li>
+  response.write("""-logout" class="gx-as-link"  tabindex="-1" role="menuitem">Se déconnecter</a></li>
               </ul>
         </div>    
         <div id=\""""); //#20
@@ -103,7 +103,7 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
 
   response.write("""-when-admin" """); //#23
 
-  if (currentUser(request.session) == null || currentUser(request.session) == null  && currentUser(request.session).admin) { //if#23
+  if (currentUser(request.session) == null || currentUser(request.session) != null  && currentUser(request.session).admin) { //if#23
 
     response.write("""class="space-menu gx-hidden\""""); //#23
 
@@ -116,7 +116,7 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
               <ul role="menu" class="dropdown-menu"  >
                 <li role="presentation" class="dropdown-header">Traces gps</li>
                 <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
-                <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter</a></li>
+                <li role="presentation"><a  href="/#trace_form" tabindex="-1" role="menuitem">Ajouter</a></li>
                 <li class="divider" role="presentation"></li>
                 <li role="presentation" class="dropdown-header """); //#23
 
@@ -137,7 +137,7 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
   response.write(Rsp.nnx(menuId)); //#30
 
 
-  response.write("""-logout" href="#" tabindex="-1" role="menuitem">Se déconnecter</a></li>
+  response.write("""-logout" class="gx-as-link"  tabindex="-1" role="menuitem">Se déconnecter</a></li>
               </ul>
         </div>    
     </div>

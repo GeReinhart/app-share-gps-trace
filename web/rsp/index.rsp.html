@@ -9,36 +9,25 @@
     [:include spaces]
       [:var nw]
         [:include loadingWidget loadingId="loadingNW" size="50" /]
-        <div id="disclaimerNW" class="gx-hidden" >
-           [:include disclaimerTextFragment /]    
-        </div>
-        <div id="indexNW" class="gx-hidden"  >
-           [:include indexTextFragment /] 
-        </div>
-        <div id="aboutNW" class="gx-hidden" >
-             [:include aboutApplicationFragment /]
-        </div>        
+        <div id="disclaimerNW" class="gx-hidden" ></div>
+        <div id="indexNW"      class="gx-hidden" ></div>
+        <div id="aboutNW"      class="gx-hidden" ></div>
+        <div id="trace_formNW" class="gx-hidden" ></div>
       [/var]
       [:var ne ]
         [:include loadingWidget loadingId="loadingNE" size="50" /]
-        <div id="aboutNE" class="gx-hidden" >
-             [:include aboutDevFragment /] 
-        </div>
+        <div id="aboutNE" class="gx-hidden" ></div>
       [/var]
       [:var sw ]
         [:include loadingWidget loadingId="loadingSW" size="50" /]
-        <div id="indexSW" class="gx-hidden"  >
-           [:include indexButtonsFragment /] 
-        </div>
-        <div id="aboutSW" class="gx-hidden" >
-             [:include aboutFeedbacksFragment /]
+        <div id="indexSW"      class="gx-hidden" >
+           [:include indexButtonsFragment  /]
         </div>        
+        <div id="aboutSW"      class="gx-hidden" ></div>
       [/var]
       [:var se ]
         [:include loadingWidget loadingId="loadingSE" size="50" /]
-        <div id="aboutSE" class="gx-hidden" >
-             [:include aboutAuthorFragment /]
-        </div>        
+        <div id="aboutSE"      class="gx-hidden" ></div>        
       [/var]
     [/include]  
     [:include sharedWidgets sharedWidgetsId="sharedWidgets" /]

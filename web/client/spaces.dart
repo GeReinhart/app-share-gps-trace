@@ -27,13 +27,10 @@ class SpacesLayout implements LoadingShower  {
   int centerTopPercentPosition;
   int centerSize ;
 
-  double _initialCenterRight ;
-  double _initialCenterTop ;
-  
   double centerRight ;
   double centerTop ;
   
-  bool showWestSpace = false;
+  bool _showWestSpace = false;
   
   UserClientController _userClientController ;
   SpacesPositions postions ;
@@ -50,11 +47,6 @@ class SpacesLayout implements LoadingShower  {
     _init();
   }
 
-  SpacesLayout.withWestSpace(this._userClientController, this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
-    showWestSpace = true;
-    _init();
-  }
-
   
   Stream get centerMoved => centerMovedController.stream;
   
@@ -66,12 +58,10 @@ class SpacesLayout implements LoadingShower  {
     
     centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
     centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
-    _initialCenterRight = centerRight ;
-    _initialCenterTop = centerTop ;
     
     Dropdown.use();
     
-    organizeSpaces();
+    _organizeSpaces();
     listenLoading();
     
     window.onLoad.listen(updateSpaces);
@@ -84,6 +74,13 @@ class SpacesLayout implements LoadingShower  {
       querySelector(spaceCenter + " img").attributes["src"] = "/assets/img/compass_275_red.png";
     });
 
+    querySelectorAll(spaceMenu).onClick.listen((mouseEvent) {
+      toggleMenu();
+    });
+    querySelectorAll(spaceContextualMenu).onClick.listen((mouseEvent) {
+      toggleMenu();
+    });
+    
     querySelector(spaceCenter).onMouseLeave.listen((mouseEvent) {
       if (_movingCenter){
         _movingCenter = false;
@@ -123,6 +120,7 @@ class SpacesLayout implements LoadingShower  {
     loadingInTheCenter();
   }
   
+ 
   void toggleMenu(){
     _toggleMenuBySelector(spaceMenu);
     _toggleMenuBySelector(spaceContextualMenu);
@@ -139,10 +137,11 @@ class SpacesLayout implements LoadingShower  {
     }
   }
   
-  void moveCenterInitialPosition(){
-    centerRight = _initialCenterRight ;
-    centerTop = _initialCenterTop ;
-    organizeSpaces();
+  void organizeSpaces(int centerRightPercentPosition, int centerTopPercentPosition, {bool showWestSpace:false}){
+    centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
+    centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
+    _showWestSpace = showWestSpace;
+    _organizeSpaces();
     loadingInTheCenter();
   }
   
@@ -160,16 +159,16 @@ class SpacesLayout implements LoadingShower  {
     }else{
       centerTop = centerTopComputed ;
     }
-    organizeSpaces();
+    _organizeSpaces();
     loadingInTheCenter();
   }
   
   void updateSpaces(Event event){
-    organizeSpaces();
+    _organizeSpaces();
     loadingInTheCenter();
   }
   
-  void organizeSpaces(){
+  void _organizeSpaces(){
 
     postions = new SpacesPositions();
     postions.spaceW_Right = centerRight+1 ;
@@ -179,7 +178,7 @@ class SpacesLayout implements LoadingShower  {
 
     querySelector(spaceW) 
     ..style.position = 'absolute'
-    ..style.zIndex = showWestSpace?"100":"90" 
+    ..style.zIndex = _showWestSpace?"100":"90" 
     ..style.right  = (postions.spaceW_Right).toString() + "px" 
     ..style.top    = (postions.spaceW_Top).toString() + "px" 
     ..style.width  = (postions.spaceW_Width).toString() + "px"
@@ -192,7 +191,7 @@ class SpacesLayout implements LoadingShower  {
 
     querySelector(spaceNW) 
     ..style.position = 'absolute'
-    ..style.zIndex = showWestSpace?"90":"100"
+    ..style.zIndex = _showWestSpace?"90":"100"
     ..style.right  = (postions.spaceNW_Right).toString() + "px" 
     ..style.top    = (postions.spaceNW_Top).toString() + "px" 
     ..style.width  = (postions.spaceNW_Width).toString() + "px"
@@ -217,7 +216,7 @@ class SpacesLayout implements LoadingShower  {
     
     querySelector(spaceSW)
     ..style.position = 'absolute'
-    ..style.zIndex = showWestSpace?"90":"100"
+    ..style.zIndex = _showWestSpace?"90":"100"
     ..style.right  = (postions.spaceSW_Right).toString() + "px" 
     ..style.top    = (postions.spaceSW_Top).toString() + "px" 
     ..style.width  = (postions.spaceSW_Width).toString() + "px"

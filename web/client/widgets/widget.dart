@@ -9,10 +9,6 @@ class Widget{
 
   Widget(this._id);
   
-  Widget.withLoading(this._id, LoadingShower loadingShower){
-    _loadingShower = loadingShower;
-  }
-  
   String get id => _id;
   
   void startLoading(){
@@ -27,4 +23,7 @@ class Widget{
     }
   }
   
+  void set loadingShower (LoadingShower loadingShower){
+    this._loadingShower = loadingShower;
+  }
 }

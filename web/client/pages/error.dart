@@ -3,10 +3,15 @@ import '../spaces.dart';
 import 'page.dart';
 
 class ErrorPage extends Page {
-  ErrorPage(): super("error",180,30,70);
+  
+  ErrorPage(PageContext context): super("error",context,30,70,false);
+
+  void showPage() {
+    organizeSpaces();
+  }
 }
 
 
 void main() {
-  ErrorPage page = new ErrorPage();
+  ErrorPage page = new ErrorPage(new PageContext() );
 }

@@ -1,27 +1,16 @@
 import 'page.dart';
+import '../spaces.dart';
 
 class AboutPage extends Page {
-  
-  AboutPage(): super("about",180,50,50);
+
+  AboutPage(PageContext context): super("about",context,50,50,false);
   
   void showPage() {
-    layout.moveCenterInitialPosition();
-    loadingNW.startLoading();
-    showBySelector("#${name}NW");
-    loadingNW.stopLoading();
-
-    loadingNE.startLoading();
-    showBySelector("#${name}NE");
-    loadingNE.stopLoading();
-
-    loadingSW.startLoading();
-    showBySelector("#${name}SW");
-    loadingSW.stopLoading();
-
-    loadingSE.startLoading();
-    showBySelector("#${name}SE");
-    loadingSE.stopLoading();
-
+    organizeSpaces();
+    getAndShowElement("/f_about_application", "#${name}NW");
+    getAndShowElement("/f_about_dev", "#${name}NE");
+    getAndShowElement("/f_about_feedbacks", "#${name}SW");
+    getAndShowElement("/f_about_author", "#${name}SE");
   }
 }
 

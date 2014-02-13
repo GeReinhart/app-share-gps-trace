@@ -15,7 +15,7 @@ class RegisterWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
   StreamController _eventStream ;
   bool hasFailed = false;
   
-  RegisterWidget(String id, LoadingShower loadingShower ): super.withLoading(id,loadingShower){
+  RegisterWidget(String id): super(id){
     initModalWidget();
     initLoginLogoutEventProducer();
     _initRegisterWidget();
@@ -41,9 +41,9 @@ class RegisterWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
 
           RegisterForm form = new RegisterForm.fromMap(JSON.decode(request.responseText));
           var message = querySelector("#${this.id}-error-message");
+          stopLoading();
           if (form.isSuccess){
             hideModalWidget(id);
-            stopLoading();
             sendLoginEvent(form.login, form.isAdmin);
           }else {
             switch (form.error) {

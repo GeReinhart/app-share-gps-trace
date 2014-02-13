@@ -62,9 +62,8 @@ class TracesServer{
           "/f_about_dev" : _fragmentsController.aboutDev,          
           "/f_about_feedbacks" : _fragmentsController.aboutFeedbacks,
           "/f_about_author" : _fragmentsController.aboutAuthor,
-          
-          
-          "get:/trace.add": _traceController.traceAddForm,          
+          "/f_trace_add_form": _fragmentsController.traceAddForm, 
+
           "post:/trace": _traceController.traceAddFormSubmit,
           
           "/trace/id-(traceId:[^/]*)": _traceController.traceShowById,
@@ -78,7 +77,6 @@ class TracesServer{
           "/trace.as_search": _traceController.aTraceSearch,
           "/trace.as_delete": _traceController.aTraceDelete,
           
-          "/sandbox": _traceController.sandboxShow
           
         },/*
         filterMapping: {

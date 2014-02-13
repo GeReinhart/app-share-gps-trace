@@ -3,34 +3,37 @@ import '../spaces.dart';
 import 'page.dart';
 import 'disclaimer.dart';
 import 'about.dart';
-import '../widgets/login.dart' ;
+import 'traceForm.dart';
+import "../widgets/sharedWidgets.dart" ;
+import "../widgets/login.dart" ;
+import "../widgets/loading.dart" ;
 import '../widgets/persistentMenu.dart' ;
+import "../widgets/register.dart" ;
+import "../widgets/logout.dart" ;
 import '../events.dart' ;
 import '../controllers.dart' ;
 
 
 class IndexPage extends Page {
   
-  IndexPage(): super("index",180,30,70){
-
+  IndexPage(PageContext context): super("index",context,30,70,false){
+   initPage();
+  }
+  
+  void initPage() {
+    
     querySelectorAll(".btn-add").onClick.listen((e) {
-      window.location.href = "/trace.add";
+      window.location.href = "/#trace_form";
     });
     querySelectorAll(".btn-search").onClick.listen((e) {
       window.location.href = "/trace.search";
-    });
-    
+    });    
   }
   
   void showPage() {
-    layout.moveCenterInitialPosition();
-    loadingNW.startLoading();
-    showBySelector("#${name}NW");
-    loadingNW.stopLoading();
-
-    loadingSW.startLoading();
-    showBySelector("#${name}SW");
-    loadingSW.stopLoading();
+    organizeSpaces();
+    getAndShowElement("/f_index_text", "#${name}NW");
+    showBySelector( "#${name}SW");
   }
   
   
@@ -50,10 +53,12 @@ class IndexPage extends Page {
 }
 
 void main() {
+  PageContext pageContext = new PageContext();
   List<Page> pages = new List<Page>();
-  pages.add(new IndexPage());
-  pages.add(new DisclaimerPage());  
-  pages.add(new AboutPage());
+  pages.add(new IndexPage(pageContext));
+  pages.add(new DisclaimerPage(pageContext));  
+  pages.add(new AboutPage(pageContext));
+  pages.add(new TraceFormPage(pageContext));
   PagesController pagesController = new PagesController(pages);
 }
 

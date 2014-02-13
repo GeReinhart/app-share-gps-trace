@@ -16,7 +16,7 @@ class LoginWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
   bool hasFailed = false;
   
   
-  LoginWidget(String id, LoadingShower loadingShower ): super.withLoading(id,loadingShower){
+  LoginWidget(String id ): super(id){
     initModalWidget();
     initLoginLogoutEventProducer();
     _initLoginWidget();

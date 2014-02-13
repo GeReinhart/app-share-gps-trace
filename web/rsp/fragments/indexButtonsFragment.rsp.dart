@@ -31,7 +31,7 @@ Future indexButtonsFragment(HttpConnect connect) { //#2
   } //if
 
   response.write("""  >
-             <button  type="submit" class="btn btn-primary btn-add loading-on-click">Ajouter une trace</button>&nbsp;
+             <button  type="submit" class="btn btn-primary btn-add">Ajouter une trace</button>&nbsp;
              <button  type="submit" class="btn btn-warning btn-search loading-on-click">Rechercher une trace</button>
            </div>
         </div>

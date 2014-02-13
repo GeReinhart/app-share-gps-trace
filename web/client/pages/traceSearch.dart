@@ -25,7 +25,7 @@ class TraceSearchPage extends Page {
   bool waitingForResult = false ;
   bool firstRequest = true ;
 
-  TraceSearchPage(): super.withWestSpace("search",180,70,50){
+  TraceSearchPage(PageContext context): super("search",context,70,50,true){
 
     submitRequest(mapFilter:false);
     
@@ -200,8 +200,13 @@ class TraceSearchPage extends Page {
       result = querySelector(selector);
     }
   }
+
+  void showPage() {
+    organizeSpaces();
+  }
 }
 
 void main() {
-  TraceSearchPage page = new TraceSearchPage();
+  TraceSearchPage page = new TraceSearchPage(new PageContext());
+  page.organizeSpaces();
 }

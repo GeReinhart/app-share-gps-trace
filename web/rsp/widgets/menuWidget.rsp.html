@@ -6,28 +6,28 @@
                 <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
                 <li class="divider" role="presentation"></li>
                 <li role="presentation" class="dropdown-header">Compte</li>
-                <li role="presentation"><a  id="[=menuId]-login" href="#" tabindex="-1" role="menuitem">Se connecter</a></li>
-                <li role="presentation"><a  id="[=menuId]-register" href="#" tabindex="-1" role="menuitem">S'enregistrer</a></li>
+                <li role="presentation"><a  id="[=menuId]-login" class="gx-as-link" tabindex="-1" role="menuitem">Se connecter</a></li>
+                <li role="presentation"><a  id="[=menuId]-register" class="gx-as-link"  tabindex="-1" role="menuitem">S'enregistrer</a></li>
               </ul>
          </div>    
-        <div id="[=menuId]-when-user" [:if currentUser(request.session) == null || currentUser(request.session) != null  && currentUser(request.session).admin    ]class="space-menu gx-hidden"[:else]class="space-menu"[/if] >
+        <div id="[=menuId]-when-user" [:if currentUser(request.session) == null || currentUser(request.session) != null  && ! currentUser(request.session).admin    ]class="space-menu gx-hidden"[:else]class="space-menu"[/if] >
               <ul role="menu" class="dropdown-menu"  >
                 <li role="presentation" class="dropdown-header">Traces gps</li>
                 <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
-                <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter</a></li>
+                <li role="presentation"><a  href="/#trace_form" tabindex="-1" role="menuitem">Ajouter</a></li>
                 <li class="divider" role="presentation"></li>
                 <li role="presentation" class="dropdown-header [=menuId]-account">[:if currentUser(request.session) != null][=currentUser(request.session).login][/if]</li>
-                <li role="presentation"><a  id="[=menuId]-logout" href="#" tabindex="-1" role="menuitem">Se déconnecter</a></li>
+                <li role="presentation"><a  id="[=menuId]-logout" class="gx-as-link"  tabindex="-1" role="menuitem">Se déconnecter</a></li>
               </ul>
         </div>    
-        <div id="[=menuId]-when-admin" [:if currentUser(request.session) == null || currentUser(request.session) == null  && currentUser(request.session).admin    ]class="space-menu gx-hidden"[:else]class="space-menu"[/if] >
+        <div id="[=menuId]-when-admin" [:if currentUser(request.session) == null || currentUser(request.session) != null  && currentUser(request.session).admin    ]class="space-menu gx-hidden"[:else]class="space-menu"[/if] >
               <ul role="menu" class="dropdown-menu"  >
                 <li role="presentation" class="dropdown-header">Traces gps</li>
                 <li role="presentation"><a class="loading-on-click" href="/trace.search" tabindex="-1" role="menuitem">Rechercher</a></li>
-                <li role="presentation"><a class="loading-on-click" href="/trace.add" tabindex="-1" role="menuitem">Ajouter</a></li>
+                <li role="presentation"><a  href="/#trace_form" tabindex="-1" role="menuitem">Ajouter</a></li>
                 <li class="divider" role="presentation"></li>
                 <li role="presentation" class="dropdown-header [=menuId]-account">[:if currentUser(request.session) != null][=currentUser(request.session).login][/if]</li>
-                <li role="presentation"><a  id="[=menuId]-logout" href="#" tabindex="-1" role="menuitem">Se déconnecter</a></li>
+                <li role="presentation"><a  id="[=menuId]-logout" class="gx-as-link"  tabindex="-1" role="menuitem">Se déconnecter</a></li>
               </ul>
         </div>    
     </div>

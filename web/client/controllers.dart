@@ -64,7 +64,7 @@ class UserClientController extends ClientController with LoginLogoutEventProduce
   LogoutWidget _logoutWidget ;
   LoadingShower _loadingShower ; 
   
-  UserClientController(this._loginModal, this._registerModal, this._logoutWidget, this._loadingShower){
+  UserClientController(this._loginModal, this._registerModal, this._logoutWidget){
     _init();
   }
   

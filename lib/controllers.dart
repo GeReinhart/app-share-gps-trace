@@ -16,12 +16,10 @@ import  "models.dart";
 import  "persistence.dart";
 import  "aaa.dart";
 
-part "../web/rsp/sandbox.rsp.dart";
 part "../web/rsp/index.rsp.dart";
-part "../web/rsp/errorPage403.rsp.dart";
-part "../web/rsp/errorPage404.rsp.dart";
-part "../web/rsp/errorPage500.rsp.dart";
-part "../web/rsp/traceAddFormView.rsp.dart" ;
+part "../web/rsp/errors/errorPage403.rsp.dart";
+part "../web/rsp/errors/errorPage404.rsp.dart";
+part "../web/rsp/errors/errorPage500.rsp.dart";
 part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/traceFormatGpxView.rsp.dart" ;
 part "../web/rsp/traceSearchView.rsp.dart" ;
@@ -50,8 +48,7 @@ part "../web/rsp/fragments/aboutApplicationFragment.rsp.dart";
 part "../web/rsp/fragments/aboutFeedbacksFragment.rsp.dart";
 part "../web/rsp/fragments/aboutDevFragment.rsp.dart";
 part "../web/rsp/fragments/aboutAuthorFragment.rsp.dart";
-
-
+part "../web/rsp/fragments/traceFormFragment.rsp.dart";
 
 class ServerController{
   
@@ -192,16 +189,6 @@ class TraceController extends ServerController with JsonFeatures{
     }
   }
  
-  
-  Future sandboxShow(HttpConnect connect) {
-    return sandbox(connect);
-  }
-  
-  
-  Future traceAddForm(HttpConnect connect) {
-    return traceAddFormView(connect,traceFormRenderer: new TraceFormRenderer());
-  }
-  
   Future traceAddFormSubmit(HttpConnect connect) {
     
     User user =  currentUser(connect.request.session);
@@ -422,6 +409,9 @@ class FragmentsController extends ServerController{
   Future aboutAuthor(HttpConnect connect){
     return aboutAuthorFragment(connect);
   }   
+  Future traceAddForm(HttpConnect connect){
+    return traceFormFragment(connect,traceFormRenderer: new TraceFormRenderer());
+  }     
 
 }
 

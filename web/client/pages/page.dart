@@ -11,61 +11,107 @@ import "../events.dart" ;
 import "../controllers.dart" ;
 
 
+class PageContext {
+  
+  UserClientController userClientController ;
+  SpacesLayout layout ;
+  SharedWidgets sharedWidgets;
+  LoginWidget loginModal ;
+  RegisterWidget registerModal ;
+  LogoutWidget logoutWidget ;
+  LoadingWidget loadingNW ;
+  LoadingWidget loadingNE ;
+  LoadingWidget loadingSW ;
+  LoadingWidget loadingSE ;
+  
+  
+  PageContext (){
+    loadingNW = new LoadingWidget("loadingNW");
+    loadingNE = new LoadingWidget("loadingNE");
+    loadingSW = new LoadingWidget("loadingSW");
+    loadingSE = new LoadingWidget("loadingSE");
+    
+    sharedWidgets = new SharedWidgets("sharedWidgets");
+    loginModal = new LoginWidget("loginModal");
+    registerModal = new RegisterWidget("registerModal");
+    logoutWidget = new LogoutWidget("logout" );
+  
+    userClientController = new UserClientController(loginModal,registerModal,logoutWidget);
+    layout = new SpacesLayout(userClientController, 180, 50, 50);
+  
+    loginModal.loadingShower = layout ;
+    registerModal.loadingShower = layout;
+    logoutWidget.loadingShower = layout;
+    userClientController.loadingShower = layout;
+    
+    loginModal.setLoginLogoutEventCallBack( userClientController.loginLogoutEvent ) ;
+    registerModal.setLoginLogoutEventCallBack( userClientController.loginLogoutEvent ) ;
+    logoutWidget.setLoginLogoutEventCallBack( userClientController.loginLogoutEvent) ;
+  }
+  
+}
+
 abstract class Page{
   
+  
   String _name ;
-  UserClientController _userClientController ;
+  int _centerRightPercentPosition ;
+  int _centerTopPercentPosition ;
+  bool _showWestSpace;
   
-  SpacesLayout _layout ;
-  SharedWidgets _sharedWidgets ;
+  PageContext _context ;
   
-  LoginWidget _loginModal ;
-  RegisterWidget _registerModal ;
-  LogoutWidget _logoutWidget ;
-  LoadingWidget _loadingNW ;
-  LoadingWidget _loadingNE ;
-  LoadingWidget _loadingSW ;
-  LoadingWidget _loadingSE ;
-  
-  Page( String name,  int centerSize, int centerRightPercentPosition,  int centerTopPercentPosition){
-    _name = name ;
+  Page( this._name, this._context, this._centerRightPercentPosition, this._centerTopPercentPosition,this._showWestSpace ){
     _init();
-    _layout = new SpacesLayout(_userClientController, centerSize, centerRightPercentPosition, centerTopPercentPosition);
-    _userClientController.loadingShower = _layout ;
-  }
-
-  Page.withWestSpace(String name,int centerSize, int centerRightPercentPosition,  int centerTopPercentPosition){
-    _init();
-    _layout = new SpacesLayout.withWestSpace(_userClientController, centerSize, centerRightPercentPosition, centerTopPercentPosition) ;
-    _userClientController.loadingShower = _layout ;
   }
 
   void _init(){ 
-     _loadingNW = new LoadingWidget("loadingNW");
-     _loadingNE = new LoadingWidget("loadingNE");
-     _loadingSW = new LoadingWidget("loadingSW");
-     _loadingSE = new LoadingWidget("loadingSE");
-    
-    _sharedWidgets = new SharedWidgets("sharedWidgets");
-    _loginModal = new LoginWidget("loginModal",  _layout);
-    _registerModal = new RegisterWidget("registerModal",  _layout);
-    _logoutWidget = new LogoutWidget("logout", _layout );
-    _userClientController = new UserClientController(_loginModal,_registerModal,_logoutWidget,_layout);
 
-    _loginModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
-    _registerModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
-    _logoutWidget.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
+    _context.loginModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
+    _context.registerModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
+    _context.logoutWidget.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
     
-    _loginModal.setLoginLogoutEventCallBack( _userClientController.loginLogoutEvent ) ;
-    _registerModal.setLoginLogoutEventCallBack( _userClientController.loginLogoutEvent ) ;
-    _logoutWidget.setLoginLogoutEventCallBack( _userClientController.loginLogoutEvent) ;
     
     querySelectorAll(".btn-login").onClick.listen((e) {
-      _userClientController.callLogin();
+      _context.userClientController.callLogin();
     });
     querySelectorAll(".btn-register").onClick.listen((e) {
-      _userClientController.callRegister();
+      _context.userClientController.callRegister();
     });
+  }
+  
+  void organizeSpaces(){
+    layout.organizeSpaces(_centerRightPercentPosition,_centerTopPercentPosition,showWestSpace:_showWestSpace );
+  }
+  
+  void getAndShowElement(String resourceUrl, String elementSelector){
+    
+    loadingNW.startLoading();
+    HttpRequest request = new HttpRequest();
+    
+    request.onReadyStateChange.listen((_) {
+      
+      if (request.readyState == HttpRequest.DONE ) {
+        String formContent = request.responseText;
+        
+        final NodeValidatorBuilder _htmlValidator=new NodeValidatorBuilder.common()
+           ..allowElement('form', attributes: ['role','accept-charset'])
+           ..allowElement('table', attributes: ['style'])
+           ..allowElement('span', attributes: ['style'])
+           ..allowElement('a', attributes: ['href','rel'])
+           ..allowElement('img', attributes: ['src','style'])
+           ..allowElement('div', attributes: ['style'])
+           ..allowElement('input', attributes: ['style'])
+           ..allowElement('textarea', attributes: ['style'])
+           ..allowElement('td', attributes: ['style']);
+        
+        querySelector(elementSelector).setInnerHtml(formContent, validator: _htmlValidator) ;
+        loadingNW.stopLoading();
+        showBySelector(elementSelector);
+      }
+    });
+    request.open("GET",  resourceUrl, async: true);
+    request.send();      
   }
   
   void showBySelector(String selector){
@@ -83,18 +129,15 @@ abstract class Page{
   }  
 
   void showLoginModal(){
-    _loginModal.showLoginModal();
+    _context.loginModal.showLoginModal();
   }
   
   void loginLogoutEvent(LoginLogoutEvent event) {
   }
 
-  void showPage() {
-    _layout.moveCenterInitialPosition();
-    showBySelector("#${_name}NW");
-    showBySelector("#${_name}NE");
-    showBySelector("#${_name}SW");
-    showBySelector("#${_name}SE");
+  void showPage();
+
+  void initPage(){
   }
   
   void hidePage() {
@@ -104,11 +147,11 @@ abstract class Page{
     hideBySelector("#${_name}SE");
   }
   
-  String get name => _name;
-  SpacesLayout get layout => _layout; 
-  LoadingWidget get loadingNW =>_loadingNW ;
-  LoadingWidget get loadingNE =>_loadingNE ;
-  LoadingWidget get loadingSW =>_loadingSW ;
-  LoadingWidget get loadingSE =>_loadingSE ;
+  String        get name      => _name;
+  SpacesLayout  get layout    => _context.layout; 
+  LoadingWidget get loadingNW => _context.loadingNW ;
+  LoadingWidget get loadingNE => _context.loadingNE ;
+  LoadingWidget get loadingSW => _context.loadingSW ;
+  LoadingWidget get loadingSE => _context.loadingSE ;
   
 }

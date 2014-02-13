@@ -14,7 +14,7 @@ class LogoutWidget extends Widget with LoginLogoutEventProducer {
   
   StreamController _eventStream ;
   
-  LogoutWidget(String id,  LoadingShower loadingShower ): super.withLoading(id,loadingShower){
+  LogoutWidget(String id): super(id){
     initLoginLogoutEventProducer();
   }
   
