@@ -30,119 +30,70 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
     var _0 = new StringBuffer(); _cs_.add(connect); //var#10
     connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
-    return Rsp.nnf(traceProfileViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#11
+    return Rsp.nnf(traceDisplayTextFragment(new HttpConnect.chain(connect), traceRenderer: traceRenderer)).then((_) { //include#11
 
       connect = _cs_.removeLast(); response = connect.response;
 
       var _1 = new StringBuffer(); _cs_.add(connect); //var#13
       connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
-      response.write("""               <h1 class="data-key" data-key=\""""); //#14
-
-      response.write(Rsp.nnx(traceRenderer.trace.key)); //#14
-
-
-      response.write(""""   >"""); //#14
-
-      response.write(Rsp.nnx(traceRenderer.trace.title)); //#14
-
-
-      response.write("""</h1>
-               <div class="trace-activities important-text" >
-                 """); //#14
-
-      response.write(Rsp.nnx(traceRenderer.activities)); //#16
-
-
-      response.write("""
-
-               </div>
-                         
-               <div class="trace-description" >
-                 """); //#16
-
-      response.write(Rsp.nnx(traceRenderer.description, encode: 'none')); //#20
-
-
-      response.write("""
-
-               </div>
-               <div class="trace-creator note-text" >
-                 <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/"><img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/fr/88x31.png" /></a>&nbsp;trace ajoutée par """); //#20
-
-      response.write(Rsp.nnx(traceRenderer.trace.creator)); //#23
-
-
-      response.write("""
-
-               </div>
-               <div class="trace-lastupdate note-text" >
-                 mise à jour le """); //#23
-
-      response.write(Rsp.nnx(traceRenderer.lastUpdateDate)); //#26
-
-
-      response.write("""
-
-               </div>
-               
-               
-"""); //#26
-
-      connect = _cs_.removeLast(); response = connect.response;
-
-      var _2 = new StringBuffer(); _cs_.add(connect); //var#31
-      connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
-
-      return Rsp.nnf(traceGpxViewer(new HttpConnect.chain(connect), traceRenderer: traceRenderer)).then((_) { //include#32
+      return Rsp.nnf(traceDisplayProfileFragment(new HttpConnect.chain(connect), traceRenderer: traceRenderer)).then((_) { //include#14
 
         connect = _cs_.removeLast(); response = connect.response;
 
-        var _3 = new StringBuffer(); _cs_.add(connect); //var#34
-        connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+        var _2 = new StringBuffer(); _cs_.add(connect); //var#16
+        connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
-        return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect), traceAnalysisRenderer: traceRenderer.traceAnalysisRenderer)).then((_) { //include#35
+        return Rsp.nnf(traceDisplayStatFragment(new HttpConnect.chain(connect), traceRenderer: traceRenderer)).then((_) { //include#17
 
           connect = _cs_.removeLast(); response = connect.response;
 
-          return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+          var _3 = new StringBuffer(); _cs_.add(connect); //var#19
+          connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-            response.write("""    
+          return Rsp.nnf(traceDisplayMapFragment(new HttpConnect.chain(connect), traceRenderer: traceRenderer)).then((_) { //include#20
+
+            connect = _cs_.removeLast(); response = connect.response;
+
+            return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+
+              response.write("""    
     <div class="space-contextual-menu"  >
         <ul role="menu" class="dropdown-menu"  id="contextual-menu">
           <li role="presentation" class="dropdown-header">Trace gps</li>
-          <li role="presentation"><a href=\""""); //#38
+          <li role="presentation"><a href=\""""); //#23
 
-            response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#42
+              response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#27
 
 
-            response.write("""" tabindex="-1" role="menuitem">Fichier gpx</a></li>
-"""); //#42
+              response.write("""" tabindex="-1" role="menuitem">Fichier gpx</a></li>
+"""); //#27
 
-            if (currentUser(request.session) != null && ( currentUser(request.session).login == traceRenderer.trace.creator || currentUser(request.session).admin   )) { //if#43
+              if (currentUser(request.session) != null && ( currentUser(request.session).login == traceRenderer.trace.creator || currentUser(request.session).admin   )) { //if#28
 
-              response.write("""            <li role="presentation"><a class="trace-delete-menu gx-as-link"  tabindex="-1" role="menuitem">Supprimer</a></li>
-"""); //#44
-            } //if
+                response.write("""            <li role="presentation"><a class="trace-delete-menu gx-as-link"  tabindex="-1" role="menuitem">Supprimer</a></li>
+"""); //#29
+              } //if
 
-            response.write("""       </ul>
+              response.write("""       </ul>
     </div>
     
-"""); //#46
+"""); //#31
 
-            return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace ${Rsp.nns(traceRenderer.trace.title)}")).then((_) { //include#49
+              return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace ${Rsp.nns(traceRenderer.trace.title)}")).then((_) { //include#34
 
-              return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#50
+                return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#35
 
-                response.write("""    
+                  response.write("""    
     <script type="application/dart" src="/client/pages/traceAnalysis.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
 </html>
-"""); //#51
+"""); //#36
 
-                return new Future.value();
+                  return new Future.value();
+                }); //end-of-include
               }); //end-of-include
             }); //end-of-include
           }); //end-of-include

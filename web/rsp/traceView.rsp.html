@@ -8,31 +8,16 @@
   <body>   
     [:include spaces]
       [:var nw]
-        [:include traceProfileViewer traceAnalysisRenderer="[=traceRenderer.traceAnalysisRenderer]" /]
+        [:include traceDisplayTextFragment traceRenderer="[=traceRenderer]" /]
       [/var]
       [:var ne ]
-               <h1 class="data-key" data-key="[=traceRenderer.trace.key]"   >[=traceRenderer.trace.title]</h1>
-               <div class="trace-activities important-text" >
-                 [=traceRenderer.activities]
-               </div>
-                         
-               <div class="trace-description" >
-                 [=traceRenderer.description, encode: 'none']
-               </div>
-               <div class="trace-creator note-text" >
-                 <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/"><img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/fr/88x31.png" /></a>&nbsp;trace ajoutée par [=traceRenderer.trace.creator]
-               </div>
-               <div class="trace-lastupdate note-text" >
-                 mise à jour le [=traceRenderer.lastUpdateDate]
-               </div>
-               
-               
+        [:include traceDisplayProfileFragment traceRenderer="[=traceRenderer]" /]
       [/var]
       [:var sw ]
-        [:include traceGpxViewer traceRenderer="[=traceRenderer]" /]
+        [:include traceDisplayStatFragment traceRenderer="[=traceRenderer]" /]
       [/var]
       [:var se ]
-        [:include traceStatisticsViewer traceAnalysisRenderer="[=traceRenderer.traceAnalysisRenderer]" /]
+        [:include traceDisplayMapFragment traceRenderer="[=traceRenderer]" /]
       [/var]
     [/include]  
     
