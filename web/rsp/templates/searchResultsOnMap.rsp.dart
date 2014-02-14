@@ -106,17 +106,20 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
                            center : baryCenter
         					};
         
-        map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+        map = new google.maps.Map(document.getElementById('search-results-map-canvas'), mapOptions);
         google.maps.event.addListener(map, 'center_changed', updateSearchFormBounds);
         google.maps.event.addListener(map, 'bounds_changed', updateSearchFormBounds);
                 
       }
       
+      
+      
+      
       google.maps.event.addDomListener(window, 'load', initialize);
       
       
     </script>
-    <div id="map-canvas"  class="space" ></div>
+    <div id="search-results-map-canvas"    class="space gx-hidden-map" ></div>
 
     
 

@@ -117,20 +117,21 @@ abstract class Page{
     request.send();      
   }
   
-  void showBySelector(String selector){
+  void showBySelector(String selector, {String hiddenClass:"gx-hidden"}){
     querySelectorAll(selector).forEach((e){
       Element element = e as Element ;
-      e.classes.remove("gx-hidden") ;
+      e.classes.remove(hiddenClass) ;
     });
   }
   
-  void hideBySelector(String selector){
+  void hideBySelector(String selector, {String hiddenClass:"gx-hidden"}){
     querySelectorAll(selector).forEach((e){
       Element element = e as Element ;
-      e.classes.add("gx-hidden") ;
+      e.classes.add(hiddenClass) ;
     });
   }  
 
+  
   void showLoginModal(){
     _context.loginModal.showLoginModal();
   }

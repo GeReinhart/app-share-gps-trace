@@ -10,7 +10,7 @@
                 <li role="presentation"><a  id="[=menuId]-register" class="gx-as-link"  tabindex="-1" role="menuitem">S'enregistrer</a></li>
               </ul>
          </div>    
-        <div id="[=menuId]-when-user" [:if currentUser(request.session) == null || currentUser(request.session) != null  && ! currentUser(request.session).admin    ]class="space-menu gx-hidden"[:else]class="space-menu"[/if] >
+        <div id="[=menuId]-when-user" [:if currentUser(request.session) != null  && ! currentUser(request.session).admin    ]class="space-menu"[:else]class="space-menu gx-hidden"[/if] >
               <ul role="menu" class="dropdown-menu"  >
                 <li role="presentation" class="dropdown-header">Traces gps</li>
                 <li role="presentation"><a  href="/#trace_search" tabindex="-1" role="menuitem">Rechercher</a></li>
@@ -20,7 +20,7 @@
                 <li role="presentation"><a  id="[=menuId]-logout" class="gx-as-link"  tabindex="-1" role="menuitem">Se déconnecter</a></li>
               </ul>
         </div>    
-        <div id="[=menuId]-when-admin" [:if currentUser(request.session) == null || currentUser(request.session) != null  && currentUser(request.session).admin    ]class="space-menu gx-hidden"[:else]class="space-menu"[/if] >
+        <div id="[=menuId]-when-admin" [:if  currentUser(request.session) != null  && currentUser(request.session).admin    ]class="space-menu"[:else]class="space-menu gx-hidden"[/if] >
               <ul role="menu" class="dropdown-menu"  >
                 <li role="presentation" class="dropdown-header">Traces gps</li>
                 <li role="presentation"><a  href="/#trace_search" tabindex="-1" role="menuitem">Rechercher</a></li>

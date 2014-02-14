@@ -59,13 +59,13 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
 
   response.write("""-when-user" """); //#13
 
-  if (currentUser(request.session) == null || currentUser(request.session) != null  && ! currentUser(request.session).admin) { //if#13
+  if (currentUser(request.session) != null  && ! currentUser(request.session).admin) { //if#13
 
-    response.write("""class="space-menu gx-hidden\""""); //#13
+    response.write("""class="space-menu\""""); //#13
 
   } else { //else#13
 
-    response.write("""class="space-menu\""""); //#13
+    response.write("""class="space-menu gx-hidden\""""); //#13
   } //if
 
   response.write(""" >
@@ -103,13 +103,13 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
 
   response.write("""-when-admin" """); //#23
 
-  if (currentUser(request.session) == null || currentUser(request.session) != null  && currentUser(request.session).admin) { //if#23
+  if (currentUser(request.session) != null  && currentUser(request.session).admin) { //if#23
 
-    response.write("""class="space-menu gx-hidden\""""); //#23
+    response.write("""class="space-menu\""""); //#23
 
   } else { //else#23
 
-    response.write("""class="space-menu\""""); //#23
+    response.write("""class="space-menu gx-hidden\""""); //#23
   } //if
 
   response.write(""" >

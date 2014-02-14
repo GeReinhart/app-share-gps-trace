@@ -202,10 +202,15 @@ class TraceSearchPage extends Page {
     organizeSpaces();
     showBySelector("#${name}W");
     showBySelector("#${name}NE");
-    showBySelector("#${name}SE");
+    showBySelector("#search-results-map-canvas", hiddenClass: "gx-hidden-map");
     _initTraceSearchPage();
   }
   
+  void hidePage() {
+    hideBySelector("#${name}W");
+    hideBySelector("#${name}NE");
+    hideBySelector("#search-results-map-canvas", hiddenClass: "gx-hidden-map");
+  }
 
 }
 

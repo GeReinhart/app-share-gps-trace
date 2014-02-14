@@ -2,15 +2,18 @@
 
 
 .gx-hidden{
-  z-index: 1 ;
-  position: absolute;
   display: none;
 }
+
+.gx-hidden-map{
+  position:relative; 
+  visibility: hidden;
+}
+
 
 .gx-as-link{
   cursor:pointer;
 }
-
 
 
 
@@ -125,6 +128,8 @@ ul li {
   padding: 0px; 
   vertical-align:middle; text-align:center;
 }
+
+
 
 .space-west {
   border-right-width: 1px;
