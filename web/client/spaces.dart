@@ -129,11 +129,11 @@ class SpacesLayout implements LoadingShower  {
   void _toggleMenuBySelector(selector){
     var menu = querySelectorAll(selector);
     if ( menu.style.zIndex != "102" ){
-      menu.classes.add("open") ;
       menu.style.zIndex = "102" ;
+      menu.classes.add("open");
     }else{
       menu.style.zIndex = "99" ;
-      menu.classes.remove("open") ;
+      menu.classes.remove("open");
     }
   }
   
@@ -257,7 +257,7 @@ class SpacesLayout implements LoadingShower  {
     querySelectorAll(spaceContextualMenu)
     ..style.position = 'absolute'
     ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top =  centerTop > window.innerHeight/2  ? (centerTop+1  + centerSize *  ( 1                          )  /6 ).toString()+ "px" 
+    ..style.top =  centerTop >= window.innerHeight/2  ? (centerTop+1  + centerSize *  ( 1                          )  /6 ).toString()+ "px" 
                                                      : (centerTop+1  - centerSize *  ( contextualMenuItemsNumber +2  )  /6 ).toString()+ "px"
     ..style.width = centerSize.toString()+ "px"
     ..style.height = "0px" ;  
