@@ -49,17 +49,22 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
       }
 
       function fitMapViewPortWithMarkers(){
-        
-        var bounds = new google.maps.LatLngBounds ();
-        for (var key in markers) {
-          marker = markers[key];
-          if (  marker.getMap() != null ){
-            bounds.extend (marker.getPosition());
-          }
-        }        
-        map.fitBounds (bounds);
-        if (map.getZoom() > 12){
-          map.setZoom(12);
+        if ( markers.length > 0){
+           var bounds = new google.maps.LatLngBounds ();
+           var hasMarkers = false ;
+           for (var key in markers) {
+              marker = markers[key];
+              if (  marker.getMap() != null ){
+                hasMarkers = true ;
+                bounds.extend (marker.getPosition());
+              }
+           }  
+           if (hasMarkers){
+              map.fitBounds (bounds);
+              if (map.getZoom() > 12){
+                map.setZoom(12);
+              }
+           }
         }
       }
      
@@ -84,13 +89,13 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
 
         var baryCenter = new google.maps.LatLng("""); //#2
 
-  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.latitude)); //#73
+  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.latitude)); //#78
 
 
   response.write(""",
-                                                 """); //#73
+                                                 """); //#78
 
-  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.longitude)); //#74
+  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.longitude)); //#79
 
 
   response.write(""");
@@ -115,7 +120,7 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
 
     
 
-"""); //#74
+"""); //#79
 
   return new Future.value();
 }

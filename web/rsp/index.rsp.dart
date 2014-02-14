@@ -88,7 +88,7 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
                   return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSE", size: "50")).then((_) { //include#38
 
                     response.write("""        <div id="aboutSE"      class="gx-hidden" ></div>        
-        <div id="trace_searchSE" class="gx-hidden" >
+        <div id="trace_searchSE" >
 """); //#39
 
                     return Rsp.nnf(traceSearchMapFragment(new HttpConnect.chain(connect), lightTraceRenderers: lightTraceRenderers)).then((_) { //include#41
