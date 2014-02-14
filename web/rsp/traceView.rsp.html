@@ -41,7 +41,7 @@
           <li role="presentation" class="dropdown-header">Trace gps</li>
           <li role="presentation"><a href="[=traceRenderer.gpxUrl]" tabindex="-1" role="menuitem">Fichier gpx</a></li>
           [:if currentUser(request.session) != null && ( currentUser(request.session).login == traceRenderer.trace.creator || currentUser(request.session).admin   )   ]
-            <li role="presentation"><a class="trace-delete-menu" href="#" tabindex="-1" role="menuitem">Supprimer</a></li>
+            <li role="presentation"><a class="trace-delete-menu gx-as-link"  tabindex="-1" role="menuitem">Supprimer</a></li>
           [/if]
        </ul>
     </div>

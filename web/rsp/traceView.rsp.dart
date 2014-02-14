@@ -121,7 +121,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
 
             if (currentUser(request.session) != null && ( currentUser(request.session).login == traceRenderer.trace.creator || currentUser(request.session).admin   )) { //if#43
 
-              response.write("""            <li role="presentation"><a class="trace-delete-menu" href="#" tabindex="-1" role="menuitem">Supprimer</a></li>
+              response.write("""            <li role="presentation"><a class="trace-delete-menu gx-as-link"  tabindex="-1" role="menuitem">Supprimer</a></li>
 """); //#44
             } //if
 
