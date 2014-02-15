@@ -15,7 +15,7 @@ class TraceAnalysisPage extends Page {
 
   ConfirmWidget _deleteConfirm ;
   
-  TraceAnalysisPage(PageContext context): super("trace",context,30,35,false){
+  TraceAnalysisPage(PageContext context): super("trace",context,65,40,false){
     _deleteConfirm = new ConfirmWidget("deleteConfirmModal", deleteTrace);
     
     moveTraceViewers(layout.postions);
@@ -28,6 +28,7 @@ class TraceAnalysisPage extends Page {
       _deleteConfirm.showConfirmModal();
     });    
     
+    showPage();
   }
   
   
@@ -67,31 +68,29 @@ class TraceAnalysisPage extends Page {
     
     Element traceGpxViewer = querySelector("#traceGpxViewer") ;
     if (traceGpxViewer != null){
-      num decalHeight = 180 ;
-      num decalRight = 30 ;
-      
+     
       traceGpxViewer..style.position = 'absolute'
       ..style.right  =  "0px" 
-      ..style.top    =  "-"+decalHeight.toString()+"px" 
-      ..style.width  = (spacesPositions.spaceSW_Width+decalRight).toString() + "px"
-      ..style.height = (spacesPositions.spaceSW_Height+decalHeight).toString() + "px" ;
+      ..style.top    =  "0px" 
+      ..style.width  = (spacesPositions.spaceSE_Width).toString() + "px"
+      ..style.height = (spacesPositions.spaceSE_Height).toString() + "px" ;
     }
     
     Element traceProfileViewer = querySelector("#traceProfileViewer") ;
     if (traceProfileViewer != null){
       num traceHeightWidthRatio = js.context.traceHeightWidthRatio;
-      num traceProfileViewerWidth = spacesPositions.spaceNW_Width  * 0.95;
+      num traceProfileViewerWidth = spacesPositions.spaceNE_Width  * 0.95;
       num traceProfileViewerHeight = traceProfileViewerWidth * traceHeightWidthRatio * 10;
       
-      if (  traceProfileViewerHeight >  spacesPositions.spaceNW_Height * 0.95){
+      if (  traceProfileViewerHeight >  spacesPositions.spaceNE_Height * 0.95){
         traceProfileViewerWidth = traceProfileViewerHeight / traceHeightWidthRatio / 10  ;
         traceProfileViewerHeight = spacesPositions.spaceNW_Height * 0.80;
       }
       
       
       traceProfileViewer..style.position = 'absolute'
-      ..style.right  = (spacesPositions.spaceNW_Width  * 0.05 ).toString() + "px" 
-      ..style.top    = (spacesPositions.spaceNW_Height * 0.15 ).toString() + "px" 
+      ..style.right  = (spacesPositions.spaceNE_Width  * 0.05 ).toString() + "px" 
+      ..style.top    = (spacesPositions.spaceNE_Height * 0.15 ).toString() + "px" 
       ..style.width  = (traceProfileViewerWidth ).toString() + "px" 
       ..style.height = (traceProfileViewerHeight ).toString() + "px" ;
     
@@ -101,10 +100,10 @@ class TraceAnalysisPage extends Page {
     Element traceStatisticsViewer = querySelector("#traceStatisticsViewer") ;
     if (traceStatisticsViewer != null){
       traceStatisticsViewer..style.position = 'absolute'
-      ..style.right  = (spacesPositions.spaceSE_Width  * 0.10 ).toString() + "px" 
-      ..style.top    = (spacesPositions.spaceSE_Height * 0.10 ).toString() + "px" 
-      ..style.width  = (spacesPositions.spaceSE_Width  * 0.70 ).toString() + "px" 
-      ..style.height = (spacesPositions.spaceSE_Height * 0.70 ).toString() + "px" ;
+      ..style.right  = (spacesPositions.spaceSW_Width  * 0.10 ).toString() + "px" 
+      ..style.top    = (spacesPositions.spaceSW_Height * 0.10 ).toString() + "px" 
+      ..style.width  = (spacesPositions.spaceSW_Width  * 0.70 ).toString() + "px" 
+      ..style.height = (spacesPositions.spaceSW_Height * 0.70 ).toString() + "px" ;
     }
     
   }
