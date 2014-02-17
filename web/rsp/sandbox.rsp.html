@@ -20,19 +20,7 @@
          <div id="map"  style="height: 500px; width: 500px"></div>
          <script type="text/javascript">
 
-         var map = L.map('map', {
-           zoomControl: false
-         });
 
-         var zoomControl = L.control.zoom({
-           position: 'bottomleft'
-         });
-         map.addControl(zoomControl);
-         
-         
-         
-         
-         
          var markers = {};
          var ignKey     = "gnst6zrvh2tnhhulo1kovnh1" ;
          var googleKey  = "AIzaSyACqUcoVGLVERGKxv09yqg9jv1iykUDJjA" ;
@@ -50,7 +38,19 @@
 
     	 var baseMap = {"Ign Topo":IGN,"Ign Topo Express":SCAN25 ,"OpenStreetMap":OSM, "Google Satellite": GMS};
 
+       var map = L.map('map', {
+         zoomControl: false,
+         layers: [IGN]
+       });
+
+       var zoomControl = L.control.zoom({
+         position: 'bottomleft'
+       });
+       map.addControl(zoomControl);
+    	 
      	 L.control.layers(baseMap).addTo(map);
+
+     	 
      	 
      	 
      	 map.on('moveend', onMapChange);
