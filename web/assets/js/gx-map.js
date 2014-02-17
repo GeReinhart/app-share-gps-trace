@@ -1,176 +1,152 @@
-var GxMarker = L.Marker.extend({
- 
-	bindPopup: function(htmlContent, options) {
 
-		if (options && options.showOnMouseOver) {
-			
-			// call the super method
-			L.Marker.prototype.bindPopup.apply(this, [htmlContent, options]);
-			
-			// unbind the click event
-			this.off("click", this.openPopup, this);
-			
-			// bind to mouse over
-			this.on("mouseover", function(e) {
-				
-				// get the element that the mouse hovered onto
-				var target = e.originalEvent.fromElement || e.originalEvent.relatedTarget;
-				var parent = this._getParent(target, "leaflet-popup");
- 
-				// check to see if the element is a popup, and if it is this marker's popup
-				if (parent == this._popup._container)
-					return true;
-				
-				// show the popup
-				this.openPopup();
-				
-			}, this);
-			
-			// and mouse out
-			this.on("mouseout", function(e) {
-				
-				// get the element that the mouse hovered onto
-				var target = e.originalEvent.toElement || e.originalEvent.relatedTarget;
-				
-				// check to see if the element is a popup
-				if (this._getParent(target, "leaflet-popup")) {
- 
-					L.DomEvent.on(this._popup._container, "mouseout", this._popupMouseOut, this);
-					return true;
- 
-				}
-				
-				// hide the popup
-				this.closePopup();
-				
-			}, this);
-			
-		}
-		
-	},
- 
-	_popupMouseOut: function(e) {
-	    
-		// detach the event
-		L.DomEvent.off(this._popup, "mouseout", this._popupMouseOut, this);
- 
-		// get the element that the mouse hovered onto
-		var target = e.toElement || e.relatedTarget;
-		
-		// check to see if the element is a popup
-		if (this._getParent(target, "leaflet-popup"))
-			return true;
-		
-		// check to see if the marker was hovered back onto
-		if (target == this._icon)
-			return true;
-		
-		// hide the popup
-		this.closePopup();
-		
-	},
+ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon) {
+ 	this.key  = key ;
+	this.title = title;
+	this.gpxUrl= gpxUrl;
+	this.gpxTrack ;
+	this.startMarker = L.marker([startLat, startLong], {icon: icon}) ; 
 	
-	_getParent: function(element, className) {
-		
-		var parent = element.parentNode;
-		
-		while (parent != null) {
-			
-			if (parent.className && L.DomUtil.hasClass(parent, className))
-				return parent;
-			
-			parent = parent.parentNode;
-			
-		}
-		
-		return false;
-		
+	this.visible= function(){
+	  this.setOpacity(1);
 	}
+
+	this.lighter= function(){
+	  this.setOpacity(0.5);
+	}        	
+	
+	this.invisible= function(){
+	  this.setOpacity(0);
+	}           	
+	
+	this.setOpacity= function(opacity){
+	  this.startMarker.setOpacity(opacity);
+	  if(this.gpxTrack){
+	    if ( opacity == 0 ){
+	        this.gpxTrack.clearLayers();
+	    }
+	  }
+	}
+	
+ }
+
+ function GxMap(id,ignKey){
+    
+    this.traces = {};
+    this.id = id;
+    this.ignKey = ignKey;
+    this.map ;
+  
+ 	this.init = function() {
+
+   		 var OSM			= L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+            // , {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'}
+  		 var ignWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
+  		 var IGN			= L.tileLayer(ignWmtsUrl);
+           // , {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'}
+  		 var scanWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
+  		 var SCAN25		= L.tileLayer(scanWmtsUrl);
+           // , {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'}
+           
+  		 var GMS = new L.Google('SATELLITE');
+
+    	 var baseMap = {"Ign Topo":IGN,"Ign Topo Express":SCAN25 ,"OpenStreetMap":OSM, "Google Satellite": GMS};
+
+       
+	     this.map = L.map(id, {
+	         zoomControl: false,
+	         layers: [IGN]
+	     });
+
+	     var zoomControl = L.control.zoom({
+	         position: 'bottomleft'
+	     });
+         this.map.addControl(zoomControl);
+         
+         L.control.layers(baseMap).addTo(this.map);
+         
+         return this;
+ 	}
  
-});
+    this.listenToMapChange = function(callBackOnChange){
+        this.map.on('moveend', callBackOnChange);
+    }
 
-function GxMapHandler() {
-
-	this.ignKey ;
-	this.googleKey ;
-	this.map ;
-	this.markers = {};
-
-	this.init = function(id) {
-
-		var OSM			= L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'});
-
-		var ignWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ this.ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
-		var IGN			= L.tileLayer(ignWmtsUrl, {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'});
-
-		var scanWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ this.ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
-		var SCAN25		= L.tileLayer(scanWmtsUrl, {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'});
-
-		var GMS = new L.Google('SATELLITE');
-
-		this.map = L.map(id, {
-			center: new L.LatLng(48.853, 2.35),
-			zoom: 13,
-			layers: [OSM]
-		});
-
-		var baseMap = {"Ign Topo":IGN,"Ign Topo Express":SCAN25 ,"OpenStreetMap":OSM, "Google Satellite": GMS};
-
-		L.control.layers(baseMap).addTo(this.map);
-
+ 	this.displayGpxByKey = function(key){
+    	if(key in this.traces){
+            for (var key in this.traces) {
+              this.traces[key].lighter() ;
+            }
+            this.traces[key].visible();
+            this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl, {async: true}).addTo(this.map);
+    	}
+ 	}
+ 
+  	this.viewGpxByKey = function(key){
+    	if(key in this.traces){
+            for (var key in this.traces) {
+              this.traces[key].lighter() ;
+            }
+            this.traces[key].visible();
+            var me = this ;
+            this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl, {async: true})
+                   .on('loaded', function(e) {
+        			me.map.fitBounds(e.target.getBounds());
+       		}).addTo(this.map);
+    	}
+ 	}
+ 
+	this._addMarker = function(targetMap,  key,  title, startLat, startLong, gpx ){
+	   if(key in this.traces){
+	     this.traces[key].visible();
+	   }else{
+	     var icon = L.icon({
+	        iconUrl:   'assets/lib/leaflet/images/marker-icon.png',
+	      	shadowUrl: 'assets/lib/leaflet/images/marker-shadow.png',
+	      	iconSize: [25, 41],
+	      	popupAnchor: [0, -43],
+	      	iconAnchor: [12, 41],
+	      	shadowSize: [41, 41]
+	     });
+	     var trace = new GxTrace(key,  title, startLat, startLong, gpx,icon);
+	     trace.startMarker.addTo(this.map).bindPopup("<b>"+title+"</b>").openPopup();
+	     trace.gpxTrack = new L.GPX(trace.gpxUrl, {async: true}).addTo(this.map);
+	     this.traces[key] = trace ;
+	   }
 	}
-
-	this.addMarker = function(marker) {
-
-		var pos = new L.LatLng(marker.lat, marker.lng);
-		var mapMarker = new GxMarker(pos) ;
-
-		if(marker.icon) {
-			mapMarker.setIcon(L.icon({iconUrl: marker.icon, iconSize: [16, 16]})) ; 
-		}
-		
-		if(marker.title) {
-			mapMarker.bindPopup(marker.title, {showOnMouseOver: true, closeButton: false}) ;
-		}
-
-		if(marker.click) {
-
-			mapMarker.fichier = marker.fichier;
-			mapMarker.on('click', function(e) {
-				jQuery.fancybox( {href : this.fichier});
-			});
-
-		}
-
-		mapMarker.addTo(this.map);
-
-		return mapMarker ;
-
+	 
+	this.addMarkerToMap = function( key,  title, startLat, startLong, gpx ){
+	   this._addMarker(map,  key,  title, startLat, startLong, gpx ) ;
+	} 
+	 
+	this.removeAllMarkers = function(){
+	   for (var key in this.traces) {
+	     this.traces[key].invisible() ;
+	   }
 	}
-
-	this.addMarkers = function(markers) {
-		
-		for (var i = 0; i < markers.length; i++) {
-			this.addMarker(markers[i]) ;
-		}
-
-	}
-
-	this.addGPX = function(filepath) {
-
-		var me = this ;
-
-		var track = new L.GPX(filepath, {async: true}).on('loaded', function(e) {
-
-			me.map.fitBounds(e.target.getBounds());
-
-		}).addTo(this.map);
-
-		return track ;
-
-	}
-
-}
-
+	 
+	this.fitMapViewPortWithMarkers =  function(){
+	     if (! this.traces){
+	       return;
+	     }
+	     var bounds = new L.LatLngBounds ();
+	     var hasMarkers = false ;
+	     for (var key in this.traces) {
+	       marker = this.traces[key].startMarker;
+	       hasMarkers = true ;
+	       bounds.extend (marker.getLatLng());
+	     }  
+	     if (hasMarkers){
+	       this.map.fitBounds (bounds);
+	       if (this.map.getZoom() > 12){
+	         this.map.setZoom(12);
+	       }
+	     }
+	 }
+ 
+     this.getBounds = function (){
+         return this.map.getBounds();
+     }
+ }
+      
 
 

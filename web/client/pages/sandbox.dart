@@ -26,13 +26,13 @@ class SandboxPage extends Page {
       submitRequest();
     });
     querySelectorAll("#btn-reset").onClick.listen((e) {
-      js.context.removeAllMarkers();
+      js.context.map.removeAllMarkers();
     }); 
     querySelectorAll("#btn-gpx").onClick.listen((e) {
-      js.context.traceGpxByKey("user1_jhjhg");
+      js.context.map.displayGpxByKey("user1_jhjhg");
     }); 
     querySelectorAll("#btn-view-gpx").onClick.listen((e) {
-      js.context.viewTraceGpxByKey("user3_gasdgasdgasdgds");
+      js.context.map.viewGpxByKey("user3_gasdgasdgasdgds");
     });    
     
     
@@ -68,14 +68,13 @@ class SandboxPage extends Page {
     
     Element searchResultRow=  querySelector("#search-result-row");
     Element searchResultBody=  querySelector("#search-result-body");
-    js.context.removeAllMarkers();
+    js.context.map.removeAllMarkers();
     if (form.results != null && form.results.isNotEmpty){
         form.results.forEach((lightTrace){
-          
-        String gpxUrl = "/trace.gpx/${lightTrace.key}";   
-        js.context.addMarkerToMap( lightTrace.keyJsSafe,  lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
-      });
-      js.context.fitMapViewPortWithMarkers();
+          String gpxUrl = "/trace.gpx/${lightTrace.key}";   
+          js.context.map.addMarkerToMap( lightTrace.keyJsSafe,  lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
+        });
+        js.context.map.fitMapViewPortWithMarkers();
     }
     layout.stopLoading();
   }

@@ -52,158 +52,20 @@ Future sandbox(HttpConnect connect) { //#2
     response.write("""         <div id="map"  style="height: 500px; width: 500px"></div>
          <script type="text/javascript">
 
-         function GxTrace(key,  title, startLat, startLong, gpxUrl, icon) {
-         	this.key  = key ;
-        	this.title = title;
-        	this.gpxUrl= gpxUrl;
-        	this.gpxTrack ;
-        	this.startMarker = L.marker([startLat, startLong], {icon: icon}) ; 
-        	
-        	this.visible= function(){
-        	  this.setOpacity(1);
-        	}
-
-        	this.lighter= function(){
-        	  this.setOpacity(0.5);
-        	}        	
-        	
-        	this.invisible= function(){
-        	  this.setOpacity(0);
-        	}           	
-        	
-        	this.setOpacity= function(opacity){
-        	  this.startMarker.setOpacity(opacity);
-        	  if(this.gpxTrack){
-        	    if ( opacity == 0 ){
-        	        this.gpxTrack.clearLayers();
-        	    }
-        	  }
-        	}
-        	
-         }
-
- 
+         var map = new GxMap("map","gnst6zrvh2tnhhulo1kovnh1").init();
          
-         var traces = {};
-         var ignKey     = "gnst6zrvh2tnhhulo1kovnh1" ;
-         var googleKey  = "AIzaSyACqUcoVGLVERGKxv09yqg9jv1iykUDJjA" ;
-         
-   		 var OSM			= L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
-            // , {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'}
-  		 var ignWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
-  		 var IGN			= L.tileLayer(ignWmtsUrl);
-           // , {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'}
-  		 var scanWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
-  		 var SCAN25		= L.tileLayer(scanWmtsUrl);
-           // , {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'}
-           
-  		 var GMS = new L.Google('SATELLITE');
-
-    	 var baseMap = {"Ign Topo":IGN,"Ign Topo Express":SCAN25 ,"OpenStreetMap":OSM, "Google Satellite": GMS};
-
-       
-       var map = L.map('map', {
-         zoomControl: false,
-         layers: [IGN]
-       });
-
-       var zoomControl = L.control.zoom({
-         position: 'bottomleft'
-       });
-       map.addControl(zoomControl);
-    	 
-     	 L.control.layers(baseMap).addTo(map);
-     	 
-     	 map.on('moveend', onMapChange);
-     	 
-
-     	 
-     	function traceGpxByKey(key){
-        	if(key in traces){
-                for (var key in traces) {
-                  traces[key].lighter() ;
-                }
-                traces[key].visible();
-                traces[key].gpxTrack = new L.GPX(traces[key].gpxUrl, {async: true}).addTo(this.map);
-        	}
-     	}
-
-     	function viewTraceGpxByKey(key){
-        	if(key in traces){
-                for (var key in traces) {
-                  traces[key].lighter() ;
-                }
-                traces[key].visible();
-                var me = this ;
-                traces[key].gpxTrack = new L.GPX(traces[key].gpxUrl, {async: true})
-                       .on('loaded', function(e) {
-            			me.map.fitBounds(e.target.getBounds());
-           		}).addTo(this.map);
-        	}
-     	}
-     	
-     	
-       function onMapChange(e){
-         var bounds = map.getBounds();
-         //console.log("onMapChange : NW ",bounds.getNorthWest() );
-         //console.log("onMapChange : NE ",bounds.getNorthEast() );
-         //console.log("onMapChange : SW ",bounds.getSouthWest() );
-         //console.log("onMapChange : SE ",bounds.getSouthEast() );
-       }
-     	 
-     	 
-         function addMarker(targetMap,  key,  title, startLat, startLong, gpx ){
-           if(key in traces){
-             traces[key].visible();
-           }else{
-             var icon = L.icon({
-                iconUrl:   'assets/lib/leaflet/images/marker-icon.png',
-              	shadowUrl: 'assets/lib/leaflet/images/marker-shadow.png',
-              	iconSize: [25, 41],
-              	iconAnchor: [12, 41],
-              	shadowSize: [41, 41],
-             });
-             var trace = new GxTrace(key,  title, startLat, startLong, gpx,icon);
-             trace.startMarker.addTo(map).bindPopup("<b>"+title+"</b>").openPopup();
-             trace.gpxTrack = new L.GPX(trace.gpxUrl, {async: true}).addTo(this.map);
-             traces[key] = trace ;
+         function onMapChange(e){
+           if (!map){
+             return ;
            }
+           var bounds = map.getBounds();
+           //console.log("onMapChange : NW ",bounds.getNorthWest() );
+           //console.log("onMapChange : NE ",bounds.getNorthEast() );
+           //console.log("onMapChange : SW ",bounds.getSouthWest() );
+           //console.log("onMapChange : SE ",bounds.getSouthEast() );
          }
-         
-         function addMarkerToMap( key,  title, startLat, startLong, gpx ){
-           addMarker(map,  key,  title, startLat, startLong, gpx ) ;
-         } 
-         
-         function removeAllMarkers(){
-           for (var key in traces) {
-             traces[key].invisible() ;
-           }
-         }
-         
-         function fitMapViewPortWithMarkers(){
-             var bounds = new L.LatLngBounds ();
-             var hasMarkers = false ;
-             for (var key in traces) {
-               marker = traces[key].startMarker;
-               hasMarkers = true ;
-               bounds.extend (marker.getLatLng());
-             }  
-             if (hasMarkers){
-               map.fitBounds (bounds);
-               if (map.getZoom() > 12){
-                 map.setZoom(12);
-               }
-             }
-         }
-         
-         
-  /*       var map = new GxMapHandler() ;
-         map.ignKey = "gnst6zrvh2tnhhulo1kovnh1" ;
-         map.googleKey = "AIzaSyACqUcoVGLVERGKxv09yqg9jv1iykUDJjA";
-         map.init('search-results-map-canvas') ;
-
-         start = map.addMarker({lat:47.050282000000, lng: 5.752311000000});
-    */     
+     	 
+     	 map.listenToMapChange(onMapChange);
          
          
          </script>
@@ -213,13 +75,13 @@ Future sandbox(HttpConnect connect) { //#2
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#182
+      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#44
 
         response.write("""    <script type="application/dart" src="/client/pages/sandbox.dart"></script>
     <script src="/packages/browser/dart.js"></script>
   </body>
 </html>
-"""); //#183
+"""); //#45
 
         return new Future.value();
       }); //end-of-include
