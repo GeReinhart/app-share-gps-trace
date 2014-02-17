@@ -28,6 +28,13 @@ class SandboxPage extends Page {
     querySelectorAll("#btn-reset").onClick.listen((e) {
       js.context.removeAllMarkers();
     }); 
+    querySelectorAll("#btn-gpx").onClick.listen((e) {
+      js.context.traceGpxByKey("user1_jhjhg");
+    }); 
+    querySelectorAll("#btn-view-gpx").onClick.listen((e) {
+      js.context.viewTraceGpxByKey("user3_gasdgasdgasdgds");
+    });    
+    
     
     organizeSpaces();
     submitRequest();
@@ -64,7 +71,9 @@ class SandboxPage extends Page {
     js.context.removeAllMarkers();
     if (form.results != null && form.results.isNotEmpty){
         form.results.forEach((lightTrace){
-        js.context.addMarkerToMap( lightTrace.keyJsSafe,  lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude );
+          
+        String gpxUrl = "/trace.gpx/${lightTrace.key}";   
+        js.context.addMarkerToMap( lightTrace.keyJsSafe,  lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
       });
       js.context.fitMapViewPortWithMarkers();
     }
