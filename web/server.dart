@@ -50,7 +50,9 @@ class TracesServer{
     new StreamServer(
         uriMapping: {
           "/": _traceController.indexShow, 
+          "/sandbox": _traceController.sandboxShow, 
 
+          
           "/j_register": _userServerController.jsonRegister,
           "/j_login": _userServerController.jsonLogin,
           "/j_logout": _userServerController.jsonLogout,

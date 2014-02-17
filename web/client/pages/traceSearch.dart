@@ -179,7 +179,8 @@ class TraceSearchPage extends Page {
     form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
     form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
   
-    if(mapFilter){
+   // if(mapFilter){
+   if (false){
       form.mapBoundNELat  = double.parse((querySelector('#search-form-input-location-ne-lat') as InputElement ).value);
       form.mapBoundNELong = double.parse((querySelector('#search-form-input-location-ne-long')as InputElement ).value);
       form.mapBoundSWLat  = double.parse((querySelector('#search-form-input-location-sw-lat') as InputElement ).value);

@@ -315,3 +315,9 @@ td .form-inputs, .form-inputs div, .form-inputs div div{
   border-bottom: thin;   
 }
 
+#map div{
+  margin: 3px;
+  padding: 3px;
+  vertical-align: middle;
+  text-align: left;
+}
