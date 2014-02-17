@@ -14,7 +14,11 @@ import "../controllers.dart" ;
 
 class SandboxPage extends Page {
   
-  SandboxPage(PageContext context): super("sandbox",context,80,20,false);
+  SandboxPage(PageContext context): super("sandbox",context,80,20,false){
+    layout.centerMoved.listen((_){
+      moveTraceViewers( _ as SpacesPositions);
+    });
+  }
 
   void showPage() {
     
@@ -65,6 +69,21 @@ class SandboxPage extends Page {
       js.context.fitMapViewPortWithMarkers();
     }
     layout.stopLoading();
+  }
+  
+  void moveTraceViewers(SpacesPositions spacesPositions ){
+    
+    Element map = querySelector("#map") ;
+    if (map != null){
+     
+      map..style.position = 'absolute'
+      ..style.right  = "0px"
+      ..style.top    = "0px"
+      ..style.width  = (spacesPositions.spaceSE_Width).toString() + "px"
+      ..style.height = (spacesPositions.spaceSE_Height).toString() + "px" ;
+    }
+    
+    
   }
   
 }
