@@ -1,6 +1,5 @@
 
 
-
 .gx-hidden{
   display: none;
 }
@@ -15,7 +14,9 @@
   cursor:pointer;
 }
 
-
+#map div {
+  text-align:left;	
+}
 
 
 body { 
