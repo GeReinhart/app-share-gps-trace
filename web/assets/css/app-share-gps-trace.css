@@ -123,11 +123,7 @@ ul li {
   vertical-align:middle; text-align:center;
 }
 
-.inner-space div  {
-  margin: 0px; 
-  padding: 0px; 
-  vertical-align:middle; text-align:center;
-}
+
 
 
 
@@ -315,9 +311,3 @@ td .form-inputs, .form-inputs div, .form-inputs div div{
   border-bottom: thin;   
 }
 
-#map div{
-  margin: 3px;
-  padding: 3px;
-  vertical-align: middle;
-  text-align: left;
-}
