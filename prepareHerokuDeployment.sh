@@ -19,9 +19,9 @@ function prefix-assets {
 
         for clientFile  in $clientFiles
         do
-                cp "$clientDir/$clientFile" "$clientDir/$prefixFile-$clientFile"
+                mv "$clientDir/$clientFile" "$clientDir/$prefixFile-$clientFile"
         done
-        cp "web/assets/css/app-share-gps-trace.css" "web/assets/css/$prefixFile-app-share-gps-trace.css"
+        mv "web/assets/css/app-share-gps-trace.css" "web/assets/css/$prefixFile-app-share-gps-trace.css"
 
         viewDir="web/rsp"
         viewFiles=`grep "type=\"application/dart\"" $viewDir/* | grep -v packages | awk -F":" '{print $1}' `
