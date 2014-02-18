@@ -72,7 +72,7 @@ class SandboxPage extends Page {
     if (form.results != null && form.results.isNotEmpty){
         form.results.forEach((lightTrace){
           String gpxUrl = "/trace.gpx/${lightTrace.key}";   
-          js.context.map.addMarkerToMap( lightTrace.keyJsSafe,  lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
+          js.context.map.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.activities , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
         });
         js.context.map.fitMapViewPortWithMarkers();
     }

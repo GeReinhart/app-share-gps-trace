@@ -1,4 +1,67 @@
 
+
+ function GxIconBuilder(){
+
+    this.colours = ["c71e1e","ff8922"] ;
+    this.stylesNumber = 4 ;
+    
+    this.icons = {};
+    this.iconsByPath = {};
+    
+    this.activities = {
+                         "activity-trek":"hiking.png",
+                         "activity-running":"jogging.png",
+                         "activity-bike":"cycling.png",
+                         "activity-mountainbike":"mountainbiking-3.png",
+                         "activity-skitouring":"nordicski.png",
+                         "activity-snowshoe":"snowshoeing.png"
+                        } ;
+    
+    this.build = function(key,activity){
+    
+       if(key in this.icons){
+            return this.icons[key];
+       }else{
+            var icon ;
+            var path ;
+            for (var i = 0; i < this.colours.length; i++) {
+               for (var j = 1; j <= this.stylesNumber; j++) {
+                   var currentPath = this.colours[i]+"/"+j ;
+                   if (! ( currentPath in this.iconsByPath) && !icon ){
+                      path = currentPath;
+                      icon = this._buildIcon(currentPath, activity) ;
+                   }
+               }
+			}
+            if (! icon){
+               path = "c71e1e/1"  ;
+               icon = this._buildIcon(path, "") ; 
+            }
+			this.icons[key] = icon ;
+			this.iconsByPath[path] = icon ;
+			return icon ;
+	   }
+	}
+    
+    this._buildIcon = function(path, activity){
+        var iconUrl = '/assets/img/icon/'+path+'/'+this._getPngFile(activity);
+        return L.icon({
+	        iconUrl:   iconUrl,
+	      	iconSize: [32, 37],
+	      	popupAnchor: [0, -40],
+	      	iconAnchor: [16, 37]
+	     });
+    }
+    
+    this._getPngFile = function(activity){
+      if (activity in this.activities){
+         return this.activities[activity] ;
+      }
+      return this.activities["activity-running"];
+    }
+    
+ }
+
  function GxTrace(key,  title, startLat, startLong, gpxUrl, icon) {
  	this.key  = key ;
 	this.title = title;
@@ -29,8 +92,9 @@
 	
  }
 
- function GxMap(id,ignKey){
+ function GxMap(id,ignKey,iconBuilder){
     
+    this.iconBuilder = iconBuilder ;
     this.traces = {};
     this.id = id;
     this.ignKey = ignKey;
@@ -77,7 +141,12 @@
               this.traces[key].lighter() ;
             }
             this.traces[key].visible();
-            this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl, {async: true}).addTo(this.map);
+            this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl, 
+                          {  async: true,
+		                     polyline_options: {
+		   						color:'red'
+		  					 }         
+                          }).addTo(this.map);
     	}
  	}
  
@@ -88,34 +157,38 @@
             }
             this.traces[key].visible();
             var me = this ;
-            this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl, {async: true})
+            this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl,
+                       { async: true, 
+                         polyline_options: {
+   							 color:'red'
+  						 }
+                       })
                    .on('loaded', function(e) {
         			me.map.fitBounds(e.target.getBounds());
        		}).addTo(this.map);
     	}
  	}
  
-	this._addMarker = function(targetMap,  key,  title, startLat, startLong, gpx ){
+	this._addMarker = function(targetMap,  key, activity, title, startLat, startLong, gpx ){
 	   if(key in this.traces){
 	     this.traces[key].visible();
 	   }else{
-	     var icon = L.icon({
-	        iconUrl:   'assets/lib/leaflet/images/marker-icon.png',
-	      	shadowUrl: 'assets/lib/leaflet/images/marker-shadow.png',
-	      	iconSize: [25, 41],
-	      	popupAnchor: [0, -43],
-	      	iconAnchor: [12, 41],
-	      	shadowSize: [41, 41]
-	     });
+	     var icon = this.iconBuilder.build(key , activity) ;
 	     var trace = new GxTrace(key,  title, startLat, startLong, gpx,icon);
 	     trace.startMarker.addTo(this.map).bindPopup("<b>"+title+"</b>").openPopup();
-	     trace.gpxTrack = new L.GPX(trace.gpxUrl, {async: true}).addTo(this.map);
+	     trace.gpxTrack = new L.GPX(trace.gpxUrl, 
+                       { async: true, 
+                         polyline_options: {
+   							 color:'red'
+  						 }
+                       }
+	         ).addTo(this.map);
 	     this.traces[key] = trace ;
 	   }
 	}
 	 
-	this.addMarkerToMap = function( key,  title, startLat, startLong, gpx ){
-	   this._addMarker(map,  key,  title, startLat, startLong, gpx ) ;
+	this.addMarkerToMap = function( key, activity, title, startLat, startLong, gpx ){
+	   this._addMarker(map,  key, activity, title, startLat, startLong, gpx ) ;
 	} 
 	 
 	this.removeAllMarkers = function(){

@@ -52,7 +52,7 @@ Future sandbox(HttpConnect connect) { //#2
     response.write("""         <div id="map"  style="height: 500px; width: 500px"></div>
          <script type="text/javascript">
 
-         var map = new GxMap("map","gnst6zrvh2tnhhulo1kovnh1").init();
+         var map = new GxMap("map","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
          
          function onMapChange(e){
            if (!map){
