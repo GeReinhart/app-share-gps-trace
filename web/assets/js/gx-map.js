@@ -7,6 +7,7 @@
     
     this.icons = {};
     this.iconsByPath = {};
+    this.iconsColors = {};
     
     this.activities = {
                          "activity-trek":"hiking.png",
@@ -24,19 +25,26 @@
        }else{
             var icon ;
             var path ;
-            for (var i = 0; i < this.colours.length; i++) {
-               for (var j = 1; j <= this.stylesNumber; j++) {
-                   var currentPath = this.colours[i]+"/"+j ;
-                   if (! ( currentPath in this.iconsByPath) && !icon ){
-                      path = currentPath;
-                      icon = this._buildIcon(currentPath, activity) ;
-                   }
-               }
+            var colour ;
+            for (var k = 1; k <= 1000 && ! icon; k++) {
+            	for (var j = 1; j <= this.stylesNumber && ! icon ; j++) {
+               		for (var i = 0; i < this.colours.length && ! icon ; i++) {
+                   		var currentPath = this.colours[i]+"/"+j ;
+                   		var currentPathWithNumber = currentPath+"#"+k ;
+                   		if (! ( currentPathWithNumber  in this.iconsByPath) && !icon ){
+                   		    colour = this.colours[i] ;
+                      		path = currentPathWithNumber;
+                      		icon = this._buildIcon(currentPath, activity) ;
+                   		}
+               		}
+				}
 			}
             if (! icon){
-               path = "c71e1e/1"  ;
+               colour = "c71e1e/1" ;
+               path = colour+"/1"  ;
                icon = this._buildIcon(path, "") ; 
             }
+            this.iconsColors[key] = colour ;
 			this.icons[key] = icon ;
 			this.iconsByPath[path] = icon ;
 			return icon ;
@@ -58,6 +66,18 @@
          return this.activities[activity] ;
       }
       return this.activities["activity-running"];
+    }
+    
+    this.getIconColor = function(key){
+       if(key in this.iconsColors){
+            return "#"+this.iconsColors[key];
+       }else{
+       		return "red" ;
+       }
+    }
+    
+    this.getTraceColor = function(key){
+       return this.getIconColor(key);
     }
     
  }
@@ -144,7 +164,7 @@
             this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl, 
                           {  async: true,
 		                     polyline_options: {
-		   						color:'red'
+		   						color: this.iconBuilder.getTraceColor(key)
 		  					 }         
                           }).addTo(this.map);
     	}
@@ -160,7 +180,7 @@
             this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl,
                        { async: true, 
                          polyline_options: {
-   							 color:'red'
+   							 color: this.iconBuilder.getTraceColor(key)
   						 }
                        })
                    .on('loaded', function(e) {
@@ -179,7 +199,7 @@
 	     trace.gpxTrack = new L.GPX(trace.gpxUrl, 
                        { async: true, 
                          polyline_options: {
-   							 color:'red'
+   							 color: this.iconBuilder.getTraceColor(key)
   						 }
                        }
 	         ).addTo(this.map);

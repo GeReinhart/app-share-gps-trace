@@ -65,7 +65,11 @@ Future sandbox(HttpConnect connect) { //#2
            //console.log("onMapChange : SE ",bounds.getSouthEast() );
          }
      	 
-     	 map.listenToMapChange(onMapChange);
+     	   map.listenToMapChange(onMapChange);
+     	   
+     	   function getMap(){
+     	     return map ;
+     	   }
          
          
          </script>
@@ -75,13 +79,14 @@ Future sandbox(HttpConnect connect) { //#2
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#44
+      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#48
 
         response.write("""    <script type="application/dart" src="/client/pages/sandbox.dart"></script>
     <script src="/packages/browser/dart.js"></script>
+    <script src="/packages/browser/interop.js"></script>
   </body>
 </html>
-"""); //#45
+"""); //#49
 
         return new Future.value();
       }); //end-of-include
