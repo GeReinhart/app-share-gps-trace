@@ -24,14 +24,19 @@ class TraceSearchPage extends Page {
   SearchForm lastSearchFormSubmited = null;
   bool waitingForResult = false ;
   bool firstRequest = true ;
+  bool initDone = false;
 
   TraceSearchPage(PageContext context): super("trace_search",context,70,50,true){
     layout.centerMoved.listen((_){
       moveMap( _ as SpacesPositions);
     });
+    _initTraceSearchPage();
   }
 
   void _initTraceSearchPage(){
+    if(initDone){
+      return;
+    }
     submitRequest(mapFilter:false);
     
     querySelectorAll(".search-form-inputs").onChange.listen((e){
@@ -39,6 +44,7 @@ class TraceSearchPage extends Page {
     });
     
     new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
+    initDone = true;
   }
   
   void moveMap(SpacesPositions spacesPositions ){

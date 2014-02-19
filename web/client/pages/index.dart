@@ -17,7 +17,7 @@ import '../controllers.dart' ;
 
 class IndexPage extends Page {
   
-  IndexPage(PageContext context): super("index",context,30,70,false){
+  IndexPage(PageContext context): super("index",context,50,50,false){
    initPage();
   }
   

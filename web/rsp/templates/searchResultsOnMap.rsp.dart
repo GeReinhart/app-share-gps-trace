@@ -12,13 +12,12 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
 
   response.write("""
 
-    <div id="search-results-map-canvas"    class="gx-hidden-map" ></div>
+    <div id="search-results-map-canvas"></div>
     <script type="text/javascript">
         var map = new GxMap("search-results-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
   	    map.listenToMapChange(updateSearchFormBounds);
       
         function updateSearchFormBounds(){
-          console.log("updateSearchFormBounds",map);
           if (!map){
             return ;
           }
