@@ -86,8 +86,9 @@
  	this.key  = key ;
 	this.title = title;
 	this.gpxUrl= gpxUrl;
-	this.gpxTrack ;
 	this.startMarker = L.marker([startLat, startLong], {icon: icon}) ;
+    this.gpxTrackColor ;
+	this.gpxTrack ;
     this.popup ;
     this.map 
 	
@@ -98,9 +99,12 @@
 	   
 	   this.startMarker.on('click', function(e) {
            if(! me.popup._isOpen){
-           	 me.popup.addTo(map) ;
-           }else{
-             
+           	 me.popup.addTo(me.map) ;
+           	 if(me.gpxTrack){
+           	    me.gpxTrack.setStyle( {  opacity:1  }); 
+           	 }else{
+           	    me.displayGpxTrack();
+           	 }
            }
 	   });
 	   
@@ -113,7 +117,40 @@
 	                    ) ;
     	this.popup.setLatLng(  L.latLng(  startLat  , startLong) ) ;
     	this.popup.setContent("<b>"+this.title+"</b>");
+    	
+    	var me = this;
+    	this.map.on('popupclose', function(e) {
+    	    if (  e.popup == me.popup ){
+    			console.log("popup closed on " +me.key);
+    			if( me.gpxTrack ){
+    				me.gpxTrack.setStyle( {  opacity:0  });
+    			}
+    	    }
+		});
+    	
 	}
+	
+	this.displayGpxTrack = function(){
+	   this.gpxTrack = new L.GPX(this.gpxUrl, 
+                       { async: true, 
+                         polyline_options: {
+   							 color: this.gpxTrackColor
+  						 }
+                       }
+	                  );
+	   this.gpxTrack.addTo(this.map);
+	}
+
+	this.viewGpxTrack = function(){
+	   this.gpxTrack = new L.GPX(this.gpxUrl,
+                       { async: true, 
+                         polyline_options: {
+   							 color: this.gpxTrackColor
+  						 }
+                       }).on('loaded', function(e) {
+        			         me.map.fitBounds(e.target.getBounds());
+	                       }).addTo(this.map);
+    }
 	
 	this.visible= function(){
 	  this.setOpacity(1);
@@ -187,12 +224,7 @@
               this.traces[key].lighter() ;
             }
             this.traces[key].visible();
-            this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl, 
-                          {  async: true,
-		                     polyline_options: {
-		   						color: this.iconBuilder.getTraceColor(key)
-		  					 }         
-                          }).addTo(this.map);
+            this.traces[key].displayGpxTrack();
     	}
  	}
  
@@ -202,16 +234,7 @@
               this.traces[key].lighter() ;
             }
             this.traces[key].visible();
-            var me = this ;
-            this.traces[key].gpxTrack = new L.GPX(this.traces[key].gpxUrl,
-                       { async: true, 
-                         polyline_options: {
-   							 color: this.iconBuilder.getTraceColor(key)
-  						 }
-                       })
-                   .on('loaded', function(e) {
-        			me.map.fitBounds(e.target.getBounds());
-       		}).addTo(this.map);
+            this.traces[key].viewGpxTrack();
     	}
  	}
  
@@ -223,13 +246,7 @@
 	     var trace = new GxTrace(key,  title, startLat, startLong, gpx,icon);
 	     trace.addMarker(this.map);
 	     trace.bindPopup(this.map);
-	     trace.gpxTrack = new L.GPX(trace.gpxUrl, 
-                       { async: true, 
-                         polyline_options: {
-   							 color: this.iconBuilder.getTraceColor(key)
-  						 }
-                       }
-	         ).addTo(this.map);
+	     trace.gpxTrackColor = this.iconBuilder.getTraceColor(key) ;
 	     this.traces[key] = trace ;
 	   }
 	}

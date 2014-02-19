@@ -22,6 +22,7 @@ function prefix-assets {
                 mv "$clientDir/$clientFile" "$clientDir/$prefixFile-$clientFile"
         done
         mv "web/assets/css/app-share-gps-trace.css" "web/assets/css/$prefixFile-app-share-gps-trace.css"
+        mv "web/assets/js/gx-map.js" "web/assets/css/$prefixFile-gx-map.js"
 
         viewDir="web/rsp"
         viewFiles=`grep "type=\"application/dart\"" $viewDir/* | grep -v packages | awk -F":" '{print $1}' `
@@ -40,7 +41,7 @@ function prefix-assets {
         done
 
 
-
+        sed -i "s:gx-map.js:$prefixFile-gx-map.js:" "web/rsp/templates/assetsimports.html"
         sed -i "s:app-share-gps-trace.css:$prefixFile-app-share-gps-trace.css:" "web/rsp/templates/assetsimports.html"
 }
 
