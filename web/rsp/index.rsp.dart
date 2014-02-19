@@ -109,6 +109,7 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
                           response.write("""    
     <script type="application/dart" src="/client/pages/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
+    <script src="/packages/browser/interop.js"></script>    
   </body>
 </html>"""); //#50
 
