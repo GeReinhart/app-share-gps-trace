@@ -87,7 +87,33 @@
 	this.title = title;
 	this.gpxUrl= gpxUrl;
 	this.gpxTrack ;
-	this.startMarker = L.marker([startLat, startLong], {icon: icon}) ; 
+	this.startMarker = L.marker([startLat, startLong], {icon: icon}) ;
+    this.popup ;
+    this.map 
+	
+	this.addMarker = function(map){
+	   this.map = map ;
+	   this.startMarker.addTo(map) ;
+       var me = this ;
+	   
+	   this.startMarker.on('click', function(e) {
+           if(! me.popup._isOpen){
+           	 me.popup.addTo(map) ;
+           }else{
+             
+           }
+	   });
+	   
+	}
+	
+	this.bindPopup = function(map){
+	    this.map = map ;
+	    this.popup = new L.popup(
+	                      { offset:  L.point(0, -38)  }
+	                    ) ;
+    	this.popup.setLatLng(  L.latLng(  startLat  , startLong) ) ;
+    	this.popup.setContent("<b>"+this.title+"</b>");
+	}
 	
 	this.visible= function(){
 	  this.setOpacity(1);
@@ -195,7 +221,8 @@
 	   }else{
 	     var icon = this.iconBuilder.build(key , activity) ;
 	     var trace = new GxTrace(key,  title, startLat, startLong, gpx,icon);
-	     trace.startMarker.addTo(this.map).bindPopup("<b>"+title+"</b>").openPopup();
+	     trace.addMarker(this.map);
+	     trace.bindPopup(this.map);
 	     trace.gpxTrack = new L.GPX(trace.gpxUrl, 
                        { async: true, 
                          polyline_options: {
