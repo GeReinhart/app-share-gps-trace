@@ -2,7 +2,7 @@
 
  function GxIconBuilder(){
 
-    this.colours = ["c71e1e","ff8922"] ;
+    this.colours = ["24ab18","222da8","c71e1e","ff8922"] ;
     this.stylesNumber = 4 ;
     
     this.icons = {};
