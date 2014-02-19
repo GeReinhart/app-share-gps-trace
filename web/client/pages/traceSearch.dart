@@ -25,7 +25,11 @@ class TraceSearchPage extends Page {
   bool waitingForResult = false ;
   bool firstRequest = true ;
 
-  TraceSearchPage(PageContext context): super("trace_search",context,70,50,true);
+  TraceSearchPage(PageContext context): super("trace_search",context,70,50,true){
+    layout.centerMoved.listen((_){
+      moveMap( _ as SpacesPositions);
+    });
+  }
 
   void _initTraceSearchPage(){
     submitRequest(mapFilter:false);
@@ -35,6 +39,18 @@ class TraceSearchPage extends Page {
     });
     
     new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
+  }
+  
+  void moveMap(SpacesPositions spacesPositions ){
+    
+    Element map = querySelector("#search-results-map-canvas") ;
+    if (map != null){
+      map..style.position = 'absolute'
+      ..style.right  = "0px"
+      ..style.top    = "0px"
+      ..style.width  = (spacesPositions.spaceSE_Width).toString() + "px"
+      ..style.height = (spacesPositions.spaceSE_Height).toString() + "px" ;
+    }
   }
   
   void submitRequest({mapFilter:true}){
@@ -49,7 +65,6 @@ class TraceSearchPage extends Page {
       }
     });
     sendSearchRequest(request, mapFilter:mapFilter);
-    //removeResults(".search-results");
   }
   
   void displaySearchResults(HttpRequest request, {fitMapViewPortWithMarkers:true}){
@@ -63,16 +78,17 @@ class TraceSearchPage extends Page {
     
     Element searchResultRow=  querySelector("#search-result-row");
     Element searchResultBody=  querySelector("#search-result-body");
-    js.context.removeAllMarkers();
+    js.context.map.removeAllMarkers();
     removeResults(".search-results");
     setResultsMap(form.results);
     if (form.results != null && form.results.isNotEmpty){
         form.results.forEach((lightTrace){
         displaySearchResult( searchResultBody, searchResultRow,  lightTrace) ;
-        js.context.addMarkerToMap( lightTrace.keyJsSafe,  lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude );
+        String gpxUrl = "/trace.gpx/${lightTrace.key}";   
+        js.context.map.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.activities , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
       });
       if (fitMapViewPortWithMarkers){
-        js.context.fitMapViewPortWithMarkers();
+        js.context.map.fitMapViewPortWithMarkers();
       }
     }
     layout.stopLoading();
@@ -132,7 +148,7 @@ class TraceSearchPage extends Page {
     resultsMap.forEach((key,lightTrace)=>(allResultsMap[key]= lightTrace));
     
     allResultsMap.forEach((key,lightTrace){
-      if ( js.context.isOnTheMap( lightTrace.startPointLatitude,lightTrace.startPointLongitude  )  ){
+      if ( js.context.map.isOnTheMap( lightTrace.startPointLatitude,lightTrace.startPointLongitude  )  ){
         updatedResultsMap[key] = lightTrace;
         if(!resultsMap.containsKey(key)){
           displaySearchResult( searchResultBody, searchResultRow,  lightTrace) ;
@@ -178,9 +194,8 @@ class TraceSearchPage extends Page {
     form.inclinationUpLt       = (querySelector(".search-form-input-inclination-up-lt") as InputElement ).value ;  
     form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
     form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
-  
-   // if(mapFilter){
-   if (false){
+     
+   if(mapFilter){
       form.mapBoundNELat  = double.parse((querySelector('#search-form-input-location-ne-lat') as InputElement ).value);
       form.mapBoundNELong = double.parse((querySelector('#search-form-input-location-ne-long')as InputElement ).value);
       form.mapBoundSWLat  = double.parse((querySelector('#search-form-input-location-sw-lat') as InputElement ).value);

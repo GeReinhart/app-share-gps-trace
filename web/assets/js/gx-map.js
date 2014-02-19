@@ -90,7 +90,8 @@
     this.gpxTrackColor ;
 	this.gpxTrack ;
     this.popup ;
-    this.map 
+    this.map;
+    this.opacity =1 ; 
 	
 	this.addMarker = function(map){
 	   this.map = map ;
@@ -121,7 +122,6 @@
     	var me = this;
     	this.map.on('popupclose', function(e) {
     	    if (  e.popup == me.popup ){
-    			console.log("popup closed on " +me.key);
     			if( me.gpxTrack ){
     				me.gpxTrack.setStyle( {  opacity:0  });
     			}
@@ -152,6 +152,10 @@
 	                       }).addTo(this.map);
     }
 	
+	this.isVisible = function(){
+		return this.opacity > 0 ;
+	}
+	
 	this.visible= function(){
 	  this.setOpacity(1);
 	}
@@ -165,11 +169,13 @@
 	}           	
 	
 	this.setOpacity= function(opacity){
+	  this.opacity = opacity;
 	  this.startMarker.setOpacity(opacity);
 	  if(this.gpxTrack){
-	    if ( opacity == 0 ){
-	        this.gpxTrack.clearLayers();
-	    }
+   		  this.gpxTrack.setStyle( {  opacity:opacity  });
+	  }
+	  if(this.popup){
+   		 // this.popup.setStyle( {  opacity:opacity  });
 	  }
 	}
 	
@@ -268,9 +274,11 @@
 	     var bounds = new L.LatLngBounds ();
 	     var hasMarkers = false ;
 	     for (var key in this.traces) {
-	       marker = this.traces[key].startMarker;
-	       hasMarkers = true ;
-	       bounds.extend (marker.getLatLng());
+	       var trace = this.traces[key];
+	       if (trace.isVisible()){
+	       		hasMarkers = true ;
+	       		bounds.extend (trace.startMarker.getLatLng());
+	       }
 	     }  
 	     if (hasMarkers){
 	       this.map.fitBounds (bounds);
@@ -283,6 +291,14 @@
      this.getBounds = function (){
          return this.map.getBounds();
      }
+     
+     this.isOnTheMap = function (lat, long){
+        return  lat  <= this.map.getBounds().getNorthEast().lat
+            &&   lat  >= this.map.getBounds().getSouthWest().lat
+            &&   long <= this.map.getBounds().getNorthEast().lng
+            &&   long >= this.map.getBounds().getSouthWest().lng   ;
+     }
+     
  }
       
 

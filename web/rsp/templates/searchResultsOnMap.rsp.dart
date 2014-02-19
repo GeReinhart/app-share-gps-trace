@@ -12,118 +12,25 @@ Future searchResultsOnMap(HttpConnect connect, {lightTraceRenderers}) { //#2
 
   response.write("""
 
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACqUcoVGLVERGKxv09yqg9jv1iykUDJjA&sensor=false">
-    </script>
+    <div id="search-results-map-canvas"    class="gx-hidden-map" ></div>
     <script type="text/javascript">
-
-      var map = null ;
-      var markers = {};
+        var map = new GxMap("search-results-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
+  	    map.listenToMapChange(updateSearchFormBounds);
       
-      function addMarker(targetMap,  key,  title, lat, long ){
-        if(key in markers){
-          markers[key].setMap(map) ;
-        }else{
-          markers[key] = new google.maps.Marker({
-            position:   new google.maps.LatLng(lat,long),
-            map: targetMap,
-            title: title
-          });
+        function updateSearchFormBounds(){
+          console.log("updateSearchFormBounds",map);
+          if (!map){
+            return ;
+          }
+          var bounds = map.getBounds();
+          document.getElementById('search-form-input-location-ne-lat').value = bounds.getNorthEast().lat ;
+          document.getElementById('search-form-input-location-ne-long').value = bounds.getNorthEast().lng ;
+          document.getElementById('search-form-input-location-sw-lat').value = bounds.getSouthWest().lat ;
+          document.getElementById('search-form-input-location-sw-long').value = bounds.getSouthWest().lng ;
+          document.getElementById('search-form-js-dart-bridge').value = new Date().getTime();
         }
-      }
-
-      function addMarkerToMap( key,  title, lat, long ){
-        addMarker(map,  key,  title, lat, long ) ;
-      }      
-      
-      function removeMarker(key){
-        if(key in markers){
-          markers[key].setMap(null) ;
-        }
-      }
-
-      function removeAllMarkers(){
-        for (var key in markers) {
-          markers[key].setMap(null);
-        }
-      }
-
-      function fitMapViewPortWithMarkers(){
-        if ( markers.length > 0){
-           var bounds = new google.maps.LatLngBounds ();
-           var hasMarkers = false ;
-           for (var key in markers) {
-              marker = markers[key];
-              if (  marker.getMap() != null ){
-                hasMarkers = true ;
-                bounds.extend (marker.getPosition());
-              }
-           }  
-           if (hasMarkers){
-              map.fitBounds (bounds);
-              if (map.getZoom() > 12){
-                map.setZoom(12);
-              }
-           }
-        }
-      }
-     
-      function isOnTheMap(lat, long){
-        return  lat  <= map.getBounds().getNorthEast().lat()
-            &&   lat  >= map.getBounds().getSouthWest().lat()
-            &&   long <= map.getBounds().getNorthEast().lng()
-            &&   long >= map.getBounds().getSouthWest().lng()   ;
-      }
-      
-      function updateSearchFormBounds(){
-        document.getElementById('search-form-input-location-ne-lat').value = map.getBounds().getNorthEast().lat() ;
-        document.getElementById('search-form-input-location-ne-long').value = map.getBounds().getNorthEast().lng() ;
-        document.getElementById('search-form-input-location-sw-lat').value = map.getBounds().getSouthWest().lat() ;
-        document.getElementById('search-form-input-location-sw-long').value = map.getBounds().getSouthWest().lng() ;
-        
-        document.getElementById('search-form-js-dart-bridge').value = new Date().getTime();
-        
-      }
-      
-      function initialize() {
-
-        var baryCenter = new google.maps.LatLng("""); //#2
-
-  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.latitude)); //#78
-
-
-  response.write(""",
-                                                 """); //#78
-
-  response.write(Rsp.nnx(lightTraceRenderers.baryCenter.longitude)); //#79
-
-
-  response.write(""");
-        
-        var mapOptions = { zoom : 9,
-                           mapTypeControl: false,
-                           zoomControl: false,
-                           center : baryCenter
-        					};
-        
-        map = new google.maps.Map(document.getElementById('search-results-map-canvas'), mapOptions);
-        google.maps.event.addListener(map, 'center_changed', updateSearchFormBounds);
-        google.maps.event.addListener(map, 'bounds_changed', updateSearchFormBounds);
-                
-      }
-      
-      
-      
-      
-      google.maps.event.addDomListener(window, 'load', initialize);
-      
-      
     </script>
-    <div id="search-results-map-canvas"    class="space gx-hidden-map" ></div>
-
-    
-
-"""); //#79
+"""); //#2
 
   return new Future.value();
 }
