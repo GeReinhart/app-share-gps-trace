@@ -9,12 +9,12 @@
     this.iconsColors = {};
     
     this.activities = {
-                         "activity-trek":"hiking.png",
-                         "activity-running":"jogging.png",
-                         "activity-bike":"cycling.png",
-                         "activity-mountainbike":"mountainbiking-3.png",
-                         "activity-skitouring":"nordicski.png",
-                         "activity-snowshoe":"snowshoeing.png"
+                         "trek":"hiking.png",
+                         "running":"jogging.png",
+                         "bike":"cycling.png",
+                         "mountainbike":"mountainbiking-3.png",
+                         "skitouring":"nordicski.png",
+                         "snowshoe":"snowshoeing.png"
                         } ;
     
     this.build = function(key,activity){

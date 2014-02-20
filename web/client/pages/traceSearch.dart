@@ -92,7 +92,7 @@ class TraceSearchPage extends Page {
         form.results.forEach((lightTrace){
         displaySearchResult( searchResultBody, searchResultRow,  lightTrace) ;
         String gpxUrl = "/trace.gpx/${lightTrace.key}";   
-        js.context.map.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.activities , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
+        js.context.map.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.mainActivity , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
       });
       if (fitMapViewPortWithMarkers){
         js.context.map.fitMapViewPortWithMarkers();

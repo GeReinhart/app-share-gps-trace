@@ -315,6 +315,7 @@ class LightTrace implements ToJson{
   String key;
   String creator ;
   String title ;
+  String mainActivity ;
   String activities ;
   String length;
   String up;
@@ -324,7 +325,7 @@ class LightTrace implements ToJson{
   num startPointLatitude;
   num startPointLongitude;
   
-  LightTrace(this.key, this.creator, this.title, this.activities, this.length,
+  LightTrace(this.key, this.creator, this.title, this.mainActivity, this.activities, this.length,
              this.up, this.upperPointElevetion, this.inclinationUp, this.difficulty,
              this.startPointLatitude , this.startPointLongitude  );
   
@@ -336,6 +337,7 @@ class LightTrace implements ToJson{
     key = jsonMap['key'] ;
     creator = jsonMap['creator'] ;
     title = jsonMap['title'] ;
+    mainActivity = jsonMap['mainActivity'] ;
     activities = jsonMap['activities'] ;
     length = jsonMap['length'] ;
     up = jsonMap['up'] ;
@@ -350,6 +352,7 @@ class LightTrace implements ToJson{
     return {'key': key,
              'creator': creator,
              'title': title,
+             'mainActivity': mainActivity,
              'activities': activities,
              'length':length,
              'up':up,
