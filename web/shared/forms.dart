@@ -315,7 +315,7 @@ class LightTrace implements ToJson{
   String key;
   String creator ;
   String title ;
-  String mainActivity ;
+  List<String> activityKeys ;
   String activities ;
   String length;
   String up;
@@ -325,7 +325,7 @@ class LightTrace implements ToJson{
   num startPointLatitude;
   num startPointLongitude;
   
-  LightTrace(this.key, this.creator, this.title, this.mainActivity, this.activities, this.length,
+  LightTrace(this.key, this.creator, this.title, this.activityKeys, this.activities, this.length,
              this.up, this.upperPointElevetion, this.inclinationUp, this.difficulty,
              this.startPointLatitude , this.startPointLongitude  );
   
@@ -337,7 +337,7 @@ class LightTrace implements ToJson{
     key = jsonMap['key'] ;
     creator = jsonMap['creator'] ;
     title = jsonMap['title'] ;
-    mainActivity = jsonMap['mainActivity'] ;
+    activityKeys = jsonMap['activityKeys'] ;
     activities = jsonMap['activities'] ;
     length = jsonMap['length'] ;
     up = jsonMap['up'] ;
@@ -352,7 +352,7 @@ class LightTrace implements ToJson{
     return {'key': key,
              'creator': creator,
              'title': title,
-             'mainActivity': mainActivity,
+             'activityKeys': activityKeys,
              'activities': activities,
              'length':length,
              'up':up,
@@ -366,6 +366,13 @@ class LightTrace implements ToJson{
   
   String get keyJsSafe => (this.key.replaceAll("/", "_").replaceAll("'", "-"));
   String get titleJsSafe => (this.title.replaceAll("'", ""));  
+
+  String get mainActivity {
+       if( activityKeys == null ){
+         return null;
+       }
+       return activityKeys[0] ;
+  }
   
 }
 

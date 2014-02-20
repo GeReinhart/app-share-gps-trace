@@ -159,12 +159,8 @@ class TraceController extends ServerController with JsonFeatures{
               if (traces != null){
                 traces.forEach((trace){
                   
-                    String mainActivity = null ;
-                    if( trace.activities != null && trace.activities.length > 0){
-                      mainActivity = trace.activities[0] ;
-                    }
                     LigthTraceRenderer traceLightRenderer = new LigthTraceRenderer(trace);
-                    LightTrace  lightTrace = new   LightTrace(traceLightRenderer.key, traceLightRenderer.creator, traceLightRenderer.titleWithUrl, mainActivity, traceLightRenderer.activities, 
+                    LightTrace  lightTrace = new   LightTrace(traceLightRenderer.key, traceLightRenderer.creator, traceLightRenderer.titleWithUrl, trace.activities, traceLightRenderer.activities, 
                         traceLightRenderer.length, traceLightRenderer.up, traceLightRenderer.upperPointElevetion, 
                         traceLightRenderer.inclinationUp, traceLightRenderer.difficulty,
                         traceLightRenderer.trace.startPointLatitude,traceLightRenderer.trace.startPointLongitude );

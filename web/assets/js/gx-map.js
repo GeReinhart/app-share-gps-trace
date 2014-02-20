@@ -51,7 +51,7 @@
 	}
     
     this._buildIcon = function(path, activity){
-        var iconUrl = '/assets/img/icon/'+path+'/'+this._getPngFile(activity);
+        var iconUrl = '/assets/img/icon/'+path+'/'+this.getPngFile(activity);
         return L.icon({
 	        iconUrl:   iconUrl,
 	      	iconSize: [32, 37],
@@ -60,7 +60,7 @@
 	     });
     }
     
-    this._getPngFile = function(activity){
+    this.getPngFile = function(activity){
       if (activity in this.activities){
          return this.activities[activity] ;
       }
@@ -90,6 +90,7 @@
 	this.gpxTrack ;
     this.popup ;
     this.map;
+    this.iconBasePath ;
     this.opacity =1 ; 
 	
 	this.addMarker = function(map){
@@ -219,6 +220,16 @@
          
          return this;
  	}
+ 
+    this.getIconUrl = function (key,activity){
+        if(key in this.traces){
+           var currentIconUrl = this.traces[key].startMarker._icon.src ;
+           var baseIconUrl =   currentIconUrl.substring(0, currentIconUrl.lastIndexOf("/")) + "/" ;
+           return baseIconUrl + this.iconBuilder.getPngFile(activity);
+        }else{
+           return "" ;
+        }
+    }
  
     this.listenToMapChange = function(callBackOnChange){
         this.map.on('moveend', callBackOnChange);
