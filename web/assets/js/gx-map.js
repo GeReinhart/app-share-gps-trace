@@ -1,5 +1,4 @@
 
-
  function GxIconBuilder(){
 
     this.colours = ["24ab18","222da8","c71e1e","ff8922"] ;
@@ -192,13 +191,13 @@
   
  	this.init = function() {
 
-   		 var OSM			= L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png');
+   		 var OSM			= L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {updateWhenIdle:true});
             // , {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'}
   		 var ignWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
-  		 var IGN			= L.tileLayer(ignWmtsUrl);
+  		 var IGN			= L.tileLayer(ignWmtsUrl, {updateWhenIdle:true});
            // , {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'}
   		 var scanWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
-  		 var SCAN25		= L.tileLayer(scanWmtsUrl);
+  		 var SCAN25		= L.tileLayer(scanWmtsUrl, {updateWhenIdle:true});
            // , {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'}
            
   		 var GMS = new L.Google('SATELLITE');
