@@ -203,9 +203,9 @@
            
   		 var GMS = new L.Google('SATELLITE');
 
+          
     	 var baseMap = {"Ign Topo":IGN,"Ign Topo Express":SCAN25 ,"OpenStreetMap":OSM, "Google Satellite": GMS};
 
-       
 	     this.map = L.map(id, {
 	         zoomControl: false,
 	         layers: [OSM]
@@ -299,7 +299,10 @@
             &&   long <= this.map.getBounds().getNorthEast().lng
             &&   long >= this.map.getBounds().getSouthWest().lng   ;
      }
-     
+  
+     this.refreshTiles = function(){
+        this.map.invalidateSize() ;
+     }   
  }
       
 

@@ -29,6 +29,7 @@ class TraceSearchPage extends Page {
   TraceSearchPage(PageContext context): super("trace_search",context,70,50,true){
     layout.centerMoved.listen((_){
       moveMap( _ as SpacesPositions);
+      js.context.map.refreshTiles();
     });
     _initTraceSearchPage();
   }
@@ -226,6 +227,7 @@ class TraceSearchPage extends Page {
     showBySelector("#${name}NE");
     showBySelector("#search-results-map-canvas", hiddenClass: "gx-hidden-map");
     _initTraceSearchPage();
+    js.context.map.refreshTiles();
   }
   
   void hidePage() {
