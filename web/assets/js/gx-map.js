@@ -157,7 +157,8 @@
 	}
 	
 	this.visible= function(){
-	  this.setOpacity(1);
+	  this.opacity = 1;
+	  this.startMarker.setOpacity(this.opacity);
 	}
 
 	this.lighter= function(){
