@@ -207,7 +207,7 @@
        
 	     this.map = L.map(id, {
 	         zoomControl: false,
-	         layers: [SCAN25]
+	         layers: [OSM]
 	     });
 
 	     var zoomControl = L.control.zoom({
