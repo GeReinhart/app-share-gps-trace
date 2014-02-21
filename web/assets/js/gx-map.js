@@ -276,6 +276,13 @@
     	}
  	}
 
+    this.getTraceColor = function (key){
+    	if(key in this.traces){
+    	    return this.traces[key].gpxTrackColor;
+    	}else{
+    	    return "";
+    	}    
+    }
 
  	this.displayGpxByKey = function(key){
     	if(key in this.traces){

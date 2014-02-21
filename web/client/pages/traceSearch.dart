@@ -102,8 +102,12 @@ class TraceSearchPage extends Page {
   }
   
   void displaySearchResult(Element searchResultBody,Element searchResultRow, LightTrace lightTrace){
-    Element searchResultCurrentRow = searchResultRow.clone(true) ;
     
+    Element searchResultCurrentRow = searchResultRow.clone(true) ;
+    String color = js.context.map.getTraceColor(lightTrace.keyJsSafe) ;
+    if(  js.context.map.isHighlightedTraceByKey(lightTrace.keyJsSafe)) {
+      searchResultCurrentRow.style.backgroundColor = color  ;
+    }
     
     AnchorElement activitiesLink = new AnchorElement();
     activitiesLink.classes.add("gx-as-link") ;
@@ -115,7 +119,10 @@ class TraceSearchPage extends Page {
       activitiesLink.append(img);
       activitiesLink.appendText(" ");
     });
-    activitiesLink.onClick.listen((e)=> js.context.map.highlightTraceByKey(lightTrace.keyJsSafe) );
+    activitiesLink.onClick.listen((e){
+      js.context.map.highlightTraceByKey(lightTrace.keyJsSafe);
+      querySelectorAll(".key-${lightTrace.keyJsSafe}").forEach((e)=>e.style.backgroundColor = color);
+    });
     
     
     searchResultCurrentRow.className = "search-results key-${lightTrace.keyJsSafe}" ;
