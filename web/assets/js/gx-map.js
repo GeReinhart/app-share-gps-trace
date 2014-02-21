@@ -1,7 +1,7 @@
 
  function GxIconBuilder(){
 
-    this.colours = ["24ab18","222da8","c71e1e","ff8922"] ;
+    this.colours = ["24ab18","222da8","c71e1e","ff8922","a425b8"] ;
     this.stylesNumber = 4 ;
     
     this.icons = {};
@@ -92,6 +92,7 @@
     this.map;
     this.iconBasePath ;
     this.opacity =1 ; 
+    this.isHighlighted = false ;
 	
 	this.addMarker = function(map){
 	   this.map = map ;
@@ -111,6 +112,20 @@
 	   
 	}
 	
+	this.openPopup = function (){
+	   if(! this.popup._isOpen){
+           	 this.popup.addTo(this.map) ;
+       }
+	}
+	
+	this.highlight = function (){
+	  this.visible();
+      this.displayGpxTrack();
+      this.openPopup();
+      this.isHighlighted = true ;
+	}
+            
+	
 	this.bindPopup = function(map){
 	    this.map = map ;
 	    this.popup = new L.popup(
@@ -125,31 +140,42 @@
     			if( me.gpxTrack ){
     				me.gpxTrack.setStyle( {  opacity:0  });
     			}
+    			me.isHighlighted = false ;
     	    }
 		});
     	
 	}
 	
 	this.displayGpxTrack = function(){
-	   this.gpxTrack = new L.GPX(this.gpxUrl, 
-                       { async: true, 
-                         polyline_options: {
-   							 color: this.gpxTrackColor
-  						 }
-                       }
-	                  );
-	   this.gpxTrack.addTo(this.map);
+	   if (  this.gpxTrack ){
+	       this.gpxTrack.setStyle( {  opacity:1  });
+	   }else{
+		   this.gpxTrack = new L.GPX(this.gpxUrl, 
+	                       { async: true, 
+	                         polyline_options: {
+	   							 color: this.gpxTrackColor
+	  						 }
+	                       }
+		                  );
+		   this.gpxTrack.addTo(this.map);	   
+	   }
+	
+
 	}
 
 	this.viewGpxTrack = function(){
-	   this.gpxTrack = new L.GPX(this.gpxUrl,
+	   if (  this.gpxTrack ){
+	       this.gpxTrack.setStyle( {  opacity:1  });	   
+	   }else{
+	       this.gpxTrack = new L.GPX(this.gpxUrl,
                        { async: true, 
                          polyline_options: {
    							 color: this.gpxTrackColor
   						 }
                        }).on('loaded', function(e) {
         			         me.map.fitBounds(e.target.getBounds());
-	                       }).addTo(this.map);
+	                       }).addTo(this.map);	   
+	   }
     }
 	
 	this.isVisible = function(){
@@ -235,6 +261,22 @@
         this.map.on('moveend', callBackOnChange);
     }
 
+ 	this.highlightTraceByKey = function(key){
+    	if(key in this.traces){
+    	    var trace = this.traces[key] ;
+            trace.highlight();
+    	}
+ 	}
+
+ 	this.isHighlightedTraceByKey = function(key){
+    	if(key in this.traces){
+    	    return this.traces[key].isHighlighted;
+    	}else{
+    	    return false;
+    	}
+ 	}
+
+
  	this.displayGpxByKey = function(key){
     	if(key in this.traces){
             for (var key in this.traces) {
@@ -257,6 +299,12 @@
  
 	this._addMarker = function(targetMap,  key, activity, title, startLat, startLong, gpx ){
 	   if(key in this.traces){
+	     var trace = this.traces[key] ;
+	     if( trace.isHighlighted ){
+	         trace.highlight() ;
+	     }else{
+		     trace.visible();
+	     }
 	     this.traces[key].visible();
 	   }else{
 	     var icon = this.iconBuilder.build(key , activity) ;

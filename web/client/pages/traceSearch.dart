@@ -104,17 +104,24 @@ class TraceSearchPage extends Page {
   void displaySearchResult(Element searchResultBody,Element searchResultRow, LightTrace lightTrace){
     Element searchResultCurrentRow = searchResultRow.clone(true) ;
     
+    
+    AnchorElement activitiesLink = new AnchorElement();
+    activitiesLink.classes.add("gx-as-link") ;
+    activitiesLink.attributes["data-key"] = lightTrace.keyJsSafe ;
     String activities = "" ;
     lightTrace.activityKeys.forEach((key){
-      String iconUrl = js.context.map.getIconUrl( lightTrace.keyJsSafe, key  );
-      String activityImg = "<img src='${iconUrl}'/>" ;
-      activities +=  activityImg + "&nbsp;" ;
+      ImageElement img = new ImageElement();
+      img.src = js.context.map.getIconUrl( lightTrace.keyJsSafe, key  );
+      activitiesLink.append(img);
+      activitiesLink.appendText(" ");
     });
+    activitiesLink.onClick.listen((e)=> js.context.map.highlightTraceByKey(lightTrace.keyJsSafe) );
+    
     
     searchResultCurrentRow.className = "search-results key-${lightTrace.keyJsSafe}" ;
     searchResultCurrentRow.children[0].innerHtml = lightTrace.creator;
     searchResultCurrentRow.children[1].innerHtml = lightTrace.title;
-    searchResultCurrentRow.children[2].innerHtml = activities;
+    searchResultCurrentRow.children[2].append(activitiesLink) ;
     searchResultCurrentRow.children[3].innerHtml = lightTrace.length;
     searchResultCurrentRow.children[4].innerHtml = lightTrace.up;
     searchResultCurrentRow.children[5].innerHtml = lightTrace.upperPointElevetion;

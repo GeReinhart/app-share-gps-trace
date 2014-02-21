@@ -109,7 +109,8 @@ ul li {
 .space {
   z-index: 100 ;
   position: absolute;
-  overflow-x: auto;
+  overflow-x: hidden;
+  
   background-color: white; 
   margin: 0px; 
   padding: 0px; 

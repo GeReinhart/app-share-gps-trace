@@ -33,6 +33,7 @@ class IndexPage extends Page {
   
   void showPage() {
     organizeSpaces();
+    showBySelector( "#trace_searchNE");
     getAndShowElement("/f_index_text", "#${name}NW");
     showBySelector( "#${name}SW");
   }
