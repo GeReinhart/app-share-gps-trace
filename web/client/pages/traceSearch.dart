@@ -111,9 +111,18 @@ class TraceSearchPage extends Page {
       });
       if (fitMapViewPortWithMarkers){
         js.context.map.fitMapViewPortWithMarkers();
+      }else{
+        _highlightTraceByKey(form.results.first.keyJsSafe);
       }
     }
     layout.stopLoading();
+  }
+  
+  void _highlightTraceByKey(String key){
+    String color = js.context.map.getLightColor(key) ;
+    js.context.map.highlightTraceByKey(key);
+    querySelectorAll(".key-${key}").forEach((e)=>e.style.backgroundColor = color);
+    
   }
   
   void displaySearchResult(Element searchResultBody,Element searchResultRow, LightTrace lightTrace){
@@ -135,8 +144,7 @@ class TraceSearchPage extends Page {
       activitiesLink.appendText(" ");
     });
     activitiesLink.onClick.listen((e){
-      js.context.map.highlightTraceByKey(lightTrace.keyJsSafe);
-      querySelectorAll(".key-${lightTrace.keyJsSafe}").forEach((e)=>e.style.backgroundColor = color);
+      _highlightTraceByKey(lightTrace.keyJsSafe);
     });
     
     
