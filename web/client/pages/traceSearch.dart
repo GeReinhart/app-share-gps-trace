@@ -44,6 +44,21 @@ class TraceSearchPage extends Page {
       lastTimeFiltersChange = new DateTime.now();
     });
     
+    HtmlDocument document = js.context.document;
+    document.on['highlight_trace'].listen((e ){
+      resultsMap.forEach((key,trace){
+        String color = js.context.map.getLightColor(key) ;
+        if(  js.context.map.isHighlightedTraceByKey(key)) {
+          querySelectorAll(".key-${key}").forEach((e){
+              e.style.backgroundColor = color ;
+           });
+        }else{
+          querySelectorAll(".key-${key}").forEach((e)=>e.style.backgroundColor = "white");
+        }
+      });
+    });
+    
+    
     new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
     initDone = true;
   }
@@ -104,7 +119,7 @@ class TraceSearchPage extends Page {
   void displaySearchResult(Element searchResultBody,Element searchResultRow, LightTrace lightTrace){
     
     Element searchResultCurrentRow = searchResultRow.clone(true) ;
-    String color = js.context.map.getTraceColor(lightTrace.keyJsSafe) ;
+    String color = js.context.map.getLightColor(lightTrace.keyJsSafe) ;
     if(  js.context.map.isHighlightedTraceByKey(lightTrace.keyJsSafe)) {
       searchResultCurrentRow.style.backgroundColor = color  ;
     }

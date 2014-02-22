@@ -12,7 +12,7 @@ Future searchResults(HttpConnect connect) { //#2
 
   response.write("""
 
-        <table class="table table-striped" style="width: 100% ;margin-top: 40px">  
+        <table class="table" style="width: 100% ;margin-top: 40px">  
           <thead>  
             <tr>  
               <th style="width: 10%" >Auteur</th>  

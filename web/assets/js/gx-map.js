@@ -1,7 +1,12 @@
 
  function GxIconBuilder(){
 
-    this.colours = ["24ab18","222da8","c71e1e","ff8922","a425b8"] ;
+    this.colors = ["24ab18","222da8","c71e1e","ff8922","a425b8"] ;
+    this.lightColors= {"#24ab18":"#9BE895",
+                       "#222da8":"#B2B7ED",
+                       "#c71e1e":"#E0B6B6",
+                       "#ff8922":"#FFDCBD",
+                       "#a425b8":"#DBB6E0"}
     this.stylesNumber = 4 ;
     
     this.icons = {};
@@ -24,14 +29,14 @@
        }else{
             var icon ;
             var path ;
-            var colour ;
+            var color ;
             for (var k = 1; k <= 1000 && ! icon; k++) {
             	for (var j = 1; j <= this.stylesNumber && ! icon ; j++) {
-               		for (var i = 0; i < this.colours.length && ! icon ; i++) {
-                   		var currentPath = this.colours[i]+"/"+j ;
+               		for (var i = 0; i < this.colors.length && ! icon ; i++) {
+                   		var currentPath = this.colors[i]+"/"+j ;
                    		var currentPathWithNumber = currentPath+"#"+k ;
                    		if (! ( currentPathWithNumber  in this.iconsByPath) && !icon ){
-                   		    colour = this.colours[i] ;
+                   		    color = this.colors[i] ;
                       		path = currentPathWithNumber;
                       		icon = this._buildIcon(currentPath, activity) ;
                    		}
@@ -39,11 +44,11 @@
 				}
 			}
             if (! icon){
-               colour = "c71e1e/1" ;
-               path = colour+"/1"  ;
+               color = "c71e1e/1" ;
+               path = color+"/1"  ;
                icon = this._buildIcon(path, "") ; 
             }
-            this.iconsColors[key] = colour ;
+            this.iconsColors[key] = color ;
 			this.icons[key] = icon ;
 			this.iconsByPath[path] = icon ;
 			return icon ;
@@ -107,6 +112,8 @@
            	 }else{
            	    me.displayGpxTrack();
            	 }
+           	 me.isHighlighted = true ;
+           	 me.fireHighlightEvent(true);
            }
 	   });
 	   
@@ -123,8 +130,14 @@
       this.displayGpxTrack();
       this.openPopup();
       this.isHighlighted = true ;
+      this.fireHighlightEvent(true);
 	}
             
+	this.fireHighlightEvent = function (highlight){
+	  var event = new Event('highlight_trace');
+      document.dispatchEvent(event);
+	}
+	
 	
 	this.bindPopup = function(map){
 	    this.map = map ;
@@ -141,6 +154,7 @@
     				me.gpxTrack.setStyle( {  opacity:0  });
     			}
     			me.isHighlighted = false ;
+    			me.fireHighlightEvent(false);
     	    }
 		});
     	
@@ -279,6 +293,15 @@
     this.getTraceColor = function (key){
     	if(key in this.traces){
     	    return this.traces[key].gpxTrackColor;
+    	}else{
+    	    return "";
+    	}    
+    }
+
+    this.getLightColor = function (key){
+        var traceColor = this.getTraceColor(key);
+    	if(traceColor in this.iconBuilder.lightColors){
+    	    return this.iconBuilder.lightColors[traceColor];
     	}else{
     	    return "";
     	}    
