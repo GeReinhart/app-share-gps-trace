@@ -111,7 +111,8 @@ class TraceSearchPage extends Page {
       });
       if (fitMapViewPortWithMarkers){
         js.context.map.fitMapViewPortWithMarkers();
-      }else{
+      }
+      if(firstRequest){
         _highlightTraceByKey(form.results.first.keyJsSafe);
       }
     }
