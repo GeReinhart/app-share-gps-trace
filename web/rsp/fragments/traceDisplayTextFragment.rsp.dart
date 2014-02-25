@@ -3,62 +3,32 @@
 part of trails;
 
 /** Template, traceDisplayTextFragment, for rendering the view. */
-Future traceDisplayTextFragment(HttpConnect connect, {traceRenderer}) { //#2
+Future traceDisplayTextFragment(HttpConnect connect) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""               <h1 class="data-key" data-key=\""""); //#2
-
-  response.write(Rsp.nnx(traceRenderer.trace.key)); //#2
-
-
-  response.write(""""   >"""); //#2
-
-  response.write(Rsp.nnx(traceRenderer.trace.title)); //#2
-
-
-  response.write("""</h1>
-               <div class="trace-activities important-text" >
-                 """); //#2
-
-  response.write(Rsp.nnx(traceRenderer.activities)); //#4
-
-
-  response.write("""
-
+  response.write("""               <h1 class="trace-details-title" >####traceRenderer.trace.title####</h1>
+               <div class="trace-details-activities trace-activities important-text" >
+                 ####traceRenderer.activities####
                </div>
                          
-               <div class="trace-description" >
-                 """); //#4
-
-  response.write(Rsp.nnx(traceRenderer.description, encode: 'none')); //#8
-
-
-  response.write("""
-
+               <div class="trace-details-description" >
+                 ####traceRenderer.description, encode: 'none'####
                </div>
-               <div class="trace-creator note-text" >
-                 <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/"><img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/fr/88x31.png" /></a>&nbsp;trace ajoutée par """); //#8
-
-  response.write(Rsp.nnx(traceRenderer.trace.creator)); //#11
-
-
-  response.write("""
-
+               <div class="note-text" >
+                 <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/">
+                     <img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/fr/88x31.png" />
+                 </a>
+                 &nbsp;
+                 trace ajoutée par <span class="trace-details-creator note-text" >####traceRenderer.trace.creator####</span>
                </div>
-               <div class="trace-lastupdate note-text" >
-                 mise à jour le """); //#11
-
-  response.write(Rsp.nnx(traceRenderer.lastUpdateDate)); //#14
-
-
-  response.write("""
-
+               <div class="note-text" >
+                 mise à jour le <span class="trace-details-lastupdate" >####traceRenderer.lastUpdateDate####</span>
                </div>
-"""); //#14
+"""); //#2
 
   return new Future.value();
 }

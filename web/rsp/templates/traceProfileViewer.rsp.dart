@@ -3,85 +3,37 @@
 part of trails;
 
 /** Template, traceProfileViewer, for rendering the view. */
-Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
+Future traceProfileViewer(HttpConnect connect) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  if (traceAnalysisRenderer != null) { //if#3
+  response.write("""
 
-    response.write("""        <div id="traceProfileViewer" ></div> 
+        <div id="traceProfileViewer" ></div> 
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
           google.load("visualization", "1", {packages:["corechart"]});
           google.setOnLoadCallback(drawTraceProfile);
           
           
-          var traceHeightWidthRatio ="""); //#4
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.traceHeightWidthRatio)); //#11
-
-
-    response.write(""" ;
+          var traceHeightWidthRatio =   0.5 ; //####traceAnalysisRenderer.traceHeightWidthRatio#### ;
           
           function drawTraceProfile() {
             
             
             
             var data = google.visualization.arrayToDataTable([
-                                                              ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ],
-
-"""); //#11
-
-    for (var point in traceAnalysisRenderer.profilePoints) { //for#20
-
-      response.write("""                                                              [  """); //#21
-
-      response.write(Rsp.nnx(point.distanceInMeters)); //#21
-
-
-      response.write(""",   """); //#21
-
-      response.write(Rsp.nnx(traceAnalysisRenderer.skyElevetionInMeters)); //#21
-
-
-      response.write(""", """); //#21
-
-      response.write(Rsp.nnx(point.elevetionInMeters)); //#21
-
-
-      response.write(""", """); //#21
-
-      response.write(Rsp.nnx(point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters))); //#21
-
-
-      response.write(""", """); //#21
-
-      response.write(Rsp.nnx(point.scatteredInMeters)); //#21
-
-
-      response.write(""", """); //#21
-
-      response.write(Rsp.nnx(point.thornyInMeters)); //#21
-
-
-      response.write(""", """); //#21
-
-      response.write(Rsp.nnx(point.leafyInMeters)); //#21
-
-
-      response.write(""", """); //#21
-
-      response.write(Rsp.nnx(point.meadowInMeters)); //#21
-
-
-      response.write("""           ],
-"""); //#21
-    } //for
-
-    response.write("""                                                              
+                                                              ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ]
+                                                              
+                                                              
+                                                             /* ,
+                                                              ####for point in traceAnalysisRenderer.profilePoints]
+                                                              [  ####point.distanceInMeters],   ####traceAnalysisRenderer.skyElevetionInMeters], ####point.elevetionInMeters], ####point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters)], ####point.scatteredInMeters], ####point.thornyInMeters], ####point.leafyInMeters], ####point.meadowInMeters]           ],
+                                                              ####for]
+                                                              */
                                                               ]);
                                                                   
             var options = {
@@ -101,11 +53,10 @@ Future traceProfileViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
             };
     
             var chart = new google.visualization.AreaChart(document.getElementById('traceProfileViewer'));
-            chart.draw(data, options);
+           // chart.draw(data, options);
           }
         </script>
-"""); //#23
-  } //if
+"""); //#2
 
   return new Future.value();
 }

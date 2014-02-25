@@ -51,49 +51,46 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
           var _3 = new StringBuffer(); _cs_.add(connect); //var#19
           connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-          return Rsp.nnf(traceDisplayMapFragment(new HttpConnect.chain(connect), traceRenderer: traceRenderer)).then((_) { //include#20
+          connect = _cs_.removeLast(); response = connect.response;
 
-            connect = _cs_.removeLast(); response = connect.response;
+          return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-            return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
-
-              response.write("""    
+            response.write("""    
     <div class="space-contextual-menu"  >
         <ul role="menu" class="dropdown-menu"  id="contextual-menu">
           <li role="presentation" class="dropdown-header">Trace gps</li>
-          <li role="presentation"><a href=\""""); //#23
+          <li role="presentation"><a href=\""""); //#22
 
-              response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#27
+            response.write(Rsp.nnx(traceRenderer.gpxUrl)); //#26
 
 
-              response.write("""" tabindex="-1" role="menuitem">Fichier gpx</a></li>
-"""); //#27
+            response.write("""" tabindex="-1" role="menuitem">Fichier gpx</a></li>
+"""); //#26
 
-              if (currentUser(request.session) != null && ( currentUser(request.session).login == traceRenderer.trace.creator || currentUser(request.session).admin   )) { //if#28
+            if (currentUser(request.session) != null && ( currentUser(request.session).login == traceRenderer.trace.creator || currentUser(request.session).admin   )) { //if#27
 
-                response.write("""            <li role="presentation"><a class="trace-delete-menu gx-as-link"  tabindex="-1" role="menuitem">Supprimer</a></li>
-"""); //#29
-              } //if
+              response.write("""            <li role="presentation"><a class="trace-delete-menu gx-as-link"  tabindex="-1" role="menuitem">Supprimer</a></li>
+"""); //#28
+            } //if
 
-              response.write("""       </ul>
+            response.write("""       </ul>
     </div>
     
-"""); //#31
+"""); //#30
 
-              return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace ${Rsp.nns(traceRenderer.trace.title)}")).then((_) { //include#34
+            return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace ${Rsp.nns(traceRenderer.trace.title)}")).then((_) { //include#33
 
-                return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#35
+              return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#34
 
-                  response.write("""    
-    <script type="application/dart" src="/client/pages/traceAnalysis.dart"></script>
+                response.write("""    
+    <script type="application/dart" src="/client/pages/traceDetails.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
 </html>
-"""); //#36
+"""); //#35
 
-                  return new Future.value();
-                }); //end-of-include
+                return new Future.value();
               }); //end-of-include
             }); //end-of-include
           }); //end-of-include

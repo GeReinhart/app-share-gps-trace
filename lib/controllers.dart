@@ -3,6 +3,7 @@ library trails;
 import "dart:io";
 import "dart:async";
 import "dart:convert";
+import 'package:intl/intl.dart';
 import 'package:http_server/http_server.dart';
 import "package:rikulo_security/plugin.dart";
 import "package:rikulo_security/security.dart";
@@ -15,6 +16,7 @@ import  "../web/client/renderers.dart";
 import  "models.dart";
 import  "persistence.dart";
 import  "aaa.dart";
+import "i18n.dart" ;
 
 part "../web/rsp/index.rsp.dart";
 part "../web/rsp/sandbox.rsp.dart";
@@ -25,7 +27,6 @@ part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/traceFormatGpxView.rsp.dart" ;
 
 part "../web/rsp/templates/spaces.rsp.dart";
-part "../web/rsp/templates/traceGpxViewer.rsp.dart";
 part "../web/rsp/templates/traceProfileViewer.rsp.dart";
 part "../web/rsp/templates/traceStatisticsViewer.rsp.dart";
 part "../web/rsp/templates/searchForm.rsp.dart";
@@ -55,7 +56,6 @@ part "../web/rsp/fragments/traceSearchResultsFragment.rsp.dart";
 part "../web/rsp/fragments/traceSearchMapFragment.rsp.dart";
 
 part "../web/rsp/fragments/traceDisplayTextFragment.rsp.dart";
-part "../web/rsp/fragments/traceDisplayMapFragment.rsp.dart";
 part "../web/rsp/fragments/traceDisplayStatFragment.rsp.dart";
 part "../web/rsp/fragments/traceDisplayProfileFragment.rsp.dart";
 
@@ -201,7 +201,37 @@ class TraceController extends ServerController with JsonFeatures{
   }
 
   
+  Future jsonTraceDetails(HttpConnect connect) {
+    String creator = connect.dataset["creator"];
+    String titleKey = connect.dataset["titleKey"];
+    String key = creator +"/" + titleKey;
+    return _persistence.getTraceByKey(key).then((trace) {
 
+      TraceDetails traceDetails = new TraceDetails();
+      traceDetails.key = trace.key ;
+      traceDetails.creator = trace.creator ;
+      traceDetails.title = trace.title ;
+      traceDetails.description = trace.description ;
+      
+      if(trace.activities == null  || trace.activities.isEmpty){
+        traceDetails.activities = "";
+      }else{
+        Iterator iter = trace.activities.iterator ;
+        iter.moveNext();
+        traceDetails.activities =   I18n.translate("activity-"+iter.current);
+        while( iter.moveNext() ){
+          traceDetails.activities += ", ${I18n.translate("activity-"+iter.current)}"; 
+        }
+      }
+      
+      var formatter = new DateFormat('dd/MM/yyyy');
+      traceDetails.lastupdate = formatter.format(trace.lastUpdateDate);
+      
+      
+      return postJson(connect.response, traceDetails); 
+    });
+    
+  }
   
   num castToNum(String value, int times){
     if (value == null){

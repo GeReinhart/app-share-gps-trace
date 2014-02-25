@@ -51,6 +51,47 @@ class PageContext {
   
 }
 
+class PageParameter{
+  String key ;
+  String value;
+  
+  PageParameter(this.key,this.value) ;
+}
+
+class PageParameters{
+  List<PageParameter> parameters = new List<PageParameter>() ;
+  String pageName;
+  
+  
+  add(String key, String value){
+    parameters.add( new PageParameter(key,value) ) ;
+  }
+  
+  static PageParameters  buildFromAnchor(String anchor){
+    PageParameters pageParameters = new PageParameters();
+    
+    int startParameters = anchor.indexOf("?") ;
+    if (startParameters == -1){
+      pageParameters.pageName = anchor ;
+      return pageParameters ;
+    }
+    pageParameters.pageName = anchor.substring(0,startParameters ) ;
+    if( anchor.length <= pageParameters.pageName.length +1 ){
+      return pageParameters ;
+    }
+    String pageParametersAsString = anchor.substring(startParameters + 1,anchor.length  ) ;
+    pageParametersAsString.split("&").forEach((s){
+       List<String>  paramAndValue = s.split("=");
+       if ( paramAndValue.length == 2 ){
+         pageParameters.add (paramAndValue[0],paramAndValue[1] );
+       }
+    }) ;
+    return pageParameters;
+  }
+  
+  
+}
+
 abstract class Page{
   
   
@@ -143,7 +184,12 @@ abstract class Page{
     receivedFragments.add(fragmentSelector);
   }
   
-  void showPage();
+  bool canShowPage(PageParameters pageParameters){
+    return pageParameters.pageName == this.name ;
+  }
+
+  
+  void showPage( PageParameters pageParameters);
 
   void initPage(){
   }

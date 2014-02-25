@@ -3,36 +3,21 @@
 part of trails;
 
 /** Template, traceStatisticsViewer, for rendering the view. */
-Future traceStatisticsViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#3
+Future traceStatisticsViewer(HttpConnect connect) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  if (traceAnalysisRenderer != null) { //if#3
+  response.write("""
 
-    response.write("""       <div id="traceStatisticsViewer"> 
+       <div id="traceStatisticsViewer"> 
           <table  class="table-layout" >
               <tr>
-                <td  ><span  class="cell-text-large" >"""); //#4
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.lengthKmPart)); //#7
-
-
-    response.write(""" km</span>&nbsp;
-                      <span  class="cell-text-small" >"""); //#7
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.lengthMetersPart)); //#8
-
-
-    response.write(""" m</span></td>
-                <td class="cell-text-large" >"""); //#8
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.up)); //#9
-
-
-    response.write(""" m</td>
+                <td  ><span  class="trace-details-lengthKmPart cell-text-large" >####traceAnalysisRenderer.lengthKmPart####</span>&nbsp;
+                      <span  class="trace-details-lengthMetersPart cell-text-small" >####traceAnalysisRenderer.lengthMetersPart####</span></td>
+                <td class="trace-details-up cell-text-large" >####traceAnalysisRenderer.up#### m</td>
               </tr>
               <tr>
                 <td class="cell-text-small" >de distance</td>
@@ -42,18 +27,8 @@ Future traceStatisticsViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#
                 <td class="cell-text-large" colspan="2" >&nbsp;</td>
               </tr>              
               <tr>
-                <td class="cell-text-large" >"""); //#9
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.inclinationUp)); //#19
-
-
-    response.write(""" %</td>
-                <td class="cell-text-large" >"""); //#19
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.upperPointElevetion)); //#20
-
-
-    response.write(""" m</td>
+                <td class="trace-details-inclinationUp cell-text-large" >####traceAnalysisRenderer.inclinationUp#### %</td>
+                <td class="trace-details-upperPointElevetion cell-text-large" >####traceAnalysisRenderer.upperPointElevetion#### m</td>
               </tr>
               <tr>
                 <td class="cell-text-small" >d'inclinaison moyenne</td>
@@ -63,20 +38,14 @@ Future traceStatisticsViewer(HttpConnect connect, {traceAnalysisRenderer}) { //#
                 <td class="cell-text-large" colspan="2" >&nbsp;</td>
               </tr>              
               <tr>
-                <td class="cell-text-large" colspan="2">"""); //#20
-
-    response.write(Rsp.nnx(traceAnalysisRenderer.difficulty)); //#30
-
-
-    response.write(""" points</td>
+                <td class="trace-details-difficulty cell-text-large" colspan="2">####traceAnalysisRenderer.difficulty#### points</td>
               </tr>
               <tr>
                 <td class="cell-text-small" colspan="2">de difficulté</td>
               </tr>        
           </table>
         </div>
-"""); //#30
-  } //if
+"""); //#2
 
   return new Future.value();
 }

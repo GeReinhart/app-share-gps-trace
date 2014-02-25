@@ -19,7 +19,9 @@
         <div id="indexNW"      class="gx-hidden" ></div>
         <div id="aboutNW"      class="gx-hidden" ></div>
         <div id="trace_formNW" class="gx-hidden" ></div>
-        <div id="traceNW" class="gx-hidden" ></div>
+        <div id="trace_detailsNW" class="gx-hidden" >
+           [:include traceDisplayTextFragment  /]
+        </div>
       [/var]
       [:var ne ]
         [:include loadingWidget loadingId="loadingNE" size="50" /]
@@ -28,6 +30,9 @@
            [:include traceSearchResultsFragment /]
         </div>
         <div id="traceNE" class="gx-hidden" ></div>
+        <div id="trace_detailsNE" class="gx-hidden" >
+           [:include traceDisplayProfileFragment  /]
+        </div>        
       [/var]
       [:var sw ]
         [:include loadingWidget loadingId="loadingSW" size="50" /]
@@ -35,17 +40,24 @@
            [:include indexButtonsFragment  /]
         </div>        
         <div id="aboutSW"      class="gx-hidden" ></div>
-        <div id="traceSW" class="gx-hidden" ></div>
+        <div id="trace_detailsSW" class="gx-hidden" >
+           [:include traceDisplayStatFragment  /]
+        </div>
       [/var]
       [:var se ]
         [:include loadingWidget loadingId="loadingSE" size="50" /]
         <div id="aboutSE"      class="gx-hidden" ></div>        
-        <div id="trace_searchSE" >
+        <div id="trace_searchSE" class="gx-hidden-map" >
            [:include traceSearchMapFragment lightTraceRenderers="[=lightTraceRenderers]" /]
         </div>
-        <div id="traceSE" class="gx-hidden" ></div>
+        <div id="trace_detailsNW" class="gx-hidden" >
+        </div>
       [/var]
     [/include]  
+    
+    
+    [:include confirmWidget confirmId="deleteTraceConfirmModal" confirmTitle="Confirmation" confirmText="Je confirme la suppression définitive de la trace XXXXXXXXXXXXXXX"   /]
+    
     [:include sharedWidgets sharedWidgetsId="sharedWidgets" /]
     
     <script type="application/dart" src="/client/pages/index.dart"></script>

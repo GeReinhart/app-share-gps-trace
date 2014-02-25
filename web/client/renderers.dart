@@ -52,7 +52,7 @@ class LigthTraceRenderer{
   String get creator => (trace.creator);
   String get title => (trace.title);
   String get titleJsSafe => (trace.title.replaceAll("'", ""));
-  String get titleWithUrl => ('<a href="/trace/${key}"  target="_blank">${title}</a>' ) ;
+  String get titleWithUrl => ('<a href="/#trace_details/${key}">${title}</a>' ) ;
   String get length => ("${(trace.length/1000).truncate()} km") ;
   String get up => ("${trace.up} m") ;
   String get upperPointElevetion => ("${trace.upperPointElevetion.round()} m") ;

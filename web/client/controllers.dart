@@ -38,7 +38,12 @@ class PagesController extends ClientController{
    }
    
    String anchor =  window.location.href.substring(window.location.href.indexOf("#")+1) ;
-   targetPage = _pages.firstWhere(  (page) => anchor.startsWith(page.name) ,  orElse: () => defaultPage );
+   PageParameters pageParameters = PageParameters.buildFromAnchor(anchor);
+   
+   
+   targetPage = _pages.firstWhere(  (page) => page.canShowPage(pageParameters), 
+                                     orElse: () => defaultPage );
+   
    
    if (targetPage == _currentPage){
      new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
@@ -49,7 +54,7 @@ class PagesController extends ClientController{
       _currentPage.hidePage(); 
    }
    _currentPage = targetPage ;
-   _currentPage.showPage(); 
+   _currentPage.showPage(pageParameters); 
    new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
 }

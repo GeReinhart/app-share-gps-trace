@@ -5,7 +5,7 @@ class AboutPage extends Page {
 
   AboutPage(PageContext context): super("about",context,50,50,false);
   
-  void showPage() {
+  void showPage( PageParameters pageParameters) {
     organizeSpaces();
     getAndShowElement("/f_about_application", "#${name}NW");
     getAndShowElement("/f_about_dev", "#${name}NE");

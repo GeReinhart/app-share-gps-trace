@@ -1,6 +1,5 @@
-[:page partOf="trails" args="traceAnalysisRenderer"]
+[:page partOf="trails" ]
 
-      [:if traceAnalysisRenderer != null]    
         <div id="traceProfileViewer" ></div> 
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
@@ -8,19 +7,21 @@
           google.setOnLoadCallback(drawTraceProfile);
           
           
-          var traceHeightWidthRatio =[=traceAnalysisRenderer.traceHeightWidthRatio] ;
+          var traceHeightWidthRatio =   0.5 ; //####traceAnalysisRenderer.traceHeightWidthRatio#### ;
           
           function drawTraceProfile() {
             
             
             
             var data = google.visualization.arrayToDataTable([
-                                                              ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ],
-
-                                                              [:for point in traceAnalysisRenderer.profilePoints]
-                                                              [  [=point.distanceInMeters],   [=traceAnalysisRenderer.skyElevetionInMeters], [=point.elevetionInMeters], [=point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters)], [=point.scatteredInMeters], [=point.thornyInMeters], [=point.leafyInMeters], [=point.meadowInMeters]           ],
-                                                              [/for]
+                                                              ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ]
                                                               
+                                                              
+                                                             /* ,
+                                                              ####for point in traceAnalysisRenderer.profilePoints]
+                                                              [  ####point.distanceInMeters],   ####traceAnalysisRenderer.skyElevetionInMeters], ####point.elevetionInMeters], ####point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters)], ####point.scatteredInMeters], ####point.thornyInMeters], ####point.leafyInMeters], ####point.meadowInMeters]           ],
+                                                              ####for]
+                                                              */
                                                               ]);
                                                                   
             var options = {
@@ -40,7 +41,6 @@
             };
     
             var chart = new google.visualization.AreaChart(document.getElementById('traceProfileViewer'));
-            chart.draw(data, options);
+           // chart.draw(data, options);
           }
         </script>
-        [/if]      

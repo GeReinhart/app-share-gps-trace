@@ -267,11 +267,11 @@ class TraceSearchPage extends Page {
     }
   }
 
-  void showPage() {
+  void showPage( PageParameters pageParameters) {
     organizeSpaces();
     showBySelector("#${name}W");
     showBySelector("#${name}NE");
-    showBySelector("#search-results-map-canvas", hiddenClass: "gx-hidden-map");
+    showBySelector("#${name}SE", hiddenClass: "gx-hidden-map");
     _initTraceSearchPage();
     js.context.map.refreshTiles();
   }
@@ -279,7 +279,7 @@ class TraceSearchPage extends Page {
   void hidePage() {
     hideBySelector("#${name}W");
     hideBySelector("#${name}NE");
-    hideBySelector("#search-results-map-canvas", hiddenClass: "gx-hidden-map");
+    hideBySelector("#${name}SE", hiddenClass: "gx-hidden-map");
   }
 
 }

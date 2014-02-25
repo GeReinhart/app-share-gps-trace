@@ -58,6 +58,7 @@ class TracesServer{
           "/j_logout": _userServerController.jsonLogout,
           "/j_trace_search": _traceController.jsonTraceSearch,
           "/j_trace_delete": _traceController.jsonTraceDelete,
+          "/j_trace_details/(creator:[^/]*)/(titleKey:[^/]*)": _traceController.jsonTraceDetails,
           
           "/f_index_text" : _fragmentsController.indexText,
           "/f_index_buttons" : _fragmentsController.indexButtons,
@@ -70,7 +71,6 @@ class TracesServer{
           "/f_trace_search_form": _fragmentsController.traceSearchForm, 
           "/f_trace_search_results": _fragmentsController.traceSearchResults, 
           "/f_trace_search_map": _fragmentsController.traceSearchMap, 
-
           
           "post:/trace": _traceController.traceAddFormSubmit,
           

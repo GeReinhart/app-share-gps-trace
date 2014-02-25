@@ -20,7 +20,7 @@ class SandboxPage extends Page {
     });
   }
 
-  void showPage() {
+  void showPage( PageParameters pageParameters) {
     
     querySelectorAll("#btn-search").onClick.listen((e) {
       submitRequest();

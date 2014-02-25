@@ -1,4 +1,5 @@
 
+
 abstract class ToJson{
   Map toJson() ;
 }
@@ -374,5 +375,87 @@ class LightTrace implements ToJson{
        return activityKeys[0] ;
   }
   
+}
+
+class TraceDetails implements ToJson{
+  
+  String key;
+  String creator ;
+  String title ;
+  String description ;
+  String lastupdate ;
+  List<String> activityKeys ;
+  String activities ;
+  String length;
+  String up;
+  String upperPointElevetion;
+  String inclinationUp;
+  String difficulty;
+  num startPointLatitude;
+  num startPointLongitude;
+  
+  TraceDetails( );
+  
+  TraceDetails.fromMap(Map jsonMap){
+    _fromMap(jsonMap);
+  }
+  
+  void _fromMap(Map jsonMap){
+    key = jsonMap['key'] ;
+    creator = jsonMap['creator'] ;
+    title = jsonMap['title'] ;
+    description = jsonMap['description'] ;
+    lastupdate = jsonMap['lastupdate'] ;
+    activityKeys = jsonMap['activityKeys'] ;
+    activities = jsonMap['activities'] ;
+    length = jsonMap['length'] ;
+    up = jsonMap['up'] ;
+    upperPointElevetion = jsonMap['upperPointElevetion'] ;    
+    inclinationUp = jsonMap['inclinationUp'] ;    
+    difficulty = jsonMap['difficulty'] ;  
+    startPointLatitude = jsonMap['startPointLatitude'] ;  
+    startPointLongitude = jsonMap['startPointLongitude'] ;  
+  }
+  
+  Map toJson() {
+    return {'key': key,
+             'creator': creator,
+             'title': title,
+             'description': description,
+             'lastupdate': lastupdate,
+             'activityKeys': activityKeys,
+             'activities': activities,
+             'length':length,
+             'up':up,
+             'upperPointElevetion':upperPointElevetion,
+             'inclinationUp':inclinationUp,
+             'difficulty':difficulty,
+             'startPointLatitude':startPointLatitude,
+             'startPointLongitude':startPointLongitude
+            };
+  }
+  
+  String get keyJsSafe => (this.key.replaceAll("/", "_").replaceAll("'", "-"));
+  String get titleJsSafe => (this.title.replaceAll("'", ""));  
+
+  String get mainActivity {
+       if( activityKeys == null ){
+         return null;
+       }
+       return activityKeys[0] ;
+  }
+  
+  String get descriptionToRender {
+    
+    if( this.description== null || this.description.isEmpty){
+      return "";
+    }
+    String description = "";
+    List<String> parts =  this.description.split("\r\n");
+    for(var iter = parts.iterator ;  iter.moveNext() ;){
+      description += "<p>${iter.current}</p>" ; 
+    }
+    return description;
+  }
 }
 

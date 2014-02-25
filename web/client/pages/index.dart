@@ -5,6 +5,7 @@ import 'disclaimer.dart';
 import 'about.dart';
 import 'traceForm.dart';
 import 'traceSearch.dart';
+import 'traceDetails.dart';
 import "../widgets/sharedWidgets.dart" ;
 import "../widgets/login.dart" ;
 import "../widgets/loading.dart" ;
@@ -31,11 +32,19 @@ class IndexPage extends Page {
     });    
   }
   
-  void showPage() {
+  void showPage( PageParameters pageParameters) {
     organizeSpaces();
-    showBySelector( "#trace_searchNE");
     getAndShowElement("/f_index_text", "#${name}NW");
+    showBySelector( "#trace_searchNE");
     showBySelector( "#${name}SW");
+    showBySelector("#trace_searchSE", hiddenClass: "gx-hidden-map");
+  }
+  
+  void hidePage() {
+    hideBySelector("#${name}NW");
+    hideBySelector("#trace_searchNE");
+    hideBySelector("#${name}SW");
+    hideBySelector("#trace_searchSE", hiddenClass: "gx-hidden-map");
   }
   
   
@@ -62,6 +71,7 @@ void main() {
   pages.add(new AboutPage(pageContext));
   pages.add(new TraceFormPage(pageContext));
   pages.add(new TraceSearchPage(pageContext));
+  pages.add(new TraceDetailsPage(pageContext));
   PagesController pagesController = new PagesController(pages);
 }
 
