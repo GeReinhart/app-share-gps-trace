@@ -10,8 +10,43 @@ Future traceDisplayStatFragment(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  return Rsp.nnf(traceStatisticsViewer(new HttpConnect.chain(connect))).then((_) { //include#2
+  response.write("""
 
-    return new Future.value();
-  }); //end-of-include
+       <div id="traceStatisticsViewer"> 
+          <table  class="table-layout" >
+              <tr>
+                <td  ><span  class="trace-details-lengthKmPart cell-text-large" >####traceAnalysisRenderer.lengthKmPart####</span>&nbsp;
+                      <span  class="trace-details-lengthMetersPart cell-text-small" >####traceAnalysisRenderer.lengthMetersPart####</span></td>
+                <td class="trace-details-up cell-text-large" >####traceAnalysisRenderer.up#### m</td>
+              </tr>
+              <tr>
+                <td class="cell-text-small" >de distance</td>
+                <td class="cell-text-small" >de dénivelé positif</td>
+              </tr>
+              <tr>
+                <td class="cell-text-large" colspan="2" >&nbsp;</td>
+              </tr>              
+              <tr>
+                <td class="trace-details-inclinationUp cell-text-large" >####traceAnalysisRenderer.inclinationUp#### %</td>
+                <td class="trace-details-upperPointElevetion cell-text-large" >####traceAnalysisRenderer.upperPointElevetion#### m</td>
+              </tr>
+              <tr>
+                <td class="cell-text-small" >d'inclinaison moyenne</td>
+                <td class="cell-text-small" >au sommet</td>
+              </tr>
+              <tr>
+                <td class="cell-text-large" colspan="2" >&nbsp;</td>
+              </tr>              
+              <tr>
+                <td class="trace-details-difficulty cell-text-large" colspan="2">####traceAnalysisRenderer.difficulty#### points</td>
+              </tr>
+              <tr>
+                <td class="cell-text-small" colspan="2">de difficulté</td>
+              </tr>        
+          </table>
+        </div>
+
+"""); //#2
+
+  return new Future.value();
 }

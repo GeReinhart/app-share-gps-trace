@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import "package:gps_trace/gps_trace.dart";
 import "../../lib/models.dart" ;
 import "../../lib/i18n.dart" ;
+import  "../shared/forms.dart";
 
 class TraceFormRenderer {
   
@@ -112,6 +113,23 @@ class TraceRenderer extends LigthTraceRenderer{
       var formatter = new DateFormat('dd/MM/yyyy');
       return formatter.format(trace.lastUpdateDate);
     }
+  }
+  
+  TraceDetails  get traceDetails{
+    TraceDetails traceDetails = new TraceDetails();
+    traceDetails.key = this.trace.key ;
+    traceDetails.creator = this.trace.creator ;
+    traceDetails.title = this.trace.title ;
+    traceDetails.description = this.trace.description ;
+    traceDetails.activities = this.activities; 
+    traceDetails.lastupdate = this.lastUpdateDate;
+    traceDetails.length = this.trace.length ;
+    traceDetails.up = this.traceAnalysisRenderer.up ;
+    traceDetails.inclinationUp = this.traceAnalysisRenderer.inclinationUp;
+    traceDetails.upperPointElevetion = this.traceAnalysisRenderer.upperPointElevetion;
+    traceDetails.difficulty = this.traceAnalysisRenderer.difficulty ;
+    
+    return traceDetails ;
   }
   
 }

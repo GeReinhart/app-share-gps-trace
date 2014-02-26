@@ -123,6 +123,7 @@ class TraceDetailsPage extends Page {
     String keyJsSafe = _transformJsSafe(key) ;
     if(   keys.contains(key)    ){
       showBySelector( "#${name}NW_${keyJsSafe}");
+      showBySelector( "#${name}SW_${keyJsSafe}");
       this.currentKey = key;
     }else{
       _showPage( key);       
@@ -142,19 +143,25 @@ class TraceDetailsPage extends Page {
       
       if (request.readyState == HttpRequest.DONE ) {
         TraceDetails traceDetails = new TraceDetails.fromMap(JSON.decode(request.responseText));
-        Element nw = querySelector("#${name}NW") ;
-        Element textFragment =  nw.clone(true) ;
-        textFragment.setAttribute("id", "${name}NW_${keyJsSafe}") ;
-        nw.parentNode.append(textFragment);
         
+        Element nwFragment  =_injectInDOMCloneEmptyElement("${name}NW",  keyJsSafe ) ;
         _displayData("trace-details-title",keyJsSafe,traceDetails.title) ;
         _displayData("trace-details-activities",keyJsSafe,traceDetails.activities) ;
         _displayData("trace-details-description",keyJsSafe,traceDetails.descriptionToRender) ;
         _displayData("trace-details-creator",keyJsSafe,traceDetails.creator) ;
         _displayData("trace-details-lastupdate",keyJsSafe,traceDetails.lastupdate) ;
+        nwFragment.classes.remove("gx-hidden") ;
+
+        Element swFragment  =_injectInDOMCloneEmptyElement("${name}SW",  keyJsSafe ) ;
+        _displayData("trace-details-lengthKmPart",keyJsSafe,"${traceDetails.lengthKmPart} km") ;
+        _displayData("trace-details-lengthMetersPart",keyJsSafe,"${traceDetails.lengthMetersPart} m") ;
+        _displayData("trace-details-up",keyJsSafe, "${traceDetails.up} m") ;
+        _displayData("trace-details-inclinationUp",keyJsSafe,"${traceDetails.inclinationUp} %") ;
+        _displayData("trace-details-upperPointElevetion",keyJsSafe,"${traceDetails.upperPointElevetion} m") ;
+        _displayData("trace-details-difficulty",keyJsSafe,"${traceDetails.difficulty} points") ;
+        swFragment.classes.remove("gx-hidden") ;
         
         
-        textFragment.classes.remove("gx-hidden") ;
         loadingNW.stopLoading();
         
         keys.add(key);
@@ -164,6 +171,14 @@ class TraceDetailsPage extends Page {
     request.open("GET",  "/j_trace_details/${key}", async: true);
     request.send();      
   }
+ 
+ Element _injectInDOMCloneEmptyElement(String selectorId, String keyJsSafe ){
+   Element original = querySelector("#${selectorId}") ;
+   Element clone =  original.clone(true) ;
+   clone.setAttribute("id", "${selectorId}_${keyJsSafe}") ;
+   original.parentNode.append(clone);
+   return clone ;
+ }
   
  void _displayData(String classSelector, String key, String data){
    bool first= true ;
@@ -180,6 +195,7 @@ class TraceDetailsPage extends Page {
   void hidePage() {
     String keyJsSafe = _transformJsSafe(currentKey) ;
     hideBySelector( "#${name}NW_${keyJsSafe}");
+    hideBySelector( "#${name}SW_${keyJsSafe}");
   }
 }
 

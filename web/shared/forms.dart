@@ -386,11 +386,11 @@ class TraceDetails implements ToJson{
   String lastupdate ;
   List<String> activityKeys ;
   String activities ;
-  String length;
-  String up;
-  String upperPointElevetion;
-  String inclinationUp;
-  String difficulty;
+  num length;
+  num up;
+  num upperPointElevetion;
+  num inclinationUp;
+  num difficulty;
   num startPointLatitude;
   num startPointLongitude;
   
@@ -457,5 +457,11 @@ class TraceDetails implements ToJson{
     }
     return description;
   }
+  
+  int get lengthKmPart => (this.length/1000).truncate() ;
+
+  int get lengthMetersPart => ( this.length- (this.length/1000).truncate()*1000)  ; 
+
+  
 }
 

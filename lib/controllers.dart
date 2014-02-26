@@ -28,7 +28,6 @@ part "../web/rsp/traceFormatGpxView.rsp.dart" ;
 
 part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/traceProfileViewer.rsp.dart";
-part "../web/rsp/templates/traceStatisticsViewer.rsp.dart";
 part "../web/rsp/templates/searchForm.rsp.dart";
 part "../web/rsp/templates/searchResults.rsp.dart";
 part "../web/rsp/templates/searchResultsOnMap.rsp.dart";
@@ -206,29 +205,10 @@ class TraceController extends ServerController with JsonFeatures{
     String titleKey = connect.dataset["titleKey"];
     String key = creator +"/" + titleKey;
     return _persistence.getTraceByKey(key).then((trace) {
-
-      TraceDetails traceDetails = new TraceDetails();
-      traceDetails.key = trace.key ;
-      traceDetails.creator = trace.creator ;
-      traceDetails.title = trace.title ;
-      traceDetails.description = trace.description ;
-      
-      if(trace.activities == null  || trace.activities.isEmpty){
-        traceDetails.activities = "";
-      }else{
-        Iterator iter = trace.activities.iterator ;
-        iter.moveNext();
-        traceDetails.activities =   I18n.translate("activity-"+iter.current);
-        while( iter.moveNext() ){
-          traceDetails.activities += ", ${I18n.translate("activity-"+iter.current)}"; 
-        }
-      }
-      
-      var formatter = new DateFormat('dd/MM/yyyy');
-      traceDetails.lastupdate = formatter.format(trace.lastUpdateDate);
-      
-      
-      return postJson(connect.response, traceDetails); 
+      String gpxUrl = _appUri +"/trace.gpx/id-"+trace.cleanId ;
+      String permanentTraceUrl = _appUri + "/trace/id-"+trace.cleanId ;
+      TraceRenderer traceRenderer = new TraceRenderer(trace, permanentTraceUrl,gpxUrl);
+      return postJson(connect.response, traceRenderer.traceDetails); 
     });
     
   }
