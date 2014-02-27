@@ -131,6 +131,21 @@ class TraceRenderer extends LigthTraceRenderer{
     traceDetails.startPointLatitude = this.traceAnalysisRenderer.startPoint.latitude ;
     traceDetails.startPointLongitude = this.traceAnalysisRenderer.startPoint.longitude ;
     traceDetails.gpxUrl = this.gpxUrl ;
+    traceDetails.profilePoints = new List<ProfilePoint>();
+    
+    this.traceAnalysisRenderer.profilePoints.forEach((p){
+      ProfilePoint pp= new ProfilePoint();
+      pp.index = p.tracePoint.index;
+      pp.latitude = p.tracePoint.latitude;
+      pp.longitude = p.tracePoint.longitude;
+      pp.distance = p.tracePoint.distance;
+      pp.elevetion = p.tracePoint.elevetion;
+      traceDetails.profilePoints.add(pp);
+    });
+        
+        
+        ;
+    
     
     return traceDetails ;
   }
@@ -191,6 +206,8 @@ class TracePointRenderer {
   TracePoint _tracePoint ;
   
   TracePointRenderer(this._tracePoint);
+  
+  TracePoint get tracePoint => _tracePoint;
   
   int get distanceInMeters => _tracePoint.distance.round();
   

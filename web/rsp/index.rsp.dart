@@ -110,7 +110,7 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
                         return Rsp.nnf(traceDisplayMapFragment(new HttpConnect.chain(connect))).then((_) { //include#51
 
                           response.write("""        </div>
-        <div id="trace_searchSE" >
+        <div id="trace_searchSE" class="gx-hidden-map" >
 """); //#52
 
                           return Rsp.nnf(traceSearchMapFragment(new HttpConnect.chain(connect))).then((_) { //include#54

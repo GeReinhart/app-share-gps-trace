@@ -1,4 +1,5 @@
 
+import 'dart:convert';
 
 abstract class ToJson{
   Map toJson() ;
@@ -394,6 +395,7 @@ class TraceDetails implements ToJson{
   num startPointLatitude;
   num startPointLongitude;
   String gpxUrl;
+  List<ProfilePoint> profilePoints ;
   
   TraceDetails( );
   
@@ -417,9 +419,17 @@ class TraceDetails implements ToJson{
     startPointLatitude = jsonMap['startPointLatitude'] ;  
     startPointLongitude = jsonMap['startPointLongitude'] ;  
     gpxUrl = jsonMap['gpxUrl'] ;  
+    List<String> profilePointsAsString = JSON.decode( jsonMap['profilePoints'] ) ;  
+    profilePoints = new List<ProfilePoint>();
+    profilePointsAsString.forEach((p){
+      profilePoints.add( new ProfilePoint.fromMap(p) ) ;
+    });
+    
+    
   }
   
   Map toJson() {
+    
     return {'key': key,
              'creator': creator,
              'title': title,
@@ -434,7 +444,8 @@ class TraceDetails implements ToJson{
              'difficulty':difficulty,
              'startPointLatitude':startPointLatitude,
              'startPointLongitude':startPointLongitude,
-             'gpxUrl':gpxUrl
+             'gpxUrl':gpxUrl,
+             'profilePoints': JSON.encode( profilePoints )
             };
   }
   
@@ -465,6 +476,42 @@ class TraceDetails implements ToJson{
 
   int get lengthMetersPart => ( this.length- (this.length/1000).truncate()*1000)  ; 
 
+  
+}
+
+class ProfilePoint implements ToJson {
+
+  int    index = 0;
+  double latitude = 0.0;
+  double longitude= 0.0;
+  double elevetion= 0.0; // in meters
+  double distance = 0.0; // in meters
+  
+  ProfilePoint();
+  
+  ProfilePoint.basic(this.latitude,this.longitude);
+  
+  ProfilePoint.fromMap(Map jsonMap){
+    _fromMap(jsonMap);
+  }
+  
+  void _fromMap(Map jsonMap){
+    index = jsonMap['index'] ;
+    latitude = jsonMap['latitude'] ;
+    longitude = jsonMap['longitude'] ;
+    elevetion = jsonMap['elevetion'] ;
+    distance = jsonMap['distance'] ;
+  }
+  
+  Map toJson() {
+    return {'index': index,
+             'latitude': latitude,
+             'longitude': longitude,
+             'elevetion': elevetion,
+             'distance': distance
+            };
+  }
+  
   
 }
 

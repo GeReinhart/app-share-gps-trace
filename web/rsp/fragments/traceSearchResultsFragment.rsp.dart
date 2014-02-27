@@ -10,8 +10,35 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  return Rsp.nnf(searchResults(new HttpConnect.chain(connect))).then((_) { //include#2
+  response.write("""
 
-    return new Future.value();
-  }); //end-of-include
+        <table class="table" style="width: 100% ;margin-top: 40px">  
+          <thead>  
+            <tr>  
+              <th style="width: 10%" >Auteur</th>  
+              <th style="width: *" >Trace</th>  
+              <th style="width: 15%" >Activités</th>  
+              <th style="width: 10%" >Distance</th>  
+              <th style="width: 10%" >Dénivelé</th>
+              <th style="width: 10%" >Sommet</th>
+              <th style="width: 10%" >Pente</th>
+              <th style="width: 10%" >Difficulté</th>
+            </tr>  
+          </thead>  
+          <tbody id="search-result-body" >  
+             <tr id="search-result-row"  >
+                  <td></td>  
+                  <td></td>  
+                  <td></td>
+                  <td></td>  
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+             </tr>
+          </tbody>  
+        </table>
+"""); //#2
+
+  return new Future.value();
 }
