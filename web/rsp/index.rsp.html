@@ -8,13 +8,13 @@
   <body>   
     [:include spaces]
       [:var w]
-        [:include loadingWidget loadingId="loadingW" size="50" /]
+        [:include  loadingWidget loadingId="loadingW" size="50" /]
         <div id="trace_searchW" class="gx-hidden" >
               [:include traceSearchFormFragment traceFormRenderer="[=traceFormRenderer]" /]
         </div>
       [/var]
       [:var nw]
-        [:include loadingWidget loadingId="loadingNW" size="50" /]
+        [:include  loadingWidget loadingId="loadingNW" size="50" /]
         <div id="disclaimerNW" class="gx-hidden" ></div>
         <div id="indexNW"      class="gx-hidden" ></div>
         <div id="aboutNW"      class="gx-hidden" ></div>
@@ -30,8 +30,9 @@
            [:include traceSearchResultsFragment /]
         </div>
         <div id="traceNE" class="gx-hidden" ></div>
-        <div id="trace_detailsNE" class="gx-hidden"   >
-           
+        <div id="trace_detailsNE" style="overflow:hidden; background-color: '#5B6DE3' " class="gx-hidden"   >
+            <div id="traceProfileViewer" style="overflow:hidden;" ></div> 
+            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         </div>        
       [/var]
       [:var sw ]

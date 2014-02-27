@@ -16,7 +16,7 @@ Future loadingWidget(HttpConnect connect, {loadingId,size}) { //#2
 
 
   response.write("""">
-    <img class="gx-hidden" height=\""""); //#2
+    <img class="gx-hidden" style="z-index: 1000 ;" height=\""""); //#2
 
   response.write(Rsp.nnx(size)); //#3
 

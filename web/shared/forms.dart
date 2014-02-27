@@ -396,6 +396,8 @@ class TraceDetails implements ToJson{
   num startPointLongitude;
   String gpxUrl;
   List<ProfilePoint> profilePoints ;
+  num traceHeightWidthRatio ;
+  num skyElevetionInMeters;
   
   TraceDetails( );
   
@@ -424,13 +426,12 @@ class TraceDetails implements ToJson{
     profilePointsAsString.forEach((p){
       profilePoints.add( new ProfilePoint.fromMap(p) ) ;
     });
-    
-    
+    traceHeightWidthRatio = jsonMap['traceHeightWidthRatio'] ; 
+    skyElevetionInMeters = jsonMap['skyElevetionInMeters'] ; 
   }
   
   Map toJson() {
     
-    String profilePointsAsString = JSON.encode( profilePoints );
     return {'key': key,
              'creator': creator,
              'title': title,
@@ -446,7 +447,9 @@ class TraceDetails implements ToJson{
              'startPointLatitude':startPointLatitude,
              'startPointLongitude':startPointLongitude,
              'gpxUrl':gpxUrl,
-             'profilePoints': profilePointsAsString
+             'profilePoints': JSON.encode( profilePoints ),
+             'traceHeightWidthRatio' : traceHeightWidthRatio,
+             'skyElevetionInMeters' : skyElevetionInMeters
             };
   }
   
@@ -482,6 +485,11 @@ class TraceDetails implements ToJson{
 
 class ProfilePoint implements ToJson {
 
+  static const int MEADOW_ELEVETION = 450 ;
+  static const int LEAFY_ELEVETION = 1000 ;
+  static const int THORNY_ELEVETION = 1500 ;
+  static const int SCATTERED_ELEVETION = 2000 ;
+  
   int    index = 0;
   double latitude = 0.0;
   double longitude= 0.0;
@@ -513,6 +521,19 @@ class ProfilePoint implements ToJson {
             };
   }
   
+  int get distanceInMeters => this.distance.round();
   
+  int get elevetionInMeters => this.elevetion.round();
+  
+  int get meadowInMeters => elevetionInMeters > MEADOW_ELEVETION ? MEADOW_ELEVETION - 1 : elevetionInMeters  - 1   ;
+
+  int get leafyInMeters => elevetionInMeters > LEAFY_ELEVETION ? LEAFY_ELEVETION - 1 : elevetionInMeters  - 1   ;
+
+  int get thornyInMeters => elevetionInMeters > THORNY_ELEVETION ? THORNY_ELEVETION - 1 : elevetionInMeters  - 1   ;
+
+  int get scatteredInMeters => elevetionInMeters > SCATTERED_ELEVETION ? SCATTERED_ELEVETION - 1 : elevetionInMeters  - 1   ;
+
+  int getSnowInMeters(skyElevetionInMeters) => elevetionInMeters > skyElevetionInMeters ? skyElevetionInMeters - 1 : elevetionInMeters  - 1   ;
+
 }
 

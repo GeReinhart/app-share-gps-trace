@@ -15,7 +15,7 @@ Future traceProfileViewer(HttpConnect connect) { //#2
         <div id="traceProfileViewer" ></div> 
         <script type="text/javascript" src="https://www.google.com/jsapi"></script>
         <script type="text/javascript">
-          google.load("visualization", "1", {packages:["corechart"]});
+        /*    google.load("visualization", "1", {packages:["corechart"]});
           google.setOnLoadCallback(drawTraceProfile);
           
           
@@ -29,31 +29,24 @@ Future traceProfileViewer(HttpConnect connect) { //#2
                                                               ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ]
                                                               
                                                               
-                                                             /* ,
+                                                            ,
                                                               ####for point in traceAnalysisRenderer.profilePoints]
-                                                              [  ####point.distanceInMeters],   ####traceAnalysisRenderer.skyElevetionInMeters], ####point.elevetionInMeters], ####point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters)], ####point.scatteredInMeters], ####point.thornyInMeters], ####point.leafyInMeters], ####point.meadowInMeters]           ],
+                                                              [  ####point.distanceInMeters],  
+                                                                 ####traceAnalysisRenderer.skyElevetionInMeters], 
+                                                                 ####point.elevetionInMeters], 
+                                                                 ####point.getSnowInMeters(traceAnalysisRenderer.skyElevetionInMeters)], 
+                                                                 ####point.scatteredInMeters], 
+                                                                 ####point.thornyInMeters], 
+                                                                 ####point.leafyInMeters], 
+                                                                 ####point.meadowInMeters]           ],
                                                               ####for]
-                                                              */
+                                                             
                                                               ]);
                                                                   
-            var options = {
-						   "chartArea":{"left":"15%","top":"5%",width:"75%",height:"80%"},
-						   "hAxis" : {"gridlines" : { "color" : "white" }},
-						   "vAxis" : {"gridlines" : { "color" : "white" }},
-                           "curveType": "function",
-                           "series": [
-                                      {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                                      {"color": 'black', "lineWidth": 1, "areaOpacity": 1,  "visibleInLegend": false},
-                                      {"color": 'white', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                                      {"color": '#C2A385', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                                      {"color": '#4C8033', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                                      {"color": '#99FF66', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                                      {"color": '#FFE066', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false}
-                                      ]
-            };
+
     
             var chart = new google.visualization.AreaChart(document.getElementById('traceProfileViewer'));
-           // chart.draw(data, options);
+           chart.draw(data, options); */
           }
         </script>
 """); //#2

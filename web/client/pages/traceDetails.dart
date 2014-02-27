@@ -16,20 +16,18 @@ class TraceDetailsPage extends Page {
   ConfirmWidget _deleteConfirm ;
   
   List<String> keys = new List<String>();
+  Map<String,TraceDetails> traceDetailsByKey = new Map<String,TraceDetails>();
   String currentKey = null;
-  
+  bool readyToDisplayProfile = false;
+  TraceDetails _traceDetailsWaitingToDisplayProfile = null;
   
   TraceDetailsPage(PageContext context): super("trace_details",context,65,40,false){
     _deleteConfirm = new ConfirmWidget("deleteTraceConfirmModal", deleteTrace);
-    
-    moveMap(layout.postions);
-    moveTraceViewers(layout.postions);
+    _initDisplayProfile();
     
     layout.centerMoved.listen((_){
-      moveMap( _ as SpacesPositions);
+      _moveMap( _ as SpacesPositions);
       moveTraceViewers( _ as SpacesPositions);
-      
-      
     });
 
     querySelectorAll(".trace-delete-menu").onClick.listen((event){
@@ -69,7 +67,7 @@ class TraceDetailsPage extends Page {
   }
   
 
-  void moveMap(SpacesPositions spacesPositions ){
+  void _moveMap(SpacesPositions spacesPositions ){
     
     Element map = querySelector("#trace-details-map-canvas") ;
     if (map != null){
@@ -83,27 +81,33 @@ class TraceDetailsPage extends Page {
     }
   }
   
-  void moveTraceViewers(SpacesPositions spacesPositions ){
-    
+  void _moveProfile(SpacesPositions spacesPositions){
     Element traceProfileViewer = querySelector("#traceProfileViewer") ;
-    if (traceProfileViewer != null){
-     /* num traceHeightWidthRatio = js.context.traceHeightWidthRatio;
-      num traceProfileViewerWidth = spacesPositions.spaceNE_Width  * 0.95;
+    if (traceProfileViewer != null && currentKey != null){
+     
+      num traceHeightWidthRatio = traceDetailsByKey[currentKey].traceHeightWidthRatio;
+      num traceProfileViewerWidth = spacesPositions.spaceNE_Width  ;
       num traceProfileViewerHeight = traceProfileViewerWidth * traceHeightWidthRatio * 10;
       
-      if (  traceProfileViewerHeight >  spacesPositions.spaceNE_Height * 0.95){
+      if (  traceProfileViewerHeight >  spacesPositions.spaceNE_Height ){
         traceProfileViewerWidth = traceProfileViewerHeight / traceHeightWidthRatio / 10  ;
-        traceProfileViewerHeight = spacesPositions.spaceNW_Height * 0.80;
+        traceProfileViewerHeight = spacesPositions.spaceNW_Height ;
       }
       
-      
       traceProfileViewer..style.position = 'absolute'
-      ..style.right  = (spacesPositions.spaceNE_Width  * 0.05 ).toString() + "px" 
-      ..style.top    = (spacesPositions.spaceNE_Height * 0.15 ).toString() + "px" 
-      ..style.width  = (traceProfileViewerWidth ).toString() + "px" 
-      ..style.height = (traceProfileViewerHeight ).toString() + "px" ;
-    
-      js.context.drawTraceProfile();*/
+      ..style.right  = "0px" 
+      ..style.top    = "0px" 
+      ..style.width  = ( traceProfileViewerWidth ).toString() + "px" 
+      ..style.height = ( traceProfileViewerHeight  ).toString() + "px" ;      
+    }
+  }
+  
+  void moveTraceViewers(SpacesPositions spacesPositions ){
+
+    _moveProfile( spacesPositions);
+    Element traceProfileViewer = querySelector("#traceProfileViewer") ;
+    if (traceProfileViewer != null && currentKey != null){
+      _drawProfile(traceDetailsByKey[currentKey]) ;
     }
     
     Element traceStatisticsViewer = querySelector("#traceStatisticsViewer") ;
@@ -126,12 +130,23 @@ class TraceDetailsPage extends Page {
 
   void showPage( PageParameters pageParameters) {
     organizeSpaces();
+    _moveMap(layout.postions);
+    
     String key = pageParameters.pageName.substring( "trace_details_".length  ) ;
     String keyJsSafe = _transformJsSafe(key) ;
-    showBySelector("#${name}SE", hiddenClass: "gx-hidden-map");
+    loadingNE.startLoading();
+    loadingSE.startLoading();
+
+    
+    
     if(   keys.contains(key)    ){
       showBySelector( "#${name}NW_${keyJsSafe}");
       showBySelector( "#${name}SW_${keyJsSafe}");
+      loadingNE.stopLoading();
+      loadingSE.stopLoading();
+      _displayProfile( traceDetailsByKey[key] );
+      showBySelector("#${name}NE");
+      _displayMap( traceDetailsByKey[key] );
       this.currentKey = key;
     }else{
       _showPage( key);       
@@ -146,11 +161,15 @@ class TraceDetailsPage extends Page {
     
     String keyJsSafe = _transformJsSafe(key) ;
     loadingNW.startLoading();
+    loadingSW.startLoading();
     HttpRequest request = new HttpRequest();
     request.onReadyStateChange.listen((_) {
       
       if (request.readyState == HttpRequest.DONE ) {
         TraceDetails traceDetails = new TraceDetails.fromMap(JSON.decode(request.responseText));
+        traceDetailsByKey[key] = traceDetails;
+        keys.add(key);
+        this.currentKey = key;
         
         Element nwFragment  =_injectInDOMCloneEmptyElement("${name}NW",  keyJsSafe ) ;
         _displayData("trace-details-title",keyJsSafe,traceDetails.title) ;
@@ -159,7 +178,9 @@ class TraceDetailsPage extends Page {
         _displayData("trace-details-creator",keyJsSafe,traceDetails.creator) ;
         _displayData("trace-details-lastupdate",keyJsSafe,traceDetails.lastupdate) ;
         nwFragment.classes.remove("gx-hidden") ;
-
+        loadingNW.stopLoading();
+        
+        
         Element swFragment  =_injectInDOMCloneEmptyElement("${name}SW",  keyJsSafe ) ;
         _displayData("trace-details-lengthKmPart",keyJsSafe,"${traceDetails.lengthKmPart} km") ;
         _displayData("trace-details-lengthMetersPart",keyJsSafe,"${traceDetails.lengthMetersPart} m") ;
@@ -168,14 +189,14 @@ class TraceDetailsPage extends Page {
         _displayData("trace-details-upperPointElevetion",keyJsSafe,"${traceDetails.upperPointElevetion} m") ;
         _displayData("trace-details-difficulty",keyJsSafe,"${traceDetails.difficulty} points") ;
         swFragment.classes.remove("gx-hidden") ;
+        loadingSW.stopLoading();
         
-        js.context.traceDetailsMap.addMarkerToMap( keyJsSafe, traceDetails.mainActivity , traceDetails.titleJsSafe, traceDetails.startPointLatitude,traceDetails.startPointLongitude,traceDetails.gpxUrl );
-        js.context.traceDetailsMap.viewGpxByKey(keyJsSafe) ;
-        js.context.traceDetailsMap.refreshTiles();
-        loadingNW.stopLoading();
+        _displayMap(traceDetails);
+        _displayProfile(traceDetails) ;
+        showBySelector("#${name}NE");
         
-        keys.add(key);
-        this.currentKey = key;
+        
+
       }
     });
     request.open("GET",  "/j_trace_details/${key}", async: true);
@@ -201,13 +222,100 @@ class TraceDetailsPage extends Page {
      first = false;
    }) ;
  }
-  
-  void hidePage() {
+ 
+ void _displayMap(TraceDetails traceDetails){
+   js.context.traceDetailsMap.addMarkerToMap( traceDetails.keyJsSafe, traceDetails.mainActivity , traceDetails.titleJsSafe, traceDetails.startPointLatitude,traceDetails.startPointLongitude,traceDetails.gpxUrl );
+   js.context.traceDetailsMap.viewGpxByKey(traceDetails.keyJsSafe) ;
+   js.context.traceDetailsMap.refreshTiles();
+   showBySelector("#${name}SE", hiddenClass: "gx-hidden-map");
+   loadingSE.stopLoading();
+ }
+ 
+ void _displayProfile(TraceDetails traceDetails){
+   if (readyToDisplayProfile){
+     _drawProfile(traceDetails); 
+   }else{
+     _traceDetailsWaitingToDisplayProfile = traceDetails;
+   }
+ }
+ 
+ void _initDisplayProfile(){
+   js.context.google.load('visualization', '1', 
+       js.map(
+         {
+           'packages': ['corechart'],
+           'callback': () { 
+             this.readyToDisplayProfile = true;
+             if(_traceDetailsWaitingToDisplayProfile!=null){
+              _drawProfile( _traceDetailsWaitingToDisplayProfile);
+             }
+           }
+         }
+       )
+   );
+ }
+ 
+ void _drawProfile(TraceDetails traceDetails) {
+   
+   _moveProfile(layout.postions);
+   var gviz = js.context.google.visualization;
+   var listData = [
+                   ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ]
+                  ] ;
+
+   traceDetails.profilePoints.forEach((point){
+     listData.add(  [ point.distanceInMeters,
+                      traceDetails.skyElevetionInMeters,
+                      point.elevetionInMeters,
+                      point.getSnowInMeters(traceDetails.skyElevetionInMeters),
+                      point.scatteredInMeters,
+                      point.thornyInMeters,
+                      point.leafyInMeters,
+                      point.meadowInMeters  ] ) ;
+   });
+   
+   var arrayData = js.array(listData);
+
+   var tableData = gviz.arrayToDataTable(arrayData);
+
+   // "chartArea":{"left":"15%","top":"5%","width":"75%","height":"80%"},
+   var options = js.map({
+     "backgroundColor":"#5B6DE3",
+     "width": layout.postions.spaceNE_Width,
+     "height": layout.postions.spaceNE_Height,
+     "axisTitlesPosition" : "none",
+     "chartArea":{"left":"0%","top":"0%","width":"100%","height":"100%"},
+     "hAxis" : {"gridlines" : { "color" : "white" }},
+     "vAxis" : {"gridlines" : { "color" : "white" }},
+     "curveType": "function",
+     "series": [
+                {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                {"color": 'black', "lineWidth": 1, "areaOpacity": 1,  "visibleInLegend": false},
+                {"color": 'white', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                {"color": '#C2A385', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                {"color": '#4C8033', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                {"color": '#99FF66', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
+                {"color": '#FFE066', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false}
+                ]
+  });
+   // Create and draw the visualization.
+   var chart = new js.Proxy(gviz.AreaChart, querySelector('#traceProfileViewer'));
+   chart.draw(tableData, options);
+   
+   loadingNE.stopLoading();
+ }
+ 
+ 
+ 
+ void hidePage() {
     String keyJsSafe = _transformJsSafe(currentKey) ;
     hideBySelector("#${name}SE", hiddenClass: "gx-hidden-map");
+    hideBySelector("#${name}NE");
     hideBySelector("#${name}NW_${keyJsSafe}");
     hideBySelector("#${name}SW_${keyJsSafe}");
-  }
+ }
+ 
+ 
 }
 
 
