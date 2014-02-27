@@ -3,15 +3,33 @@
 part of trails;
 
 /** Template, traceSearchMapFragment, for rendering the view. */
-Future traceSearchMapFragment(HttpConnect connect, {lightTraceRenderers}) { //#2
+Future traceSearchMapFragment(HttpConnect connect) { //#2
   var _t0_, _cs_ = new List<HttpConnect>();
   HttpRequest request = connect.request;
   HttpResponse response = connect.response;
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  return Rsp.nnf(searchResultsOnMap(new HttpConnect.chain(connect), lightTraceRenderers: lightTraceRenderers)).then((_) { //include#2
+  response.write("""
 
-    return new Future.value();
-  }); //end-of-include
+    <div id="search-results-map-canvas"></div>
+    <script type="text/javascript">
+        var searchMap = new GxMap("search-results-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
+        searchMap.listenToMapChange(updateSearchFormBounds);
+      
+        function updateSearchFormBounds(){
+          if (!searchMap){
+            return ;
+          }
+          var bounds = searchMap.getBounds();
+          document.getElementById('search-form-input-location-ne-lat').value = bounds.getNorthEast().lat ;
+          document.getElementById('search-form-input-location-ne-long').value = bounds.getNorthEast().lng ;
+          document.getElementById('search-form-input-location-sw-lat').value = bounds.getSouthWest().lat ;
+          document.getElementById('search-form-input-location-sw-long').value = bounds.getSouthWest().lng ;
+          document.getElementById('search-form-js-dart-bridge').value = new Date().getTime();
+        }
+    </script>
+"""); //#2
+
+  return new Future.value();
 }

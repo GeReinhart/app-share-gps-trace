@@ -1,2 +1,19 @@
-[:page partOf="trails" args="lightTraceRenderers"]
-        [:include searchResultsOnMap lightTraceRenderers="[=lightTraceRenderers]" /]
+[:page partOf="trails" ]
+
+    <div id="search-results-map-canvas"></div>
+    <script type="text/javascript">
+        var searchMap = new GxMap("search-results-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
+        searchMap.listenToMapChange(updateSearchFormBounds);
+      
+        function updateSearchFormBounds(){
+          if (!searchMap){
+            return ;
+          }
+          var bounds = searchMap.getBounds();
+          document.getElementById('search-form-input-location-ne-lat').value = bounds.getNorthEast().lat ;
+          document.getElementById('search-form-input-location-ne-long').value = bounds.getNorthEast().lng ;
+          document.getElementById('search-form-input-location-sw-lat').value = bounds.getSouthWest().lat ;
+          document.getElementById('search-form-input-location-sw-long').value = bounds.getSouthWest().lng ;
+          document.getElementById('search-form-js-dart-bridge').value = new Date().getTime();
+        }
+    </script>

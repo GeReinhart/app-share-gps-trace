@@ -69,7 +69,7 @@
       if (activity in this.activities){
          return this.activities[activity] ;
       }
-      return this.activities["activity-running"];
+      return this.activities["running"];
     }
     
     this.getIconColor = function(key){
@@ -181,6 +181,7 @@
 	   if (  this.gpxTrack ){
 	       this.gpxTrack.setStyle( {  opacity:1  });	   
 	   }else{
+	       var me = this;
 	       this.gpxTrack = new L.GPX(this.gpxUrl,
                        { async: true, 
                          polyline_options: {
@@ -188,7 +189,7 @@
   						 }
                        }).on('loaded', function(e) {
         			         me.map.fitBounds(e.target.getBounds());
-	                       }).addTo(this.map);	   
+	                   }).addTo(this.map);	   
 	   }
     }
 	
@@ -232,13 +233,13 @@
   
  	this.init = function() {
 
-   		 var OSM			= L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {updateWhenIdle:true});
+   		 var OSM			= new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {updateWhenIdle:true});
             // , {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'}
   		 var ignWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
-  		 var IGN			= L.tileLayer(ignWmtsUrl, {updateWhenIdle:true});
+  		 var IGN			= new L.tileLayer(ignWmtsUrl, {updateWhenIdle:true});
            // , {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'}
   		 var scanWmtsUrl	= "http://gpp3-wxs.ign.fr/"+ ignKey + "/geoportail/wmts?LAYER=GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&&TILEMATRIX={z}&TILECOL={x}&TILEROW={y}" ;
-  		 var SCAN25		= L.tileLayer(scanWmtsUrl, {updateWhenIdle:true});
+  		 var SCAN25		= new L.tileLayer(scanWmtsUrl, {updateWhenIdle:true});
            // , {attribution: '&copy; <a href="http://www.ign.fr/">IGN</a>'}
            
   		 var GMS = new L.Google('SATELLITE');
@@ -246,7 +247,7 @@
           
     	 var baseMap = {"Ign Topo":IGN,"Ign Topo Express":SCAN25 ,"OpenStreetMap":OSM, "Google Satellite": GMS};
 
-	     this.map = L.map(id, {
+	     this.map = new  L.map(id, {
 	         zoomControl: false,
 	         layers: [OSM]
 	     });
@@ -257,6 +258,17 @@
          this.map.addControl(zoomControl);
          
          L.control.layers(baseMap).addTo(this.map);
+         
+         this.map.setView([45.174776, 5.541494], 6);
+         
+         var me = this ;
+         this.map.on('viewreset', function(e){
+	       if( me.map.getZoom() == 0){
+	          me.map.setView([45.174776, 5.541494], 6);
+	          me.map.on('load', this.fitMapViewPortWithMarkers);
+	       }
+         });
+         
          
          return this;
  	}
@@ -309,8 +321,8 @@
 
  	this.displayGpxByKey = function(key){
     	if(key in this.traces){
-            for (var key in this.traces) {
-              this.traces[key].lighter() ;
+            for (var keyLoop in this.traces) {
+              this.traces[keyLoop].lighter() ;
             }
             this.traces[key].visible();
             this.traces[key].displayGpxTrack();
@@ -319,8 +331,8 @@
  
   	this.viewGpxByKey = function(key){
     	if(key in this.traces){
-            for (var key in this.traces) {
-              this.traces[key].lighter() ;
+            for (var keyLoop in this.traces) {
+              this.traces[keyLoop].invisible() ;
             }
             this.traces[key].visible();
             this.traces[key].viewGpxTrack();
@@ -347,7 +359,7 @@
 	}
 	 
 	this.addMarkerToMap = function( key, activity, title, startLat, startLong, gpx ){
-	   this._addMarker(map,  key, activity, title, startLat, startLong, gpx ) ;
+	   this._addMarker(this.map,  key, activity, title, startLat, startLong, gpx ) ;
 	} 
 	 
 	this.removeAllMarkers = function(){
@@ -373,6 +385,9 @@
 	       this.map.fitBounds (bounds);
 	       if (this.map.getZoom() > 12){
 	         this.map.setZoom(12);
+	       }
+	       if( this.map.getZoom() == 0){
+	          this.map.setView([45.174776, 5.541494], 6);
 	       }
 	     }
 	 }

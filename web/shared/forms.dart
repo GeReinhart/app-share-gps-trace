@@ -393,6 +393,7 @@ class TraceDetails implements ToJson{
   num difficulty;
   num startPointLatitude;
   num startPointLongitude;
+  String gpxUrl;
   
   TraceDetails( );
   
@@ -415,6 +416,7 @@ class TraceDetails implements ToJson{
     difficulty = jsonMap['difficulty'] ;  
     startPointLatitude = jsonMap['startPointLatitude'] ;  
     startPointLongitude = jsonMap['startPointLongitude'] ;  
+    gpxUrl = jsonMap['gpxUrl'] ;  
   }
   
   Map toJson() {
@@ -431,7 +433,8 @@ class TraceDetails implements ToJson{
              'inclinationUp':inclinationUp,
              'difficulty':difficulty,
              'startPointLatitude':startPointLatitude,
-             'startPointLongitude':startPointLongitude
+             'startPointLongitude':startPointLongitude,
+             'gpxUrl':gpxUrl
             };
   }
   

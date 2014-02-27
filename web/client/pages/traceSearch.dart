@@ -29,7 +29,7 @@ class TraceSearchPage extends Page {
   TraceSearchPage(PageContext context): super("trace_search",context,70,50,true){
     layout.centerMoved.listen((_){
       moveMap( _ as SpacesPositions);
-      js.context.map.refreshTiles();
+      
     });
     _initTraceSearchPage();
   }
@@ -47,8 +47,8 @@ class TraceSearchPage extends Page {
     HtmlDocument document = js.context.document;
     document.on['highlight_trace'].listen((e ){
       resultsMap.forEach((key,trace){
-        String color = js.context.map.getLightColor(key) ;
-        if(  js.context.map.isHighlightedTraceByKey(key)) {
+        String color = js.context.searchMap.getLightColor(key) ;
+        if(  js.context.searchMap.isHighlightedTraceByKey(key)) {
           querySelectorAll(".key-${key}").forEach((e){
               e.style.backgroundColor = color ;
            });
@@ -72,6 +72,8 @@ class TraceSearchPage extends Page {
       ..style.top    = "0px"
       ..style.width  = (spacesPositions.spaceSE_Width).toString() + "px"
       ..style.height = (spacesPositions.spaceSE_Height).toString() + "px" ;
+      
+      js.context.searchMap.refreshTiles();
     }
   }
   
@@ -100,17 +102,17 @@ class TraceSearchPage extends Page {
     
     Element searchResultRow=  querySelector("#search-result-row");
     Element searchResultBody=  querySelector("#search-result-body");
-    js.context.map.removeAllMarkers();
+    js.context.searchMap.removeAllMarkers();
     removeResults(".search-results");
     setResultsMap(form.results);
     if (form.results != null && form.results.isNotEmpty){
         form.results.forEach((lightTrace){
         displaySearchResult( searchResultBody, searchResultRow,  lightTrace) ;
         String gpxUrl = "/trace.gpx/${lightTrace.key}";   
-        js.context.map.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.mainActivity , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
-      });
+        js.context.searchMap.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.mainActivity , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
+        });
       if (fitMapViewPortWithMarkers){
-        js.context.map.fitMapViewPortWithMarkers();
+        js.context.searchMap.fitMapViewPortWithMarkers();
       }
       if(firstRequest){
         _highlightTraceByKey(form.results.first.keyJsSafe);
@@ -120,8 +122,8 @@ class TraceSearchPage extends Page {
   }
   
   void _highlightTraceByKey(String key){
-    String color = js.context.map.getLightColor(key) ;
-    js.context.map.highlightTraceByKey(key);
+    String color = js.context.searchMap.getLightColor(key) ;
+    js.context.searchMap.highlightTraceByKey(key);
     querySelectorAll(".key-${key}").forEach((e)=>e.style.backgroundColor = color);
     
   }
@@ -129,8 +131,8 @@ class TraceSearchPage extends Page {
   void displaySearchResult(Element searchResultBody,Element searchResultRow, LightTrace lightTrace){
     
     Element searchResultCurrentRow = searchResultRow.clone(true) ;
-    String color = js.context.map.getLightColor(lightTrace.keyJsSafe) ;
-    if(  js.context.map.isHighlightedTraceByKey(lightTrace.keyJsSafe)) {
+    String color = js.context.searchMap.getLightColor(lightTrace.keyJsSafe) ;
+    if(  js.context.searchMap.isHighlightedTraceByKey(lightTrace.keyJsSafe)) {
       searchResultCurrentRow.style.backgroundColor = color  ;
     }
     
@@ -140,7 +142,7 @@ class TraceSearchPage extends Page {
     String activities = "" ;
     lightTrace.activityKeys.forEach((key){
       ImageElement img = new ImageElement();
-      img.src = js.context.map.getIconUrl( lightTrace.keyJsSafe, key  );
+      img.src = js.context.searchMap.getIconUrl( lightTrace.keyJsSafe, key  );
       activitiesLink.append(img);
       activitiesLink.appendText(" ");
     });
@@ -201,7 +203,7 @@ class TraceSearchPage extends Page {
     resultsMap.forEach((key,lightTrace)=>(allResultsMap[key]= lightTrace));
     
     allResultsMap.forEach((key,lightTrace){
-      if ( js.context.map.isOnTheMap( lightTrace.startPointLatitude,lightTrace.startPointLongitude  )  ){
+      if ( js.context.searchMap.isOnTheMap( lightTrace.startPointLatitude,lightTrace.startPointLongitude  )  ){
         updatedResultsMap[key] = lightTrace;
         if(!resultsMap.containsKey(key)){
           displaySearchResult( searchResultBody, searchResultRow,  lightTrace) ;
@@ -273,7 +275,7 @@ class TraceSearchPage extends Page {
     showBySelector("#${name}NE");
     showBySelector("#${name}SE", hiddenClass: "gx-hidden-map");
     _initTraceSearchPage();
-    js.context.map.refreshTiles();
+    js.context.searchMap.refreshTiles();
   }
   
   void hidePage() {

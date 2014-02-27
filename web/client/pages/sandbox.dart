@@ -14,7 +14,7 @@ import "../controllers.dart" ;
 
 class SandboxPage extends Page {
   
-  SandboxPage(PageContext context): super("sandbox",context,80,20,false){
+  SandboxPage(PageContext context): super("sandbox",context,50,50,false){
     layout.centerMoved.listen((_){
       moveTraceViewers( _ as SpacesPositions);
     });
@@ -26,13 +26,13 @@ class SandboxPage extends Page {
       submitRequest();
     });
     querySelectorAll("#btn-reset").onClick.listen((e) {
-      js.context.getMap().removeAllMarkers();
+      js.context.searchMap.removeAllMarkers();
     }); 
     querySelectorAll("#btn-gpx").onClick.listen((e) {
-      js.context.getMap().displayGpxByKey("user1_jhjhg");
+      js.context.traceDetailsMap.displayGpxByKey("user1_jhjhg");
     }); 
     querySelectorAll("#btn-view-gpx").onClick.listen((e) {
-      js.context.getMap().viewGpxByKey("user3_gasdgasdgasdgds");
+      js.context.traceDetailsMap.viewGpxByKey("user3_gasdgasdgasdgds");
     });    
     
     
@@ -68,30 +68,41 @@ class SandboxPage extends Page {
     
     Element searchResultRow=  querySelector("#search-result-row");
     Element searchResultBody=  querySelector("#search-result-body");
-    js.context.getMap().removeAllMarkers();
+    js.context.searchMap.removeAllMarkers();
     if (form.results != null && form.results.isNotEmpty){
         form.results.forEach((lightTrace){
           String gpxUrl = "/trace.gpx/${lightTrace.key}";   
-          js.context.getMap().addMarkerToMap( lightTrace.keyJsSafe, lightTrace.activities , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
+          js.context.searchMap.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.activities , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
+          js.context.traceDetailsMap.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.activities , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
+
         });
-        js.context.getMap().fitMapViewPortWithMarkers();
+        js.context.searchMap.fitMapViewPortWithMarkers();
+        js.context.traceDetailsMap.fitMapViewPortWithMarkers();
     }
     layout.stopLoading();
   }
   
   void moveTraceViewers(SpacesPositions spacesPositions ){
     
-    Element map = querySelector("#map") ;
-    if (map != null){
+    Element mapSearch = querySelector("#search-results-map-canvas") ;
+    if (mapSearch != null){
      
-      map..style.position = 'absolute'
+      mapSearch..style.position = 'absolute'
       ..style.right  = "0px"
       ..style.top    = "0px"
       ..style.width  = (spacesPositions.spaceSE_Width).toString() + "px"
       ..style.height = (spacesPositions.spaceSE_Height).toString() + "px" ;
     }
     
-    
+    Element mapDetails = querySelector("#trace-details-map-canvas") ;
+    if (mapDetails != null){
+     
+      mapDetails..style.position = 'absolute'
+      ..style.right  = "0px"
+      ..style.top    = "0px"
+      ..style.width  = (spacesPositions.spaceNE_Width).toString() + "px"
+      ..style.height = (spacesPositions.spaceNE_Height).toString() + "px" ;
+    }
   }
   
 }
@@ -99,5 +110,5 @@ class SandboxPage extends Page {
 
 void main() {
   SandboxPage page = new SandboxPage(new PageContext() );
-  page.showPage();
+  page.showPage(null);
 }

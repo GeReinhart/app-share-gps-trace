@@ -39,54 +39,49 @@ Future sandbox(HttpConnect connect) { //#2
     var _1 = new StringBuffer(); _cs_.add(connect); //var#19
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
+    response.write("""        <div id="trace_detailsNE" >
+           
+               <div id="trace-details-map-canvas"></div>
+                <script type="text/javascript">
+                    var traceDetailsMap = new GxMap("trace-details-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
+                </script>
+           
+        </div>
+"""); //#20
+
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#20
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#29
     connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#21
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#30
     connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-    response.write("""         <div id="map"  style="height: 500px; width: 500px"></div>
-         <script type="text/javascript">
+    response.write("""        <div id="trace_searchSE">
+          
+              <div id="search-results-map-canvas"></div>
+              <script type="text/javascript">
+                  var searchMap = new GxMap("search-results-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
+              </script>
 
-         var map = new GxMap("map","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
-         
-         function onMapChange(e){
-           if (!map){
-             return ;
-           }
-           var bounds = map.getBounds();
-           //console.log("onMapChange : NW ",bounds.getNorthWest() );
-           //console.log("onMapChange : NE ",bounds.getNorthEast() );
-           //console.log("onMapChange : SW ",bounds.getSouthWest() );
-           //console.log("onMapChange : SE ",bounds.getSouthEast() );
-         }
-     	 
-     	   map.listenToMapChange(onMapChange);
-     	   
-     	   function getMap(){
-     	     return map ;
-     	   }
-         
-         
-         </script>
-"""); //#22
+
+        </div>
+"""); //#31
 
     connect = _cs_.removeLast(); response = connect.response;
 
     return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#48
+      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#42
 
         response.write("""    <script type="application/dart" src="/client/pages/sandbox.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
 </html>
-"""); //#49
+"""); //#43
 
         return new Future.value();
       }); //end-of-include

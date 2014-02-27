@@ -30,8 +30,8 @@
            [:include traceSearchResultsFragment /]
         </div>
         <div id="traceNE" class="gx-hidden" ></div>
-        <div id="trace_detailsNE" class="gx-hidden" >
-           [:include traceDisplayProfileFragment  /]
+        <div id="trace_detailsNE" class="gx-hidden"   >
+           
         </div>        
       [/var]
       [:var sw ]
@@ -47,10 +47,11 @@
       [:var se ]
         [:include loadingWidget loadingId="loadingSE" size="50" /]
         <div id="aboutSE"      class="gx-hidden" ></div>        
-        <div id="trace_searchSE" class="gx-hidden-map" >
-           [:include traceSearchMapFragment lightTraceRenderers="[=lightTraceRenderers]" /]
+        <div id="trace_detailsSE" class="gx-hidden-map" >
+           [:include traceDisplayMapFragment /]
         </div>
-        <div id="trace_detailsNW" class="gx-hidden" >
+        <div id="trace_searchSE" >
+           [:include traceSearchMapFragment /]
         </div>
       [/var]
     [/include]  

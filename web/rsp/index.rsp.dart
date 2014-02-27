@@ -69,53 +69,54 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
                 response.write("""        </div>
         <div id="traceNE" class="gx-hidden" ></div>
-        <div id="trace_detailsNE" class="gx-hidden" >
+        <div id="trace_detailsNE" class="gx-hidden"   >
+           
+        </div>        
 """); //#31
 
-                return Rsp.nnf(traceDisplayProfileFragment(new HttpConnect.chain(connect))).then((_) { //include#34
+                connect = _cs_.removeLast(); response = connect.response;
 
-                  response.write("""        </div>        
-"""); //#35
+                var _3 = new StringBuffer(); _cs_.add(connect); //var#37
+                connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-                  connect = _cs_.removeLast(); response = connect.response;
+                return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSW", size: "50")).then((_) { //include#38
 
-                  var _3 = new StringBuffer(); _cs_.add(connect); //var#37
-                  connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
-
-                  return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSW", size: "50")).then((_) { //include#38
-
-                    response.write("""        <div id="indexSW"      class="gx-hidden" >
+                  response.write("""        <div id="indexSW"      class="gx-hidden" >
 """); //#39
 
-                    return Rsp.nnf(indexButtonsFragment(new HttpConnect.chain(connect))).then((_) { //include#40
+                  return Rsp.nnf(indexButtonsFragment(new HttpConnect.chain(connect))).then((_) { //include#40
 
-                      response.write("""        </div>        
+                    response.write("""        </div>        
         <div id="aboutSW"      class="gx-hidden" ></div>
         <div id="trace_detailsSW" class="gx-hidden" >
 """); //#41
 
-                      return Rsp.nnf(traceDisplayStatFragment(new HttpConnect.chain(connect))).then((_) { //include#44
+                    return Rsp.nnf(traceDisplayStatFragment(new HttpConnect.chain(connect))).then((_) { //include#44
 
-                        response.write("""        </div>
+                      response.write("""        </div>
 """); //#45
 
-                        connect = _cs_.removeLast(); response = connect.response;
+                      connect = _cs_.removeLast(); response = connect.response;
 
-                        var _4 = new StringBuffer(); _cs_.add(connect); //var#47
-                        connect = new HttpConnect.stringBuffer(connect, _4); response = connect.response;
+                      var _4 = new StringBuffer(); _cs_.add(connect); //var#47
+                      connect = new HttpConnect.stringBuffer(connect, _4); response = connect.response;
 
-                        return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSE", size: "50")).then((_) { //include#48
+                      return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSE", size: "50")).then((_) { //include#48
 
-                          response.write("""        <div id="aboutSE"      class="gx-hidden" ></div>        
-        <div id="trace_searchSE" class="gx-hidden-map" >
+                        response.write("""        <div id="aboutSE"      class="gx-hidden" ></div>        
+        <div id="trace_detailsSE" class="gx-hidden-map" >
 """); //#49
 
-                          return Rsp.nnf(traceSearchMapFragment(new HttpConnect.chain(connect), lightTraceRenderers: lightTraceRenderers)).then((_) { //include#51
+                        return Rsp.nnf(traceDisplayMapFragment(new HttpConnect.chain(connect))).then((_) { //include#51
+
+                          response.write("""        </div>
+        <div id="trace_searchSE" >
+"""); //#52
+
+                          return Rsp.nnf(traceSearchMapFragment(new HttpConnect.chain(connect))).then((_) { //include#54
 
                             response.write("""        </div>
-        <div id="trace_detailsNW" class="gx-hidden" >
-        </div>
-"""); //#52
+"""); //#55
 
                             connect = _cs_.removeLast(); response = connect.response;
 
@@ -123,21 +124,21 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
                               response.write("""    
     
-"""); //#57
+"""); //#58
 
-                              return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteTraceConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace XXXXXXXXXXXXXXX")).then((_) { //include#59
+                              return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteTraceConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace XXXXXXXXXXXXXXX")).then((_) { //include#60
 
                                 response.write("""    
-"""); //#60
+"""); //#61
 
-                                return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#61
+                                return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#62
 
                                   response.write("""    
     <script type="application/dart" src="/client/pages/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>    
   </body>
-</html>"""); //#62
+</html>"""); //#63
 
                                   return new Future.value();
                                 }); //end-of-include

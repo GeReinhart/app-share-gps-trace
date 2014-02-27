@@ -128,6 +128,9 @@ class TraceRenderer extends LigthTraceRenderer{
     traceDetails.inclinationUp = this.traceAnalysisRenderer.inclinationUp;
     traceDetails.upperPointElevetion = this.traceAnalysisRenderer.upperPointElevetion;
     traceDetails.difficulty = this.traceAnalysisRenderer.difficulty ;
+    traceDetails.startPointLatitude = this.traceAnalysisRenderer.startPoint.latitude ;
+    traceDetails.startPointLongitude = this.traceAnalysisRenderer.startPoint.longitude ;
+    traceDetails.gpxUrl = this.gpxUrl ;
     
     return traceDetails ;
   }

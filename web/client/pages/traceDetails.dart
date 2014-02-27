@@ -22,10 +22,14 @@ class TraceDetailsPage extends Page {
   TraceDetailsPage(PageContext context): super("trace_details",context,65,40,false){
     _deleteConfirm = new ConfirmWidget("deleteTraceConfirmModal", deleteTrace);
     
+    moveMap(layout.postions);
     moveTraceViewers(layout.postions);
     
     layout.centerMoved.listen((_){
+      moveMap( _ as SpacesPositions);
       moveTraceViewers( _ as SpacesPositions);
+      
+      
     });
 
     querySelectorAll(".trace-delete-menu").onClick.listen((event){
@@ -64,23 +68,26 @@ class TraceDetailsPage extends Page {
   
   }
   
-  
+
+  void moveMap(SpacesPositions spacesPositions ){
+    
+    Element map = querySelector("#trace-details-map-canvas") ;
+    if (map != null){
+        map..style.position = 'absolute'
+            ..style.right  = "0px"
+            ..style.top    = "0px"
+            ..style.width  = (spacesPositions.spaceSE_Width).toString() + "px"
+            ..style.height = (spacesPositions.spaceSE_Height).toString() + "px" ;
+        
+        js.context.traceDetailsMap.refreshTiles();
+    }
+  }
   
   void moveTraceViewers(SpacesPositions spacesPositions ){
     
-    Element traceGpxViewer = querySelector("#traceGpxViewer") ;
-    if (traceGpxViewer != null){
-     
-      traceGpxViewer..style.position = 'absolute'
-      ..style.right  =  "0px" 
-      ..style.top    =  "0px" 
-      ..style.width  = (spacesPositions.spaceSE_Width).toString() + "px"
-      ..style.height = (spacesPositions.spaceSE_Height).toString() + "px" ;
-    }
-    
     Element traceProfileViewer = querySelector("#traceProfileViewer") ;
     if (traceProfileViewer != null){
-      num traceHeightWidthRatio = js.context.traceHeightWidthRatio;
+     /* num traceHeightWidthRatio = js.context.traceHeightWidthRatio;
       num traceProfileViewerWidth = spacesPositions.spaceNE_Width  * 0.95;
       num traceProfileViewerHeight = traceProfileViewerWidth * traceHeightWidthRatio * 10;
       
@@ -96,7 +103,7 @@ class TraceDetailsPage extends Page {
       ..style.width  = (traceProfileViewerWidth ).toString() + "px" 
       ..style.height = (traceProfileViewerHeight ).toString() + "px" ;
     
-      js.context.drawTraceProfile();
+      js.context.drawTraceProfile();*/
     }
     
     Element traceStatisticsViewer = querySelector("#traceStatisticsViewer") ;
@@ -121,6 +128,7 @@ class TraceDetailsPage extends Page {
     organizeSpaces();
     String key = pageParameters.pageName.substring( "trace_details_".length  ) ;
     String keyJsSafe = _transformJsSafe(key) ;
+    showBySelector("#${name}SE", hiddenClass: "gx-hidden-map");
     if(   keys.contains(key)    ){
       showBySelector( "#${name}NW_${keyJsSafe}");
       showBySelector( "#${name}SW_${keyJsSafe}");
@@ -161,7 +169,9 @@ class TraceDetailsPage extends Page {
         _displayData("trace-details-difficulty",keyJsSafe,"${traceDetails.difficulty} points") ;
         swFragment.classes.remove("gx-hidden") ;
         
-        
+        js.context.traceDetailsMap.addMarkerToMap( keyJsSafe, traceDetails.mainActivity , traceDetails.titleJsSafe, traceDetails.startPointLatitude,traceDetails.startPointLongitude,traceDetails.gpxUrl );
+        js.context.traceDetailsMap.viewGpxByKey(keyJsSafe) ;
+        js.context.traceDetailsMap.refreshTiles();
         loadingNW.stopLoading();
         
         keys.add(key);
@@ -194,8 +204,9 @@ class TraceDetailsPage extends Page {
   
   void hidePage() {
     String keyJsSafe = _transformJsSafe(currentKey) ;
-    hideBySelector( "#${name}NW_${keyJsSafe}");
-    hideBySelector( "#${name}SW_${keyJsSafe}");
+    hideBySelector("#${name}SE", hiddenClass: "gx-hidden-map");
+    hideBySelector("#${name}NW_${keyJsSafe}");
+    hideBySelector("#${name}SW_${keyJsSafe}");
   }
 }
 

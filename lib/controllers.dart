@@ -30,7 +30,6 @@ part "../web/rsp/templates/spaces.rsp.dart";
 part "../web/rsp/templates/traceProfileViewer.rsp.dart";
 part "../web/rsp/templates/searchForm.rsp.dart";
 part "../web/rsp/templates/searchResults.rsp.dart";
-part "../web/rsp/templates/searchResultsOnMap.rsp.dart";
 
 part "../web/rsp/widgets/confirmWidget.rsp.dart";
 part "../web/rsp/widgets/loginWidget.rsp.dart";
@@ -57,7 +56,7 @@ part "../web/rsp/fragments/traceSearchMapFragment.rsp.dart";
 part "../web/rsp/fragments/traceDisplayTextFragment.rsp.dart";
 part "../web/rsp/fragments/traceDisplayStatFragment.rsp.dart";
 part "../web/rsp/fragments/traceDisplayProfileFragment.rsp.dart";
-
+part "../web/rsp/fragments/traceDisplayMapFragment.rsp.dart";
 
 class ServerController{
   

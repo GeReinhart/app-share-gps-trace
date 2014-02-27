@@ -16,33 +16,27 @@
               <button id="btn-view-gpx"  type="submit" class="btn btn-standard ">Voir trace gpx</button>
            
       [/var]
-      [:var ne /]
+      [:var ne ]
+        <div id="trace_detailsNE" >
+           
+               <div id="trace-details-map-canvas"></div>
+                <script type="text/javascript">
+                    var traceDetailsMap = new GxMap("trace-details-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
+                </script>
+           
+        </div>
+      [/var]
       [:var sw /]
       [:var se ]
-         <div id="map"  style="height: 500px; width: 500px"></div>
-         <script type="text/javascript">
+        <div id="trace_searchSE">
+          
+              <div id="search-results-map-canvas"></div>
+              <script type="text/javascript">
+                  var searchMap = new GxMap("search-results-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
+              </script>
 
-         var map = new GxMap("map","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
-         
-         function onMapChange(e){
-           if (!map){
-             return ;
-           }
-           var bounds = map.getBounds();
-           //console.log("onMapChange : NW ",bounds.getNorthWest() );
-           //console.log("onMapChange : NE ",bounds.getNorthEast() );
-           //console.log("onMapChange : SW ",bounds.getSouthWest() );
-           //console.log("onMapChange : SE ",bounds.getSouthEast() );
-         }
-     	 
-     	   map.listenToMapChange(onMapChange);
-     	   
-     	   function getMap(){
-     	     return map ;
-     	   }
-         
-         
-         </script>
+
+        </div>
       [/var]
     [/include]  
     [:include sharedWidgets sharedWidgetsId="sharedWidgets" /] 
