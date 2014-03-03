@@ -306,8 +306,101 @@ class TraceDetailsPage extends Page {
                 {"color": '#FFE066', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false}
                 ]
   });
-   // Create and draw the visualization.
-   var chart = new js.Proxy(gviz.AreaChart, querySelector('#traceProfileViewer'));
+   
+  var chart = new js.Proxy(gviz.AreaChart, querySelector('#traceProfileViewer'));
+ 
+   
+  Element traceProfileViewer = querySelector("#trace_detailsNE") ;
+ 
+   
+  traceProfileViewer.onMouseMove.listen((e){
+    
+    Element verticalLine = querySelector("#traceProfileViewer-vertical-line") ;
+    var cli = chart.getChartLayoutInterface();
+    var chartAreaBoundingBox = cli.getChartAreaBoundingBox() ;
+    var clientX =  e.client.x - ( window.innerWidth - layout.postions.spaceNE_Width )  ;  
+    
+    verticalLine.style.position = 'absolute';
+    verticalLine.style.zIndex = '1000';
+    verticalLine.style.width = '1px';
+    verticalLine.style.backgroundColor = 'black';
+    
+    int index = ( clientX / layout.postions.spaceNE_Width * traceDetails.profilePoints.length ).toInt() ;
+    
+    if (  index >= 0 && index < traceDetails.profilePoints.length  ){
+      ProfilePoint profilePoint = traceDetails.profilePoints[index] ;
+      int valueX =   profilePoint.elevetionInMeters  ;
+      int valueY =   profilePoint.distanceInMeters  ;
+      
+      var elevetion = "${valueX}m" ;
+      var distance = "${(valueY/1000).truncate()}km&nbsp;${( valueY- (valueY/1000).truncate()*1000)}m " ;
+
+      verticalLine.style.left = "${clientX}px";
+      verticalLine.style.top = "${(cli.getChartAreaBoundingBox().top +traceProfileViewer.offsetTop)}px"; ;
+      verticalLine.style.height = "${cli.getChartAreaBoundingBox().height}px";
+      verticalLine.setInnerHtml("<span style='border-style: solid; border-width:1px; background-color:white; '  >&nbsp;${distance}&nbsp;${elevetion}&nbsp;</span>",
+                                validator: buildNodeValidatorBuilderForSafeHtml());
+      
+      js.context.traceDetailsMap.moveMarker(traceDetails.keyJsSafe,profilePoint.latitude,profilePoint.longitude); 
+      
+    }
+      //var event = new CustomEvent("name-of-event", { "detail": {"valueX": valueX, "valueY" : valueY }});
+      //document.dispatchEvent(event);
+      
+  
+    
+    
+  });
+  
+   
+   /*
+    *         var runOnce = google.visualization.events.addListener(chart, 'ready', function () {
+            google.visualization.events.removeListener(runOnce);
+            // create mousemove event listener in the chart's container
+            // I use jQuery, but you can use whatever works best for you        
+        
+            $('#chart_div_ts_count').mousemove(function (e) {
+
+              
+              var verticalLine = $('#vertical-line') ;
+              var cli = chart.getChartLayoutInterface();
+              var chartAreaBoundingBox = cli.getChartAreaBoundingBox() ;
+                var clientX = e.clientX;
+              
+              verticalLine.css('position','absolute');
+              verticalLine.css('z-index',1000);
+              verticalLine.css('width','1px');
+              verticalLine.css('background-color','black');
+              
+              if (   clientX >=  chartAreaBoundingBox.left +  container.offsetLeft  &&
+                   clientX <=  chartAreaBoundingBox.left +  container.offsetLeft + chartAreaBoundingBox.width   
+                   ){
+                var clientChartX = clientX - chartAreaBoundingBox.left - container.offsetLeft ;
+                    var index = Math.round( clientChartX / chartAreaBoundingBox.width * data.getNumberOfRows() ) ;
+                    var valueX = data.getValue(index,1) ;
+                    var valueY = data.getValue(index,0) ;
+                    
+                    verticalLine.css('left',clientX);
+                verticalLine.css('top',cli.getChartAreaBoundingBox().top +container.offsetTop     );
+                verticalLine.css('height',cli.getChartAreaBoundingBox().height);
+                verticalLine.empty();
+                verticalLine.append("<span style='border-style: solid; border-width:1px; background-color:white; '  >&nbsp;"+ valueX +"&nbsp;"+ valueY +"&nbsp;</span>");
+                
+                
+                var event = new CustomEvent("name-of-event", { "detail": {"valueX": valueX, "valueY" : valueY }});
+                document.dispatchEvent(event);
+                
+              }
+              
+          }); 
+        
+        });
+    * */
+   
+   
+   
+   
+   
    chart.draw(tableData, options);
    
    loadingNE.stopLoading();

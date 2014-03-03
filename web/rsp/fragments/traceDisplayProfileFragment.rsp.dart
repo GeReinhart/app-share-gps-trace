@@ -10,8 +10,9 @@ Future traceDisplayProfileFragment(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""        <div id="traceProfileViewer" ></div> 
-"""); //#2
+  response.write("""        <div id="traceProfileViewer-vertical-line" style="position:absolute;"  >&nbsp;</div>
+        <div id="traceProfileViewer" ></div> 
+        """); //#2
 
   return new Future.value();
 }

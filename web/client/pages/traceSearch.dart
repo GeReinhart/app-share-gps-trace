@@ -28,8 +28,11 @@ class TraceSearchPage extends Page {
 
   TraceSearchPage(PageContext context): super("trace_search",context,70,50,true){
     layout.centerMoved.listen((_){
-      moveMap( _ as SpacesPositions);
+      SpacesPositions positions = _ as SpacesPositions ;
+      moveMap(positions);
+      querySelector("#trace-search-results-content").style.height = "${positions.spaceNE_Height}px" ;
     });
+    
     _initTraceSearchPage();
   }
 
@@ -37,6 +40,8 @@ class TraceSearchPage extends Page {
     if(initDone){
       return;
     }
+    querySelector("#trace-search-results-content").style.height =  "${layout.postions.spaceNE_Height}px";
+    
     submitRequest(mapFilter:false);
     
     querySelectorAll(".search-form-inputs").onChange.listen((e){

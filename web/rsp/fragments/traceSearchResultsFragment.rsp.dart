@@ -10,8 +10,7 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""
-
+  response.write("""      <div id="trace-search-results-content" style="overflow-y: auto;">
         <table class="table" style="width: 100% ;margin-top: 40px">  
           <thead>  
             <tr>  
@@ -38,7 +37,7 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
              </tr>
           </tbody>  
         </table>
-"""); //#2
+      </div>"""); //#2
 
   return new Future.value();
 }

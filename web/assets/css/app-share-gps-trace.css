@@ -110,6 +110,7 @@ ul li {
   z-index: 100 ;
   position: absolute;
   overflow-x: hidden;
+  overflow-y: hidden;
   
   background-color: white; 
   margin: 0px; 

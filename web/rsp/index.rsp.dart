@@ -70,78 +70,81 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
                 response.write("""        </div>
         <div id="traceNE" class="gx-hidden" ></div>
         <div id="trace_detailsNE" style="overflow:hidden; background-color: '#5B6DE3' " class="gx-hidden"   >
-            <div id="traceProfileViewer" style="overflow:hidden;" ></div> 
-            <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        </div>        
 """); //#31
 
-                connect = _cs_.removeLast(); response = connect.response;
+                return Rsp.nnf(traceDisplayProfileFragment(new HttpConnect.chain(connect))).then((_) { //include#34
 
-                var _3 = new StringBuffer(); _cs_.add(connect); //var#38
-                connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+                  response.write("""        </div>        
+"""); //#35
 
-                return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSW", size: "50")).then((_) { //include#39
+                  connect = _cs_.removeLast(); response = connect.response;
 
-                  response.write("""        <div id="indexSW"      class="gx-hidden" >
-"""); //#40
+                  var _3 = new StringBuffer(); _cs_.add(connect); //var#37
+                  connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-                  return Rsp.nnf(indexButtonsFragment(new HttpConnect.chain(connect))).then((_) { //include#41
+                  return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSW", size: "50")).then((_) { //include#38
 
-                    response.write("""        </div>        
+                    response.write("""        <div id="indexSW"      class="gx-hidden" >
+"""); //#39
+
+                    return Rsp.nnf(indexButtonsFragment(new HttpConnect.chain(connect))).then((_) { //include#40
+
+                      response.write("""        </div>        
         <div id="aboutSW"      class="gx-hidden" ></div>
         <div id="trace_detailsSW" class="gx-hidden" >
-"""); //#42
+"""); //#41
 
-                    return Rsp.nnf(traceDisplayStatFragment(new HttpConnect.chain(connect))).then((_) { //include#45
+                      return Rsp.nnf(traceDisplayStatFragment(new HttpConnect.chain(connect))).then((_) { //include#44
 
-                      response.write("""        </div>
-"""); //#46
+                        response.write("""        </div>
+"""); //#45
 
-                      connect = _cs_.removeLast(); response = connect.response;
+                        connect = _cs_.removeLast(); response = connect.response;
 
-                      var _4 = new StringBuffer(); _cs_.add(connect); //var#48
-                      connect = new HttpConnect.stringBuffer(connect, _4); response = connect.response;
+                        var _4 = new StringBuffer(); _cs_.add(connect); //var#47
+                        connect = new HttpConnect.stringBuffer(connect, _4); response = connect.response;
 
-                      return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSE", size: "50")).then((_) { //include#49
+                        return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSE", size: "50")).then((_) { //include#48
 
-                        response.write("""        <div id="aboutSE"      class="gx-hidden" ></div>        
+                          response.write("""        <div id="aboutSE"      class="gx-hidden" ></div>        
         <div id="trace_detailsSE" class="gx-hidden-map" >
-"""); //#50
+"""); //#49
 
-                        return Rsp.nnf(traceDisplayMapFragment(new HttpConnect.chain(connect))).then((_) { //include#52
-
-                          response.write("""        </div>
-        <div id="trace_searchSE" class="gx-hidden-map" >
-"""); //#53
-
-                          return Rsp.nnf(traceSearchMapFragment(new HttpConnect.chain(connect))).then((_) { //include#55
+                          return Rsp.nnf(traceDisplayMapFragment(new HttpConnect.chain(connect))).then((_) { //include#51
 
                             response.write("""        </div>
-"""); //#56
+        <div id="trace_searchSE" class="gx-hidden-map" >
+"""); //#52
 
-                            connect = _cs_.removeLast(); response = connect.response;
+                            return Rsp.nnf(traceSearchMapFragment(new HttpConnect.chain(connect))).then((_) { //include#54
 
-                            return Rsp.nnf(spaces(new HttpConnect.chain(connect), w: _0.toString(), nw: _1.toString(), ne: _2.toString(), sw: _3.toString(), se: _4.toString())).then((_) { //include#9
+                              response.write("""        </div>
+"""); //#55
 
-                              response.write("""    
-    
-"""); //#59
+                              connect = _cs_.removeLast(); response = connect.response;
 
-                              return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteTraceConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace XXXXXXXXXXXXXXX")).then((_) { //include#61
+                              return Rsp.nnf(spaces(new HttpConnect.chain(connect), w: _0.toString(), nw: _1.toString(), ne: _2.toString(), sw: _3.toString(), se: _4.toString())).then((_) { //include#9
 
                                 response.write("""    
-"""); //#62
+    
+"""); //#58
 
-                                return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#63
+                                return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteTraceConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace XXXXXXXXXXXXXXX")).then((_) { //include#60
 
                                   response.write("""    
+"""); //#61
+
+                                  return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#62
+
+                                    response.write("""    
     <script type="application/dart" src="/client/pages/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>    
   </body>
-</html>"""); //#64
+</html>"""); //#63
 
-                                  return new Future.value();
+                                    return new Future.value();
+                                  }); //end-of-include
                                 }); //end-of-include
                               }); //end-of-include
                             }); //end-of-include

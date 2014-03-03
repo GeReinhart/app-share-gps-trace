@@ -135,20 +135,7 @@ abstract class Page{
       if (request.readyState == HttpRequest.DONE ) {
         String formContent = request.responseText;
         
-        final NodeValidatorBuilder _htmlValidator=new NodeValidatorBuilder.common()
-           ..allowElement('form', attributes: ['role','accept-charset'])
-           ..allowElement('table', attributes: ['style'])
-           ..allowElement('span', attributes: ['style'])
-           ..allowElement('a', attributes: ['href','rel'])
-           ..allowElement('img', attributes: ['src','style'])
-           ..allowElement('div', attributes: ['style'])
-           ..allowElement('input', attributes: ['style'])
-           ..allowElement('textarea', attributes: ['style'])
-           ..allowElement('th', attributes: ['width'])
-           ..allowElement('script')
-           ..allowElement('td', attributes: ['style']);
-        
-        querySelector(fragmentSelector).setInnerHtml(formContent, validator: _htmlValidator) ;
+        querySelector(fragmentSelector).setInnerHtml(formContent, validator: buildNodeValidatorBuilderForSafeHtml()) ;
         fragmentReceived(fragmentSelector);
         loadingNW.stopLoading();
         showBySelector(fragmentSelector);
@@ -172,6 +159,22 @@ abstract class Page{
     });
   }  
 
+  
+  NodeValidatorBuilder buildNodeValidatorBuilderForSafeHtml(){
+    final NodeValidatorBuilder _htmlValidator=new NodeValidatorBuilder.common()
+    ..allowElement('form', attributes: ['role','accept-charset'])
+    ..allowElement('table', attributes: ['style'])
+    ..allowElement('span', attributes: ['style'])
+    ..allowElement('a', attributes: ['href','rel'])
+    ..allowElement('img', attributes: ['src','style'])
+    ..allowElement('div', attributes: ['style'])
+    ..allowElement('input', attributes: ['style'])
+    ..allowElement('textarea', attributes: ['style'])
+    ..allowElement('th', attributes: ['width'])
+    ..allowElement('script')
+    ..allowElement('td', attributes: ['style']);
+    return _htmlValidator;
+  }
   
   void showLoginModal(){
     _context.loginModal.showLoginModal();

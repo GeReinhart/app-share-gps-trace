@@ -119,6 +119,11 @@
 	   
 	}
 	
+	this.moveMarker = function(lat,long){
+	    this.startMarker.setLatLng( L.latLng(lat, long) ) ;
+	    this.startMarker.update() ;
+	}
+	
 	this.openPopup = function (){
 	   if(! this.popup._isOpen){
            	 this.popup.addTo(this.map) ;
@@ -308,6 +313,13 @@
     	}else{
     	    return "";
     	}    
+    }
+    
+    
+    this.moveMarker = function (key,lat,long){
+    	if(key in this.traces){
+    	    return this.traces[key].moveMarker(lat,long);
+    	}   
     }
 
     this.getLightColor = function (key){
