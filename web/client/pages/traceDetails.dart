@@ -97,8 +97,8 @@ class TraceDetailsPage extends Page {
       traceProfileViewer..style.position = 'absolute'
       ..style.right  = "0px" 
       ..style.top    = "0px" 
-      ..style.width  = ( traceProfileViewerWidth ).toString() + "px" 
-      ..style.height = ( traceProfileViewerHeight  ).toString() + "px" ;      
+      ..style.width  = ( spacesPositions.spaceNE_Width  ).toString() + "px" 
+      ..style.height = ( spacesPositions.spaceNE_Height ).toString() + "px" ;      
     }
   }
   
@@ -262,12 +262,19 @@ class TraceDetailsPage extends Page {
    var listData = [
                    ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ]
                   ] ;
-
+   
+   num numPixPerLength         =  traceDetails.length /  layout.postions.spaceNE_Width ;
+   num skyElevetionInMeters    =  layout.postions.spaceNE_Height * numPixPerLength / 10;
+   
+   if ( skyElevetionInMeters + 300 <  traceDetails.upperPointElevetion) {
+     skyElevetionInMeters = traceDetails.upperPointElevetion.round() + 500 ;
+   }
+   
    traceDetails.profilePoints.forEach((point){
      listData.add(  [ point.distanceInMeters,
-                      traceDetails.skyElevetionInMeters,
+                      skyElevetionInMeters,
                       point.elevetionInMeters,
-                      point.getSnowInMeters(traceDetails.skyElevetionInMeters),
+                      point.getSnowInMeters(skyElevetionInMeters),
                       point.scatteredInMeters,
                       point.thornyInMeters,
                       point.leafyInMeters,
@@ -280,13 +287,14 @@ class TraceDetailsPage extends Page {
 
    // "chartArea":{"left":"15%","top":"5%","width":"75%","height":"80%"},
    var options = js.map({
-     "backgroundColor":"#5B6DE3",
+     "backgroundColor": {"stroke" : "#5B6DE3", "strokeWidth":"0","fill":"#5B6DE3"},
      "width": layout.postions.spaceNE_Width,
      "height": layout.postions.spaceNE_Height,
      "axisTitlesPosition" : "none",
+     "tooltip" : {"trigger":"none"},
      "chartArea":{"left":"0%","top":"0%","width":"100%","height":"100%"},
-     "hAxis" : {"gridlines" : { "color" : "white" }},
-     "vAxis" : {"gridlines" : { "color" : "white" }},
+     "hAxis" : {"gridlines" : { "count" : "0" }},
+     "vAxis" : {"gridlines" : { "count" : "0"  }},
      "curveType": "function",
      "series": [
                 {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},

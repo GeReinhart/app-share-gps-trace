@@ -133,7 +133,6 @@ class TraceRenderer extends LigthTraceRenderer{
     traceDetails.gpxUrl = this.gpxUrl ;
     traceDetails.profilePoints = new List<ProfilePoint>();
     traceDetails.traceHeightWidthRatio = this.traceAnalysisRenderer.traceHeightWidthRatio ;
-    traceDetails.skyElevetionInMeters = this.traceAnalysisRenderer.skyElevetionInMeters;
     this.traceAnalysisRenderer.profilePoints.forEach((p){
       ProfilePoint pp= new ProfilePoint();
       pp.index = p.tracePoint.index;
@@ -179,8 +178,6 @@ class TraceAnalysisRenderer {
   
   TracePoint get startPoint => _traceAnalysis.startPoint ;
   
-  int get skyElevetionInMeters => _traceAnalysis.upperPoint.elevetion.round() + 500 ;
-
   int get lengthKmPart => (_traceAnalysis.length/1000).truncate() ;
 
   int get lengthMetersPart => ( _traceAnalysis.length- (_traceAnalysis.length/1000).truncate()*1000)  ; 

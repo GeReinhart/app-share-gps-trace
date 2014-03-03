@@ -397,7 +397,6 @@ class TraceDetails implements ToJson{
   String gpxUrl;
   List<ProfilePoint> profilePoints ;
   num traceHeightWidthRatio ;
-  num skyElevetionInMeters;
   
   TraceDetails( );
   
@@ -427,7 +426,6 @@ class TraceDetails implements ToJson{
       profilePoints.add( new ProfilePoint.fromMap(p) ) ;
     });
     traceHeightWidthRatio = jsonMap['traceHeightWidthRatio'] ; 
-    skyElevetionInMeters = jsonMap['skyElevetionInMeters'] ; 
   }
   
   Map toJson() {
@@ -448,8 +446,7 @@ class TraceDetails implements ToJson{
              'startPointLongitude':startPointLongitude,
              'gpxUrl':gpxUrl,
              'profilePoints': JSON.encode( profilePoints ),
-             'traceHeightWidthRatio' : traceHeightWidthRatio,
-             'skyElevetionInMeters' : skyElevetionInMeters
+             'traceHeightWidthRatio' : traceHeightWidthRatio
             };
   }
   

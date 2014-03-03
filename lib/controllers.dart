@@ -27,7 +27,6 @@ part "../web/rsp/traceView.rsp.dart" ;
 part "../web/rsp/traceFormatGpxView.rsp.dart" ;
 
 part "../web/rsp/templates/spaces.rsp.dart";
-part "../web/rsp/templates/traceProfileViewer.rsp.dart";
 part "../web/rsp/templates/searchForm.rsp.dart";
 
 part "../web/rsp/widgets/confirmWidget.rsp.dart";
