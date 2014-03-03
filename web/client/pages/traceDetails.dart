@@ -420,10 +420,6 @@ class TraceDetailsPage extends Page {
 }
 
 
-void main() {
-  TraceDetailsPage page = new TraceDetailsPage(new PageContext());
-}
-
 
 
 
