@@ -264,7 +264,7 @@ class TraceDetailsPage extends Page {
                   ] ;
    
    num numPixPerLength         =  traceDetails.length /  layout.postions.spaceNE_Width ;
-   num skyElevetionInMeters    =  layout.postions.spaceNE_Height * numPixPerLength / 10;
+   num skyElevetionInMeters    =  (layout.postions.spaceNE_Height * numPixPerLength / 10) + 300;
    
    if ( skyElevetionInMeters + 300 <  traceDetails.upperPointElevetion) {
      skyElevetionInMeters = traceDetails.upperPointElevetion.round() + 500 ;
@@ -352,55 +352,6 @@ class TraceDetailsPage extends Page {
     
   });
   
-   
-   /*
-    *         var runOnce = google.visualization.events.addListener(chart, 'ready', function () {
-            google.visualization.events.removeListener(runOnce);
-            // create mousemove event listener in the chart's container
-            // I use jQuery, but you can use whatever works best for you        
-        
-            $('#chart_div_ts_count').mousemove(function (e) {
-
-              
-              var verticalLine = $('#vertical-line') ;
-              var cli = chart.getChartLayoutInterface();
-              var chartAreaBoundingBox = cli.getChartAreaBoundingBox() ;
-                var clientX = e.clientX;
-              
-              verticalLine.css('position','absolute');
-              verticalLine.css('z-index',1000);
-              verticalLine.css('width','1px');
-              verticalLine.css('background-color','black');
-              
-              if (   clientX >=  chartAreaBoundingBox.left +  container.offsetLeft  &&
-                   clientX <=  chartAreaBoundingBox.left +  container.offsetLeft + chartAreaBoundingBox.width   
-                   ){
-                var clientChartX = clientX - chartAreaBoundingBox.left - container.offsetLeft ;
-                    var index = Math.round( clientChartX / chartAreaBoundingBox.width * data.getNumberOfRows() ) ;
-                    var valueX = data.getValue(index,1) ;
-                    var valueY = data.getValue(index,0) ;
-                    
-                    verticalLine.css('left',clientX);
-                verticalLine.css('top',cli.getChartAreaBoundingBox().top +container.offsetTop     );
-                verticalLine.css('height',cli.getChartAreaBoundingBox().height);
-                verticalLine.empty();
-                verticalLine.append("<span style='border-style: solid; border-width:1px; background-color:white; '  >&nbsp;"+ valueX +"&nbsp;"+ valueY +"&nbsp;</span>");
-                
-                
-                var event = new CustomEvent("name-of-event", { "detail": {"valueX": valueX, "valueY" : valueY }});
-                document.dispatchEvent(event);
-                
-              }
-              
-          }); 
-        
-        });
-    * */
-   
-   
-   
-   
-   
    chart.draw(tableData, options);
    
    loadingNE.stopLoading();
