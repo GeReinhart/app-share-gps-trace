@@ -264,7 +264,7 @@ class TraceDetailsPage extends Page {
                   ] ;
    
    num numPixPerLength         =  traceDetails.length /  layout.postions.spaceNE_Width ;
-   num skyElevetionInMeters    =  (layout.postions.spaceNE_Height * numPixPerLength / 10) + 300;
+   num skyElevetionInMeters    =  (layout.postions.spaceNE_Height * numPixPerLength / 10) + 500;
    
    if ( skyElevetionInMeters + 300 <  traceDetails.upperPointElevetion) {
      skyElevetionInMeters = traceDetails.upperPointElevetion.round() + 500 ;
