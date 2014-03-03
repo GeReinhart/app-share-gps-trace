@@ -120,10 +120,21 @@
 	}
 	
 	this.moveMarker = function(lat,long){
-	    this.startMarker.setLatLng( L.latLng(lat, long) ) ;
+	    var position = L.latLng(lat, long) ;
+	    this.startMarker.setLatLng( position ) ;
 	    this.startMarker.update() ;
+	    if ( ! this.isOnMap(lat,long) ){
+	      this.map.setView(position);
+	    }
 	}
 	
+	this.isOnMap = function(lat,long){
+	        return  lat  <= this.map.getBounds().getNorthEast().lat
+            &&   lat  >= this.map.getBounds().getSouthWest().lat
+            &&   long <= this.map.getBounds().getNorthEast().lng
+            &&   long >= this.map.getBounds().getSouthWest().lng   ;
+	}
+		
 	this.openPopup = function (){
 	   if(! this.popup._isOpen){
            	 this.popup.addTo(this.map) ;
