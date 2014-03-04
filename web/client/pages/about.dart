@@ -1,9 +1,21 @@
+
 import 'page.dart';
 import '../spaces.dart';
 
 class AboutPage extends Page {
 
-  AboutPage(PageContext context): super("about",context,50,50,false);
+  AboutPage(PageContext context): super("about",context,50,50,false){
+  
+    layout.centerMoved.listen((_){
+      updateNEPostion("#${name}NE");
+      updateNWPostion("#${name}NW");
+      updateSEPostion("#${name}SE");
+      updateSWPostion("#${name}SW");
+    });
+  
+  }
+  
+
   
   void showPage( PageParameters pageParameters) {
     organizeSpaces();

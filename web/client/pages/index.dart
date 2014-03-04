@@ -24,6 +24,11 @@ class IndexPage extends Page {
   
   void initPage() {
     
+    
+    layout.centerMoved.listen((_){
+      updateNWPostion("#${name}NW");
+    });
+    
     querySelectorAll(".btn-add").onClick.listen((e) {
       window.location.href = "/#trace_form";
     });

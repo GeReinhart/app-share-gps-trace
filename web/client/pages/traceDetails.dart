@@ -27,6 +27,7 @@ class TraceDetailsPage extends Page {
     _initDisplayProfile();
     
     layout.centerMoved.listen((_){
+      updateNWPostion("#${name}NW");
       _moveMap( _ as SpacesPositions);
       moveTraceViewers( _ as SpacesPositions);
     });

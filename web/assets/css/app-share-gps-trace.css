@@ -9,10 +9,15 @@
   visibility: hidden;
 }
 
-
 .gx-as-link{
   cursor:pointer;
 }
+
+.gx-vertical-optional-scroll{
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 
 #map div {
   text-align:left;	

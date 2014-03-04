@@ -159,6 +159,45 @@ abstract class Page{
     });
   }  
 
+  void updateNEPostion(String selector){
+    querySelectorAll(selector).forEach((e){
+      Element element = e as Element ;
+      element.style.height = "${layout.postions.spaceNE_Height}px" ;
+      element.style.width = "${layout.postions.spaceNE_Width}px" ;
+      element.style.top = "${layout.postions.spaceNE_Top}px" ;
+      element.style.right = "${layout.postions.spaceNE_Right}px" ;
+    });
+  }
+  
+  void updateSEPostion(String selector){
+    querySelectorAll(selector).forEach((e){
+      Element element = e as Element ;
+      element.style.height = "${layout.postions.spaceSE_Height}px" ;
+      element.style.width = "${layout.postions.spaceSE_Width}px" ;
+      element.style.top = "${layout.postions.spaceSE_Top}px" ;
+      element.style.right = "${layout.postions.spaceSE_Right}px" ;
+    });
+  }
+  
+  void updateSWPostion(String selector){
+    querySelectorAll(selector).forEach((e){
+      Element element = e as Element ;
+      element.style.height = "${layout.postions.spaceSW_Height}px" ;
+      element.style.width = "${layout.postions.spaceSW_Width}px" ;
+      element.style.top = "${layout.postions.spaceSW_Top}px" ;
+      element.style.right = "${layout.postions.spaceSW_Right}px" ;
+    });
+  } 
+  
+  void updateNWPostion(String selector){
+    querySelectorAll(selector).forEach((e){
+      Element element = e as Element ;
+      element.style.height = "${layout.postions.spaceNW_Height}px" ;
+      element.style.width = "${layout.postions.spaceNW_Width}px" ;
+      element.style.top = "${layout.postions.spaceNW_Top}px" ;
+      element.style.right = "${layout.postions.spaceNW_Right}px" ;
+    });
+  }   
   
   NodeValidatorBuilder buildNodeValidatorBuilderForSafeHtml(){
     final NodeValidatorBuilder _htmlValidator=new NodeValidatorBuilder.common()

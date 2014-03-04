@@ -42,9 +42,9 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
         return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingNW", size: "50")).then((_) { //include#17
 
-          response.write("""        <div id="disclaimerNW" class="gx-hidden" ></div>
-        <div id="indexNW"      class="gx-hidden" ></div>
-        <div id="aboutNW"      class="gx-hidden" ></div>
+          response.write("""        <div id="disclaimerNW" class="gx-hidden gx-vertical-optional-scroll" ></div>
+        <div id="indexNW"      class="gx-hidden gx-vertical-optional-scroll" ></div>
+        <div id="aboutNW"      class="gx-hidden gx-vertical-optional-scroll" ></div>
         <div id="trace_formNW" class="gx-hidden" ></div>
         <div id="trace_detailsNW" class="gx-hidden" >
 """); //#18
@@ -61,7 +61,7 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
             return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingNE", size: "50")).then((_) { //include#27
 
-              response.write("""        <div id="aboutNE" class="gx-hidden" ></div>
+              response.write("""        <div id="aboutNE" class="gx-hidden gx-vertical-optional-scroll" ></div>
         <div id="trace_searchNE" class="gx-hidden" >
 """); //#28
 
@@ -84,14 +84,14 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
                   return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSW", size: "50")).then((_) { //include#38
 
-                    response.write("""        <div id="indexSW"      class="gx-hidden" >
+                    response.write("""        <div id="indexSW"      class="gx-hidden gx-vertical-optional-scroll" >
 """); //#39
 
                     return Rsp.nnf(indexButtonsFragment(new HttpConnect.chain(connect))).then((_) { //include#40
 
                       response.write("""        </div>        
-        <div id="aboutSW"      class="gx-hidden" ></div>
-        <div id="trace_detailsSW" class="gx-hidden" >
+        <div id="aboutSW"      class="gx-hidden gx-vertical-optional-scroll" ></div>
+        <div id="trace_detailsSW" class="gx-hidden gx-vertical-optional-scroll" >
 """); //#41
 
                       return Rsp.nnf(traceDisplayStatFragment(new HttpConnect.chain(connect))).then((_) { //include#44
@@ -106,7 +106,7 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
                         return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingSE", size: "50")).then((_) { //include#48
 
-                          response.write("""        <div id="aboutSE"      class="gx-hidden" ></div>        
+                          response.write("""        <div id="aboutSE"      class="gx-hidden gx-vertical-optional-scroll" ></div>        
         <div id="trace_detailsSE" class="gx-hidden-map" >
 """); //#49
 

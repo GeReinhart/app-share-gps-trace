@@ -10,7 +10,7 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""      <div id="trace-search-results-content" style="overflow-y: auto;">
+  response.write("""      <div id="trace-search-results-content" class="gx-vertical-optional-scroll">
         <table class="table" style="width: 100% ;margin-top: 40px">  
           <thead>  
             <tr>  
