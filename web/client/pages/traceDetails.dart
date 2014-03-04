@@ -20,6 +20,7 @@ class TraceDetailsPage extends Page {
   String currentKey = null;
   bool readyToDisplayProfile = false;
   TraceDetails _traceDetailsWaitingToDisplayProfile = null;
+  DateTime lastUpdateProfile = null;
   
   TraceDetailsPage(PageContext context): super("trace_details",context,65,40,false){
     _deleteConfirm = new ConfirmWidget("deleteTraceConfirmModal", deleteTrace);
@@ -327,7 +328,11 @@ class TraceDetailsPage extends Page {
     
     int index = ( clientX / layout.postions.spaceNE_Width * traceDetails.profilePoints.length ).toInt() ;
     
-    if (  index >= 0 && index < traceDetails.profilePoints.length  ){
+    DateTime now = new DateTime.now() ;
+    bool timeToReferesh = lastUpdateProfile == null || now.difference(lastUpdateProfile).inMilliseconds > 250 ; 
+    
+    if (  timeToReferesh && index >= 0 && index < traceDetails.profilePoints.length  ){
+      lastUpdateProfile = now ;
       ProfilePoint profilePoint = traceDetails.profilePoints[index] ;
       int valueX =   profilePoint.elevetionInMeters  ;
       int valueY =   profilePoint.distanceInMeters  ;
