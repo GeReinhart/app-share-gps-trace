@@ -18,6 +18,15 @@
   overflow-y: auto;
 }
 
+.gx-no-scroll{
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.gx-absolute-position{
+  z-index: 100 ;
+  position: absolute;
+}
 
 #map div {
   text-align:left;	

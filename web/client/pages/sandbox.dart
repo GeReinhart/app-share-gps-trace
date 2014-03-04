@@ -7,6 +7,7 @@ import '../spaces.dart';
 import "../forms.dart";
 
 import 'page.dart';
+import "../widgets/profile.dart" ;
 import "../widgets/login.dart" ;
 import "../widgets/persistentMenu.dart" ;
 import "../events.dart" ;
@@ -14,96 +15,66 @@ import "../controllers.dart" ;
 
 class SandboxPage extends Page {
   
+  
+  Map<String,TraceDetails> traceDetailsByKey = new Map<String,TraceDetails>();
+  ProfileWidget profile ;
+  
+  
   SandboxPage(PageContext context): super("sandbox",context,50,50,false){
+    profile = new ProfileWidget("profile") ;
+    
     layout.centerMoved.listen((_){
-      moveTraceViewers( _ as SpacesPositions);
+      _updateWidgetsPositions();
     });
   }
 
+  void _updateWidgetsPositions(){
+    SpacesPositions positions = layout.postions;
+    profile.updatePosition(positions.spaceNE_Top.toInt(),
+                           positions.spaceNE_Right.toInt(), 
+                           positions.spaceNE_Width.toInt(),
+                           positions.spaceNE_Height.toInt());
+  }
+  
   void showPage( PageParameters pageParameters) {
     
-    querySelectorAll("#btn-search").onClick.listen((e) {
-      submitRequest();
+    querySelectorAll("#btn-draw1").onClick.listen((e) {
+      showProfile("user1/gsadg_dgsdg") ;
     });
     querySelectorAll("#btn-reset").onClick.listen((e) {
-      js.context.searchMap.removeAllMarkers();
+      profile.reset();
     }); 
-    querySelectorAll("#btn-gpx").onClick.listen((e) {
-      js.context.traceDetailsMap.displayGpxByKey("user1_jhjhg");
+    querySelectorAll("btn-draw2").onClick.listen((e) {
+      showProfile("user1/jhjhg");
     }); 
-    querySelectorAll("#btn-view-gpx").onClick.listen((e) {
-      js.context.traceDetailsMap.viewGpxByKey("user3_gasdgasdgasdgds");
-    });    
-    
     
     organizeSpaces();
-    submitRequest();
+    _updateWidgetsPositions();
   }
   
-  void submitRequest(){
+  void showProfile(String key){
+    
+    if (traceDetailsByKey.containsKey(key)){
+      profile.show(traceDetailsByKey[key]);
+    }
+    
     HttpRequest request = new HttpRequest();
-  
-    layout.startLoading();
     request.onReadyStateChange.listen((_) {
+      
       if (request.readyState == HttpRequest.DONE ) {
-        displaySearchResults(request);
+        TraceDetails traceDetails = new TraceDetails.fromMap(JSON.decode(request.responseText));
+        traceDetailsByKey[key] = traceDetails;
+        profile.show(traceDetails);
       }
     });
-    sendSearchRequest(request);
+    request.open("GET",  "/j_trace_details/${key}", async: true);
+    request.send(); 
+    
+    
+    
   }
   
-  void sendSearchRequest(HttpRequest request, {mapFilter:true}){
-    request.open("POST",  "/j_trace_search", async: true);
-    SearchForm form = new SearchForm();
-    request.send(JSON.encode(form.toJson()));
-  }
-  
-  void displaySearchResults(HttpRequest request){
-    if (request.responseText == null || request.responseText != null  && request.responseText.isEmpty){
-      layout.stopLoading();
-      return ;   
-    }
-    
-    SearchForm form = new SearchForm.fromMap(JSON.decode(request.responseText));
-    
-    Element searchResultRow=  querySelector("#search-result-row");
-    Element searchResultBody=  querySelector("#search-result-body");
-    js.context.searchMap.removeAllMarkers();
-    if (form.results != null && form.results.isNotEmpty){
-        form.results.forEach((lightTrace){
-          String gpxUrl = "/trace.gpx/${lightTrace.key}";   
-          js.context.searchMap.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.activities , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
-          js.context.traceDetailsMap.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.activities , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
 
-        });
-        js.context.searchMap.fitMapViewPortWithMarkers();
-        js.context.traceDetailsMap.fitMapViewPortWithMarkers();
-    }
-    layout.stopLoading();
-  }
-  
-  void moveTraceViewers(SpacesPositions spacesPositions ){
-    
-    Element mapSearch = querySelector("#search-results-map-canvas") ;
-    if (mapSearch != null){
-     
-      mapSearch..style.position = 'absolute'
-      ..style.right  = "0px"
-      ..style.top    = "0px"
-      ..style.width  = (spacesPositions.spaceSE_Width).toString() + "px"
-      ..style.height = (spacesPositions.spaceSE_Height).toString() + "px" ;
-    }
-    
-    Element mapDetails = querySelector("#trace-details-map-canvas") ;
-    if (mapDetails != null){
-     
-      mapDetails..style.position = 'absolute'
-      ..style.right  = "0px"
-      ..style.top    = "0px"
-      ..style.width  = (spacesPositions.spaceNE_Width).toString() + "px"
-      ..style.height = (spacesPositions.spaceNE_Height).toString() + "px" ;
-    }
-  }
   
 }
 

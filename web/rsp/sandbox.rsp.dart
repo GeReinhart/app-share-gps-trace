@@ -27,63 +27,56 @@ Future sandbox(HttpConnect connect) { //#2
 
     response.write("""           <h1>Test</h1>
            
-              <button id="btn-search" type="submit" class="btn btn-primary ">Recherche</button>&nbsp;
-              <button id="btn-reset"  type="submit" class="btn btn-warning ">Supprime markers</button>
-              <button id="btn-gpx"  type="submit" class="btn btn-standard ">Trace gpx</button>
-              <button id="btn-view-gpx"  type="submit" class="btn btn-standard ">Voir trace gpx</button>
+              <button id="btn-draw1"  type="submit" class="btn btn-primary ">Affiche profile1</button>&nbsp;
+              <button id="btn-reset"  type="submit" class="btn btn-warning ">Supprime profile</button>
+              <button id="btn-draw2"  type="submit" class="btn btn-standard ">Affiche profile2</button>
            
 """); //#11
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#19
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#18
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     response.write("""        <div id="trace_detailsNE" >
            
-               <div id="trace-details-map-canvas"></div>
-                <script type="text/javascript">
-                    var traceDetailsMap = new GxMap("trace-details-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
-                </script>
-           
+"""); //#19
+
+    return Rsp.nnf(profileWidget(new HttpConnect.chain(connect), profileId: "profile")).then((_) { //include#21
+
+      response.write("""           
         </div>
-"""); //#20
+"""); //#22
 
-    connect = _cs_.removeLast(); response = connect.response;
+      connect = _cs_.removeLast(); response = connect.response;
 
-    var _2 = new StringBuffer(); _cs_.add(connect); //var#29
-    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+      var _2 = new StringBuffer(); _cs_.add(connect); //var#25
+      connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
-    connect = _cs_.removeLast(); response = connect.response;
+      connect = _cs_.removeLast(); response = connect.response;
 
-    var _3 = new StringBuffer(); _cs_.add(connect); //var#30
-    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+      var _3 = new StringBuffer(); _cs_.add(connect); //var#26
+      connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-    response.write("""        <div id="trace_searchSE">
-          
-              <div id="search-results-map-canvas"></div>
-              <script type="text/javascript">
-                  var searchMap = new GxMap("search-results-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
-              </script>
+      response.write("""
 
+"""); //#27
 
-        </div>
-"""); //#31
+      connect = _cs_.removeLast(); response = connect.response;
 
-    connect = _cs_.removeLast(); response = connect.response;
+      return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-    return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+        return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#30
 
-      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#42
-
-        response.write("""    <script type="application/dart" src="/client/pages/sandbox.dart"></script>
+          response.write("""    <script type="application/dart" src="/client/pages/sandbox.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
 </html>
-"""); //#43
+"""); //#31
 
-        return new Future.value();
+          return new Future.value();
+        }); //end-of-include
       }); //end-of-include
     }); //end-of-include
   }); //end-of-include

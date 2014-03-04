@@ -10,33 +10,21 @@
       [:var nw]
            <h1>Test</h1>
            
-              <button id="btn-search" type="submit" class="btn btn-primary ">Recherche</button>&nbsp;
-              <button id="btn-reset"  type="submit" class="btn btn-warning ">Supprime markers</button>
-              <button id="btn-gpx"  type="submit" class="btn btn-standard ">Trace gpx</button>
-              <button id="btn-view-gpx"  type="submit" class="btn btn-standard ">Voir trace gpx</button>
+              <button id="btn-draw1"  type="submit" class="btn btn-primary ">Affiche profile1</button>&nbsp;
+              <button id="btn-reset"  type="submit" class="btn btn-warning ">Supprime profile</button>
+              <button id="btn-draw2"  type="submit" class="btn btn-standard ">Affiche profile2</button>
            
       [/var]
       [:var ne ]
         <div id="trace_detailsNE" >
            
-               <div id="trace-details-map-canvas"></div>
-                <script type="text/javascript">
-                    var traceDetailsMap = new GxMap("trace-details-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
-                </script>
+               [:include profileWidget profileId="profile" /]
            
         </div>
       [/var]
       [:var sw /]
       [:var se ]
-        <div id="trace_searchSE">
-          
-              <div id="search-results-map-canvas"></div>
-              <script type="text/javascript">
-                  var searchMap = new GxMap("search-results-map-canvas","gnst6zrvh2tnhhulo1kovnh1", new GxIconBuilder() ).init();
-              </script>
 
-
-        </div>
       [/var]
     [/include]  
     [:include sharedWidgets sharedWidgetsId="sharedWidgets" /] 
