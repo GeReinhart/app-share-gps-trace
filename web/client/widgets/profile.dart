@@ -23,9 +23,9 @@ class ProfileWidget extends Widget {
     
     var svgGroup = new SvgElement.tag("g");
     
-    int lowestElevetion   = getLowestPoint(tracedetails);
-    int heighestElevetion = getHeighestPoint(tracedetails);
-    num skyElevetionInMeters    =  heighestElevetion + SKY_HEIGHT_IN_METERS;
+    int lowestElevetion      = getLowestPoint(tracedetails);
+    int heighestElevetion    = getHeighestPoint(tracedetails);
+    int skyElevetionInMeters = getSkyElevetion(tracedetails) ;
 
     svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> skyElevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "#5B6DE3", "#5B6DE3",0));    
     svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.elevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "black", "none",2));    
@@ -66,6 +66,15 @@ class ProfileWidget extends Widget {
     return line;
   }
   
+  int getSkyElevetion(TraceDetails tracedetails){
+       num numberOfMeterPerPixel = tracedetails.length / width;
+       num skyElevetionInMeters  = (height * numberOfMeterPerPixel / 10) + SKY_HEIGHT_IN_METERS;
+       
+       if ( skyElevetionInMeters + 300 < traceDetails.upperPointElevetion) {
+	   skyElevetionInMeters = traceDetails.upperPointElevetion + SKY_HEIGHT_IN_METERS ;
+       }
+       return skyElevetionInMeters.round();
+  }  
 
   
   int getLowestPoint(TraceDetails tracedetails){
