@@ -53,8 +53,8 @@ class ProfileWidget extends Widget {
 
     String points = "0,${height} "  ;
     for (var i = 0; i < tracedetails.profilePoints.length; i++) {
-      int x = getXPosition(tracedetails, i);
-      int y = getYPosition(tracedetails,  elevetionValue(tracedetails.profilePoints[i]),lowestElevetion,heighestElevetion ) ;
+      num x = getXPosition(tracedetails, i);
+      num y = getYPosition(tracedetails,  elevetionValue(tracedetails.profilePoints[i]),lowestElevetion,heighestElevetion ) ;
       points += "${x},${y} " ;
     }
     points += "${width},${height}" ;
@@ -97,16 +97,16 @@ class ProfileWidget extends Widget {
     return heighestElevetion;
   }
   
-  int getXPosition(TraceDetails tracedetails, int profilePointIndex){
-    int numberOfPoints = tracedetails.profilePoints.length;
-    int numberOfAvailablePixels = width ;
-    return (profilePointIndex * numberOfAvailablePixels /numberOfPoints).round();
+  num getXPosition(TraceDetails tracedetails, int profilePointIndex){
+    num numberOfPoints = tracedetails.profilePoints.length;
+    num numberOfAvailablePixels = width ;
+    return (profilePointIndex * numberOfAvailablePixels /numberOfPoints);
   }
   
-  int getYPosition(TraceDetails tracedetails, int elevetion, int lowestElevetion, int heighestElevetion){
-    int elevetionRange = heighestElevetion - lowestElevetion + SKY_HEIGHT_IN_METERS;
-    int numberOfAvailablePixels = height ;
-    return height - ( (elevetion - lowestElevetion ) * numberOfAvailablePixels /elevetionRange).round();
+  num getYPosition(TraceDetails tracedetails, int elevetion, int lowestElevetion, int heighestElevetion){
+    num elevetionRange = heighestElevetion - lowestElevetion + SKY_HEIGHT_IN_METERS;
+    num numberOfAvailablePixels = height ;
+    return height - ( (elevetion - lowestElevetion ) * numberOfAvailablePixels /elevetionRange);
   }
   
   
