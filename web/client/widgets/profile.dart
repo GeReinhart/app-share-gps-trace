@@ -28,7 +28,7 @@ class ProfileWidget extends Widget {
     int skyElevetionInMeters = getSkyElevetion(tracedetails) ;
 
     svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> skyElevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "#5B6DE3", "#5B6DE3",0));    
-    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.elevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "black", "none",2));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.elevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "black", "none",1));    
     svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.getSnowInMeters(skyElevetionInMeters)-1 , lowestElevetion,skyElevetionInMeters ,  "white", "white",0));    
     svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.scatteredInMeters -1 , lowestElevetion,skyElevetionInMeters ,  "#C2A385", "#C2A385",0));    
     svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.thornyInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "#4C8033", "#4C8033",0));    
