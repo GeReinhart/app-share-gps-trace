@@ -70,11 +70,11 @@ class ProfileWidget extends Widget {
        num numberOfMeterPerPixel = tracedetails.length / width;
        num skyElevetionInMeters  = (height * numberOfMeterPerPixel / 10) + SKY_HEIGHT_IN_METERS;
        
-       if ( skyElevetionInMeters + 300 < traceDetails.upperPointElevetion) {
-	   skyElevetionInMeters = traceDetails.upperPointElevetion + SKY_HEIGHT_IN_METERS ;
+       if ( skyElevetionInMeters + 300 < tracedetails.upperPointElevetion) {
+	   skyElevetionInMeters = tracedetails.upperPointElevetion + SKY_HEIGHT_IN_METERS ;
        }
        return skyElevetionInMeters.round();
-  }  
+  }
 
   
   int getLowestPoint(TraceDetails tracedetails){
