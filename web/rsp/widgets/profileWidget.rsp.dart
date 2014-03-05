@@ -15,7 +15,13 @@ Future profileWidget(HttpConnect connect, {profileId}) { //#2
   response.write(Rsp.nnx(profileId)); //#2
 
 
-  response.write("""" class="gx-no-scroll gx-absolute-position" ></div>"""); //#2
+  response.write("""-vertical-line" class= gx-absolute-position"  >&nbsp;</div>
+<div id=\""""); //#2
+
+  response.write(Rsp.nnx(profileId)); //#3
+
+
+  response.write(""""  class="gx-no-scroll gx-absolute-position" ></div>"""); //#3
 
   return new Future.value();
 }

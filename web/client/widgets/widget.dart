@@ -47,4 +47,21 @@ class Widget{
   void set loadingShower (LoadingShower loadingShower){
     this._loadingShower = loadingShower;
   }
+  
+  NodeValidatorBuilder buildNodeValidatorBuilderForSafeHtml(){
+    final NodeValidatorBuilder _htmlValidator=new NodeValidatorBuilder.common()
+    ..allowElement('form', attributes: ['role','accept-charset'])
+    ..allowElement('table', attributes: ['style'])
+    ..allowElement('span', attributes: ['style'])
+    ..allowElement('a', attributes: ['href','rel'])
+    ..allowElement('img', attributes: ['src','style'])
+    ..allowElement('div', attributes: ['style'])
+    ..allowElement('input', attributes: ['style'])
+    ..allowElement('textarea', attributes: ['style'])
+    ..allowElement('th', attributes: ['width'])
+    ..allowElement('script')
+    ..allowElement('td', attributes: ['style']);
+    return _htmlValidator;
+  }
+  
 }

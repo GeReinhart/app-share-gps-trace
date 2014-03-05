@@ -9,22 +9,21 @@ import "../controllers.dart" ;
 import "../spaces.dart";
 import "../forms.dart";
 import "../widgets/confirm.dart" ;
+import "../widgets/profile.dart" ;
 import "../events.dart" ;
 
 class TraceDetailsPage extends Page {
 
   ConfirmWidget _deleteConfirm ;
+  ProfileWidget _profile ;
   
   List<String> keys = new List<String>();
   Map<String,TraceDetails> traceDetailsByKey = new Map<String,TraceDetails>();
   String currentKey = null;
-  bool readyToDisplayProfile = false;
-  TraceDetails _traceDetailsWaitingToDisplayProfile = null;
-  DateTime lastUpdateProfile = null;
   
   TraceDetailsPage(PageContext context): super("trace_details",context,65,40,false){
     _deleteConfirm = new ConfirmWidget("deleteTraceConfirmModal", deleteTrace);
-    _initDisplayProfile();
+    _profile = new ProfileWidget("profile") ;
     
     layout.centerMoved.listen((_){
       updateNWPostion("#${name}NW");
@@ -32,6 +31,12 @@ class TraceDetailsPage extends Page {
       moveTraceViewers( _ as SpacesPositions);
     });
 
+    _profile.profilePointSelection.listen((p){
+      if (currentKey != null){
+        js.context.traceDetailsMap.moveMarker(traceDetailsByKey[currentKey].keyJsSafe,p.latitude,p.longitude);
+      }
+    });
+    
     querySelectorAll(".trace-delete-menu").onClick.listen((event){
       _deleteConfirm.showConfirmModal();
     });    
@@ -83,25 +88,11 @@ class TraceDetailsPage extends Page {
     }
   }
   
-  void _moveProfile(SpacesPositions spacesPositions){
-    Element traceProfileViewer = querySelector("#traceProfileViewer") ;
-    if (traceProfileViewer != null && currentKey != null){
-     
-      num traceHeightWidthRatio = traceDetailsByKey[currentKey].traceHeightWidthRatio;
-      num traceProfileViewerWidth = spacesPositions.spaceNE_Width  ;
-      num traceProfileViewerHeight = traceProfileViewerWidth * traceHeightWidthRatio * 10;
-      
-      if (  traceProfileViewerHeight >  spacesPositions.spaceNE_Height ){
-        traceProfileViewerWidth = traceProfileViewerHeight / traceHeightWidthRatio / 10  ;
-        traceProfileViewerHeight = spacesPositions.spaceNW_Height ;
-      }
-      
-      traceProfileViewer..style.position = 'absolute'
-      ..style.right  = "0px" 
-      ..style.top    = "0px" 
-      ..style.width  = ( spacesPositions.spaceNE_Width  ).toString() + "px" 
-      ..style.height = ( spacesPositions.spaceNE_Height ).toString() + "px" ;      
-    }
+  void _moveProfile(SpacesPositions positions){
+    _profile.updatePosition(positions.spaceNE_Top.toInt(),
+        positions.spaceNE_Right.toInt(), 
+        positions.spaceNE_Width.toInt(),
+        positions.spaceNE_Height.toInt());
   }
   
   void moveTraceViewers(SpacesPositions spacesPositions ){
@@ -109,7 +100,7 @@ class TraceDetailsPage extends Page {
     _moveProfile( spacesPositions);
     Element traceProfileViewer = querySelector("#traceProfileViewer") ;
     if (traceProfileViewer != null && currentKey != null){
-      _drawProfile(traceDetailsByKey[currentKey]) ;
+      _displayProfile(traceDetailsByKey[currentKey]) ;
     }
     
     Element traceStatisticsViewer = querySelector("#traceStatisticsViewer") ;
@@ -138,8 +129,6 @@ class TraceDetailsPage extends Page {
     String keyJsSafe = _transformJsSafe(key) ;
     loadingNE.startLoading();
     loadingSE.startLoading();
-
-    
     
     if(   keys.contains(key)    ){
       showBySelector( "#${name}NW_${keyJsSafe}");
@@ -225,6 +214,10 @@ class TraceDetailsPage extends Page {
    }) ;
  }
  
+ void _moveMarkerOnMap(ProfilePoint profilePoint){
+   
+ }
+ 
  void _displayMap(TraceDetails traceDetails){
    js.context.traceDetailsMap.addMarkerToMap( traceDetails.keyJsSafe, traceDetails.mainActivity , traceDetails.titleJsSafe, traceDetails.startPointLatitude,traceDetails.startPointLongitude,traceDetails.gpxUrl );
    js.context.traceDetailsMap.viewGpxByKey(traceDetails.keyJsSafe) ;
@@ -234,136 +227,8 @@ class TraceDetailsPage extends Page {
  }
  
  void _displayProfile(TraceDetails traceDetails){
-   if (readyToDisplayProfile){
-     _drawProfile(traceDetails); 
-   }else{
-     _traceDetailsWaitingToDisplayProfile = traceDetails;
-   }
+   _profile.show(traceDetails);
  }
- 
- void _initDisplayProfile(){
-   js.context.google.load('visualization', '1', 
-       js.map(
-         {
-           'packages': ['corechart'],
-           'callback': () { 
-             this.readyToDisplayProfile = true;
-             if(_traceDetailsWaitingToDisplayProfile!=null){
-              _drawProfile( _traceDetailsWaitingToDisplayProfile);
-             }
-           }
-         }
-       )
-   );
- }
- 
- void _drawProfile(TraceDetails traceDetails) {
-   
-   _moveProfile(layout.postions);
-   var gviz = js.context.google.visualization;
-   var listData = [
-                   ['Distance', 'Altitude', 'Altitude','Altitude', 'Altitude', 'Altitude' , 'Altitude' , 'Altitude' ]
-                  ] ;
-   
-   num numPixPerLength         =  traceDetails.length /  layout.postions.spaceNE_Width ;
-   num skyElevetionInMeters    =  (layout.postions.spaceNE_Height * numPixPerLength / 10) + 500;
-   
-   if ( skyElevetionInMeters + 300 <  traceDetails.upperPointElevetion) {
-     skyElevetionInMeters = traceDetails.upperPointElevetion.round() + 500 ;
-   }
-   
-   traceDetails.profilePoints.forEach((point){
-     listData.add(  [ point.distanceInMeters,
-                      skyElevetionInMeters,
-                      point.elevetionInMeters,
-                      point.getSnowInMeters(skyElevetionInMeters),
-                      point.scatteredInMeters,
-                      point.thornyInMeters,
-                      point.leafyInMeters,
-                      point.meadowInMeters  ] ) ;
-   });
-   
-   var arrayData = js.array(listData);
-
-   var tableData = gviz.arrayToDataTable(arrayData);
-
-   // "chartArea":{"left":"15%","top":"5%","width":"75%","height":"80%"},
-   var options = js.map({
-     "backgroundColor": {"stroke" : "#5B6DE3", "strokeWidth":"0","fill":"#5B6DE3"},
-     "width": layout.postions.spaceNE_Width,
-     "height": layout.postions.spaceNE_Height,
-     "axisTitlesPosition" : "none",
-     "tooltip" : {"trigger":"none"},
-     "chartArea":{"left":"0%","top":"0%","width":"100%","height":"100%"},
-     "hAxis" : {"gridlines" : { "count" : "0" }},
-     "vAxis" : {"gridlines" : { "count" : "0"  }},
-     "curveType": "function",
-     "series": [
-                {"color": '#5B6DE3', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                {"color": 'black', "lineWidth": 1, "areaOpacity": 1,  "visibleInLegend": false},
-                {"color": 'white', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                {"color": '#C2A385', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                {"color": '#4C8033', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                {"color": '#99FF66', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false},
-                {"color": '#FFE066', "lineWidth": 0, "areaOpacity": 1,  "visibleInLegend": false}
-                ]
-  });
-   
-  var chart = new js.Proxy(gviz.AreaChart, querySelector('#traceProfileViewer'));
- 
-   
-  Element traceProfileViewer = querySelector("#trace_detailsNE") ;
- 
-   
-  traceProfileViewer.onMouseMove.listen((e){
-    
-    Element verticalLine = querySelector("#traceProfileViewer-vertical-line") ;
-    var cli = chart.getChartLayoutInterface();
-    var chartAreaBoundingBox = cli.getChartAreaBoundingBox() ;
-    var clientX =  e.client.x - ( window.innerWidth - layout.postions.spaceNE_Width )  ;  
-    
-    verticalLine.style.position = 'absolute';
-    verticalLine.style.zIndex = '1000';
-    verticalLine.style.width = '1px';
-    verticalLine.style.backgroundColor = 'black';
-    
-    int index = ( clientX / layout.postions.spaceNE_Width * traceDetails.profilePoints.length ).toInt() ;
-    
-    DateTime now = new DateTime.now() ;
-    bool timeToReferesh = lastUpdateProfile == null || now.difference(lastUpdateProfile).inMilliseconds > 250 ; 
-    
-    if (  timeToReferesh && index >= 0 && index < traceDetails.profilePoints.length  ){
-      lastUpdateProfile = now ;
-      ProfilePoint profilePoint = traceDetails.profilePoints[index] ;
-      int valueX =   profilePoint.elevetionInMeters  ;
-      int valueY =   profilePoint.distanceInMeters  ;
-      
-      var elevetion = "${valueX}m" ;
-      var distance = "${(valueY/1000).truncate()}km&nbsp;${( valueY- (valueY/1000).truncate()*1000)}m " ;
-
-      verticalLine.style.left = "${clientX}px";
-      verticalLine.style.top = "${(cli.getChartAreaBoundingBox().top +traceProfileViewer.offsetTop)}px"; ;
-      verticalLine.style.height = "${cli.getChartAreaBoundingBox().height}px";
-      verticalLine.setInnerHtml("<span style='border-style: solid; border-width:1px; background-color:white; '  >&nbsp;${distance}&nbsp;${elevetion}&nbsp;</span>",
-                                validator: buildNodeValidatorBuilderForSafeHtml());
-      
-      js.context.traceDetailsMap.moveMarker(traceDetails.keyJsSafe,profilePoint.latitude,profilePoint.longitude); 
-      
-    }
-      //var event = new CustomEvent("name-of-event", { "detail": {"valueX": valueX, "valueY" : valueY }});
-      //document.dispatchEvent(event);
-      
-  
-    
-    
-  });
-  
-   chart.draw(tableData, options);
-   
-   loadingNE.stopLoading();
- }
- 
- 
  
  void hidePage() {
     String keyJsSafe = _transformJsSafe(currentKey) ;
