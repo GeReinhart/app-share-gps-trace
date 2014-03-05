@@ -4,10 +4,14 @@ import "widget.dart" ;
 import "../forms.dart";
 
 
+typedef int ElevetionValue(ProfilePoint profilePoint);
+
+
 class ProfileWidget extends Widget {
   
   ProfileWidget(String id) : super(id);
-
+  
+  static int SKY_HEIGHT_IN_METERS = 500 ; 
 
   void reset(){
     querySelector("#${id}").children.clear();
@@ -15,30 +19,21 @@ class ProfileWidget extends Widget {
   
   void show(TraceDetails tracedetails){
     
+    this.reset();
     
     var svgGroup = new SvgElement.tag("g");
     
     int lowestElevetion   = getLowestPoint(tracedetails);
     int heighestElevetion = getHeighestPoint(tracedetails);
-    
-    var profileLine = new SvgElement.tag("polyline");
+    num skyElevetionInMeters    =  heighestElevetion + SKY_HEIGHT_IN_METERS;
 
-    String points = "" ;
-    for (var i = 0; i < tracedetails.profilePoints.length; i++) {
-      int x = getXPosition(tracedetails, i);
-      int y = getYPosition(tracedetails, i,lowestElevetion,heighestElevetion ) ;
-      points += "${x},${y}" ;
-      if (i < tracedetails.profilePoints.length){
-        points += " " ;
-      }
-    }
-    
-    profileLine.attributes = {
-                       "points" : points,
-                       "style": "fill:none;stroke:black;stroke-width:1"
-    };
-    
-    svgGroup.nodes.add(profileLine);
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> skyElevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "#5B6DE3", "#5B6DE3",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.elevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "black", "none",2));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.getSnowInMeters(skyElevetionInMeters)-1 , lowestElevetion,skyElevetionInMeters ,  "white", "white",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.scatteredInMeters -1 , lowestElevetion,skyElevetionInMeters ,  "#C2A385", "#C2A385",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.thornyInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "#4C8033", "#4C8033",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.leafyInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "#99FF66", "#99FF66",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.meadowInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "#FFE066", "#FFE066",0));    
     
     SvgElement svg = new SvgElement.tag('svg');
     svg.nodes.add(svgGroup);
@@ -50,6 +45,28 @@ class ProfileWidget extends Widget {
     querySelector("#${id}").nodes.add(svg);
   }
   
+  SvgElement buildProfileFragment(TraceDetails tracedetails, ElevetionValue elevetionValue,
+                                    int lowestElevetion, int heighestElevetion,
+                                    String color, String fillColor, int strokeWidth){
+    
+    var line = new SvgElement.tag("polyline");
+
+    String points = "0,${height} "  ;
+    for (var i = 0; i < tracedetails.profilePoints.length; i++) {
+      int x = getXPosition(tracedetails, i);
+      int y = getYPosition(tracedetails,  elevetionValue(tracedetails.profilePoints[i]),lowestElevetion,heighestElevetion ) ;
+      points += "${x},${y} " ;
+    }
+    points += "${width},${height}" ;
+    
+    line.attributes = {
+                       "points" : points,
+                       "style": "fill:${fillColor};stroke:${color};stroke-width:${strokeWidth}"
+    };    
+    return line;
+  }
+  
+
   
   int getLowestPoint(TraceDetails tracedetails){
     int lowestElevetion = tracedetails.profilePoints.first.elevetionInMeters ;
@@ -77,10 +94,10 @@ class ProfileWidget extends Widget {
     return (profilePointIndex * numberOfAvailablePixels /numberOfPoints).round();
   }
   
-  int getYPosition(TraceDetails tracedetails, int profilePointIndex, int lowestElevetion, int heighestElevetion){
-    int elevetionRange = heighestElevetion - lowestElevetion + 500;
+  int getYPosition(TraceDetails tracedetails, int elevetion, int lowestElevetion, int heighestElevetion){
+    int elevetionRange = heighestElevetion - lowestElevetion + SKY_HEIGHT_IN_METERS;
     int numberOfAvailablePixels = height ;
-    return height - ( (tracedetails.profilePoints[profilePointIndex].elevetionInMeters - lowestElevetion ) * numberOfAvailablePixels /elevetionRange).round();
+    return height - ( (elevetion - lowestElevetion ) * numberOfAvailablePixels /elevetionRange).round();
   }
   
   

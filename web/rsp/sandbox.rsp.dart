@@ -29,51 +29,50 @@ Future sandbox(HttpConnect connect) { //#2
            
               <button id="btn-draw1"  type="submit" class="btn btn-primary ">Affiche profile1</button>&nbsp;
               <button id="btn-reset"  type="submit" class="btn btn-warning ">Supprime profile</button>
-              <button id="btn-draw2"  type="submit" class="btn btn-standard ">Affiche profile2</button>
            
 """); //#11
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#18
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#17
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     response.write("""        <div id="trace_detailsNE" >
            
-"""); //#19
+"""); //#18
 
-    return Rsp.nnf(profileWidget(new HttpConnect.chain(connect), profileId: "profile")).then((_) { //include#21
+    return Rsp.nnf(profileWidget(new HttpConnect.chain(connect), profileId: "profile")).then((_) { //include#20
 
       response.write("""           
         </div>
-"""); //#22
+"""); //#21
 
       connect = _cs_.removeLast(); response = connect.response;
 
-      var _2 = new StringBuffer(); _cs_.add(connect); //var#25
+      var _2 = new StringBuffer(); _cs_.add(connect); //var#24
       connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
       connect = _cs_.removeLast(); response = connect.response;
 
-      var _3 = new StringBuffer(); _cs_.add(connect); //var#26
+      var _3 = new StringBuffer(); _cs_.add(connect); //var#25
       connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
       response.write("""
 
-"""); //#27
+"""); //#26
 
       connect = _cs_.removeLast(); response = connect.response;
 
       return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-        return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#30
+        return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#29
 
           response.write("""    <script type="application/dart" src="/client/pages/sandbox.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
 </html>
-"""); //#31
+"""); //#30
 
           return new Future.value();
         }); //end-of-include

@@ -2,7 +2,7 @@ import "dart:html";
 import "dart:convert";
 import "dart:async" ;
 import 'package:js/js.dart' as js;
-
+import 'dart:math';
 import '../spaces.dart';
 import "../forms.dart";
 
@@ -15,14 +15,14 @@ import "../controllers.dart" ;
 
 class SandboxPage extends Page {
   
-  
+  List<String> keys = new List<String>();
   Map<String,TraceDetails> traceDetailsByKey = new Map<String,TraceDetails>();
   ProfileWidget profile ;
-  
+  Random rng = new Random();
   
   SandboxPage(PageContext context): super("sandbox",context,50,50,false){
     profile = new ProfileWidget("profile") ;
-    
+    getKeys();
     layout.centerMoved.listen((_){
       _updateWidgetsPositions();
     });
@@ -36,17 +36,34 @@ class SandboxPage extends Page {
                            positions.spaceNE_Height.toInt());
   }
   
+  
+  void getKeys(){
+    HttpRequest request = new HttpRequest();
+  
+    layout.startLoading();
+    request.onReadyStateChange.listen((_) {
+      if (request.readyState == HttpRequest.DONE ) {
+        SearchForm form = new SearchForm.fromMap(JSON.decode(request.responseText));
+        form.results.forEach((lightTrace){
+          keys.add(lightTrace.key);
+        });
+        layout.stopLoading();
+      }
+    });
+    request.open("POST",  "/j_trace_search", async: true);
+    SearchForm form = new SearchForm();
+    request.send(JSON.encode(form.toJson()));
+  }
+  
   void showPage( PageParameters pageParameters) {
     
     querySelectorAll("#btn-draw1").onClick.listen((e) {
-      showProfile("user1/gsadg_dgsdg") ;
+      showProfile(keys[rng.nextInt(  keys.length )]) ;
     });
     querySelectorAll("#btn-reset").onClick.listen((e) {
       profile.reset();
     }); 
-    querySelectorAll("btn-draw2").onClick.listen((e) {
-      showProfile("user1/jhjhg");
-    }); 
+
     
     organizeSpaces();
     _updateWidgetsPositions();
