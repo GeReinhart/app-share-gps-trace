@@ -91,7 +91,7 @@ class TraceRenderer extends LigthTraceRenderer{
   TraceRenderer(Trace trace,String permanentTraceUrl,String gpxUrl): super(trace){
     this.permanentTraceUrl=permanentTraceUrl;
     this.gpxUrl = gpxUrl;
-    this.profileData = _traceAnalyser.buildProfile(trace.rawData);
+    this.profileData = _traceAnalyser.buildProfile(trace.rawData, maxProfilePointsNumber:200);
     this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis,profileData,gpxUrl);
   }
   
