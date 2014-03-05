@@ -27,13 +27,13 @@ class ProfileWidget extends Widget {
     int heighestElevetion    = getHeighestPoint(tracedetails);
     int skyElevetionInMeters = getSkyElevetion(tracedetails) ;
 
-    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> skyElevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "#5B6DE3", "#5B6DE3",0));    
-    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.elevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "black", "none",1));    
-    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.getSnowInMeters(skyElevetionInMeters)-1 , lowestElevetion,skyElevetionInMeters ,  "white", "white",0));    
-    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.scatteredInMeters -1 , lowestElevetion,skyElevetionInMeters ,  "#C2A385", "#C2A385",0));    
-    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.thornyInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "#4C8033", "#4C8033",0));    
-    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.leafyInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "#99FF66", "#99FF66",0));    
-    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.meadowInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "#FFE066", "#FFE066",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> skyElevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "none", "#5B6DE3",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.elevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "none", "black",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.getSnowInMeters(skyElevetionInMeters) , lowestElevetion,skyElevetionInMeters ,  "none", "white",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.scatteredInMeters  , lowestElevetion,skyElevetionInMeters ,  "none", "#C2A385",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.thornyInMeters , lowestElevetion,skyElevetionInMeters ,  "none", "#4C8033",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.leafyInMeters , lowestElevetion,skyElevetionInMeters ,  "none", "#99FF66",0));    
+    svgGroup.nodes.add(buildProfileFragment(tracedetails, (p)=> p.meadowInMeters , lowestElevetion,skyElevetionInMeters ,  "none", "#FFE066",0));    
     
     SvgElement svg = new SvgElement.tag('svg');
     svg.nodes.add(svgGroup);
