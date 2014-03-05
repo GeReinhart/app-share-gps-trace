@@ -49,18 +49,18 @@ class ProfileWidget extends Widget {
                                     int lowestElevetion, int heighestElevetion,
                                     String color, String fillColor, int strokeWidth){
     
-    var line = new SvgElement.tag("polyline");
+    var line = new SvgElement.tag("path");
 
-    String points = "0,${height} "  ;
+    String points = "M0,${height} "  ;
     for (var i = 0; i < tracedetails.profilePoints.length; i++) {
       num x = getXPosition(tracedetails, i);
       num y = getYPosition(tracedetails,  elevetionValue(tracedetails.profilePoints[i]),lowestElevetion,heighestElevetion ) ;
-      points += "${x},${y} " ;
+      points += "L${x},${y} " ;
     }
-    points += "${width},${height}" ;
+    points += "L${width},${height} Z" ;
     
     line.attributes = {
-                       "points" : points,
+                       "d" : points,
                        "style": "fill:${fillColor};stroke:${color};stroke-width:${strokeWidth}"
     };    
     return line;
