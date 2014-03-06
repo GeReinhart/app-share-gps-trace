@@ -53,12 +53,12 @@ class ProfileWidget extends Widget {
     int skyElevetionInMeters = _getSkyElevetion() ;
 
     svgGroup.nodes.add(_buildProfileFragment( (p)=> skyElevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "none",COLOR_SKY,0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.elevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "none", "black",1));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.getSnowInMeters(skyElevetionInMeters) , lowestElevetion,skyElevetionInMeters ,  "none", "white",0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.scatteredInMeters  , lowestElevetion,skyElevetionInMeters ,  "none", "#C2A385",0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.thornyInMeters , lowestElevetion,skyElevetionInMeters ,  "none", "#4C8033",0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.leafyInMeters , lowestElevetion,skyElevetionInMeters ,  "none", "#99FF66",0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.meadowInMeters , lowestElevetion,skyElevetionInMeters ,  "none", "#FFE066",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.elevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "black", "black",1));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.getSnowInMeters(skyElevetionInMeters)-1 , lowestElevetion,skyElevetionInMeters ,  "none", "white",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.scatteredInMeters-1  , lowestElevetion,skyElevetionInMeters ,  "none", "#C2A385",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.thornyInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "none", "#4C8033",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.leafyInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "none", "#99FF66",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.meadowInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "none", "#FFE066",0));    
     
     SvgElement svg = new SvgElement.tag('svg');
     svg.nodes.add(svgGroup);
