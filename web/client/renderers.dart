@@ -1,4 +1,3 @@
-
 import 'package:intl/intl.dart';
 import "package:gps_trace/gps_trace.dart";
 import "../../lib/models.dart" ;
@@ -91,7 +90,7 @@ class TraceRenderer extends LigthTraceRenderer{
   TraceRenderer(Trace trace,String permanentTraceUrl,String gpxUrl): super(trace){
     this.permanentTraceUrl=permanentTraceUrl;
     this.gpxUrl = gpxUrl;
-    this.profileData = _traceAnalyser.buildProfile(trace.rawData, maxProfilePointsNumber:200);
+    this.profileData = _traceAnalyser.buildProfile(trace.rawData, maxProfilePointsNumber:300);
     this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis,profileData,gpxUrl);
   }
   
