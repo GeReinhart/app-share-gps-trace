@@ -13,7 +13,7 @@ class ProfileWidget extends Widget {
   static int SKY_HEIGHT_IN_METERS = 500 ; 
   static String COLOR_SKY = "#5B6DE3"; 
   static String COLOR_DEFAULT = "white"; 
-  static const PROFILE_SELECTION_REFRESH_TIME = const Duration(milliseconds: 500);
+  static const PROFILE_SELECTION_REFRESH_TIME = const Duration(milliseconds: 250);
   
   TraceDetails _traceDetails ;
   ProfilePoint _currentProfilePoint ;
@@ -33,6 +33,13 @@ class ProfileWidget extends Widget {
   void reset(){
     querySelector("#${id}").style.backgroundColor = COLOR_DEFAULT ;
     querySelector("#${id}").children.clear();
+  }
+  
+  void updatePosition(int top, int right, int width, int height){
+     super.updatePosition(top,  right,  width,  height)  ;
+     if (_traceDetails!= null){
+       show(_traceDetails) ;
+     }
   }
   
   void show(TraceDetails traceDetails){
