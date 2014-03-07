@@ -11,6 +11,7 @@ class DisclaimerPage extends Page {
   }
   
   void showPage( PageParameters pageParameters) {
+    header.title = "Mentions légales et conditions d'utilisation" ;
     organizeSpaces();
     getAndShowElement("/f_disclaimer_text", "#${name}NW");
   }

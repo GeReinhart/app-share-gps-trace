@@ -39,6 +39,7 @@ part "../web/rsp/widgets/menuWidget.rsp.dart";
 part "../web/rsp/widgets/sharedWidgets.rsp.dart";
 part "../web/rsp/widgets/loadingWidget.rsp.dart";
 part "../web/rsp/widgets/profileWidget.rsp.dart";
+part "../web/rsp/widgets/headerWidget.rsp.dart";
 
 part "../web/rsp/fragments/indexTextFragment.rsp.dart";
 part "../web/rsp/fragments/indexButtonsFragment.rsp.dart";

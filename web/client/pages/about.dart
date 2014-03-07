@@ -18,6 +18,7 @@ class AboutPage extends Page {
 
   
   void showPage( PageParameters pageParameters) {
+    header.title = "A propos de la-boussole" ;
     organizeSpaces();
     getAndShowElement("/f_about_application", "#${name}NW");
     getAndShowElement("/f_about_dev", "#${name}NE");

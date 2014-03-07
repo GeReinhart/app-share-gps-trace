@@ -12,7 +12,6 @@ Future aboutApplicationFragment(HttpConnect connect) { //#2
 
   response.write("""
 
-           <h1>A propos de la-boussole</h1>
            <div class="text-warning  form-error-message" >Cette application est actuellement en construction.</div>
         
            <h2>Le propos</h2>

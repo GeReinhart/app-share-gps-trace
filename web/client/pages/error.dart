@@ -7,6 +7,7 @@ class ErrorPage extends Page {
   ErrorPage(PageContext context): super("error",context,30,70,false);
 
   void showPage( PageParameters pageParameters) {
+    header.title = "" ;
     organizeSpaces();
   }
 }

@@ -10,8 +10,7 @@ Future traceDisplayTextFragment(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""               <h1 class="trace-details-title" >####traceRenderer.trace.title####</h1>
-               <div class="trace-details-activities trace-activities important-text" >
+  response.write("""               <div class="trace-details-activities trace-activities important-text" >
                  ####traceRenderer.activities####
                </div>
                          

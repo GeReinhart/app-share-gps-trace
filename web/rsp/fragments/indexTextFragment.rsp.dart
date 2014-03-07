@@ -12,7 +12,6 @@ Future indexTextFragment(HttpConnect connect) { //#2
 
   response.write("""        <div class="main-welcome"   >
            <div>
-            <h1>La boussole</h1>
             <h2>Partager vos traces GPS</h2>
             <p>Que ce soit pour aller marcher en famille, randonner en montagne ou courir dans les bois c&apos;est toujours plus confortable de suivre notre gps. 
             Le but de <em>la-boussole</em> est de vous proposer une manière innovante de partager et de rechercher la trace GPS qu'il vous faut.</p>

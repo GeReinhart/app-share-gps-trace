@@ -10,10 +10,7 @@ Future traceSearchFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""        <h1>Rechercher une trace gps</h1>
-"""); //#2
-
-  return Rsp.nnf(searchForm(new HttpConnect.chain(connect), traceFormRenderer: traceFormRenderer)).then((_) { //include#3
+  return Rsp.nnf(searchForm(new HttpConnect.chain(connect), traceFormRenderer: traceFormRenderer)).then((_) { //include#2
 
     return new Future.value();
   }); //end-of-include

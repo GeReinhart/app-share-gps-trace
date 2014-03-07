@@ -89,8 +89,7 @@ class TraceDetailsPage extends Page {
   }
   
   void _moveProfile(SpacesPositions positions){
-    _profile.updatePosition(positions.spaceNE_Top.toInt(),
-        positions.spaceNE_Right.toInt(), 
+    _profile.updatePosition(0,0, 
         positions.spaceNE_Width.toInt(),
         positions.spaceNE_Height.toInt());
   }
@@ -131,13 +130,15 @@ class TraceDetailsPage extends Page {
     loadingSE.startLoading();
     
     if(   keys.contains(key)    ){
+      TraceDetails traceDetails = traceDetailsByKey[key];
+      header.title = traceDetails.title ;
       showBySelector( "#${name}NW_${keyJsSafe}");
       showBySelector( "#${name}SW_${keyJsSafe}");
       loadingNE.stopLoading();
       loadingSE.stopLoading();
-      _displayProfile( traceDetailsByKey[key] );
+      _displayProfile( traceDetails );
       showBySelector("#${name}NE");
-      _displayMap( traceDetailsByKey[key] );
+      _displayMap( traceDetails );
       this.currentKey = key;
     }else{
       _showPage( key);       
@@ -161,6 +162,8 @@ class TraceDetailsPage extends Page {
         traceDetailsByKey[key] = traceDetails;
         keys.add(key);
         this.currentKey = key;
+        
+        header.title = traceDetails.title ;
         
         Element nwFragment  =_injectInDOMCloneEmptyElement("${name}NW",  keyJsSafe ) ;
         _displayData("trace-details-title",keyJsSafe,traceDetails.title) ;

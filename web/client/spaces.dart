@@ -26,6 +26,7 @@ class SpacesLayout implements LoadingShower  {
   int centerRightPercentPosition ;
   int centerTopPercentPosition;
   int centerSize ;
+  int headerHeight;
 
   double centerRight ;
   double centerTop ;
@@ -43,7 +44,7 @@ class SpacesLayout implements LoadingShower  {
   StreamController centerMovedController = new StreamController.broadcast();
 
   
-  SpacesLayout(this._userClientController,  this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition){
+  SpacesLayout(this._userClientController,  this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition, this.headerHeight){
     _init();
   }
 
@@ -172,9 +173,9 @@ class SpacesLayout implements LoadingShower  {
 
     postions = new SpacesPositions();
     postions.spaceW_Right = centerRight+1 ;
-    postions.spaceW_Top = 0.0 ;
+    postions.spaceW_Top = headerHeight.toDouble() ;
     postions.spaceW_Width = window.innerWidth - centerRight-1 ;
-    postions.spaceW_Height = window.innerHeight.toDouble();
+    postions.spaceW_Height = window.innerHeight.toDouble() - headerHeight.toDouble();
 
     querySelector(spaceW) 
     ..style.position = 'absolute'
@@ -185,9 +186,9 @@ class SpacesLayout implements LoadingShower  {
     ..style.height = (postions.spaceW_Height).toString() + "px" ;
     
     postions.spaceNW_Right = centerRight+1 ;
-    postions.spaceNW_Top = 0.0 ;
+    postions.spaceNW_Top = headerHeight.toDouble() ;
     postions.spaceNW_Width = window.innerWidth - centerRight-1 ;
-    postions.spaceNW_Height = centerTop ;
+    postions.spaceNW_Height = centerTop - headerHeight.toDouble() ;
 
     querySelector(spaceNW) 
     ..style.position = 'absolute'
@@ -198,9 +199,9 @@ class SpacesLayout implements LoadingShower  {
     ..style.height = (postions.spaceNW_Height).toString() + "px" ;
 
     postions.spaceNE_Right = 0.0 ;
-    postions.spaceNE_Top = 0.0 ;
+    postions.spaceNE_Top = headerHeight.toDouble() ;
     postions.spaceNE_Width = centerRight ;
-    postions.spaceNE_Height = centerTop ;    
+    postions.spaceNE_Height = centerTop - headerHeight.toDouble() ;    
     
     querySelector(spaceNE)
     ..style.position = 'absolute'

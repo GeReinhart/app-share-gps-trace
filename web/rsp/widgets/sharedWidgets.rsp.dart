@@ -28,7 +28,7 @@ Future sharedWidgets(HttpConnect connect, {sharedWidgetsId}) { //#2
 
         return Rsp.nnf(registerWidget(new HttpConnect.chain(connect), registerId: "registerModal")).then((_) { //include#7
 
-          return Rsp.nnf(connectedUserWidget(new HttpConnect.chain(connect))).then((_) { //include#8
+          return Rsp.nnf(headerWidget(new HttpConnect.chain(connect), headerId: "header")).then((_) { //include#8
 
             return Rsp.nnf(logoutWidget(new HttpConnect.chain(connect), logoutId: "logoutSilent")).then((_) { //include#9
 

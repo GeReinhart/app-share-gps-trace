@@ -4,6 +4,7 @@ import '../spaces.dart';
 import "../widgets/sharedWidgets.dart" ;
 import "../widgets/login.dart" ;
 import "../widgets/loading.dart" ;
+import "../widgets/header.dart" ;
 import "../widgets/register.dart" ;
 import "../widgets/logout.dart" ;
 import "../widgets/persistentMenu.dart" ;
@@ -18,6 +19,7 @@ class PageContext {
   SharedWidgets sharedWidgets;
   LoginWidget loginModal ;
   RegisterWidget registerModal ;
+  HeaderWidget headerWidget ;
   LogoutWidget logoutWidget ;
   LoadingWidget loadingNW ;
   LoadingWidget loadingNE ;
@@ -35,9 +37,10 @@ class PageContext {
     loginModal = new LoginWidget("loginModal");
     registerModal = new RegisterWidget("registerModal");
     logoutWidget = new LogoutWidget("logout" );
-  
+    headerWidget = new HeaderWidget("header") ;
+    
     userClientController = new UserClientController(loginModal,registerModal,logoutWidget);
-    layout = new SpacesLayout(userClientController, 180, 50, 50);
+    layout = new SpacesLayout(userClientController, 180, 50, 50,40);
   
     loginModal.loadingShower = layout ;
     registerModal.loadingShower = layout;
@@ -94,7 +97,6 @@ class PageParameters{
 
 abstract class Page{
   
-  
   String _name ;
   int _centerRightPercentPosition ;
   int _centerTopPercentPosition ;
@@ -104,6 +106,7 @@ abstract class Page{
   
   Page( this._name, this._context, this._centerRightPercentPosition, this._centerTopPercentPosition,this._showWestSpace ){
     _init();
+    initPage();
   }
 
   void _init(){ 
@@ -244,6 +247,7 @@ abstract class Page{
   }
   
   String        get name      => _name;
+  HeaderWidget  get header    => _context.headerWidget; 
   SpacesLayout  get layout    => _context.layout; 
   LoadingWidget get loadingNW => _context.loadingNW ;
   LoadingWidget get loadingNE => _context.loadingNE ;

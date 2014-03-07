@@ -44,6 +44,9 @@ class Widget{
     }
   }
   
+  Element get widgetElement => querySelector("#${id}") ;
+  
+  
   void set loadingShower (LoadingShower loadingShower){
     this._loadingShower = loadingShower;
   }

@@ -274,6 +274,7 @@ class TraceSearchPage extends Page {
   }
 
   void showPage( PageParameters pageParameters) {
+    header.title = "Rechercher une trace gps" ;
     organizeSpaces();
     showBySelector("#${name}W");
     showBySelector("#${name}NE");

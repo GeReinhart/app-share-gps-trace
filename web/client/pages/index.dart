@@ -18,12 +18,9 @@ import '../controllers.dart' ;
 
 class IndexPage extends Page {
   
-  IndexPage(PageContext context): super("index",context,50,50,false){
-   initPage();
-  }
+  IndexPage(PageContext context): super("index",context,50,50,false);
   
   void initPage() {
-    
     
     layout.centerMoved.listen((_){
       updateNWPostion("#${name}NW");
@@ -38,6 +35,7 @@ class IndexPage extends Page {
   }
   
   void showPage( PageParameters pageParameters) {
+    header.title = "La boussole" ;
     organizeSpaces();
     getAndShowElement("/f_index_text", "#${name}NW");
     showBySelector( "#trace_searchNE");
