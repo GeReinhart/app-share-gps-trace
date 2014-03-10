@@ -52,9 +52,8 @@ class SpacesLayout implements LoadingShower  {
   Stream get centerMoved => centerMovedController.stream;
   
   void _init(){
-    _persistentMenuWidget = new PersistentMenuWidget("persistentMenu",_userClientController) ;
+    _persistentMenuWidget = new PersistentMenuWidget("persistentMenu") ;
     _menuWidget = new MenuWidget("menu",_userClientController) ;
-    _userClientController.setLoginLogoutEventCallBack( _persistentMenuWidget.loginLogoutEvent) ;
     _userClientController.setLoginLogoutEventCallBack( _menuWidget.loginLogoutEvent) ;
     
     centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
@@ -310,14 +309,7 @@ class SpacesLayout implements LoadingShower  {
   void stopLoading(){
     querySelector(spaceLoading).style.zIndex = "10" ;
   }
-  
-  void _loginLogoutEvent(LoginLogoutEvent event){
-    if (! event.isLogout){
-      _persistentMenuWidget.userLoggedAs(event.login, event.isAdmin) ;
-    }else{
-      _persistentMenuWidget.anonymeUser();
-    }
-  }
+
 
 }
 

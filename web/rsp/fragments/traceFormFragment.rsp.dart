@@ -10,9 +10,7 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""        <h1>Ajout d'une trace gpx</h1>
-
-        <form id="trace-add-form" role="form"  action="/trace" method="post" accept-charset="UTF-8" enctype="multipart/form-data" >
+  response.write("""        <form id="trace-add-form" role="form"  action="/trace" method="post" accept-charset="UTF-8" enctype="multipart/form-data" >
           <table class="table-form" style="width: 100% ; ">
           <tr>
              <td style="width: 20%;" ></td>
@@ -40,20 +38,20 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
                    <div style="text-align: left ;">
 """); //#2
 
-  for (var activity in traceFormRenderer.activities.keys) { //for#30
+  for (var activity in traceFormRenderer.activities.keys) { //for#28
 
-    response.write("""                        <div style="text-align: left ;" ><input type="checkbox" name=\""""); //#31
+    response.write("""                        <div style="text-align: left ;" ><input type="checkbox" name=\""""); //#29
 
-    response.write(Rsp.nnx(activity)); //#31
+    response.write(Rsp.nnx(activity)); //#29
 
 
-    response.write(""""  style="text-align: left ;vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#31
+    response.write(""""  style="text-align: left ;vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#29
 
-    response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#31
+    response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#29
 
 
     response.write("""</span></div>
-"""); //#31
+"""); //#29
   } //for
 
   response.write("""                   </div> 
@@ -96,7 +94,7 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
           </table>
         </form>
 
-"""); //#33
+"""); //#31
 
   return new Future.value();
 }

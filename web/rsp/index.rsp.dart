@@ -42,11 +42,11 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
         return Rsp.nnf(loadingWidget(new HttpConnect.chain(connect), loadingId: "loadingNW", size: "50")).then((_) { //include#17
 
-          response.write("""        <div id="disclaimerNW" class="gx-hidden gx-vertical-optional-scroll" ></div>
-        <div id="indexNW"      class="gx-hidden gx-vertical-optional-scroll" ></div>
-        <div id="aboutNW"      class="gx-hidden gx-vertical-optional-scroll" ></div>
-        <div id="trace_formNW" class="gx-hidden" ></div>
-        <div id="trace_detailsNW" class="gx-hidden" >
+          response.write("""        <div id="disclaimerNW"    class="gx-hidden gx-vertical-optional-scroll" ></div>
+        <div id="indexNW"         class="gx-hidden gx-vertical-optional-scroll" ></div>
+        <div id="aboutNW"         class="gx-hidden gx-vertical-optional-scroll" ></div>
+        <div id="trace_formNW"    class="gx-hidden gx-vertical-optional-scroll" ></div>
+        <div id="trace_detailsNW" class="gx-hidden gx-vertical-optional-scroll" >
 """); //#18
 
           return Rsp.nnf(traceDisplayTextFragment(new HttpConnect.chain(connect))).then((_) { //include#23

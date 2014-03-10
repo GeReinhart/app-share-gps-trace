@@ -37,9 +37,10 @@ class PageContext {
     loginModal = new LoginWidget("loginModal");
     registerModal = new RegisterWidget("registerModal");
     logoutWidget = new LogoutWidget("logout" );
-    headerWidget = new HeaderWidget("header") ;
     
     userClientController = new UserClientController(loginModal,registerModal,logoutWidget);
+    
+    headerWidget = new HeaderWidget("header",userClientController) ;
     layout = new SpacesLayout(userClientController, 180, 50, 50,40);
   
     loginModal.loadingShower = layout ;

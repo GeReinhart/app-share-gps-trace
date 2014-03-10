@@ -44,6 +44,21 @@ class Widget{
     }
   }
   
+  void showBySelector(String selector, {String hiddenClass:"gx-hidden"}){
+    querySelectorAll(selector).forEach((e){
+      Element element = e as Element ;
+      e.classes.remove(hiddenClass) ;
+    });
+  }
+  
+  void hideBySelector(String selector, {String hiddenClass:"gx-hidden"}){
+    querySelectorAll(selector).forEach((e){
+      Element element = e as Element ;
+      e.classes.add(hiddenClass) ;
+    });
+  }  
+
+  
   Element get widgetElement => querySelector("#${id}") ;
   
   
