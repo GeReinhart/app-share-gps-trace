@@ -2,20 +2,38 @@
 <div id="[=headerId]"   >
    <h1 id="[=headerId]-title"  ></h1>
    [:include connectedUserWidget   /]
-   <div id="[=headerId]-right">
-     <span id="[=headerId]-user"  >[:if currentUser(request.session) != null  &&  currentUser(request.session).admin    ]admin&nbsp;[/if][=currentUser(request.session) != null ?  currentUser(request.session).login: ""]</span>
 
+
+   <div id="[=headerId]-left">
+     <span id="[=headerId]-menu" class='gx-as-link' >
+        <a title="Actions possibles" ><img id="[=headerId]-menu-img" src='/assets/img/menu.png '  /></a>
+     </span>
+     
      <span id="[=headerId]-register" class='gx-as-link [=currentUser(request.session) != null ? "gx-hidden" : ""]' >
-        <a title="S'enregister" ><img id="[=headerId]-register-img" alt="S'enregister" src='/assets/img/register.png '  /></a>
+        <a title="S'enregister" ><img  alt="S'enregister" src='/assets/img/register.png'  /></a>
      </span>     
      <span id="[=headerId]-login" class='gx-as-link [=currentUser(request.session) != null ? "gx-hidden" : ""]' >
-        <a title="Se connecter" ><img id="[=headerId]-login-img" src='/assets/img/login.png '  /></a>
+        <a title="Se connecter" ><img  src='/assets/img/login.png '  /></a>
      </span>
      <span id="[=headerId]-logout" class='gx-as-link [=currentUser(request.session) == null ? "gx-hidden" : ""]' >
-        <a title="Se déconnecter" ><img id="[=headerId]-logout-img" src='/assets/img/logout.png '  /></a>
+        <a title="Se déconnecter" ><img  src='/assets/img/logout.png '  /></a>
      </span>
-     <span id="[=headerId]-menu" class='gx-as-link' >
-        <a><img id="[=headerId]-menu-img" src='/assets/img/menu.png '  /></a>
+
+     <span id="[=headerId]-user" class='gx-as-link [=currentUser(request.session) != null &&  ! currentUser(request.session).admin  ?  "" : "gx-hidden"]' >
+        <a title='Utilisateur [=currentUser(request.session) != null  ?  currentUser(request.session).login : ""] (en construction)' ><img  src='/assets/img/user.png '  /></a>
+     </span>
+     <span id="[=headerId]-admin" class='gx-as-link [=currentUser(request.session) != null &&   currentUser(request.session).admin  ?  "" : "gx-hidden"]' >
+        <a title='Admin [=currentUser(request.session) != null  ?  currentUser(request.session).login : ""] (en construction) ' ><img  src='/assets/img/admin.png '  /></a>
+     </span>     
+        
+   </div>
+
+   <div id="[=headerId]-right">
+     <span id="[=headerId]-pages" class='gx-as-link'  >
+        <a title="Accès aux pages (en construction)" ><img  src='/assets/img/pages.png'  /></a>
+     </span>
+     <span id="[=headerId]-close" class='gx-as-link' >
+        <a title="Fermer la page courante (en construction)" ><img  src='/assets/img/close.png'  /></a>
      </span>        
    </div>
    

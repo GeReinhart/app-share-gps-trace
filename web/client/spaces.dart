@@ -18,8 +18,7 @@ class SpacesLayout implements LoadingShower  {
   String spaceSW  = ".space-south-west";
   String spaceSE  = ".space-south-east" ;
   String spaceCenter = ".space-center"  ;
-  String spaceMenu = ".space-menu";
-  String spaceContextualMenu = ".space-contextual-menu";
+
   String spacePersitentMenu = ".space-persitent-menu";
   String spaceLoading = ".space-loading";
   
@@ -36,7 +35,6 @@ class SpacesLayout implements LoadingShower  {
   UserClientController _userClientController ;
   SpacesPositions postions ;
   PersistentMenuWidget _persistentMenuWidget ;
-  MenuWidget _menuWidget;
   
   MouseEvent _startMovingCenterPosition ;
   var _movingCenter = false;
@@ -53,8 +51,7 @@ class SpacesLayout implements LoadingShower  {
   
   void _init(){
     _persistentMenuWidget = new PersistentMenuWidget("persistentMenu") ;
-    _menuWidget = new MenuWidget("menu",_userClientController) ;
-    _userClientController.setLoginLogoutEventCallBack( _menuWidget.loginLogoutEvent) ;
+
     
     centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
     centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
@@ -70,17 +67,9 @@ class SpacesLayout implements LoadingShower  {
     querySelector(spaceCenter).onMouseDown.listen((mouseEvent) {
       _startMovingCenterPosition = mouseEvent ;
       _movingCenter = true ;
-      toggleMenu();
       querySelector(spaceCenter + " img").attributes["src"] = "/assets/img/compass_275_red.png";
     });
 
-    querySelectorAll(spaceMenu).onClick.listen((mouseEvent) {
-      toggleMenu();
-    });
-    querySelectorAll(spaceContextualMenu).onClick.listen((mouseEvent) {
-      toggleMenu();
-    });
-    
     querySelector(spaceCenter).onMouseLeave.listen((mouseEvent) {
       if (_movingCenter){
         _movingCenter = false;
@@ -121,21 +110,7 @@ class SpacesLayout implements LoadingShower  {
   }
   
  
-  void toggleMenu(){
-    _toggleMenuBySelector(spaceMenu);
-    _toggleMenuBySelector(spaceContextualMenu);
-  }
-  
-  void _toggleMenuBySelector(selector){
-    var menu = querySelectorAll(selector);
-    if ( menu.style.zIndex != "102" ){
-      menu.style.zIndex = "102" ;
-      menu.classes.add("open");
-    }else{
-      menu.style.zIndex = "99" ;
-      menu.classes.remove("open");
-    }
-  }
+
   
   void organizeSpaces(int centerRightPercentPosition, int centerTopPercentPosition, {bool showWestSpace:false}){
     centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
@@ -243,24 +218,6 @@ class SpacesLayout implements LoadingShower  {
     querySelector(spaceCenter + " img").attributes["src"] = "/assets/img/compass_275.png";
     
     var menuItemsNumber = 6;
-    querySelectorAll(spaceMenu).forEach( (e){
-      e
-      ..style.position = 'absolute'
-      ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-      ..style.top   = centerTop < window.innerHeight/2  ? (centerTop+1  + centerSize *  ( 1                )  /6 ).toString()+ "px"
-                                                        : (centerTop+1  - centerSize *  ( menuItemsNumber  )  /6 ).toString()+ "px"
-      ..style.width = centerSize.toString()+ "px"
-      ..style.height = "0px" ;   
-    }) ;
-
-    var contextualMenuItemsNumber = 2;
-    querySelectorAll(spaceContextualMenu)
-    ..style.position = 'absolute'
-    ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top =  centerTop >= window.innerHeight/2  ? (centerTop+1  + centerSize *  ( 1                          )  /6 ).toString()+ "px" 
-                                                     : (centerTop+1  - centerSize *  ( contextualMenuItemsNumber +2  )  /6 ).toString()+ "px"
-    ..style.width = centerSize.toString()+ "px"
-    ..style.height = "0px" ;  
     
     querySelector(spacePersitentMenu)
     ..style.position = 'absolute'

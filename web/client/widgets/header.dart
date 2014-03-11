@@ -2,6 +2,7 @@ import "dart:html";
 import 'dart:async';
 
 import "widget.dart" ;
+import "menu.dart" ;
 import "modal.dart" ;
 import "../events.dart" ;
 import "../controllers.dart" ;
@@ -10,15 +11,23 @@ class HeaderWidget extends Widget  {
   
   static int HEIGHT = 40; 
   
+  String spaceMenu = ".space-menu";
+  String spaceContextualMenu = ".space-contextual-menu";
+  
   UserClientController _userClientController ;
+  MenuWidget _menuWidget;
   
   HeaderWidget(String id, UserClientController userClientController  ): super(id){
     this._userClientController = userClientController;
-    _initEvents();
+    _menuWidget = new MenuWidget("menu",_userClientController) ;
     _updateWidget();
+    _initEvents();
   }
   
   void _initEvents(){
+    
+    _userClientController.setLoginLogoutEventCallBack( _menuWidget.loginLogoutEvent) ;
+    
     _userClientController.setLoginLogoutEventCallBack(this.loginLogoutEvent) ;
     querySelectorAll("#${id}-login").forEach((e){
       e.onClick.listen((e) {
@@ -35,6 +44,21 @@ class HeaderWidget extends Widget  {
         _userClientController.callRegister();
       });
     });
+    querySelectorAll("#${id}-menu").forEach((e){
+      e.onClick.listen((e) {
+        toggleMenu();
+      });
+    });
+    querySelectorAll(spaceMenu).forEach((e){
+      e.onClick.listen((e) {
+        toggleMenu();
+      });
+    });    
+    querySelectorAll(spaceContextualMenu).forEach((e){
+      e.onClick.listen((e) {
+        toggleMenu();
+      });
+    });     
     window.onResize.listen((_)=>_updateWidget());
   }
   
@@ -56,8 +80,9 @@ class HeaderWidget extends Widget  {
         ..position = "absolute"
         ..textAlign = "center" ;
     
-    querySelector("#${id}-right").style..zIndex = "201"
+    querySelector("#${id}-right").style..zIndex = "202"
         ..top = "0px"
+        ..right = "0px"
         ..margin = "0px"
         ..paddingRight = "10px"
         ..paddingBottom = "0px"
@@ -66,20 +91,54 @@ class HeaderWidget extends Widget  {
         ..lineHeight = "${HEIGHT}px"
         ..textAlign = "right" 
         ..verticalAlign = "middle"
+        ..position = "absolute" ;
+        
+    querySelectorAll("#${id}-right span").forEach((e){
+      Element element = e as Element ;
+      element.style..position= "relative" 
+                   ..top= "0px" ;
+    }) ;  
+    querySelectorAll("#${id}-right span a img").forEach((e){
+      Element element = e as Element ;
+      element.style..height = "${HEIGHT * 0.7}px" 
+                   ..position = "relative" ;
+    }) ;             
+    querySelector("#${id}-close a img").style..height = "${HEIGHT * 0.5}px"  ;
+    
+    querySelector("#${id}-left").style..zIndex = "201"
+        ..top = "0px"
+        ..margin = "0px"
+        ..paddingLeft = "10px"
+        ..paddingBottom = "0px"
+        ..paddingTop = "0px"
+        ..height = "${HEIGHT}px"
+        ..lineHeight = "${HEIGHT}px"
+        ..textAlign = "left" 
+        ..verticalAlign = "middle"
         ..position = "relative" ;
         
-    querySelector("#${id}-user").style..height = "${HEIGHT}px"
-                                          ..position = "relative" ;        
-
-    querySelector("#${id}-login-img").style..height = "${HEIGHT * 0.7}px"
-                                           ..position = "relative" ;
-    querySelector("#${id}-logout-img").style..height = "${HEIGHT * 0.7}px" 
-                                           ..position = "relative" ;
-    querySelector("#${id}-register-img").style..height = "${HEIGHT * 0.7}px" 
-                                           ..position = "relative" ;    
-    querySelector("#${id}-menu-img").style..height = "${HEIGHT * 0.7}px" 
-                                           ..position = "relative" ;    
-  
+   querySelectorAll("#${id}-left span").forEach((e){
+          Element element = e as Element ;
+          element.style..position= "relative" 
+              ..top= "0px" ;
+   }) ; 
+   
+   querySelectorAll("#${id}-left span a img").forEach((e){
+          Element element = e as Element ;
+          element.style..height = "${HEIGHT * 0.7}px" 
+          ..position = "relative" ;
+   }) ;                                         
+            
+   querySelectorAll(spaceMenu).forEach((e){
+     Element element = e as Element ;
+     element.style..position= "relative" 
+         ..top= "${HEIGHT}px"  ;
+   }) ;
+   querySelectorAll(spaceContextualMenu).forEach((e){
+     Element element = e as Element ;
+     element.style..position= "relative" 
+         ..top= "${HEIGHT + 200}px"  ;
+   }) ;
   }
   
   void set title(String value) {
@@ -108,15 +167,37 @@ class HeaderWidget extends Widget  {
       showBySelector("#${id}-login" );
       hideBySelector("#${id}-logout" );
       showBySelector("#${id}-register" );
+      hideBySelector("#${id}-user" );
+      hideBySelector("#${id}-admin" );
     }else{
       hideBySelector("#${id}-login" );
       showBySelector("#${id}-logout" );
-      hideBySelector("#${id}-register" );      
+      hideBySelector("#${id}-register" );
+      if (admin){
+        hideBySelector("#${id}-user" );
+        showBySelector("#${id}-admin" ); 
+        querySelector("#${id}-admin a").title = "Admin ${login} (en construction)"  ;
+      }else{
+        showBySelector("#${id}-user" );
+        hideBySelector("#${id}-admin" );        
+        querySelector("#${id}-user a").title = "Utilisateur ${login} (en construction)"  ;
+      }
     }
-    
-    String text = admin ? "admin " : "" ;
-    text += login == null ? "" : login ;
-    querySelector("#${id}-user").text =  text ;  
   }
   
+  void toggleMenu(){
+    _toggleMenuBySelector(spaceMenu);
+    _toggleMenuBySelector(spaceContextualMenu);
+  }
+  
+  void _toggleMenuBySelector(selector){
+    var menu = querySelectorAll(selector);
+    if ( menu.style.zIndex != "102" ){
+      menu.style.zIndex = "102" ;
+      menu.classes.add("open");
+    }else{
+      menu.style.zIndex = "99" ;
+      menu.classes.remove("open");
+    }
+  }
 }
