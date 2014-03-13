@@ -10,16 +10,15 @@ Future menuWidget(HttpConnect connect, {menuId}) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""<div id=\""""); //#2
+  response.write("""   <div id=\""""); //#2
 
   response.write(Rsp.nnx(menuId)); //#2
 
 
-  response.write("""" >
+  response.write("""">
       <ul role="menu" class="dropdown-menu"  >
       </ul>
-</div>    
-"""); //#2
+   </div>"""); //#2
 
   return new Future.value();
 }

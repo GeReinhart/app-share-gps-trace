@@ -70,6 +70,7 @@ class MenuWidget extends Widget{
     LIElement li = new LIElement();
     li.classes.add("gx-as-link");
     AnchorElement link = new AnchorElement();
+    link.style.textIndent = "0%" ;
     link.attributes["role"] = "menuitem";
     link.attributes["tabindex"] = "-1";
     link.appendText(action.description) ;
