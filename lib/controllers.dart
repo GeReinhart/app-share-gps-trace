@@ -185,7 +185,9 @@ class TraceController extends ServerController with JsonFeatures{
           final DeleteTraceForm form = new DeleteTraceForm.fromJson(params );
 
           return _persistence.getTraceByKey(form.key).then((trace){
-            
+            if ( trace == null ){
+              return forbiddenAction(connect) ;
+            }
             if (user.login == trace.creator || user.admin  ){
               return _persistence.deleteTraceByKey(form.key).then((_){
                 return postJson(connect.response, form); 
@@ -273,17 +275,7 @@ class TraceController extends ServerController with JsonFeatures{
     });
   }
   
-  Future traceShowById(HttpConnect connect) {
-    String cleanTraceId = connect.dataset["traceId"];
-    String traceId = "ObjectId(\"" + cleanTraceId +"\")";
-    return _persistence.getTraceById(traceId).then((trace) {
-      String gpxUrl = _appUri +"/trace.gpx/id-"+cleanTraceId ;
-      String permanentTraceUrl = _appUri + "/trace/id-"+cleanTraceId ;
-      TraceRenderer renderer = new TraceRenderer(trace, permanentTraceUrl,gpxUrl);
-      return traceView(connect, traceRenderer:renderer);
-    });
-  }
-  
+ 
   Future traceShowByKey(HttpConnect connect) {
     String creator = connect.dataset["creator"];
     String titleKey = connect.dataset["titleKey"];

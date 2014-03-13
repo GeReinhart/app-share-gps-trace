@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+
 typedef void OkCancelCallBack(OKCancelEvent event);
 typedef void LoginLogoutCallBack(LoginLogoutEvent event);
 
@@ -15,6 +16,7 @@ class OKCancelEvent{
 
 
 class LoginLogoutEvent{
+  
   String _login;
   bool _admin  = false;
   bool _logout = false;

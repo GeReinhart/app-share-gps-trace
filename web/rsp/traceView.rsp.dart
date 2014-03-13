@@ -30,7 +30,7 @@ Future traceView(HttpConnect connect, {traceRenderer}) { //#2
     var _0 = new StringBuffer(); _cs_.add(connect); //var#10
     connect = new HttpConnect.stringBuffer(connect, _0); response = connect.response;
 
-    return Rsp.nnf(traceDisplayTextFragment(new HttpConnect.chain(connect), traceRenderer: traceRenderer)).then((_) { //include#11
+    return Rsp.nnf(traceDisplayTextFragment(new HttpConnect.chain(connect))).then((_) { //include#11
 
       connect = _cs_.removeLast(); response = connect.response;
 

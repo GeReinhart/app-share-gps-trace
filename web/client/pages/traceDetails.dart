@@ -11,6 +11,7 @@ import "../forms.dart";
 import "../widgets/confirm.dart" ;
 import "../widgets/profile.dart" ;
 import "../events.dart" ;
+import '../actions.dart';
 
 class TraceDetailsPage extends Page {
 
@@ -36,10 +37,36 @@ class TraceDetailsPage extends Page {
         js.context.traceDetailsMap.moveMarker(traceDetailsByKey[currentKey].keyJsSafe,p.latitude,p.longitude);
       }
     });
+  }
+  
+  
+  bool canBeLaunched(String login, bool isAdmin ) => true;
+  
+  bool canBeLaunchedFromMainMenu()=> false;
+  
+  List<ActionDescriptor> getActionsFor(String login, bool isAdmin){
+    List<ActionDescriptor> actions = new List<ActionDescriptor>();
+    if (currentKey == null){
+      return actions ;
+    }
+    String creator = _creatorFromKey(currentKey) ;
     
-    querySelectorAll(".trace-delete-menu").onClick.listen((event){
-      _deleteConfirm.showConfirmModal();
-    });    
+    ActionDescriptor download = new ActionDescriptor();
+    download.name = "Téléchargement";
+    download.description =  "Téléchargement du fichier gpx";
+    download.windowTarget = "_blank" ;
+    download.nextPage = "/trace.gpx/${currentKey}"; 
+    actions.add(download);
+    
+    if ( isAdmin ||  login != null &&  creator == login  ){
+      ActionDescriptor delete = new ActionDescriptor();
+      delete.name = "Supprimer";
+      delete.description =  "Supprimer la trace";
+      delete.launchAction = (params) =>  _deleteConfirm.showConfirmModal(); 
+      actions.add(delete);    
+    }
+
+    return actions;
   }
   
   
@@ -68,7 +95,7 @@ class TraceDetailsPage extends Page {
   
     request.open("POST",  "/j_trace_delete", async: false);
     
-    DeleteTraceForm form =  new  DeleteTraceForm( querySelector("[data-key]").attributes["data-key"] );
+    DeleteTraceForm form =  new  DeleteTraceForm( currentKey );
     request.send(JSON.encode(form.toJson()));
   
   }
@@ -113,38 +140,45 @@ class TraceDetailsPage extends Page {
     
   }
 
-  bool canShowPage(PageParameters pageParameters){
+  bool canShowPage(Parameters pageParameters){
     if (pageParameters.pageName == null){
       return false;
     }
     return pageParameters.pageName.startsWith("trace_details") ;
   }
 
-  void showPage( PageParameters pageParameters) {
+  void showPage( Parameters pageParameters) {
+    super.showPage(pageParameters);
     organizeSpaces();
     _moveMap(layout.postions);
     
     String key = pageParameters.pageName.substring( "trace_details_".length  ) ;
     String keyJsSafe = _transformJsSafe(key) ;
-    loadingNE.startLoading();
-    loadingSE.startLoading();
+    this.currentKey = key;
     
     if(   keys.contains(key)    ){
       TraceDetails traceDetails = traceDetailsByKey[key];
       header.title = traceDetails.title ;
       showBySelector( "#${name}NW_${keyJsSafe}");
       showBySelector( "#${name}SW_${keyJsSafe}");
-      loadingNE.stopLoading();
-      loadingSE.stopLoading();
       _displayProfile( traceDetails );
       showBySelector("#${name}NE");
       _displayMap( traceDetails );
-      this.currentKey = key;
+      _updateDeleteConfirmText( traceDetails);
     }else{
       _showPage( key);       
     }
   }
  
+  void _updateDeleteConfirmText(TraceDetails traceDetails){
+    _deleteConfirm.confirmTitle = "Supprimer" ;
+    _deleteConfirm.confirmText = "Je confirme la suppression définitive de la trace ${traceDetails.title}" ;
+  }
+  
+ String _creatorFromKey(String key){
+   return  key.substring(0, key.indexOf("/") );
+ }
+  
  String _transformJsSafe(String input){
    return input.replaceAll("/", "_").replaceAll("'", "-");
  }
@@ -187,6 +221,7 @@ class TraceDetailsPage extends Page {
         
         _displayMap(traceDetails);
         _displayProfile(traceDetails) ;
+        _updateDeleteConfirmText( traceDetails);
         showBySelector("#${name}NE");
         
         

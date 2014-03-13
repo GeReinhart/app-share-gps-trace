@@ -11,7 +11,7 @@ import "../widgets/login.dart" ;
 import "../widgets/persistentMenu.dart" ;
 import "../events.dart" ;
 import "../controllers.dart" ;
-
+import '../actions.dart';
 
 class TraceSearchPage extends Page {
   static const TIMEOUT = const Duration(milliseconds: 1500);
@@ -27,6 +27,7 @@ class TraceSearchPage extends Page {
   bool initDone = false;
 
   TraceSearchPage(PageContext context): super("trace_search",context,70,50,true){
+    description="Rechercher une trace gps";
     layout.centerMoved.listen((_){
       SpacesPositions positions = _ as SpacesPositions ;
       moveMap(positions);
@@ -36,6 +37,10 @@ class TraceSearchPage extends Page {
     _initTraceSearchPage();
   }
 
+  bool canBeLaunched(String login, bool isAdmin ) => true;
+  
+  bool canBeLaunchedFromMainMenu()=> true;
+  
   void _initTraceSearchPage(){
     if(initDone){
       return;
@@ -273,8 +278,9 @@ class TraceSearchPage extends Page {
     }
   }
 
-  void showPage( PageParameters pageParameters) {
-    header.title = "Rechercher une trace gps" ;
+  void showPage( Parameters pageParameters) {
+    super.showPage(pageParameters);
+    header.title = description ;
     organizeSpaces();
     showBySelector("#${name}W");
     showBySelector("#${name}NE");

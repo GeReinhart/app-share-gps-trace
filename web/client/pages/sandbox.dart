@@ -12,6 +12,7 @@ import "../widgets/login.dart" ;
 import "../widgets/persistentMenu.dart" ;
 import "../events.dart" ;
 import "../controllers.dart" ;
+import '../actions.dart';
 
 class SandboxPage extends Page {
   
@@ -28,6 +29,11 @@ class SandboxPage extends Page {
     });
   }
 
+  
+  bool canBeLaunched(String login, bool isAdmin ) => true;
+  
+  bool canBeLaunchedFromMainMenu()=> false;
+  
   void _updateWidgetsPositions(){
     SpacesPositions positions = layout.postions;
     profile.updatePosition(positions.spaceNE_Top.toInt(),
@@ -55,7 +61,8 @@ class SandboxPage extends Page {
     request.send(JSON.encode(form.toJson()));
   }
   
-  void showPage( PageParameters pageParameters) {
+  void showPage( Parameters pageParameters) {
+    super.showPage(pageParameters);
     
     querySelectorAll("#btn-draw1").onClick.listen((e) {
       showProfile(keys[rng.nextInt(  keys.length )]) ;

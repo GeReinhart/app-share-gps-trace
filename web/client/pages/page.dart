@@ -9,10 +9,12 @@ import "../widgets/register.dart" ;
 import "../widgets/logout.dart" ;
 import "../widgets/persistentMenu.dart" ;
 import "../events.dart" ;
+import "../actions.dart" ;
 import "../controllers.dart" ;
-
+import "../models.dart" ;
 
 class PageContext {
+  
   
   UserClientController userClientController ;
   SpacesLayout layout ;
@@ -40,7 +42,9 @@ class PageContext {
     
     userClientController = new UserClientController(loginModal,registerModal,logoutWidget);
     
-    headerWidget = new HeaderWidget("header",userClientController) ;
+    headerWidget = new HeaderWidget("header") ;
+   
+    
     layout = new SpacesLayout(userClientController, 180, 50, 50,40);
   
     loginModal.loadingShower = layout ;
@@ -53,52 +57,19 @@ class PageContext {
     logoutWidget.setLoginLogoutEventCallBack( userClientController.loginLogoutEvent) ;
   }
   
+  
+  void set pagesController(PagesController pagesController){
+    headerWidget.initEvents(userClientController, pagesController) ;
+  }
 }
 
-class PageParameter{
-  String key ;
-  String value;
-  
-  PageParameter(this.key,this.value) ;
-}
 
-class PageParameters{
-  List<PageParameter> parameters = new List<PageParameter>() ;
-  String pageName;
-  
-  
-  add(String key, String value){
-    parameters.add( new PageParameter(key,value) ) ;
-  }
-  
-  static PageParameters  buildFromAnchor(String anchor){
-    PageParameters pageParameters = new PageParameters();
-    
-    int startParameters = anchor.indexOf("?") ;
-    if (startParameters == -1){
-      pageParameters.pageName = anchor ;
-      return pageParameters ;
-    }
-    pageParameters.pageName = anchor.substring(0,startParameters ) ;
-    if( anchor.length <= pageParameters.pageName.length +1 ){
-      return pageParameters ;
-    }
-    String pageParametersAsString = anchor.substring(startParameters + 1,anchor.length  ) ;
-    pageParametersAsString.split("&").forEach((s){
-       List<String>  paramAndValue = s.split("=");
-       if ( paramAndValue.length == 2 ){
-         pageParameters.add (paramAndValue[0],paramAndValue[1] );
-       }
-    }) ;
-    return pageParameters;
-  }
-  
-  
-}
 
 abstract class Page{
   
+  
   String _name ;
+  String description ;
   int _centerRightPercentPosition ;
   int _centerTopPercentPosition ;
   bool _showWestSpace;
@@ -230,12 +201,22 @@ abstract class Page{
     receivedFragments.add(fragmentSelector);
   }
   
-  bool canShowPage(PageParameters pageParameters){
+  bool canShowPage(Parameters pageParameters){
     return pageParameters.pageName == this.name ;
   }
 
   
-  void showPage( PageParameters pageParameters);
+  void showPage(Parameters pageParameters){
+  }
+  
+ 
+  bool canBeLaunched(String login, bool isAdmin );
+  
+  bool canBeLaunchedFromMainMenu();
+  
+  List<ActionDescriptor> getActionsFor(String login, bool isAdmin){
+    return null;
+  }
 
   void initPage(){
   }

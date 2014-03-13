@@ -73,13 +73,10 @@ class TracesServer{
           "/f_trace_search_map": _fragmentsController.traceSearchMap, 
           
           "post:/trace": _traceController.traceAddFormSubmit,
-          
-          "/trace/id-(traceId:[^/]*)": _traceController.traceShowById,
-          "/trace.gpx/id-(traceId:[^/]*)": _traceController.traceFormatGpxShowById,
 
           "/trace/(creator:[^/]*)/(titleKey:[^/]*)": _traceController.traceShowByKey,
           "/trace.gpx/(creator:[^/]*)/(titleKey:[^/]*)": _traceController.traceFormatGpxShowByKey,
-
+          "/trace.gpx/id-(traceId:[^/]*)": _traceController.traceFormatGpxShowById,
           
 
           

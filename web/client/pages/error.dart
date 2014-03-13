@@ -1,12 +1,17 @@
 import "dart:html";
 import '../spaces.dart';
 import 'page.dart';
+import '../actions.dart';
 
 class ErrorPage extends Page {
   
   ErrorPage(PageContext context): super("error",context,30,70,false);
-
-  void showPage( PageParameters pageParameters) {
+  
+  bool canBeLaunched(String login, bool isAdmin ) => true;
+  
+  bool canBeLaunchedFromMainMenu()=> false;
+  
+  void showPage( Parameters pageParameters) {
     header.title = "" ;
     organizeSpaces();
   }

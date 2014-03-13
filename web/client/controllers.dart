@@ -2,6 +2,7 @@
 import 'dart:html';
 import 'dart:async';
 
+import "actions.dart" ;
 import "events.dart" ;
 import "models.dart";
 import "pages/page.dart";
@@ -10,8 +11,16 @@ import "widgets/login.dart";
 import "widgets/register.dart";
 import "widgets/logout.dart";
 
+typedef void UserActionsChangeCallBack(UserActionsChangeEvent event);
+
 class ClientController{
   
+}
+
+
+class UserActionsChangeEvent{
+  List<ActionDescriptor> mainApplicationMenu= new List<ActionDescriptor>();
+  List<ActionDescriptor> currentPageMenu= new List<ActionDescriptor>();
 }
 
 class PagesController extends ClientController{
@@ -20,13 +29,39 @@ class PagesController extends ClientController{
   
   Page _currentPage = null ;
   List<Page> _pages = new List<Page>();
+  StreamController<UserActionsChangeEvent> _userActionsChangeEventStream ;
+  String _currentUserLogin ;
+  bool _currentUserIsAdmin = false;
   
   PagesController(this._pages){
     _init();
   }
   
   void _init(){
+    _userActionsChangeEventStream = new StreamController<UserActionsChangeEvent>.broadcast( sync: true);
     new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
+  }
+  
+  void setUserActionsChangeEventCallBack( UserActionsChangeCallBack callBack  ){
+    _userActionsChangeEventStream.stream.listen((event) => callBack(event));
+  }
+  
+  void _sendUserActionsChangeEvent(String login, bool isAdmin, Page page){
+    UserActionsChangeEvent userActionsChangeEvent = new UserActionsChangeEvent();
+    userActionsChangeEvent.currentPageMenu = page.getActionsFor(login, isAdmin);
+    userActionsChangeEvent.mainApplicationMenu = this.getActionsFor(login, isAdmin);
+    _userActionsChangeEventStream.add(  userActionsChangeEvent  );
+  }
+  
+  void loginLogoutEvent(LoginLogoutEvent event){
+    if (event.isLogin){
+      _currentUserLogin = event.login;
+      _currentUserIsAdmin = event.isAdmin;
+    }else{
+      _currentUserLogin = null;
+      _currentUserIsAdmin = null;      
+    }
+    _sendUserActionsChangeEvent(_currentUserLogin,_currentUserIsAdmin, _currentPage) ;
   }
   
   void _mayChangePage(){
@@ -38,7 +73,7 @@ class PagesController extends ClientController{
    }
    
    String anchor =  window.location.href.substring(window.location.href.indexOf("#")+1) ;
-   PageParameters pageParameters = PageParameters.buildFromAnchor(anchor);
+   Parameters pageParameters = Parameters.buildFromAnchor(anchor);
    
    
    targetPage = _pages.firstWhere(  (page) => page.canShowPage(pageParameters), 
@@ -49,14 +84,35 @@ class PagesController extends ClientController{
      new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
      return ;
    }  
-   
-   if( _currentPage != null  ){
+   _showPage( targetPage,  pageParameters);
+   _sendUserActionsChangeEvent(_currentUserLogin,_currentUserIsAdmin, targetPage) ;
+   new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
+  }
+  
+  void _showPage(Page targetPage, Parameters pageParameters){
+    if( _currentPage != null  ){
       _currentPage.hidePage(); 
    }
    _currentPage = targetPage ;
    _currentPage.showPage(pageParameters); 
-   new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
+  
+  
+  List<ActionDescriptor> getActionsFor(String login, bool isAdmin){
+    List<ActionDescriptor> actions = new List<ActionDescriptor>();
+    
+    _pages.forEach((page){
+      if (page.canBeLaunchedFromMainMenu() && page.canBeLaunched(login, isAdmin)){
+        ActionDescriptor action = new ActionDescriptor();
+        action.name = page.name;
+        action.description = page.description;
+        action.launchAction = (params) => window.location.href = "/#${page.name}"; 
+        actions.add(action);
+      }
+    });
+    return actions;
+  }
+  
 }
 
 class UserClientController extends ClientController with LoginLogoutEventProducer{

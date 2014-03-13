@@ -1,11 +1,12 @@
 
 import 'page.dart';
 import '../spaces.dart';
+import '../actions.dart';
 
 class AboutPage extends Page {
 
   AboutPage(PageContext context): super("about",context,50,50,false){
-  
+    description = "A propos" ;
     layout.centerMoved.listen((_){
       updateNEPostion("#${name}NE");
       updateNWPostion("#${name}NW");
@@ -15,10 +16,13 @@ class AboutPage extends Page {
   
   }
   
-
+  bool canBeLaunched(String login, bool isAdmin ) => true;
   
-  void showPage( PageParameters pageParameters) {
-    header.title = "A propos de la-boussole" ;
+  bool canBeLaunchedFromMainMenu()=> false;
+
+  void showPage( Parameters pageParameters) {
+    super.showPage(pageParameters);
+    header.title = description ;
     organizeSpaces();
     getAndShowElement("/f_about_application", "#${name}NW");
     getAndShowElement("/f_about_dev", "#${name}NE");

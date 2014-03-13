@@ -14,11 +14,15 @@ import "../widgets/register.dart" ;
 import "../widgets/logout.dart" ;
 import '../events.dart' ;
 import '../controllers.dart' ;
-
+import '../actions.dart';
 
 class IndexPage extends Page {
   
   IndexPage(PageContext context): super("index",context,50,50,false);
+  
+  bool canBeLaunched(String login, bool isAdmin ) => true;
+  
+  bool canBeLaunchedFromMainMenu()=> false;
   
   void initPage() {
     
@@ -34,7 +38,8 @@ class IndexPage extends Page {
     });    
   }
   
-  void showPage( PageParameters pageParameters) {
+  void showPage( Parameters pageParameters) {
+    super.showPage(pageParameters);
     header.title = "La boussole" ;
     organizeSpaces();
     getAndShowElement("/f_index_text", "#${name}NW");
@@ -62,8 +67,6 @@ class IndexPage extends Page {
     }
   }
   
-  
-  
 }
 
 void main() {
@@ -76,5 +79,7 @@ void main() {
   pages.add(new TraceSearchPage(pageContext));
   pages.add(new TraceDetailsPage(pageContext));
   PagesController pagesController = new PagesController(pages);
+  pageContext.pagesController = pagesController ;
+  pageContext.userClientController.setLoginLogoutEventCallBack( pagesController.loginLogoutEvent  );
 }
 

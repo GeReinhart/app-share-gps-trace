@@ -31,4 +31,12 @@ class ConfirmWidget extends Widget with ModalWidget, OKCancelEventProducer {
   void showConfirmModal(){
     showModalWidget(id);
   }
+  
+  void set confirmTitle (String title){
+    querySelector("#${this.id}-title").setInnerHtml(title) ;
+  }
+
+  void set confirmText (String text){
+    querySelector("#${this.id}-text").setInnerHtml(text) ;
+  }
 }

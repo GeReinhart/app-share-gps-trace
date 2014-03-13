@@ -3,62 +3,51 @@ import 'dart:async';
 
 import "widget.dart" ;
 import "menu.dart" ;
+import "../pages/page.dart" ;
 import "modal.dart" ;
+import "../actions.dart" ;
 import "../events.dart" ;
 import "../controllers.dart" ;
+import "../models.dart" ;
 
 class HeaderWidget extends Widget  {
   
   static int HEIGHT = 40; 
   
   String spaceMenu = ".space-menu";
-  String spaceContextualMenu = ".space-contextual-menu";
   
-  UserClientController _userClientController ;
   MenuWidget _menuWidget;
   
-  HeaderWidget(String id, UserClientController userClientController  ): super(id){
-    this._userClientController = userClientController;
-    _menuWidget = new MenuWidget("menu",_userClientController) ;
+  HeaderWidget(String id): super(id){
+    _menuWidget = new MenuWidget("menu") ;
     _updateWidget();
-    _initEvents();
   }
   
-  void _initEvents(){
+  void initEvents(UserClientController userClientController, PagesController pagesController){
     
-    _userClientController.setLoginLogoutEventCallBack( _menuWidget.loginLogoutEvent) ;
-    
-    _userClientController.setLoginLogoutEventCallBack(this.loginLogoutEvent) ;
+    pagesController.setUserActionsChangeEventCallBack(this.userActionsChangeEvent);
+    userClientController.setLoginLogoutEventCallBack(this.loginLogoutEvent) ;
     querySelectorAll("#${id}-login").forEach((e){
       e.onClick.listen((e) {
-        _userClientController.callLogin();
+        userClientController.callLogin();
       });
     });
     querySelectorAll("#${id}-logout").forEach((e){
       e.onClick.listen((e) {
-        _userClientController.callLogout();
+        userClientController.callLogout();
       });
     });    
     querySelectorAll("#${id}-register").forEach((e){
       e.onClick.listen((e) {
-        _userClientController.callRegister();
+        userClientController.callRegister();
       });
     });
     querySelectorAll("#${id}-menu").forEach((e){
       e.onClick.listen((e) {
-        toggleMenu();
+        _menuWidget.toggleMenu();
       });
     });
-    querySelectorAll(spaceMenu).forEach((e){
-      e.onClick.listen((e) {
-        toggleMenu();
-      });
-    });    
-    querySelectorAll(spaceContextualMenu).forEach((e){
-      e.onClick.listen((e) {
-        toggleMenu();
-      });
-    });     
+  
     window.onResize.listen((_)=>_updateWidget());
   }
   
@@ -129,16 +118,8 @@ class HeaderWidget extends Widget  {
           ..position = "relative" ;
    }) ;                                         
             
-   querySelectorAll(spaceMenu).forEach((e){
-     Element element = e as Element ;
-     element.style..position= "relative" 
-         ..top= "${HEIGHT}px"  ;
-   }) ;
-   querySelectorAll(spaceContextualMenu).forEach((e){
-     Element element = e as Element ;
-     element.style..position= "relative" 
-         ..top= "${HEIGHT + 200}px"  ;
-   }) ;
+   querySelector("#${_menuWidget.id}").style..position= "relative" 
+                                            ..top= "${HEIGHT}px"  ;
   }
   
   void set title(String value) {
@@ -185,19 +166,7 @@ class HeaderWidget extends Widget  {
     }
   }
   
-  void toggleMenu(){
-    _toggleMenuBySelector(spaceMenu);
-    _toggleMenuBySelector(spaceContextualMenu);
-  }
-  
-  void _toggleMenuBySelector(selector){
-    var menu = querySelectorAll(selector);
-    if ( menu.style.zIndex != "102" ){
-      menu.style.zIndex = "102" ;
-      menu.classes.add("open");
-    }else{
-      menu.style.zIndex = "99" ;
-      menu.classes.remove("open");
-    }
+  void userActionsChangeEvent(UserActionsChangeEvent event) {
+      _menuWidget.resetMenu(event.mainApplicationMenu,event.currentPageMenu) ;
   }
 }

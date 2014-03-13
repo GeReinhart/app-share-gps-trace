@@ -21,7 +21,12 @@ Future confirmWidget(HttpConnect connect, {confirmId,confirmTitle,confirmText}) 
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h3>"""); //#3
+            <h3 id=\""""); //#3
+
+  response.write(Rsp.nnx(confirmId)); //#7
+
+
+  response.write("""-title" >"""); //#7
 
   response.write(Rsp.nnx(confirmTitle)); //#7
 
@@ -29,7 +34,12 @@ Future confirmWidget(HttpConnect connect, {confirmId,confirmTitle,confirmText}) 
   response.write("""</h3>
           </div>
           <div class="modal-body">
-            <p>"""); //#7
+            <p id=\""""); //#7
+
+  response.write(Rsp.nnx(confirmId)); //#10
+
+
+  response.write("""-text" >"""); //#10
 
   response.write(Rsp.nnx(confirmText)); //#10
 
