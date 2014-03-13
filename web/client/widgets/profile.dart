@@ -100,8 +100,8 @@ class ProfileWidget extends Widget {
       verticalLineElement.style.width = '1px';
       verticalLineElement.style.backgroundColor = 'black';
       
-      int index = ( clientX / width * _traceDetails.profilePoints.length ).toInt() ;
-
+      num distance = ( clientX / width * _traceDetails.length ).toInt() ;
+      int index = _getIndexFromDistance( distance);
       if (  index >= 0 && index < _traceDetails.profilePoints.length  ){
         
         _currentProfilePoint = _traceDetails.profilePoints[index] ;
@@ -122,6 +122,20 @@ class ProfileWidget extends Widget {
       }
 
   });
+  }
+  
+  int _getIndexFromDistance(num distance){
+    int index = 0;
+    List<ProfilePoint> profilePoints = _traceDetails.profilePoints;
+    for (int i = 0 ; i< profilePoints.length; i++){
+      if (profilePoints[i].distance < distance){
+        index = i;
+      }else{
+        return index;
+      }
+    }
+    
+    return index ;
   }
   
   SvgElement _buildProfileFragment( ElevetionValue elevetionValue,
@@ -177,9 +191,8 @@ class ProfileWidget extends Widget {
   }
   
   num _getXPosition( int profilePointIndex){
-    num numberOfPoints = _traceDetails.profilePoints.length;
     num numberOfAvailablePixels = width ;
-    return (profilePointIndex * numberOfAvailablePixels /numberOfPoints);
+    return ( _traceDetails.profilePoints[profilePointIndex].distance * numberOfAvailablePixels /_traceDetails.length);
   }
   
   num _getYPosition( int elevetion, int lowestElevetion, int heighestElevetion){
