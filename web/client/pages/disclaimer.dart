@@ -4,7 +4,7 @@ import '../actions.dart';
 
 class DisclaimerPage extends Page {
   
-  DisclaimerPage(PageContext context): super("disclaimer",context,25,75,false){
+  DisclaimerPage(PageContext context): super("disclaimer",context,50,75,false){
     description = "Mentions légales et conditions d'utilisation" ;
     layout.centerMoved.listen((_){
       updateNWPostion("#${name}NW");
