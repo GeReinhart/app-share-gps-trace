@@ -19,8 +19,7 @@ class DisclaimerPage extends Page {
     super.showPage(pageParameters);
     header.title = description ;
     organizeSpaces();
-    getAndShowElement("/f_disclaimer_text", "#${name}NW");
+    getAndShowElement("/f_legal_disclaimer", "#${name}NW");
+    getAndShowElement("/f_legal_terms", "#${name}NE");
   }
 }
-
-
