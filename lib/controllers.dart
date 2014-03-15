@@ -44,6 +44,9 @@ part "../web/rsp/widgets/headerWidget.rsp.dart";
 part "../web/rsp/fragments/indexTextFragment.rsp.dart";
 part "../web/rsp/fragments/indexButtonsFragment.rsp.dart";
 part "../web/rsp/fragments/disclaimerTextFragment.rsp.dart";
+part "../web/rsp/fragments/legalDisclaimerFragment.rsp.dart";
+part "../web/rsp/fragments/legalTermsFragment.rsp.dart";
+
 part "../web/rsp/fragments/aboutApplicationFragment.rsp.dart";
 part "../web/rsp/fragments/aboutFeedbacksFragment.rsp.dart";
 part "../web/rsp/fragments/aboutDevFragment.rsp.dart";
@@ -438,6 +441,12 @@ class FragmentsController extends ServerController{
   }
   Future disclaimerText(HttpConnect connect){
     return disclaimerTextFragment(connect);
+  }  
+  Future legalDisclaimer(HttpConnect connect){
+    return legalDisclaimerFragment(connect);
+  }  
+  Future legalTerms(HttpConnect connect){
+    return legalTermsFragment(connect);
   }  
   Future aboutApplication(HttpConnect connect){
     return aboutApplicationFragment(connect);

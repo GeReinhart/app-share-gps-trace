@@ -4,10 +4,11 @@ import '../actions.dart';
 
 class DisclaimerPage extends Page {
   
-  DisclaimerPage(PageContext context): super("disclaimer",context,25,75,false){
+  DisclaimerPage(PageContext context): super("disclaimer",context,50,75,false){
     description = "Mentions légales et conditions d'utilisation" ;
     layout.centerMoved.listen((_){
       updateNWPostion("#${name}NW");
+      updateNWPostion("#${name}NE");
     });
   }
   
@@ -19,8 +20,7 @@ class DisclaimerPage extends Page {
     super.showPage(pageParameters);
     header.title = description ;
     organizeSpaces();
-    getAndShowElement("/f_disclaimer_text", "#${name}NW");
+    getAndShowElement("/f_legal_disclaimer", "#${name}NW");
+    getAndShowElement("/f_legal_terms", "#${name}NE");
   }
 }
-
-

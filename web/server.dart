@@ -1,4 +1,3 @@
-
 library trails;
 
 import "dart:io";
@@ -63,7 +62,11 @@ class TracesServer{
           
           "/f_index_text" : _fragmentsController.indexText,
           "/f_index_buttons" : _fragmentsController.indexButtons,
+          "/f_legal_disclaimer" : _fragmentsController.legalDisclaimer,
+          "/f_legal_terms" : _fragmentsController.legalTerms,
+
           "/f_disclaimer_text" : _fragmentsController.disclaimerText,
+
           "/f_about_application" : _fragmentsController.aboutApplication,
           "/f_about_dev" : _fragmentsController.aboutDev,          
           "/f_about_feedbacks" : _fragmentsController.aboutFeedbacks,
