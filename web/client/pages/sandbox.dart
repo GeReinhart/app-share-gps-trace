@@ -48,7 +48,7 @@ class SandboxPage extends Page {
       
       if (request.readyState == HttpRequest.DONE ) {
 
-        String returnText = JSON.decode(request.responseText);
+        window.location.href = "/#trace_search" ;
         
       }
     });
@@ -60,6 +60,7 @@ class SandboxPage extends Page {
     
     FileUploadInputElement fileUploadInputElement = querySelector("#gpxUploadedFile") as FileUploadInputElement ;
     File gpxFile = fileUploadInputElement.files.first;
+    formData.append("title", ( querySelector("#form-title") as InputElement ).value );
     formData.appendBlob("gpxUploadedFile", gpxFile, gpxFile.name);
     request.send(formData);
   }

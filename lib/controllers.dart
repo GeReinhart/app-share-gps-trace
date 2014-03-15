@@ -207,21 +207,41 @@ class TraceController extends ServerController with JsonFeatures{
     
     User user =  currentUser(connect.request.session);
     if (user == null  ){
-      return  forbiddenAction(connect) ;
+     // return  forbiddenAction(connect) ;
+      user = new User.withFields(login: "user1");
     }
     
     DateTime now = new DateTime.now();
     String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
 
+    //SmoothingParameters smoothingParameters = SmoothingParameters.get( SmoothingLevel.fromString(smoothing ));
+    SmoothingParameters smoothingParameters = null ;
+    
     return HttpBodyHandler.processRequest(connect.request).then((body) {
       Map parameters = body.body as Map ;
-       
+      String title = parameters['title'];
       HttpBodyFileUpload fileUploaded = body.body['gpxUploadedFile'];
       final file = new File(tempFile);
       return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
           .then((_) {
-            return ;
-      });  
+            return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
+              
+              Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
+              trace.title = title ;
+              //trace.smoothing = smoothing;
+              //trace.description = description ;
+              //trace.activities = activities; 
+              return _persistence.saveOrUpdateTrace(trace).then((trace) {
+                return  ;
+              });
+            });
+          }).whenComplete((){
+            try {
+              new File(tempFile).delete();
+            } catch(e) {
+              print("Unable to delete ${tempFile}: ${e}");
+            }
+          } );
     });
    
   }
@@ -477,7 +497,7 @@ class FragmentsController extends ServerController{
       }
       LigthTraceRenderers ligthTraceRenderers = new LigthTraceRenderers();
       ligthTraceRenderers.traces = lightTraceRendererList;
-      return traceSearchMapFragment(connect, lightTraceRenderers:ligthTraceRenderers);
+      return traceSearchMapFragment(connect);
     });
   }
 }
