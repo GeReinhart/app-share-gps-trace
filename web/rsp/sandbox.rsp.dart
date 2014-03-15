@@ -27,55 +27,83 @@ Future sandbox(HttpConnect connect) { //#2
 
     response.write("""           <h1>Test</h1>
            
-              <button id="btn-draw1"  type="submit" class="btn btn-primary ">Affiche profile1</button>&nbsp;
-              <button id="btn-reset"  type="submit" class="btn btn-warning ">Supprime profile</button>
+           
+          <table class="table-form" style="width: 100% ; ">
+          <tr>
+             <td style="width: 20%;" ></td>
+             <td colspan="2" style="width: * ; text-align: center;"   >
+                <div class="form-inputs" >
+                    <input name="title" type="text" class="form-control" style="width: 80%" placeholder="Titre">
+                </div>
+             </td>
+             <td style="width: 20%" ></td>
+          </tr>
+      
+          <tr>
+             <td  ></td>
+             <td colspan="2" style="width: * ; text-align: center;"  >
+                <div class="form-inputs" >
+                  <input id="gpxUploadedFile" name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
+                </div>             
+             </td>
+             <td  ></td>
+          </tr> 
+       
+          <tr>
+             <td  ></td>
+             <td colspan="2" style="width: * ; text-align: center;"  >
+                <div class="form-inputs" >
+                 <button id="btn-async-sumbit"   class="btn btn-primary ">Ajouter cette trace (async)</button>
+                </div> 
+             </td>
+             <td  ></td>
+          </tr>                              
+          </table>
+           
+           
+           
            
 """); //#11
 
     connect = _cs_.removeLast(); response = connect.response;
 
-    var _1 = new StringBuffer(); _cs_.add(connect); //var#17
+    var _1 = new StringBuffer(); _cs_.add(connect); //var#50
     connect = new HttpConnect.stringBuffer(connect, _1); response = connect.response;
 
     response.write("""        <div id="trace_detailsNE" >
            
-"""); //#18
-
-    return Rsp.nnf(profileWidget(new HttpConnect.chain(connect), profileId: "profile")).then((_) { //include#20
-
-      response.write("""           
+           
         </div>
-"""); //#21
+"""); //#51
 
-      connect = _cs_.removeLast(); response = connect.response;
+    connect = _cs_.removeLast(); response = connect.response;
 
-      var _2 = new StringBuffer(); _cs_.add(connect); //var#24
-      connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
+    var _2 = new StringBuffer(); _cs_.add(connect); //var#56
+    connect = new HttpConnect.stringBuffer(connect, _2); response = connect.response;
 
-      connect = _cs_.removeLast(); response = connect.response;
+    connect = _cs_.removeLast(); response = connect.response;
 
-      var _3 = new StringBuffer(); _cs_.add(connect); //var#25
-      connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
+    var _3 = new StringBuffer(); _cs_.add(connect); //var#57
+    connect = new HttpConnect.stringBuffer(connect, _3); response = connect.response;
 
-      response.write("""
+    response.write("""
 
-"""); //#26
+"""); //#58
 
-      connect = _cs_.removeLast(); response = connect.response;
+    connect = _cs_.removeLast(); response = connect.response;
 
-      return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
+    return Rsp.nnf(spaces(new HttpConnect.chain(connect), nw: _0.toString(), ne: _1.toString(), sw: _2.toString(), se: _3.toString())).then((_) { //include#9
 
-        return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#29
+      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#61
 
-          response.write("""    <script type="application/dart" src="/client/pages/sandbox.dart"></script>
+        response.write("""    <script type="application/dart" src="/client/pages/sandbox.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>
   </body>
 </html>
-"""); //#30
+"""); //#62
 
-          return new Future.value();
-        }); //end-of-include
+        return new Future.value();
       }); //end-of-include
     }); //end-of-include
   }); //end-of-include

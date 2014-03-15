@@ -1,4 +1,6 @@
-
+import "dart:html";
+import 'dart:async';
+import "dart:convert";
 import 'page.dart';
 import '../actions.dart';
 
@@ -9,6 +11,8 @@ class TraceFormPage extends Page {
     layout.centerMoved.listen((_){
       updateNWPostion("#${name}NW");
     });
+    
+
   }
   
   
@@ -21,8 +25,10 @@ class TraceFormPage extends Page {
     header.title = description ;
     organizeSpaces();
     getAndShowElement("/f_trace_add_form","#${name}NW");
-
+    
   }
+  
+ 
   
 }
 

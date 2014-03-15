@@ -63,7 +63,7 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
              <td  ></td>
              <td colspan="2" style="width: * ; text-align: center;"  >
                 <div class="form-inputs" >
-                  <input name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
+                  <input id="gpxUploadedFile" name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
                 </div>             
              </td>
              <td  ></td>
@@ -93,6 +93,9 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
           </tr>                              
           </table>
         </form>
+
+
+              
 
 """); //#31
 

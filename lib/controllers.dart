@@ -200,6 +200,28 @@ class TraceController extends ServerController with JsonFeatures{
     });
   }
 
+  Future jsonTraceCreate(HttpConnect connect) {
+    
+    User user =  currentUser(connect.request.session);
+    if (user == null  ){
+      return  forbiddenAction(connect) ;
+    }
+    
+    DateTime now = new DateTime.now();
+    String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
+
+    return HttpBodyHandler.processRequest(connect.request).then((body) {
+      Map parameters = body.body as Map ;
+       
+      HttpBodyFileUpload fileUploaded = body.body['gpxUploadedFile'];
+      final file = new File(tempFile);
+      return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
+          .then((_) {
+            return ;
+      });  
+    });
+   
+  }
   
   Future jsonTraceDetails(HttpConnect connect) {
     String creator = connect.dataset["creator"];
@@ -262,7 +284,7 @@ class TraceController extends ServerController with JsonFeatures{
               trace.description = description ;
               trace.activities = activities; 
               return _persistence.saveOrUpdateTrace(trace).then((trace) {
-                return connect.forward("/trace/" + trace.key) ;
+                return connect.forward("/#trace_details/" + trace.key) ;
               });
             });
           }).whenComplete((){
