@@ -13,6 +13,8 @@ import "../actions.dart" ;
 import "../controllers.dart" ;
 import "../models.dart" ;
 
+typedef void FragmentLoadedCallBack();
+
 class PageContext {
   
   
@@ -100,7 +102,7 @@ abstract class Page{
     layout.organizeSpaces(_centerRightPercentPosition,_centerTopPercentPosition,showWestSpace:_showWestSpace );
   }
   
-  void getAndShowElement(String resourceUrl, String fragmentSelector){
+  void getAndShowElement(String resourceUrl, String fragmentSelector, {callback:FragmentLoadedCallBack}){
     
     loadingNW.startLoading();
     HttpRequest request = new HttpRequest();
@@ -112,6 +114,9 @@ abstract class Page{
         
         querySelector(fragmentSelector).setInnerHtml(formContent, validator: buildNodeValidatorBuilderForSafeHtml()) ;
         fragmentReceived(fragmentSelector);
+        if(callback != null){
+          callback();
+        }
         loadingNW.stopLoading();
         showBySelector(fragmentSelector);
       }

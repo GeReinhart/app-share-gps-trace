@@ -370,7 +370,7 @@ class LightTrace implements ToJson{
   String get titleJsSafe => (this.title.replaceAll("'", ""));  
 
   String get mainActivity {
-       if( activityKeys == null ){
+       if( activityKeys == null || activityKeys != null && activityKeys.isEmpty ){
          return null;
        }
        return activityKeys[0] ;
@@ -534,3 +534,81 @@ class ProfilePoint implements ToJson {
 
 }
 
+
+const int TRACE_TITLE_MIN_LENGTH = 5 ;
+
+const String TRACE_ERROR_TITLE_MIN_LENGTH = "trace.error.titleMinLength" ;
+const String TRACE_ERROR_ACTIVITY_MISSING = "trace.error.activityMissing" ;
+const String TRACE_ERROR_GPS_FILE_MISSING = "trace.error.gpsFileMissing" ;
+
+
+class TraceForm implements ToJson{
+  
+  String key ;
+  String title ;
+  String description ;
+  List<String> activityKeys ;
+  String activities ;
+  String smoothing;
+  String gpxUrl;
+  
+  String _success = "true" ;
+  String error = null;
+  String errorField = null;
+  
+  TraceForm( );
+  
+  TraceForm.fromMap(Map jsonMap){
+    _fromMap(jsonMap);
+  }
+  
+  void _fromMap(Map jsonMap){
+    key = jsonMap['key'] ;
+    title = jsonMap['title'] ;
+    description = jsonMap['description'] ;
+    activityKeys = jsonMap['activityKeys'] ;
+    activities = jsonMap['activities'] ;
+    smoothing = jsonMap['smoothing'];
+    gpxUrl = jsonMap['gpxUrl'] ;  
+    _success = jsonMap["_success"] ;
+    error = jsonMap["error"] ;
+    errorField = jsonMap["errorField"] ;
+  }
+  
+  Map toJson() {
+    
+    return {
+             'key': key,
+             'title': title,
+             'description': description,
+             'activityKeys': activityKeys,
+             'activities': activities,
+             'smoothing' : smoothing,
+             'gpxUrl':gpxUrl, 
+             '_success':_success,
+             'error':error,
+             'errorField':errorField
+            };
+  }
+  
+  void setError( String error, String errorField  ){
+    _success = "false";
+    this.error = error;
+    this.errorField = errorField;
+  }
+  
+
+  
+  bool validate(){
+    
+    if (title == null ||  title != null && title.length < TRACE_TITLE_MIN_LENGTH ){
+      setError( TRACE_ERROR_TITLE_MIN_LENGTH, "title") ;
+    }
+
+    
+    return isSuccess ;
+  }
+  
+  bool get isSuccess => _success == "true" ;
+  
+}

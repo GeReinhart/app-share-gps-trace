@@ -10,13 +10,12 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""        <form id="trace-add-form" role="form"  action="/trace" method="post" accept-charset="UTF-8" enctype="multipart/form-data" >
-          <table class="table-form" style="width: 100% ; ">
+  response.write("""          <table class="table-form" style="width: 100% ; ">
           <tr>
              <td style="width: 20%;" ></td>
              <td colspan="2" style="width: * ; text-align: center;"   >
                 <div class="form-inputs" >
-                    <input name="title" type="text" class="form-control" style="width: 80%" placeholder="Titre">
+                    <input name="title" type="text" class="trace-form-input form-control" style="width: 80%" placeholder="Titre">
                 </div>
              </td>
              <td style="width: 20%" ></td>
@@ -25,7 +24,7 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
              <td  ></td>
              <td colspan="2" style="width: * ; text-align: center;"  >
                 <div class="form-inputs">
-                  <textarea name="description" class="form-control" style="width: 80%" rows="12" placeholder="Description du parcours" ></textarea>
+                  <textarea name="description" class="trace-form-input form-control" style="width: 80%" rows="12" placeholder="Description du parcours" ></textarea>
                 </div>              
              </td>
              <td  ></td>
@@ -38,20 +37,25 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
                    <div style="text-align: left ;">
 """); //#2
 
-  for (var activity in traceFormRenderer.activities.keys) { //for#28
+  for (var activity in traceFormRenderer.activities.keys) { //for#27
 
-    response.write("""                        <div style="text-align: left ;" ><input type="checkbox" name=\""""); //#29
+    response.write("""                        <div style="text-align: left ;" ><input name=\""""); //#28
 
-    response.write(Rsp.nnx(activity)); //#29
+    response.write(Rsp.nnx(activity)); //#28
 
 
-    response.write(""""  style="text-align: left ;vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#29
+    response.write(""""  type="checkbox" name=\""""); //#28
 
-    response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#29
+    response.write(Rsp.nnx(activity)); //#28
+
+
+    response.write(""""  class="trace-form-input form-control" style="text-align: left ;vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#28
+
+    response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#28
 
 
     response.write("""</span></div>
-"""); //#29
+"""); //#28
   } //for
 
   response.write("""                   </div> 
@@ -63,7 +67,7 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
              <td  ></td>
              <td colspan="2" style="width: * ; text-align: center;"  >
                 <div class="form-inputs" >
-                  <input id="gpxUploadedFile" name="gpxUploadedFile" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
+                  <input  class="trace-form-file-input form-control"   name="gps-file" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
                 </div>             
              </td>
              <td  ></td>
@@ -72,7 +76,7 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
              <td  ></td>
              <td colspan="2" style="width: * ; text-align: center;"  >
                 <div class="form-inputs" >
-                   <select  name="smoothing" >
+                   <select  name="smoothing" class="trace-form-input form-control">
                     <option value="no">Aucun lissage</option>
                     <option value="low">Lissage faible</option>
                     <option value="medium">Lissage moyen</option>
@@ -86,18 +90,17 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
              <td  ></td>
              <td colspan="2" style="width: * ; text-align: center;"  >
                 <div class="form-inputs" >
-                 <button type="submit"  class="btn btn-primary btn-add-trace loading-on-click">Ajouter cette trace</button>
+                 <button id="trace-form-submit" class="btn btn-primary">Ajouter cette trace</button>
                 </div> 
              </td>
              <td  ></td>
           </tr>                              
           </table>
-        </form>
 
 
               
 
-"""); //#31
+"""); //#30
 
   return new Future.value();
 }

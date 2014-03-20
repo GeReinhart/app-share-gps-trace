@@ -207,32 +207,43 @@ class TraceController extends ServerController with JsonFeatures{
     
     User user =  currentUser(connect.request.session);
     if (user == null  ){
-     // return  forbiddenAction(connect) ;
-      user = new User.withFields(login: "user1");
+      return  forbiddenAction(connect) ;
     }
     
     DateTime now = new DateTime.now();
     String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
 
-    //SmoothingParameters smoothingParameters = SmoothingParameters.get( SmoothingLevel.fromString(smoothing ));
-    SmoothingParameters smoothingParameters = null ;
-    
     return HttpBodyHandler.processRequest(connect.request).then((body) {
       Map parameters = body.body as Map ;
-      String title = parameters['title'];
-      HttpBodyFileUpload fileUploaded = body.body['gpxUploadedFile'];
+      
+      TraceForm traceForm = new TraceForm();
+      traceForm.title = parameters['title'];
+      traceForm.description = parameters['description'];
+      traceForm.smoothing = parameters['smoothing'];
+      List<String> activities = new List<String>();
+      String activityPrefix = "activity-";
+      parameters.forEach((k,v){
+            if ( k.toString().startsWith(activityPrefix) ){
+              activities.add(  k.substring(activityPrefix.length)  );
+            }
+          }       
+      );
+      SmoothingParameters smoothingParameters = SmoothingParameters.get( SmoothingLevel.fromString(traceForm.smoothing ));
+      
+      HttpBodyFileUpload fileUploaded = body.body['gps-file'];
       final file = new File(tempFile);
       return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
           .then((_) {
             return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
               
               Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
-              trace.title = title ;
-              //trace.smoothing = smoothing;
-              //trace.description = description ;
-              //trace.activities = activities; 
+              trace.title = traceForm.title ;
+              trace.smoothing = traceForm.smoothing;
+              trace.description = traceForm.description ;
+              trace.activities = activities; 
               return _persistence.saveOrUpdateTrace(trace).then((trace) {
-                return  ;
+                traceForm.key = trace.key;
+                return postJson(connect.response, traceForm);  
               });
             });
           }).whenComplete((){
