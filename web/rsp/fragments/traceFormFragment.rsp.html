@@ -2,7 +2,7 @@
           <table class="table-form" style="width: 100% ; ">
           <tr>
              <td style="width: 20%;" ></td>
-             <td colspan="2" style="width: * ; text-align: center;"   >
+             <td colspan="4" style="width: * ; text-align: center;"   >
                 <div class="form-inputs" >
                     <input name="title" type="text" class="trace-form-input form-control" style="width: 80%" placeholder="Titre">
                 </div>
@@ -11,17 +11,12 @@
           </tr>
           <tr>
              <td  ></td>
-             <td colspan="2" style="width: * ; text-align: center;"  >
+             <td colspan="2" style="width: 30% ; text-align: center;"  >
                 <div class="form-inputs">
                   <textarea name="description" class="trace-form-input form-control" style="width: 80%" rows="12" placeholder="Description du parcours" ></textarea>
                 </div>              
              </td>
-             <td  ></td>
-          </tr>
-          <tr>
-             <td  ></td>
-             <td style="width: 20%  ; " ></td>
-             <td style="width: * ; text-align: left ;"  >
+             <td colspan="2" style="width: 30% ; text-align: left ;"  >
               <div class="form-inputs" style="width: * ; text-align: left ;" >
                    <div style="text-align: left ;">
                     [:for activity in traceFormRenderer.activities.keys]
@@ -29,21 +24,18 @@
                     [/for]
                    </div> 
               </div>             
-             </td>
+             </td>   
+                       
              <td  ></td>
           </tr>
           <tr>
              <td  ></td>
-             <td colspan="2" style="width: * ; text-align: center;"  >
+             <td colspan="2" style="width: 30% ; text-align: center;"  >
                 <div class="form-inputs" >
                   <input  class="trace-form-file-input form-control"   name="gps-file" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
                 </div>             
              </td>
-             <td  ></td>
-          </tr> 
-          <tr>
-             <td  ></td>
-             <td colspan="2" style="width: * ; text-align: center;"  >
+             <td colspan="2" style="width: 30% ; text-align: center;"  >
                 <div class="form-inputs" >
                    <select  name="smoothing" class="trace-form-input form-control">
                     <option value="no">Aucun lissage</option>
@@ -52,18 +44,9 @@
                     <option value="high">Lissage fort</option>
                   </select>
                 </div>             
-             </td>
+             </td>             
              <td  ></td>
-          </tr>          
-          <tr>
-             <td  ></td>
-             <td colspan="2" style="width: * ; text-align: center;"  >
-                <div class="form-inputs" >
-                 <button id="trace-form-submit" class="btn btn-primary">Ajouter cette trace</button>
-                </div> 
-             </td>
-             <td  ></td>
-          </tr>                              
+          </tr> 
           </table>
 
 

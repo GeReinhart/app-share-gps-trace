@@ -541,10 +541,12 @@ const int TRACE_TITLE_MIN_LENGTH = 5 ;
 const String TRACE_ERROR_TITLE_MIN_LENGTH = "trace.error.titleMinLength" ;
 const String TRACE_ERROR_ACTIVITY_MISSING = "trace.error.activityMissing" ;
 const String TRACE_ERROR_GPS_FILE_MISSING = "trace.error.gpsFileMissing" ;
-
+const String TRACE_ERROR_GPS_FILE_TOO_BIG = "trace.error.gpsFileTooBig" ;
+const String TRACE_ERROR_GPS_FILE_ON_SCAN = "trace.error.gpsFileScanError" ;
 
 class TraceForm implements ToJson{
   
+  bool  isUpdate ;
   String key ;
   String title ;
   String description ;
@@ -552,6 +554,8 @@ class TraceForm implements ToJson{
   String activities ;
   String smoothing;
   String gpxUrl;
+  String gpsFileName;
+  int    gpsFileSizeInBytes;
   
   String _success = "true" ;
   String error = null;
@@ -564,6 +568,7 @@ class TraceForm implements ToJson{
   }
   
   void _fromMap(Map jsonMap){
+    isUpdate = jsonMap['isUpdate'] ;
     key = jsonMap['key'] ;
     title = jsonMap['title'] ;
     description = jsonMap['description'] ;
@@ -571,6 +576,8 @@ class TraceForm implements ToJson{
     activities = jsonMap['activities'] ;
     smoothing = jsonMap['smoothing'];
     gpxUrl = jsonMap['gpxUrl'] ;  
+    gpsFileName = jsonMap['gpsFileName'] ; 
+    gpsFileSizeInBytes = jsonMap['gpsFileSizeInBytes'] ; 
     _success = jsonMap["_success"] ;
     error = jsonMap["error"] ;
     errorField = jsonMap["errorField"] ;
@@ -579,6 +586,7 @@ class TraceForm implements ToJson{
   Map toJson() {
     
     return {
+             'isUpdate': isUpdate,
              'key': key,
              'title': title,
              'description': description,
@@ -586,6 +594,8 @@ class TraceForm implements ToJson{
              'activities': activities,
              'smoothing' : smoothing,
              'gpxUrl':gpxUrl, 
+             'gpsFileName' :gpsFileName, 
+             'gpsFileSizeInBytes':gpsFileSizeInBytes ,              
              '_success':_success,
              'error':error,
              'errorField':errorField
@@ -598,18 +608,28 @@ class TraceForm implements ToJson{
     this.errorField = errorField;
   }
   
-
+  void append(String key , String value){
+    
+  }
   
   bool validate(){
-    
+    _success = "true" ;
+    if( isCreate ){
+      if (gpsFileName == null ||  gpsFileName != null && gpsFileName.isEmpty ){
+          setError( TRACE_ERROR_GPS_FILE_MISSING, "gpsFile") ;
+      }
+    }
+    if (activityKeys == null ||  activityKeys != null && activityKeys.isEmpty ){
+      setError( TRACE_ERROR_ACTIVITY_MISSING, "activities") ;
+    }
     if (title == null ||  title != null && title.length < TRACE_TITLE_MIN_LENGTH ){
       setError( TRACE_ERROR_TITLE_MIN_LENGTH, "title") ;
     }
 
-    
+
     return isSuccess ;
   }
   
   bool get isSuccess => _success == "true" ;
-  
+  bool get isCreate => !isUpdate ;  
 }

@@ -52,6 +52,7 @@ part "../web/rsp/fragments/aboutFeedbacksFragment.rsp.dart";
 part "../web/rsp/fragments/aboutDevFragment.rsp.dart";
 part "../web/rsp/fragments/aboutAuthorFragment.rsp.dart";
 part "../web/rsp/fragments/traceFormFragment.rsp.dart";
+part "../web/rsp/fragments/traceFormSubmitFragment.rsp.dart";
 part "../web/rsp/fragments/traceSearchFormFragment.rsp.dart";
 part "../web/rsp/fragments/traceSearchResultsFragment.rsp.dart";
 part "../web/rsp/fragments/traceSearchMapFragment.rsp.dart";
@@ -204,10 +205,11 @@ class TraceController extends ServerController with JsonFeatures{
   }
 
   Future jsonTraceCreate(HttpConnect connect) {
-    
+    TraceForm traceForm = new TraceForm();
     User user =  currentUser(connect.request.session);
     if (user == null  ){
-      return  forbiddenAction(connect) ;
+      traceForm.setError("forbiddenAction", "");
+      return postJson(connect.response, traceForm); 
     }
     
     DateTime now = new DateTime.now();
@@ -216,7 +218,6 @@ class TraceController extends ServerController with JsonFeatures{
     return HttpBodyHandler.processRequest(connect.request).then((body) {
       Map parameters = body.body as Map ;
       
-      TraceForm traceForm = new TraceForm();
       traceForm.title = parameters['title'];
       traceForm.description = parameters['description'];
       traceForm.smoothing = parameters['smoothing'];
