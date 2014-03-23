@@ -204,7 +204,7 @@ class TraceController extends ServerController with JsonFeatures{
     });
   }
 
-  Future jsonTraceCreate(HttpConnect connect) {
+  Future jsonTraceCreateOrUpdate(HttpConnect connect) {
     TraceForm traceForm = new TraceForm();
     User user =  currentUser(connect.request.session);
     if (user == null  ){
@@ -217,22 +217,38 @@ class TraceController extends ServerController with JsonFeatures{
 
     return HttpBodyHandler.processRequest(connect.request).then((body) {
       Map parameters = body.body as Map ;
-      
+      traceForm.isUpdate = parameters['isUpdate'] == "true";
+      traceForm.key = parameters['key'];
       traceForm.title = parameters['title'];
       traceForm.description = parameters['description'];
       traceForm.smoothing = parameters['smoothing'];
-      List<String> activities = new List<String>();
+      List<String> activityKeys = new List<String>();
       String activityPrefix = "activity-";
       parameters.forEach((k,v){
             if ( k.toString().startsWith(activityPrefix) ){
-              activities.add(  k.substring(activityPrefix.length)  );
+              activityKeys.add(  k.substring(activityPrefix.length)  );
             }
           }       
       );
+      traceForm.activityKeys = activityKeys ;
+      
+      
+      if ( !user.admin && traceForm.creator != null && traceForm.creator != user.login ){
+        traceForm.setError("forbiddenAction", "");
+        return postJson(connect.response, traceForm); 
+      }
+
       SmoothingParameters smoothingParameters = SmoothingParameters.get( SmoothingLevel.fromString(traceForm.smoothing ));
       
       HttpBodyFileUpload fileUploaded = body.body['gps-file'];
-      final file = new File(tempFile);
+
+      traceForm.validate();
+      if (! traceForm.isSuccess){
+        return postJson(connect.response, traceForm);
+      }
+      
+     if (traceForm.isCreate) {
+      File file = new File(tempFile);
       return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
           .then((_) {
             return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
@@ -241,7 +257,7 @@ class TraceController extends ServerController with JsonFeatures{
               trace.title = traceForm.title ;
               trace.smoothing = traceForm.smoothing;
               trace.description = traceForm.description ;
-              trace.activities = activities; 
+              trace.activities = activityKeys; 
               return _persistence.saveOrUpdateTrace(trace).then((trace) {
                 traceForm.key = trace.key;
                 return postJson(connect.response, traceForm);  
@@ -254,6 +270,52 @@ class TraceController extends ServerController with JsonFeatures{
               print("Unable to delete ${tempFile}: ${e}");
             }
           } );
+      
+    }else{
+      return _persistence.getTraceByKey(traceForm.key).then((trace) {
+        if (  trace == null ){
+          traceForm.setError("forbiddenAction", "");
+          return postJson(connect.response, traceForm);
+        }
+        String traceId = trace.id ;
+        
+        if (fileUploaded != null){
+          
+          File file = new File(tempFile);
+          return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
+              .then((_) {
+                return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
+                  Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
+                  trace.id = traceId;
+                  trace.title = traceForm.title ;
+                  trace.smoothing = traceForm.smoothing;
+                  trace.description = traceForm.description ;
+                  trace.activities = activityKeys; 
+                  return _persistence.saveOrUpdateTrace(trace).then((trace) {
+                    return postJson(connect.response, traceForm);  
+                  });
+                });
+              }).whenComplete((){
+                try {
+                  new File(tempFile).delete();
+                } catch(e) {
+                  print("Unable to delete ${tempFile}: ${e}");
+                }
+           } );        
+          
+        }else{
+          
+          trace.title = traceForm.title ;
+          trace.description = traceForm.description ;
+          trace.activities = activityKeys; 
+          return _persistence.saveOrUpdateTrace(trace).then((trace) {
+            return postJson(connect.response, traceForm);  
+          });
+          
+        }        
+
+      });
+     }
     });
    
   }
@@ -283,55 +345,6 @@ class TraceController extends ServerController with JsonFeatures{
     }
   }
  
-  Future traceAddFormSubmit(HttpConnect connect) {
-    
-    User user =  currentUser(connect.request.session);
-    if (user == null ){
-      return connect.forward("/403") ;
-    }
-    DateTime now = new DateTime.now();
-    String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
-
-    return HttpBodyHandler.processRequest(connect.request).then((body) {
-      Map parameters = body.body as Map ;
-      String title = parameters['title'];
-      String description = parameters['description'];
-      String smoothing = parameters['smoothing'];
-      List<String> activities = new List<String>();
-      String activityPrefix = "activity-";
-      parameters.forEach((k,v){
-            if ( k.toString().startsWith(activityPrefix) ){
-              activities.add(  k.substring(activityPrefix.length)  );
-            }
-          }       
-      );
-      SmoothingParameters smoothingParameters = SmoothingParameters.get( SmoothingLevel.fromString(smoothing ));
-      
-      HttpBodyFileUpload fileUploaded = body.body['gpxUploadedFile'];
-      final file = new File(tempFile);
-      return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
-          .then((_) {
-            return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
-              
-              Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
-              trace.title = title ;
-              trace.smoothing = smoothing;
-              trace.description = description ;
-              trace.activities = activities; 
-              return _persistence.saveOrUpdateTrace(trace).then((trace) {
-                return connect.forward("/#trace_details/" + trace.key) ;
-              });
-            });
-          }).whenComplete((){
-            try {
-              new File(tempFile).delete();
-            } catch(e) {
-              print("Unable to delete ${tempFile}: ${e}");
-            }
-          } );
-    });
-  }
-  
  
   Future traceShowByKey(HttpConnect connect) {
     String creator = connect.dataset["creator"];
@@ -492,7 +505,7 @@ class FragmentsController extends ServerController{
   Future aboutAuthor(HttpConnect connect){
     return aboutAuthorFragment(connect);
   }   
-  Future traceAddForm(HttpConnect connect){
+  Future traceCreateOrUpdateForm(HttpConnect connect){
     return traceFormFragment(connect,traceFormRenderer: new TraceFormRenderer());
   }     
   Future traceSearchForm(HttpConnect connect){

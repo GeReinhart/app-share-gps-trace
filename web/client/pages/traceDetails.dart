@@ -64,6 +64,13 @@ class TraceDetailsPage extends Page {
       delete.description =  "Supprimer la trace";
       delete.launchAction = (params) =>  _deleteConfirm.showConfirmModal(); 
       actions.add(delete);    
+
+      ActionDescriptor update = new ActionDescriptor();
+      update.name = "Modifier";
+      update.description =  "Modifier la trace";
+      update.nextPage = "/#trace_form/${currentKey}"; 
+      actions.add(update);  
+    
     }
 
     return actions;

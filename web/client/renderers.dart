@@ -74,7 +74,7 @@ class LigthTraceRenderer{
     }
     return activities;
   }
-  
+  List<String> get activityKeys => trace.activities ;
   
   
 }
@@ -121,6 +121,7 @@ class TraceRenderer extends LigthTraceRenderer{
     traceDetails.title = this.trace.title ;
     traceDetails.description = this.trace.description ;
     traceDetails.activities = this.activities; 
+    traceDetails.activityKeys = this.activityKeys ;
     traceDetails.lastupdate = this.lastUpdateDate;
     traceDetails.length = this.trace.length ;
     traceDetails.up = this.traceAnalysisRenderer.up ;

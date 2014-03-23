@@ -7,12 +7,33 @@ import '../actions.dart';
 
 class TraceFormPage extends Page {
   
+  String _currentKey ;
+  
   TraceFormPage(PageContext context): super("trace_form",context,20,80,false){
     description = "Ajout d'une trace" ;
     layout.centerMoved.listen((_){
       updateNWPostion("#${name}NW");
       updateSWPostion("#${name}SW");
     });
+  }
+  
+  bool canShowPage(Parameters pageParameters){
+    if ( pageParameters.pageName == this.name){
+      return true;
+    };
+    if(pageParameters.pageName.startsWith(this.name) && _extractKey(pageParameters.pageName) != null ){
+      return true;
+    }
+    return false ;
+  }
+  
+  String _extractKey(String pageName) {
+    List<String> elements = pageName.split("/");
+    if (  elements.length != 3 ){
+      return null;
+    }else{
+      return "${elements[1]}/${elements[2]}" ; 
+    }
   }
   
   
@@ -22,10 +43,19 @@ class TraceFormPage extends Page {
   
   void showPage( Parameters pageParameters) {
     super.showPage(pageParameters);
-    header.title = description ;
-    organizeSpaces();
-    getAndShowElement("/f_trace_add_form","#${name}NW", callback:_initEvents);
-    showBySelector("#${name}SW");
+    _currentKey = _extractKey(pageParameters.pageName); 
+    getAndShowElement("/f_trace_form","#${name}NW", callback:_initEvents, show:false);
+    if ( _currentKey == null ){
+      querySelector("#trace-form-submit").text = "Ajouter cette trace" ;
+      header.title = "Ajout d'une trace" ;
+      organizeSpaces();
+      showBySelector(".trace-form-file-input");
+      showBySelector(".trace-form-file-smoothing");
+      showBySelector("#${name}SW");
+      showBySelector("#${name}NW");
+    }else{
+      _loadForm(_currentKey) ;
+    }
   }
   
   void _initEvents(){
@@ -33,6 +63,43 @@ class TraceFormPage extends Page {
       _asyncSubmitForm();
     });
   }
+  
+ void _loadForm(String key){
+    
+    HttpRequest request = new HttpRequest();
+    request.onReadyStateChange.listen((_) {
+      
+      if (request.readyState == HttpRequest.DONE ) {
+        TraceDetails traceDetails = new TraceDetails.fromMap(JSON.decode(request.responseText));
+        header.title = "Modification de " + traceDetails.title ;
+        querySelector("#trace-form-submit").text = "Modifier cette trace" ;
+        
+        InputElement titleElement = querySelector(".trace-form-input[name=title]") as InputElement ;
+        titleElement.value = traceDetails.title;
+
+        TextAreaElement descriptionElement = querySelector(".trace-form-input[name=description]") as TextAreaElement ;
+        descriptionElement.value = traceDetails.description;        
+        if (traceDetails.activityKeys != null){
+          traceDetails.activityKeys.forEach((activityKey){
+            InputElement activityCheck = querySelector(".trace-form-input[name=activity-${activityKey}]") as InputElement ;
+            if (activityCheck != null){
+              activityCheck.checked = true;
+            }
+          });
+        }
+        
+        organizeSpaces();
+        hideBySelector(".trace-form-file-input");
+        hideBySelector(".trace-form-file-smoothing");
+        showBySelector("#${name}SW");
+        showBySelector("#${name}NW");
+
+      }
+    });
+    request.open("GET",  "/j_trace_details/${key}", async: true);
+    request.send();      
+  }
+  
   
   void _asyncSubmitForm(){
     
@@ -52,13 +119,15 @@ class TraceFormPage extends Page {
       }
     });
 
-    request.open("POST",  "/j_trace_create", async: true);
+    request.open("POST",  "/j_trace_create_or_update", async: true);
 
 
     final formData = new FormData();
     Map jsonMap = new Map();
     List<String> activities = new List<String>();
-    jsonMap["isUpdate"] = false ;
+    jsonMap["_isUpdate"] =  _currentKey != null ? "true" : "false" ;
+    formData.append("isUpdate", _currentKey != null ? "true" : "false" ) ;
+    formData.append("key", _currentKey) ;
     querySelectorAll(".trace-form-input").forEach((e){
       if(e is SelectElement){
         formData.append(e.name, e.value );
@@ -94,6 +163,7 @@ class TraceFormPage extends Page {
       }
     });    
     TraceForm traceForm = new TraceForm.fromMap(jsonMap);
+    
     traceForm.validate() ;
     if( traceForm.isSuccess  ){
       layout.startLoading();

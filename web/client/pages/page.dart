@@ -102,7 +102,7 @@ abstract class Page{
     layout.organizeSpaces(_centerRightPercentPosition,_centerTopPercentPosition,showWestSpace:_showWestSpace );
   }
   
-  void getAndShowElement(String resourceUrl, String fragmentSelector, {FragmentLoadedCallBack callback : null }){
+  void getAndShowElement(String resourceUrl, String fragmentSelector, {FragmentLoadedCallBack callback : null, bool show:true }){
     
     loadingNW.startLoading();
     HttpRequest request = new HttpRequest();
@@ -118,7 +118,9 @@ abstract class Page{
           callback();
         }
         loadingNW.stopLoading();
-        showBySelector(fragmentSelector);
+        if(show){
+          showBySelector(fragmentSelector);
+        }
       }
     });
     request.open("GET",  resourceUrl, async: true);
