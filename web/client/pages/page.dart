@@ -19,6 +19,7 @@ class PageContext {
   
   
   UserClientController userClientController ;
+  PagesController _pagesController;
   SpacesLayout layout ;
   SharedWidgets sharedWidgets;
   LoginWidget loginModal ;
@@ -62,7 +63,10 @@ class PageContext {
   
   void set pagesController(PagesController pagesController){
     headerWidget.initEvents(userClientController, pagesController) ;
+    _pagesController = pagesController ;
   }
+  
+  PagesController get pagesController => _pagesController ;
 }
 
 
@@ -76,25 +80,25 @@ abstract class Page{
   int _centerTopPercentPosition ;
   bool _showWestSpace;
   Set<String> receivedFragments = new Set<String>();
-  PageContext _context ;
+  PageContext context ;
   
-  Page( this._name, this._context, this._centerRightPercentPosition, this._centerTopPercentPosition,this._showWestSpace ){
+  Page( this._name, this.context, this._centerRightPercentPosition, this._centerTopPercentPosition,this._showWestSpace ){
     _init();
     initPage();
   }
 
   void _init(){ 
 
-    _context.loginModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
-    _context.registerModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
-    _context.logoutWidget.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
+    context.loginModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
+    context.registerModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
+    context.logoutWidget.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
     
     
     querySelectorAll(".btn-login").onClick.listen((e) {
-      _context.userClientController.callLogin();
+      context.userClientController.callLogin();
     });
     querySelectorAll(".btn-register").onClick.listen((e) {
-      _context.userClientController.callRegister();
+      context.userClientController.callRegister();
     });
   }
   
@@ -198,7 +202,7 @@ abstract class Page{
   }
   
   void showLoginModal(){
-    _context.loginModal.showLoginModal();
+    context.loginModal.showLoginModal();
   }
   
   void loginLogoutEvent(LoginLogoutEvent event) {
@@ -236,11 +240,11 @@ abstract class Page{
   }
   
   String        get name      => _name;
-  HeaderWidget  get header    => _context.headerWidget; 
-  SpacesLayout  get layout    => _context.layout; 
-  LoadingWidget get loadingNW => _context.loadingNW ;
-  LoadingWidget get loadingNE => _context.loadingNE ;
-  LoadingWidget get loadingSW => _context.loadingSW ;
-  LoadingWidget get loadingSE => _context.loadingSE ;
+  HeaderWidget  get header    => context.headerWidget; 
+  SpacesLayout  get layout    => context.layout; 
+  LoadingWidget get loadingNW => context.loadingNW ;
+  LoadingWidget get loadingNE => context.loadingNE ;
+  LoadingWidget get loadingSW => context.loadingSW ;
+  LoadingWidget get loadingSE => context.loadingSE ;
   
 }

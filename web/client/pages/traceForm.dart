@@ -111,6 +111,7 @@ class TraceFormPage extends Page {
         layout.stopLoading();
         TraceForm traceForm = new TraceForm.fromMap(JSON.decode(request.responseText));
         if( traceForm.isSuccess  ){
+          context.pagesController.fireTraceChangeEvent(traceForm.key);
           window.location.href = "/#trace_details/${traceForm.key}" ;
         }else{
           _hideDisplayMessage(traceForm) ;

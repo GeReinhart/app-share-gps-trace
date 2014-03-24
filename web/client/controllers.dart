@@ -12,6 +12,8 @@ import "widgets/register.dart";
 import "widgets/logout.dart";
 
 typedef void UserActionsChangeCallBack(UserActionsChangeEvent event);
+typedef void TraceChangeCallBack(TraceChangeEvent event);
+
 
 class ClientController{
   
@@ -23,6 +25,11 @@ class UserActionsChangeEvent{
   List<ActionDescriptor> currentPageMenu= new List<ActionDescriptor>();
 }
 
+class TraceChangeEvent{
+  String key ;
+}
+
+
 class PagesController extends ClientController{
   
   static const PAGE_CHANGE_CHECK_TIMEOUT = const Duration(milliseconds: 300);
@@ -30,20 +37,26 @@ class PagesController extends ClientController{
   Page _currentPage = null ;
   List<Page> _pages = new List<Page>();
   StreamController<UserActionsChangeEvent> _userActionsChangeEventStream ;
+  StreamController<TraceChangeEvent> _traceChangeEventStream ;
   String _currentUserLogin ;
   bool _currentUserIsAdmin = false;
   
-  PagesController(this._pages){
-    _init();
+  PagesController(){
+    _userActionsChangeEventStream = new StreamController<UserActionsChangeEvent>.broadcast( sync: true);
+    _traceChangeEventStream = new StreamController<TraceChangeEvent>.broadcast( sync: true);
+    new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
   
-  void _init(){
-    _userActionsChangeEventStream = new StreamController<UserActionsChangeEvent>.broadcast( sync: true);
-    new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
+  void init(List<Page> pages){
+    _pages = pages ;
   }
   
   void setUserActionsChangeEventCallBack( UserActionsChangeCallBack callBack  ){
     _userActionsChangeEventStream.stream.listen((event) => callBack(event));
+  }
+  
+  void setTraceChangeEventCallBack( TraceChangeCallBack callBack  ){
+    _traceChangeEventStream.stream.listen((event) => callBack(event));
   }
   
   void _sendUserActionsChangeEvent(String login, bool isAdmin, Page page){
@@ -51,6 +64,16 @@ class PagesController extends ClientController{
     userActionsChangeEvent.currentPageMenu = page.getActionsFor(login, isAdmin);
     userActionsChangeEvent.mainApplicationMenu = this.getActionsFor(login, isAdmin);
     _userActionsChangeEventStream.add(  userActionsChangeEvent  );
+  }
+  
+  void _sendTraceChangeEvent(String key){
+    TraceChangeEvent traceChangeEvent = new TraceChangeEvent();
+    traceChangeEvent.key = key;
+    _traceChangeEventStream.add(  traceChangeEvent  );
+  }
+  
+  void fireTraceChangeEvent(String key){
+    _sendTraceChangeEvent( key);
   }
   
   void loginLogoutEvent(LoginLogoutEvent event){

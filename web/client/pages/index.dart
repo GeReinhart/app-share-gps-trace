@@ -71,6 +71,10 @@ class IndexPage extends Page {
 
 void main() {
   PageContext pageContext = new PageContext();
+  PagesController pagesController = new PagesController();
+  pageContext.pagesController = pagesController ;
+  pageContext.userClientController.setLoginLogoutEventCallBack( pagesController.loginLogoutEvent  );
+  
   List<Page> pages = new List<Page>();
   pages.add(new IndexPage(pageContext));
   pages.add(new DisclaimerPage(pageContext));  
@@ -78,8 +82,7 @@ void main() {
   pages.add(new TraceFormPage(pageContext));
   pages.add(new TraceSearchPage(pageContext));
   pages.add(new TraceDetailsPage(pageContext));
-  PagesController pagesController = new PagesController(pages);
-  pageContext.pagesController = pagesController ;
-  pageContext.userClientController.setLoginLogoutEventCallBack( pagesController.loginLogoutEvent  );
+  
+  pagesController.init(pages);
 }
 

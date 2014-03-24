@@ -37,6 +37,9 @@ class TraceDetailsPage extends Page {
         js.context.traceDetailsMap.moveMarker(traceDetailsByKey[currentKey].keyJsSafe,p.latitude,p.longitude);
       }
     });
+    
+    context.pagesController.setTraceChangeEventCallBack(traceChangeCallBack);
+    
   }
   
   
@@ -76,7 +79,10 @@ class TraceDetailsPage extends Page {
     return actions;
   }
   
-  
+  void traceChangeCallBack(TraceChangeEvent event){
+    traceDetailsByKey.remove(event.key) ;
+    keys.remove(event.key);
+  }
   void deleteTrace(OKCancelEvent event) {
   
     if (event.cancel){
