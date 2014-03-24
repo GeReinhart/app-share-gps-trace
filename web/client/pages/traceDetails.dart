@@ -59,17 +59,17 @@ class TraceDetailsPage extends Page {
     actions.add(download);
     
     if ( isAdmin ||  login != null &&  creator == login  ){
+      ActionDescriptor update = new ActionDescriptor();
+      update.name = "Modifier";
+      update.description =  "Modifier la trace";
+      update.nextPage = "/#trace_form/${currentKey}"; 
+      actions.add(update);
+      
       ActionDescriptor delete = new ActionDescriptor();
       delete.name = "Supprimer";
       delete.description =  "Supprimer la trace";
       delete.launchAction = (params) =>  _deleteConfirm.showConfirmModal(); 
       actions.add(delete);    
-
-      ActionDescriptor update = new ActionDescriptor();
-      update.name = "Modifier";
-      update.description =  "Modifier la trace";
-      update.nextPage = "/#trace_form/${currentKey}"; 
-      actions.add(update);  
     
     }
 

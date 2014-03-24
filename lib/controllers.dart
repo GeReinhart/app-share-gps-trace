@@ -205,119 +205,106 @@ class TraceController extends ServerController with JsonFeatures{
   }
 
   Future jsonTraceCreateOrUpdate(HttpConnect connect) {
-    TraceForm traceForm = new TraceForm();
+
     User user =  currentUser(connect.request.session);
     if (user == null  ){
+      TraceForm traceForm = new TraceForm();
       traceForm.setError("forbiddenAction", "");
       return postJson(connect.response, traceForm); 
     }
-    
-    DateTime now = new DateTime.now();
-    String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
 
-    return HttpBodyHandler.processRequest(connect.request).then((body) {
-      Map parameters = body.body as Map ;
-      traceForm.isUpdate = parameters['isUpdate'] == "true";
-      traceForm.key = parameters['key'];
-      traceForm.title = parameters['title'];
-      traceForm.description = parameters['description'];
-      traceForm.smoothing = parameters['smoothing'];
-      List<String> activityKeys = new List<String>();
-      String activityPrefix = "activity-";
-      parameters.forEach((k,v){
-            if ( k.toString().startsWith(activityPrefix) ){
-              activityKeys.add(  k.substring(activityPrefix.length)  );
-            }
-          }       
-      );
-      traceForm.activityKeys = activityKeys ;
-      
+    return _buildParameters(connect).then((body){
+      TraceForm traceForm = _buildTraceForm(body);
       
       if ( !user.admin && traceForm.creator != null && traceForm.creator != user.login ){
         traceForm.setError("forbiddenAction", "");
         return postJson(connect.response, traceForm); 
       }
 
-      SmoothingParameters smoothingParameters = SmoothingParameters.get( SmoothingLevel.fromString(traceForm.smoothing ));
-      
-      HttpBodyFileUpload fileUploaded = body.body['gps-file'];
-
       traceForm.validate();
       if (! traceForm.isSuccess){
         return postJson(connect.response, traceForm);
       }
       
-     if (traceForm.isCreate) {
-      File file = new File(tempFile);
-      return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
-          .then((_) {
-            return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
-              
-              Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
-              trace.title = traceForm.title ;
-              trace.smoothing = traceForm.smoothing;
-              trace.description = traceForm.description ;
-              trace.activities = activityKeys; 
-              return _persistence.saveOrUpdateTrace(trace).then((trace) {
-                traceForm.key = trace.key;
-                return postJson(connect.response, traceForm);  
-              });
-            });
-          }).whenComplete((){
-            try {
-              new File(tempFile).delete();
-            } catch(e) {
-              print("Unable to delete ${tempFile}: ${e}");
-            }
-          } );
-      
-    }else{
-      return _persistence.getTraceByKey(traceForm.key).then((trace) {
-        if (  trace == null ){
-          traceForm.setError("forbiddenAction", "");
-          return postJson(connect.response, traceForm);
-        }
-        String traceId = trace.id ;
-        
-        if (fileUploaded != null){
-          
-          File file = new File(tempFile);
-          return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
-              .then((_) {
-                return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
-                  Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
-                  trace.id = traceId;
-                  trace.title = traceForm.title ;
-                  trace.smoothing = traceForm.smoothing;
-                  trace.description = traceForm.description ;
-                  trace.activities = activityKeys; 
-                  return _persistence.saveOrUpdateTrace(trace).then((trace) {
-                    return postJson(connect.response, traceForm);  
-                  });
-                });
-              }).whenComplete((){
-                try {
-                  new File(tempFile).delete();
-                } catch(e) {
-                  print("Unable to delete ${tempFile}: ${e}");
-                }
-           } );        
-          
-        }else{
-          
-          trace.title = traceForm.title ;
-          trace.description = traceForm.description ;
-          trace.activities = activityKeys; 
-          return _persistence.saveOrUpdateTrace(trace).then((trace) {
-            return postJson(connect.response, traceForm);  
-          });
-          
-        }        
-
-      });
-     }
+      if (traceForm.isCreate) {
+        return _jsonTraceCreate(connect, user, traceForm, body.body['gps-file']) ;
+      }else{
+        return _jsonTraceUpdate(connect, traceForm) ;
+      }      
     });
-   
+  }
+  
+  Future<HttpRequestBody> _buildParameters(HttpConnect connect){
+    return HttpBodyHandler.processRequest(connect.request).then((body)=> body) ;
+  }
+  
+  TraceForm _buildTraceForm(HttpRequestBody body){
+    TraceForm traceForm = new TraceForm();
+    Map parameters = body.body as Map ;
+    traceForm.isUpdate = parameters['isUpdate'] == "true";
+    traceForm.key = parameters['key'];
+    traceForm.title = parameters['title'];
+    traceForm.description = parameters['description'];
+    traceForm.smoothing = parameters['smoothing'];
+    List<String> activityKeys = new List<String>();
+    String activityPrefix = "activity-";
+    parameters.forEach((k,v){
+          if ( k.toString().startsWith(activityPrefix) ){
+            activityKeys.add(  k.substring(activityPrefix.length)  );
+          }
+        }       
+    );
+    traceForm.activityKeys = activityKeys ;
+    
+    return traceForm;
+  }
+  
+  Future _jsonTraceCreate(HttpConnect connect,  User user, TraceForm traceForm , HttpBodyFileUpload fileUploaded) {
+    
+    DateTime now = new DateTime.now();
+    String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
+    File file = new File(tempFile);
+    SmoothingParameters smoothingParameters = SmoothingParameters.get( SmoothingLevel.fromString(traceForm.smoothing ));
+    return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
+        .then((_) {
+          return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
+            
+            Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
+            trace.title = traceForm.title ;
+            trace.smoothing = traceForm.smoothing;
+            trace.description = traceForm.description ;
+            trace.activities = traceForm.activityKeys; 
+            return _persistence.saveOrUpdateTrace(trace).then((trace) {
+              traceForm.key = trace.key;
+              return postJson(connect.response, traceForm);  
+            });
+          });
+        }).whenComplete((){
+          try {
+            new File(tempFile).delete();
+          } catch(e) {
+            print("Unable to delete ${tempFile}: ${e}");
+          }
+        } );
+    
+  }
+  
+  Future _jsonTraceUpdate(HttpConnect connect,  TraceForm traceForm ) {
+    
+    return _persistence.getTraceByKey(traceForm.key).then((trace) {
+      if (  trace == null ){
+        traceForm.setError("forbiddenAction", "");
+        return postJson(connect.response, traceForm);
+      }
+      trace.title = traceForm.title ;
+      trace.description = traceForm.description ;
+      trace.activities = traceForm.activityKeys; 
+      return _persistence.saveOrUpdateTrace(trace).then((trace) {
+        return postJson(connect.response, traceForm);  
+      });
+      
+    });
+    
   }
   
   Future jsonTraceDetails(HttpConnect connect) {
