@@ -56,7 +56,6 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
   response.write("""                   </div> 
               </div>             
              </td>   
-                       
              <td  ></td>
           </tr>
           <tr>
@@ -79,10 +78,6 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
              <td  ></td>
           </tr> 
           </table>
-
-
-              
-
 """); //#25
 
   return new Future.value();

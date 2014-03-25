@@ -9,7 +9,7 @@ class TraceFormPage extends Page {
   
   String _currentKey ;
   
-  TraceFormPage(PageContext context): super("trace_form",context,20,80,false){
+  TraceFormPage(PageContext context): super("trace_form",context,50,50,false){
     description = "Ajout d'une trace" ;
     layout.centerMoved.listen((_){
       updateNWPostion("#${name}NW");
@@ -53,10 +53,20 @@ class TraceFormPage extends Page {
       showBySelector(".trace-form-file-smoothing");
       showBySelector("#${name}SW");
       showBySelector("#${name}NW");
+      showBySelector("#trace_detailsNE");
+      showBySelector("#trace_detailsSE", hiddenClass: "gx-hidden-map");
+      
     }else{
       _loadForm(_currentKey) ;
     }
   }
+  
+  void hidePage() {
+    hideBySelector("#${name}NW");
+    hideBySelector("#trace_detailsNE");
+    hideBySelector("#${name}SW");
+    hideBySelector("#trace_detailsSE", hiddenClass: "gx-hidden-map");
+  }  
   
   void _initEvents(){
     querySelector("#trace-form-submit").onClick.listen((e){
@@ -93,6 +103,8 @@ class TraceFormPage extends Page {
         hideBySelector(".trace-form-file-smoothing");
         showBySelector("#${name}SW");
         showBySelector("#${name}NW");
+        showBySelector("#trace_detailsNE");
+        showBySelector("#trace_detailsSE", hiddenClass: "gx-hidden-map");        
 
       }
     });
