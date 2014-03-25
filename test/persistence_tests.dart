@@ -292,6 +292,22 @@ main() {
           });
         }) 
 
+        
+       .then((_){
+          WatchPoint wp1 = new WatchPoint("water name", "water desc", "water", 12.89, 34.98);
+          WatchPoint wp2 = new WatchPoint("water name2", "water desc2", "water", 77.89, 89.98);
+          wp1.traceKey = traceKey;
+          return persitence.saveWatchPoint(wp1).then((_) {
+            return persitence.saveWatchPoint(wp2).then((_) {
+              return persitence.getWatchPointByTraceKey(traceKey).then((wps) {
+                print("Test get WatchPoint ");
+                expect(wps.length, 1) ;
+                expect(wps[0].description,  "water desc") ;
+              });
+            });  
+          });
+        })         
+        
         .then((_){
           return persitence.deleteTraceByKey(traceKey).then((_) {
             return persitence.getTraceByKey(traceKey).then((loadedTrace) {
@@ -300,6 +316,10 @@ main() {
             });  
           });
         }) 
+        
+        
+ 
+        
         
         
         .whenComplete((){

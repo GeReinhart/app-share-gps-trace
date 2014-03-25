@@ -35,6 +35,10 @@ abstract class PersistenceLayer{
   Future<User> getUserById(String id);
   
   Future<User> saveOrUpdateUser(User user);
+
+  Future<WatchPoint> saveWatchPoint(WatchPoint watchPoint);
+  
+  Future<List<WatchPoint>>  getWatchPointByTraceKey(String traceKey) ;
 }
 
 
@@ -66,12 +70,14 @@ class MongoPersistence implements PersistenceLayer{
   DbCollection _userCollection;
   DbCollection _traceCollection;
   DbCollection _traceDataCollection;
+  DbCollection _watchPointCollection;
   
   MongoPersistence(mongoUrl){
     _mongodb = new Db(mongoUrl);
     _userCollection = _mongodb.collection('users');
     _traceCollection = _mongodb.collection('traces');
     _traceDataCollection = _mongodb.collection('traceDatas');
+    _watchPointCollection = _mongodb.collection('watchPoints');
   }
 
   Future open(){
@@ -325,6 +331,25 @@ class MongoPersistence implements PersistenceLayer{
                       return user;
               });
     }
+  }
+  
+  Future<WatchPoint> saveWatchPoint(WatchPoint watchPoint){
+    watchPoint.id = new ObjectId().toString();
+    return _watchPointCollection.insert(watchPoint.toJson()).then((_){
+      return watchPoint;
+    });
+  }
+  
+  Future<List<WatchPoint>>  getWatchPointByTraceKey(String traceKey) {
+    List<WatchPoint> watchPoints = new List();
+    
+    return _watchPointCollection.find(where.eq("traceKey", traceKey)).forEach((jsonUser){
+                WatchPoint watchPoint = new WatchPoint.fromJson(jsonUser);
+                watchPoints.add(watchPoint);
+              })
+           .then((_) {
+                return watchPoints;
+            });  
   }
   
 }

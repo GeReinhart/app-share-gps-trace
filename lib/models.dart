@@ -263,6 +263,44 @@ class TraceData{
   
 }
 
+class WatchPoint {
+  
+  String id;
+
+  String traceKey;
+  
+  String name;
+
+  String description;
+  
+  String type;
+  
+  num latitude;
+  num longitude;
+  num distance;
+  
+  WatchPoint( this.name, this.description, this.type, this.latitude, this.longitude);
+
+  WatchPoint.fromJson(Map map) {
+    id = map['_id'];
+    traceKey = map['traceKey'];
+    name = map['name'];
+    description = map['description'];
+    type = map['type'];
+    latitude = map['latitude'];
+    longitude = map['longitude'];
+    distance = map['distance'];
+  }
+  
+  Map toJson() {
+    return {'_id': id,'traceKey': traceKey,'name': name, 'description': description, 
+      'type': type, 'latitude': latitude, 'longitude': longitude, 'distance': distance};
+  }
+  
+  
+}
+
+
 class User {
   
   String id;
