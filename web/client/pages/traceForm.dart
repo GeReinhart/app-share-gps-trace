@@ -96,7 +96,7 @@ class TraceFormPage extends Page {
         TraceDetails traceDetails = new TraceDetails.fromMap(JSON.decode(request.responseText));
         if (traceDetails.key != null){
           header.title = "Modification de " + traceDetails.title ;
-          querySelector("#trace-form-submit").text = "Modifier cette trace" ;
+          querySelector("#trace-form-submit").text = "Modifier le topo" ;
           
           InputElement titleElement = querySelector(".trace-form-input[name=title]") as InputElement ;
           titleElement.value = traceDetails.title;
