@@ -4,6 +4,7 @@ import "dart:convert";
 import 'page.dart';
 import '../forms.dart';
 import '../actions.dart';
+import 'package:js/js.dart' as js;
 
 class TraceFormPage extends Page {
   
@@ -11,9 +12,20 @@ class TraceFormPage extends Page {
   
   TraceFormPage(PageContext context): super("trace_form",context,50,50,false){
     description = "Ajout d'une trace" ;
-    layout.centerMoved.listen((_){
-      updateNWPostion("#${name}NW");
-      updateSWPostion("#${name}SW");
+  }
+  
+  bool isUpdate(){
+    return _currentKey != null;
+  }
+  
+  void initPage(){
+    super.initPage();
+    
+    HtmlDocument document = js.context.document;
+    document.on['right_click_on_map'].listen((e ){
+      if (this.isUpdate()){
+          js.context.traceDetailsMap.drawRightClickMark();
+      }
     });
   }
   
@@ -66,6 +78,7 @@ class TraceFormPage extends Page {
     hideBySelector("#trace_detailsNE");
     hideBySelector("#${name}SW");
     hideBySelector("#trace_detailsSE", hiddenClass: "gx-hidden-map");
+    js.context.traceDetailsMap.hideRightClickMark();
   }  
   
   void _initEvents(){

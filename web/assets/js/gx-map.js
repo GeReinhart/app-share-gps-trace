@@ -246,6 +246,8 @@
     this.id = id;
     this.ignKey = ignKey;
     this.map ;
+    this.lastRightClick;
+    this.lastRightClickMarker;
   
  	this.init = function() {
 
@@ -285,6 +287,11 @@
 	       }
          });
          
+         this.map.on('contextmenu',function(e){
+	       me._listenRightClick(e);
+         });
+         this.lastRightClickMarker = L.marker([45.174776, 5.541494], {clickable:false}).addTo(this.map) ;
+         this.lastRightClickMarker.setOpacity(0) ;
          
          return this;
  	}
@@ -429,6 +436,26 @@
      this.refreshTiles = function(){
         this.map.invalidateSize() ;
      }   
+     
+     
+     this._listenRightClick = function(e){
+     	this.lastRightClick = e ;
+        var event = new Event('right_click_on_map');
+        document.dispatchEvent(event);
+     }
+     
+     this.drawRightClickMark = function(){
+        if (this.lastRightClick){
+           this.lastRightClickMarker.setLatLng( this.lastRightClick.latlng );
+           this.lastRightClickMarker.setOpacity(1) ;
+        }
+     }
+
+     this.hideRightClickMark = function(){
+        this.lastRightClickMarker.setOpacity(0) ;
+     }
+
+     
  }
       
 

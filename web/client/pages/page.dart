@@ -230,6 +230,13 @@ abstract class Page{
   }
 
   void initPage(){
+    layout.centerMoved.listen((_){
+      updateNWPostion("#${name}NW");
+      updateSWPostion("#${name}SW");
+      updateNEPostion("#${name}NE");
+      updateSEPostion("#${name}SE");
+    });
+    
   }
   
   void hidePage() {
