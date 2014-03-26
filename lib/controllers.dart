@@ -216,16 +216,11 @@ class TraceController extends ServerController with JsonFeatures{
     return _buildParameters(connect).then((body){
       TraceForm traceForm = _buildTraceForm(body);
       
-      if ( !user.admin && traceForm.creator != null && traceForm.creator != user.login ){
+      if ( !traceForm.operationAllowed(user.login, user.admin)){
         traceForm.setError("forbiddenAction", "");
         return postJson(connect.response, traceForm); 
       }
 
-      traceForm.validate();
-      if (! traceForm.isSuccess){
-        return postJson(connect.response, traceForm);
-      }
-      
       if (traceForm.isCreate) {
         return _jsonTraceCreate(connect, user, traceForm, body.body['gps-file']) ;
       }else{
@@ -261,6 +256,14 @@ class TraceController extends ServerController with JsonFeatures{
   
   Future _jsonTraceCreate(HttpConnect connect,  User user, TraceForm traceForm , HttpBodyFileUpload fileUploaded) {
     
+    if(fileUploaded != null){
+      traceForm.gpsFileName = fileUploaded.filename;
+    }
+    traceForm.validate();
+    if (! traceForm.isSuccess){
+      return postJson(connect.response, traceForm);
+    }
+    
     DateTime now = new DateTime.now();
     String tempFile = "/tmp/" +  now.millisecondsSinceEpoch.toString();
     File file = new File(tempFile);
@@ -291,6 +294,11 @@ class TraceController extends ServerController with JsonFeatures{
   
   Future _jsonTraceUpdate(HttpConnect connect,  TraceForm traceForm ) {
     
+    traceForm.validate();
+    if (! traceForm.isSuccess){
+      return postJson(connect.response, traceForm);
+    }
+    
     return _persistence.getTraceByKey(traceForm.key).then((trace) {
       if (  trace == null ){
         traceForm.setError("forbiddenAction", "");
@@ -312,10 +320,14 @@ class TraceController extends ServerController with JsonFeatures{
     String titleKey = connect.dataset["titleKey"];
     String key = creator +"/" + titleKey;
     return _persistence.getTraceByKey(key).then((trace) {
-      String gpxUrl = _appUri +"/trace.gpx/id-"+trace.cleanId ;
-      String permanentTraceUrl = _appUri + "/trace/id-"+trace.cleanId ;
-      TraceRenderer traceRenderer = new TraceRenderer(trace, permanentTraceUrl,gpxUrl);
-      return postJson(connect.response, traceRenderer.traceDetails); 
+      if (trace == null){
+        return postJson(connect.response, new TraceDetails());
+      }else{
+        String gpxUrl = _appUri +"/trace.gpx/id-"+trace.cleanId ;
+        String permanentTraceUrl = _appUri + "/trace/id-"+trace.cleanId ;
+        TraceRenderer traceRenderer = new TraceRenderer(trace, permanentTraceUrl,gpxUrl);
+        return postJson(connect.response, traceRenderer.traceDetails);
+      }
     });
     
   }

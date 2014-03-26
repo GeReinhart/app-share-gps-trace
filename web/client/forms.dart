@@ -423,9 +423,11 @@ class TraceDetails implements ToJson{
     gpxUrl = jsonMap['gpxUrl'] ;  
     List<String> profilePointsAsString = JSON.decode( jsonMap['profilePoints'] ) ;  
     profilePoints = new List<ProfilePoint>();
-    profilePointsAsString.forEach((p){
-      profilePoints.add( new ProfilePoint.fromMap(p) ) ;
-    });
+    if(profilePointsAsString != null){
+      profilePointsAsString.forEach((p){
+        profilePoints.add( new ProfilePoint.fromMap(p) ) ;
+      });
+    }
     traceHeightWidthRatio = jsonMap['traceHeightWidthRatio'] ; 
   }
   
@@ -642,4 +644,18 @@ class TraceForm implements ToJson{
    }
    return null ;
   }
+  
+  bool operationAllowed(String login, bool admin){
+    if (login == null){
+      return false;
+    }
+    if (isCreate){
+      return true;
+    }
+    if (admin){
+      return true;
+    }    
+    return creator != null && creator == login ;
+  }
+  
 }

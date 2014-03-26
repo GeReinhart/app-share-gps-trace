@@ -81,23 +81,24 @@ class TraceFormPage extends Page {
       
       if (request.readyState == HttpRequest.DONE ) {
         TraceDetails traceDetails = new TraceDetails.fromMap(JSON.decode(request.responseText));
-        header.title = "Modification de " + traceDetails.title ;
-        querySelector("#trace-form-submit").text = "Modifier cette trace" ;
-        
-        InputElement titleElement = querySelector(".trace-form-input[name=title]") as InputElement ;
-        titleElement.value = traceDetails.title;
-
-        TextAreaElement descriptionElement = querySelector(".trace-form-input[name=description]") as TextAreaElement ;
-        descriptionElement.value = traceDetails.description;        
-        if (traceDetails.activityKeys != null){
-          traceDetails.activityKeys.forEach((activityKey){
-            InputElement activityCheck = querySelector(".trace-form-input[name=activity-${activityKey}]") as InputElement ;
-            if (activityCheck != null){
-              activityCheck.checked = true;
-            }
-          });
-        }
-        
+        if (traceDetails.key != null){
+          header.title = "Modification de " + traceDetails.title ;
+          querySelector("#trace-form-submit").text = "Modifier cette trace" ;
+          
+          InputElement titleElement = querySelector(".trace-form-input[name=title]") as InputElement ;
+          titleElement.value = traceDetails.title;
+  
+          TextAreaElement descriptionElement = querySelector(".trace-form-input[name=description]") as TextAreaElement ;
+          descriptionElement.value = traceDetails.description;        
+          if (traceDetails.activityKeys != null){
+            traceDetails.activityKeys.forEach((activityKey){
+              InputElement activityCheck = querySelector(".trace-form-input[name=activity-${activityKey}]") as InputElement ;
+              if (activityCheck != null){
+                activityCheck.checked = true;
+              }
+            });
+          }
+        }      
         organizeSpaces();
         hideBySelector(".trace-form-file-input");
         hideBySelector(".trace-form-file-smoothing");
