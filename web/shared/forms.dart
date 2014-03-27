@@ -489,7 +489,8 @@ class TraceDetails implements ToJson{
 
   int get lengthMetersPart => ( this.length- (this.length/1000).truncate()*1000)  ; 
 
-  
+  num get endPointLatitude => profilePoints.last.latitude ;
+  num get endPointLongitude => profilePoints.last.longitude ;
 }
 
 class WatchPointData implements ToJson{
@@ -504,7 +505,7 @@ class WatchPointData implements ToJson{
   num longitude;
   num distance;
   
-  WatchPointData(this.name, this.description, this.type, this.latitude, this.longitude);
+  WatchPointData(  this.name, this.description, this.type, this.latitude, this.longitude);
 
   WatchPointData.fromMap(Map map) {
     name = map['name'];
@@ -701,12 +702,10 @@ class TraceForm implements ToJson{
 }
 
 
-class WatchPointForm {
+class WatchPointForm implements ToJson{
   
   String id;
 
-  String creator ;
-  
   String traceKey;
   
   String name;
@@ -723,11 +722,12 @@ class WatchPointForm {
   String error = null;
   String errorField = null;
   
-  WatchPointForm( this.creator, this.name, this.description, this.type, this.latitude, this.longitude);
+  WatchPointForm.empty();
+  
+  WatchPointForm(  this.name, this.description, this.type, this.latitude, this.longitude);
 
   WatchPointForm.fromJson(Map map) {
     id = map['_id'];
-    creator = map['creator'];
     traceKey = map['traceKey'];
     name = map['name'];
     description = map['description'];
@@ -741,12 +741,18 @@ class WatchPointForm {
   }
   
   Map toJson() {
-    return {'_id': id,'traceKey': traceKey,'creator': creator,'name': name, 'description': description, 
+    return {'_id': id,'traceKey': traceKey,'name': name, 'description': description, 
       'type': type, 'latitude': latitude, 'longitude': longitude, 'distance': distance,
       '_success':_success,
       'error':error,
       'errorField':errorField
       };
+  }
+  
+  void setError( String error, String errorField  ){
+    _success = "false";
+    this.error = error;
+    this.errorField = errorField;
   }
   
   bool get isSuccess => _success == "true" ;

@@ -58,6 +58,7 @@ class TracesServer{
           "/j_trace_delete": _traceController.jsonTraceDelete,
           "/j_trace_details/(creator:[^/]*)/(titleKey:[^/]*)": _traceController.jsonTraceDetails,
           "/j_trace_create_or_update": _traceController.jsonTraceCreateOrUpdate,
+          "/j_watch_point_create": _traceController.jsonWatchPointCreate,
           
           "/f_index_text" : _fragmentsController.indexText,
           "/f_index_buttons" : _fragmentsController.indexButtons,

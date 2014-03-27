@@ -205,6 +205,32 @@ class TraceController extends ServerController with JsonFeatures{
     });
   }
 
+  Future jsonWatchPointCreate(HttpConnect connect){
+    User user =  currentUser(connect.request.session);
+    if (user == null  ){
+      WatchPointForm watchPointForm = new WatchPointForm.empty();
+      watchPointForm.setError("forbiddenAction", "");
+      return postJson(connect.response, watchPointForm); 
+    }
+    return decodePostedJson(connect.request,
+        new Map.from(connect.request.uri.queryParameters))
+        .then((Map params) {
+
+        WatchPointForm watchPointForm = new WatchPointForm.fromJson(params );
+        WatchPoint watchPoint = new WatchPoint(user.login,
+                                               watchPointForm.name, 
+                                               watchPointForm.description, 
+                                               watchPointForm.type, 
+                                               watchPointForm.latitude, 
+                                               watchPointForm.longitude);
+        watchPoint.traceKey = watchPointForm.traceKey;
+        return _persistence.saveWatchPoint(watchPoint).then((_){
+          return postJson(connect.response, watchPointForm);
+        });
+        
+    });
+  }
+  
   Future jsonTraceCreateOrUpdate(HttpConnect connect) {
 
     User user =  currentUser(connect.request.session);

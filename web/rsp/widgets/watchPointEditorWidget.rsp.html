@@ -8,10 +8,15 @@
           </div>
           <div class="modal-body">
               <div class="form-group">
+                <select id="[=watchPointEditorId]-type" class="form-control">
+                    <option value="step">étape</option>
+                    <option value="water">point d'eau</option>
+                </select>
+                
                 <input  id="[=watchPointEditorId]-name" type="text" class="form-control"  placeholder="Nom">
               </div>
               <div class="form-group">
-                  <textarea  id="[=watchPointEditorId]-description" class="form-control" style="width: 80%" rows="5" placeholder="Description" ></textarea>
+                  <textarea  id="[=watchPointEditorId]-description" class="form-control" style="width: 90%" rows="5" placeholder="Description" ></textarea>
               </div>        
               <div class="form-group">Latitude : <span id="[=watchPointEditorId]-latitude" ></span></div>     
               <div class="form-group">Longitude : <span id="[=watchPointEditorId]-longitude" ></span></div>     

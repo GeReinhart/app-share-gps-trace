@@ -25,50 +25,60 @@ Future watchPointEditorWidget(HttpConnect connect, {watchPointEditorId}) { //#2
           </div>
           <div class="modal-body">
               <div class="form-group">
-                <input  id=\""""); //#3
+                <select id=\""""); //#3
 
   response.write(Rsp.nnx(watchPointEditorId)); //#11
+
+
+  response.write("""-type" class="form-control">
+                    <option value="step">étape</option>
+                    <option value="water">point d'eau</option>
+                </select>
+                
+                <input  id=\""""); //#11
+
+  response.write(Rsp.nnx(watchPointEditorId)); //#16
 
 
   response.write("""-name" type="text" class="form-control"  placeholder="Nom">
               </div>
               <div class="form-group">
-                  <textarea  id=\""""); //#11
+                  <textarea  id=\""""); //#16
 
-  response.write(Rsp.nnx(watchPointEditorId)); //#14
+  response.write(Rsp.nnx(watchPointEditorId)); //#19
 
 
-  response.write("""-description" class="form-control" style="width: 80%" rows="5" placeholder="Description" ></textarea>
+  response.write("""-description" class="form-control" style="width: 90%" rows="5" placeholder="Description" ></textarea>
               </div>        
-              <div class="form-group">Latitude : <span id=\""""); //#14
+              <div class="form-group">Latitude : <span id=\""""); //#19
 
-  response.write(Rsp.nnx(watchPointEditorId)); //#16
+  response.write(Rsp.nnx(watchPointEditorId)); //#21
 
 
   response.write("""-latitude" ></span></div>     
-              <div class="form-group">Longitude : <span id=\""""); //#16
+              <div class="form-group">Longitude : <span id=\""""); //#21
 
-  response.write(Rsp.nnx(watchPointEditorId)); //#17
+  response.write(Rsp.nnx(watchPointEditorId)); //#22
 
 
   response.write("""-longitude" ></span></div>     
           </div>
           <div class="modal-footer">
-              <div id=\""""); //#17
+              <div id=\""""); //#22
 
-  response.write(Rsp.nnx(watchPointEditorId)); //#20
+  response.write(Rsp.nnx(watchPointEditorId)); //#25
 
 
   response.write("""-error-message" class="text-warning" ></div>
-              <button id=\""""); //#20
+              <button id=\""""); //#25
 
-  response.write(Rsp.nnx(watchPointEditorId)); //#21
+  response.write(Rsp.nnx(watchPointEditorId)); //#26
 
 
   response.write("""-btn-submit" type="submit" class="btn btn-primary btn-submit-register">Ajouter</button>
-              <button id=\""""); //#21
+              <button id=\""""); //#26
 
-  response.write(Rsp.nnx(watchPointEditorId)); //#22
+  response.write(Rsp.nnx(watchPointEditorId)); //#27
 
 
   response.write("""-btn-cancel" class="btn btn-default">Annuler</button>
@@ -76,7 +86,7 @@ Future watchPointEditorWidget(HttpConnect connect, {watchPointEditorId}) { //#2
         </div>
       </div>
     </div>         
-"""); //#22
+"""); //#27
 
   return new Future.value();
 }

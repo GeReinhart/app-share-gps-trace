@@ -13,10 +13,11 @@ import "../forms.dart";
 typedef void WatchPointEditorEventCallBack(WatchPointEditorEvent event);
 
 class WatchPointEditorEvent{
+  bool isCancel ;
   bool _isCreated ;
   WatchPointForm _form;
   
-  WatchPointEditorEvent(this._isCreated, this._form);
+  WatchPointEditorEvent(this._isCreated, this.isCancel, this._form);
   
   WatchPointForm get form => _form;
   bool get isCreated => _isCreated ;
@@ -49,8 +50,8 @@ class WatchPointEditorWidget extends Widget with ModalWidget {
     _watchPointEditorEventStream.stream.listen((event) => callBack(event));
   }
   
-  void sendWatchPointEditorEvent(  bool isCreated , WatchPointForm form){
-    _watchPointEditorEventStream.add(  new WatchPointEditorEvent(isCreated,form)  );
+  void sendWatchPointEditorEvent(  bool isCreated , bool isCancel , WatchPointForm form){
+    _watchPointEditorEventStream.add(  new WatchPointEditorEvent(isCreated,isCancel,form)  );
   }
   
   void _initRegisterWidget(){
@@ -59,6 +60,7 @@ class WatchPointEditorWidget extends Widget with ModalWidget {
     });
     querySelector("#${this.id}-btn-cancel").onClick.listen((e) {
       hideModalWidget(id);
+      sendWatchPointEditorEvent(true,true, null);
     });
   }
 
@@ -76,7 +78,7 @@ class WatchPointEditorWidget extends Widget with ModalWidget {
           stopLoading();
           if (form.isSuccess){
             hideModalWidget(id);
-            sendWatchPointEditorEvent(true, form);
+            sendWatchPointEditorEvent(true,false, form);
           }else {
  
             
@@ -85,9 +87,13 @@ class WatchPointEditorWidget extends Widget with ModalWidget {
       });
 
       request.open("POST",  "/j_watch_point_create", async: true);
-      RegisterForm form =  new  RegisterForm( (querySelector("#${this.id}-login") as InputElement).value,
-          (querySelector("#${this.id}-password") as InputElement).value,
-          (querySelector("#${this.id}-password-confirm") as InputElement).value);
+      
+      String name= (querySelector("#${this.id}-name") as InputElement).value ;
+      String description= (querySelector("#${this.id}-description") as TextAreaElement).value ;
+      String type= (querySelector("#${this.id}-type") as SelectElement).value ;
+      
+      WatchPointForm form = new WatchPointForm(name, description, type, _latitude, _longitude);
+      form.traceKey = _traceKey ;
       request.send(JSON.encode(form.toJson()));      
   }
   
@@ -96,8 +102,8 @@ class WatchPointEditorWidget extends Widget with ModalWidget {
     _latitude = latitude ;
     _longitude = longitude;
     
-    querySelector("#${this.id}-name").text = "" ;
-    querySelector("#${this.id}-description").text = "" ;
+    (querySelector("#${this.id}-name") as InputElement).value = "";
+    (querySelector("#${this.id}-description") as TextAreaElement).value = "" ;
     querySelector("#${this.id}-latitude").text = latitude.toString() ;
     querySelector("#${this.id}-longitude").text = longitude.toString() ;
     

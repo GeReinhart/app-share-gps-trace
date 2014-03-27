@@ -80,8 +80,12 @@ class TraceDetailsPage extends Page {
   }
   
   void traceChangeCallBack(TraceChangeEvent event){
-    traceDetailsByKey.remove(event.key) ;
-    keys.remove(event.key);
+    if (event.key == currentKey ){
+      _showPage(currentKey,true);
+    }else{
+      traceDetailsByKey.remove(event.key) ;
+      keys.remove(event.key);
+    }
   }
   void deleteTrace(OKCancelEvent event) {
   
@@ -179,7 +183,7 @@ class TraceDetailsPage extends Page {
       _displayMap( traceDetails );
       _updateDeleteConfirmText( traceDetails);
     }else{
-      _showPage( key);       
+      _showPage( key,false);       
     }
   }
  
@@ -196,7 +200,7 @@ class TraceDetailsPage extends Page {
    return input.replaceAll("/", "_").replaceAll("'", "-");
  }
   
- void _showPage(String key){
+ void _showPage(String key, bool onlyRefreshContent){
     
     String keyJsSafe = _transformJsSafe(key) ;
     loadingNW.startLoading();
@@ -235,7 +239,9 @@ class TraceDetailsPage extends Page {
         _displayMap(traceDetails);
         _displayProfile(traceDetails) ;
         _updateDeleteConfirmText( traceDetails);
-        showBySelector("#${name}NE");
+        if(!onlyRefreshContent){
+          showBySelector("#${name}NE");
+        }
         
         
 
@@ -272,8 +278,8 @@ class TraceDetailsPage extends Page {
  void _displayMap(TraceDetails traceDetails){
    js.context.traceDetailsMap.addMarkerToMap( traceDetails.keyJsSafe, traceDetails.mainActivity , traceDetails.titleJsSafe, traceDetails.startPointLatitude,traceDetails.startPointLongitude,traceDetails.gpxUrl );
  
-   js.context.traceDetailsMap.addOtherMarkerToMap(traceDetails.keyJsSafe, "start", "Départ","", traceDetails.startPointLatitude,traceDetails.startPointLongitude);
    js.context.traceDetailsMap.addOtherMarkerToMap(traceDetails.keyJsSafe, "end", "Arrivée","", traceDetails.endPointLatitude,traceDetails.endPointLongitude);
+   js.context.traceDetailsMap.addOtherMarkerToMap(traceDetails.keyJsSafe, "start", "Départ","", traceDetails.startPointLatitude,traceDetails.startPointLongitude);
 
    if (traceDetails.watchPoints != null){
      traceDetails.watchPoints.forEach( (wp){
