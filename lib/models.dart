@@ -267,6 +267,8 @@ class WatchPoint {
   
   String id;
 
+  String creator ;
+  
   String traceKey;
   
   String name;
@@ -279,10 +281,11 @@ class WatchPoint {
   num longitude;
   num distance;
   
-  WatchPoint( this.name, this.description, this.type, this.latitude, this.longitude);
+  WatchPoint( this.creator, this.name, this.description, this.type, this.latitude, this.longitude);
 
   WatchPoint.fromJson(Map map) {
     id = map['_id'];
+    creator = map['creator'];
     traceKey = map['traceKey'];
     name = map['name'];
     description = map['description'];
@@ -293,7 +296,7 @@ class WatchPoint {
   }
   
   Map toJson() {
-    return {'_id': id,'traceKey': traceKey,'name': name, 'description': description, 
+    return {'_id': id,'traceKey': traceKey,'creator': creator,'name': name, 'description': description, 
       'type': type, 'latitude': latitude, 'longitude': longitude, 'distance': distance};
   }
   

@@ -40,6 +40,7 @@ part "../web/rsp/widgets/sharedWidgets.rsp.dart";
 part "../web/rsp/widgets/loadingWidget.rsp.dart";
 part "../web/rsp/widgets/profileWidget.rsp.dart";
 part "../web/rsp/widgets/headerWidget.rsp.dart";
+part "../web/rsp/widgets/watchPointEditorWidget.rsp.dart";
 
 part "../web/rsp/fragments/indexTextFragment.rsp.dart";
 part "../web/rsp/fragments/indexButtonsFragment.rsp.dart";
@@ -320,14 +321,16 @@ class TraceController extends ServerController with JsonFeatures{
     String titleKey = connect.dataset["titleKey"];
     String key = creator +"/" + titleKey;
     return _persistence.getTraceByKey(key).then((trace) {
-      if (trace == null){
-        return postJson(connect.response, new TraceDetails());
-      }else{
-        String gpxUrl = _appUri +"/trace.gpx/id-"+trace.cleanId ;
-        String permanentTraceUrl = _appUri + "/trace/id-"+trace.cleanId ;
-        TraceRenderer traceRenderer = new TraceRenderer(trace, permanentTraceUrl,gpxUrl);
-        return postJson(connect.response, traceRenderer.traceDetails);
-      }
+      return  _persistence.getWatchPointByTraceKey(key).then((watchPoints) {
+        if (trace == null){
+          return postJson(connect.response, new TraceDetails());
+        }else{
+          String gpxUrl = _appUri +"/trace.gpx/id-"+trace.cleanId ;
+          String permanentTraceUrl = _appUri + "/trace/id-"+trace.cleanId ;
+          TraceRenderer traceRenderer = new TraceRenderer(trace,watchPoints, permanentTraceUrl,gpxUrl);
+          return postJson(connect.response, traceRenderer.traceDetails);
+        }
+      });
     });
     
   }
@@ -352,7 +355,7 @@ class TraceController extends ServerController with JsonFeatures{
     return _persistence.getTraceByKey(key).then((trace) {
       String gpxUrl = _appUri +"/trace.gpx/"+key ;
       String permanentTraceUrl = _appUri + "/trace/"+key ;
-      TraceRenderer renderer = new TraceRenderer(trace, permanentTraceUrl,gpxUrl);
+      TraceRenderer renderer = new TraceRenderer(trace,null, permanentTraceUrl,gpxUrl);
       return traceView(connect, traceRenderer:renderer);
     });
   }

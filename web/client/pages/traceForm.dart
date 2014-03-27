@@ -3,15 +3,18 @@ import 'dart:async';
 import "dart:convert";
 import 'page.dart';
 import '../forms.dart';
+import '../widgets/watchPointEditor.dart';
 import '../actions.dart';
 import 'package:js/js.dart' as js;
 
 class TraceFormPage extends Page {
   
   String _currentKey ;
+  WatchPointEditorWidget _watchPointEditorWidget ;
   
   TraceFormPage(PageContext context): super("trace_form",context,50,50,false){
     description = "Ajout d'une trace" ;
+    _watchPointEditorWidget = new WatchPointEditorWidget("watchPointEditor");
   }
   
   bool isUpdate(){
@@ -25,6 +28,9 @@ class TraceFormPage extends Page {
     document.on['right_click_on_map'].listen((e ){
       if (this.isUpdate()){
           js.context.traceDetailsMap.drawRightClickMark();
+          var latLng = js.context.traceDetailsMap.lastRightClickMarker.getLatLng();
+          
+          _watchPointEditorWidget.showWatchPointEditorModal( _currentKey, latLng.lat, latLng.lng) ;
       }
     });
   }

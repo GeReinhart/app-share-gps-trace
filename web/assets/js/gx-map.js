@@ -12,6 +12,7 @@
     this.icons = {};
     this.iconsByPath = {};
     this.iconsColors = {};
+    this.pathByKey = {};
     
     this.activities = {
                          "trek":"hiking.png",
@@ -19,7 +20,13 @@
                          "bike":"cycling.png",
                          "mountainbike":"mountainbiking-3.png",
                          "skitouring":"nordicski.png",
-                         "snowshoe":"snowshoeing.png"
+                         "snowshoe":"snowshoeing.png",
+                         
+                         "start":"parking.png",
+                         "end":"stop.png",
+                         "water":"drinkingwater.png",
+                         "step":"flag-export.png"
+
                         } ;
     
     this.build = function(key,activity){
@@ -37,6 +44,7 @@
                    		var currentPathWithNumber = currentPath+"#"+k ;
                    		if (! ( currentPathWithNumber  in this.iconsByPath) && !icon ){
                    		    color = this.colors[i] ;
+                   		    this.pathByKey[key] = currentPath;
                       		path = currentPathWithNumber;
                       		icon = this._buildIcon(currentPath, activity) ;
                    		}
@@ -46,14 +54,22 @@
             if (! icon){
                color = "c71e1e/1" ;
                path = color+"/1"  ;
+               this.pathByKey[key] = path;
                icon = this._buildIcon(path, "") ; 
             }
             this.iconsColors[key] = color ;
 			this.icons[key] = icon ;
 			this.iconsByPath[path] = icon ;
+			
 			return icon ;
 	   }
 	}
+    
+    this.buildOther = function(key,activity){
+       var path = this.pathByKey[key];
+       var icon = this._buildIcon(path, activity) ;
+       return icon ;
+	}    
     
     this._buildIcon = function(path, activity){
         var iconUrl = '/assets/img/icon/'+path+'/'+this.getPngFile(activity);
@@ -86,7 +102,15 @@
     
  }
 
- function GxTrace(key,  title, startLat, startLong, gpxUrl, icon) {
+function GxMarker(key,marker,popup){
+   this.key = key;
+   this.marker = marker;
+   this.popup = popup;
+}
+
+function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
+
+	this.iconBuilder = iconBuilder ;
  	this.key  = key ;
 	this.title = title;
 	this.gpxUrl= gpxUrl;
@@ -98,6 +122,26 @@
     this.iconBasePath ;
     this.opacity =1 ; 
     this.isHighlighted = false ;
+    this.othersGxMarkers = [];
+	
+	this.addOtherMarker = function(key, type, name, description, lat, long){
+
+       var icon = this.iconBuilder.buildOther(key , type) ;
+       var otherMarker = L.marker([lat, long], {icon: icon}) ;
+       var otherPopup = this.bindOtherPopup(this.map, lat, long , name, description)
+       var otherGxMarker = new GxMarker(key,otherMarker,otherPopup);
+       this.othersGxMarkers.push(otherGxMarker);
+       
+	   otherGxMarker.marker.addTo(this.map) ;
+       var me = this ;
+	   
+	   otherGxMarker.marker.on('click', function(e) {
+           if(! otherPopup._isOpen){
+           	 otherPopup.addTo(me.map) ;
+           }
+	   });
+	   
+	}
 	
 	this.addMarker = function(map){
 	   this.map = map ;
@@ -153,6 +197,18 @@
 	  var event = new Event('highlight_trace');
       document.dispatchEvent(event);
 	}
+	
+	this.bindOtherPopup = function(map, lat, long , name, description){
+	    this.map = map ;
+	    var popup = new L.popup(
+	                      { offset:  L.point(0, -38)  }
+	                    ) ;
+    	popup.setLatLng(  L.latLng(  lat  , long) ) ;
+    	popup.setContent("<b>"+name+"</b><br/>" + description );
+    	
+    	return popup;   	
+	}
+	
 	
 	
 	this.bindPopup = function(map){
@@ -380,7 +436,7 @@
 	     this.traces[key].visible();
 	   }else{
 	     var icon = this.iconBuilder.build(key , activity) ;
-	     var trace = new GxTrace(key,  title, startLat, startLong, gpx,icon);
+	     var trace = new GxTrace(key,  title, startLat, startLong, gpx,icon,this.iconBuilder);
 	     trace.addMarker(this.map);
 	     trace.bindPopup(this.map);
 	     trace.gpxTrackColor = this.iconBuilder.getTraceColor(key) ;
@@ -391,6 +447,18 @@
 	this.addMarkerToMap = function( key, activity, title, startLat, startLong, gpx ){
 	   this._addMarker(this.map,  key, activity, title, startLat, startLong, gpx ) ;
 	} 
+
+	this._addOtherMarker = function(targetMap,  key, type, name, title, lat, long ){
+	   if(key in this.traces){
+	     var trace = this.traces[key] ;
+	     trace.addOtherMarker(key, type, name, title, lat, long);
+	   }
+	}
+
+	this.addOtherMarkerToMap = function( key, type, name, title, lat, long ){
+	   this._addOtherMarker(this.map,  key, type, name, title, lat, long ) ;
+	} 
+
 	 
 	this.removeAllMarkers = function(){
 	   for (var key in this.traces) {

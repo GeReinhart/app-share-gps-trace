@@ -138,20 +138,23 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
                                   return Rsp.nnf(confirmWidget(new HttpConnect.chain(connect), confirmId: "deleteTraceConfirmModal", confirmTitle: "Confirmation", confirmText: "Je confirme la suppression définitive de la trace XXXXXXXXXXXXXXX")).then((_) { //include#64
 
-                                    response.write("""    
-"""); //#65
-
-                                    return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#66
+                                    return Rsp.nnf(watchPointEditorWidget(new HttpConnect.chain(connect), watchPointEditorId: "watchPointEditor")).then((_) { //include#65
 
                                       response.write("""    
+"""); //#66
+
+                                      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#67
+
+                                        response.write("""    
     <script type="application/dart" src="/client/pages/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>    
   </body>
 </html>
-"""); //#67
+"""); //#68
 
-                                      return new Future.value();
+                                        return new Future.value();
+                                      }); //end-of-include
                                     }); //end-of-include
                                   }); //end-of-include
                                 }); //end-of-include

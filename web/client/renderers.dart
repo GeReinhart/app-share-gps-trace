@@ -86,10 +86,12 @@ class TraceRenderer extends LigthTraceRenderer{
   String gpxUrl ;
   String permanentTraceUrl ;
   TraceRawData profileData ;
+  List<WatchPoint> watchPoints;
   
-  TraceRenderer(Trace trace,String permanentTraceUrl,String gpxUrl): super(trace){
+  TraceRenderer(Trace trace, List<WatchPoint> watchPoints, String permanentTraceUrl,String gpxUrl): super(trace){
     this.permanentTraceUrl=permanentTraceUrl;
     this.gpxUrl = gpxUrl;
+    this.watchPoints = watchPoints ;
     this.profileData = _traceAnalyser.buildProfile(trace.rawData, maxProfilePointsNumber:400);
     this.traceAnalysisRenderer = new TraceAnalysisRenderer(trace.traceAnalysis,profileData,gpxUrl);
   }
@@ -143,10 +145,13 @@ class TraceRenderer extends LigthTraceRenderer{
       traceDetails.profilePoints.add(pp);
     });
         
-        
-        ;
-    
-    
+    traceDetails.watchPoints = new List<WatchPointData>();
+    if (this.watchPoints != null){
+      this.watchPoints.forEach((p){
+        WatchPointData wp= new WatchPointData(p.name,p.description,p.type,p.latitude,p.longitude);
+        traceDetails.watchPoints.add(wp);
+      });    
+    }
     return traceDetails ;
   }
   

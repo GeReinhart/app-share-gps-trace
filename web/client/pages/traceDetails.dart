@@ -271,6 +271,16 @@ class TraceDetailsPage extends Page {
  
  void _displayMap(TraceDetails traceDetails){
    js.context.traceDetailsMap.addMarkerToMap( traceDetails.keyJsSafe, traceDetails.mainActivity , traceDetails.titleJsSafe, traceDetails.startPointLatitude,traceDetails.startPointLongitude,traceDetails.gpxUrl );
+ 
+   js.context.traceDetailsMap.addOtherMarkerToMap(traceDetails.keyJsSafe, "start", "Départ","", traceDetails.startPointLatitude,traceDetails.startPointLongitude);
+   js.context.traceDetailsMap.addOtherMarkerToMap(traceDetails.keyJsSafe, "end", "Arrivée","", traceDetails.endPointLatitude,traceDetails.endPointLongitude);
+
+   if (traceDetails.watchPoints != null){
+     traceDetails.watchPoints.forEach( (wp){
+       js.context.traceDetailsMap.addOtherMarkerToMap(traceDetails.keyJsSafe, wp.type, wp.name, wp.description, wp.latitude, wp.longitude);
+     });
+   }
+   
    js.context.traceDetailsMap.viewGpxByKey(traceDetails.keyJsSafe) ;
    js.context.traceDetailsMap.refreshTiles();
    showBySelector("#${name}SE", hiddenClass: "gx-hidden-map");

@@ -294,8 +294,8 @@ main() {
 
         
        .then((_){
-          WatchPoint wp1 = new WatchPoint("water name", "water desc", "water", 12.89, 34.98);
-          WatchPoint wp2 = new WatchPoint("water name2", "water desc2", "water", 77.89, 89.98);
+          WatchPoint wp1 = new WatchPoint("Gex","water name", "water desc", "water", 12.89, 34.98);
+          WatchPoint wp2 = new WatchPoint("Gex","water name2", "water desc2", "water", 77.89, 89.98);
           wp1.traceKey = traceKey;
           return persitence.saveWatchPoint(wp1).then((_) {
             return persitence.saveWatchPoint(wp2).then((_) {

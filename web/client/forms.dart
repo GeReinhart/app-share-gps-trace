@@ -396,6 +396,7 @@ class TraceDetails implements ToJson{
   num startPointLatitude;
   num startPointLongitude;
   String gpxUrl;
+  List<WatchPointData> watchPoints ;
   List<ProfilePoint> profilePoints ;
   num traceHeightWidthRatio ;
   
@@ -428,6 +429,13 @@ class TraceDetails implements ToJson{
         profilePoints.add( new ProfilePoint.fromMap(p) ) ;
       });
     }
+    List<String> watchPointsAsString = JSON.decode( jsonMap['watchPoints'] ) ;  
+    watchPoints = new List<WatchPointData>();
+    if(watchPointsAsString != null){
+      watchPointsAsString.forEach((p){
+        watchPoints.add( new WatchPointData.fromMap(p) ) ;
+      });
+    }    
     traceHeightWidthRatio = jsonMap['traceHeightWidthRatio'] ; 
   }
   
@@ -449,6 +457,7 @@ class TraceDetails implements ToJson{
              'startPointLongitude':startPointLongitude,
              'gpxUrl':gpxUrl,
              'profilePoints': JSON.encode( profilePoints ),
+             'watchPoints': JSON.encode( watchPoints ),
              'traceHeightWidthRatio' : traceHeightWidthRatio
             };
   }
@@ -480,6 +489,38 @@ class TraceDetails implements ToJson{
 
   int get lengthMetersPart => ( this.length- (this.length/1000).truncate()*1000)  ; 
 
+  num get endPointLatitude => profilePoints.last.latitude ;
+  num get endPointLongitude => profilePoints.last.longitude ;
+}
+
+class WatchPointData implements ToJson{
+  
+  String name;
+
+  String description;
+  
+  String type;
+  
+  num latitude;
+  num longitude;
+  num distance;
+  
+  WatchPointData(  this.name, this.description, this.type, this.latitude, this.longitude);
+
+  WatchPointData.fromMap(Map map) {
+    name = map['name'];
+    description = map['description'];
+    type = map['type'];
+    latitude = map['latitude'];
+    longitude = map['longitude'];
+    distance = map['distance'];
+  }
+  
+  Map toJson() {
+    return {'name': name, 'description': description, 
+      'type': type, 'latitude': latitude, 'longitude': longitude, 'distance': distance
+      };
+  }
   
 }
 
@@ -657,5 +698,58 @@ class TraceForm implements ToJson{
     }    
     return creator != null && creator == login ;
   }
+  
+}
+
+
+class WatchPointForm {
+  
+  String id;
+
+  String creator ;
+  
+  String traceKey;
+  
+  String name;
+
+  String description;
+  
+  String type;
+  
+  num latitude;
+  num longitude;
+  num distance;
+  
+  String _success = "true" ;
+  String error = null;
+  String errorField = null;
+  
+  WatchPointForm( this.creator, this.name, this.description, this.type, this.latitude, this.longitude);
+
+  WatchPointForm.fromJson(Map map) {
+    id = map['_id'];
+    creator = map['creator'];
+    traceKey = map['traceKey'];
+    name = map['name'];
+    description = map['description'];
+    type = map['type'];
+    latitude = map['latitude'];
+    longitude = map['longitude'];
+    distance = map['distance'];
+    _success = map["_success"] ;
+    error = map["error"] ;
+    errorField = map["errorField"] ;
+  }
+  
+  Map toJson() {
+    return {'_id': id,'traceKey': traceKey,'creator': creator,'name': name, 'description': description, 
+      'type': type, 'latitude': latitude, 'longitude': longitude, 'distance': distance,
+      '_success':_success,
+      'error':error,
+      'errorField':errorField
+      };
+  }
+  
+  bool get isSuccess => _success == "true" ;
   
 }
