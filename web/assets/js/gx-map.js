@@ -272,6 +272,11 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
 	this.visible= function(){
 	  this.opacity = 1;
 	  this.startMarker.setOpacity(this.opacity);
+	  for (index = 0; index < this.othersGxMarkers.length; ++index) {
+         var gxMarker = this.othersGxMarkers[index];
+         gxMarker.marker.setOpacity(this.opacity);
+      }
+	  
 	}
 
 	this.lighter= function(){
@@ -285,6 +290,10 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
 	this.setOpacity= function(opacity){
 	  this.opacity = opacity;
 	  this.startMarker.setOpacity(opacity);
+	  for (index = 0; index < this.othersGxMarkers.length; ++index) {
+         var gxMarker = this.othersGxMarkers[index];
+         gxMarker.marker.setOpacity(this.opacity);
+      }	  
 	  if(this.gpxTrack){
    		  this.gpxTrack.setStyle( {  opacity:opacity  });
 	  }
