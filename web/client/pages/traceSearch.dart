@@ -140,6 +140,7 @@ class TraceSearchPage extends Page {
   void displaySearchResult(Element searchResultBody,Element searchResultRow, LightTrace lightTrace){
     
     Element searchResultCurrentRow = searchResultRow.clone(true) ;
+    searchResultCurrentRow.classes.remove("gx-hidden");
     String color = js.context.searchMap.getLightColor(lightTrace.keyJsSafe) ;
     if(  js.context.searchMap.isHighlightedTraceByKey(lightTrace.keyJsSafe)) {
       searchResultCurrentRow.style.backgroundColor = color  ;

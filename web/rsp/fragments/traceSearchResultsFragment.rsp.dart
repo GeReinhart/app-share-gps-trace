@@ -18,8 +18,8 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
                         <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-sw-long" />
                         <input type="hidden" id="search-form-js-dart-bridge" />  
 
-      <div id="trace-search-results-content" class="gx-vertical-optional-scroll">
-        <table class="table" style="width: 100% ;margin-top: 10px">  
+      <div  class="gx-vertical-optional-scroll">
+        <table  style="width: 100% ;margin-top: 0px ;  background-color: #CFCFCF">  
           <thead>  
             <tr>  
               <th style="width: 10%" >Auteur</th>  
@@ -29,7 +29,7 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
               <th style="width: 15%" >Dénivelé</th>
               <th style="width: 15%" >Sommet</th>
             </tr>  
-             <tr  >
+             <tr style="border-left-style: none;" >
                   <td></td>
                   <td  class="gx-small-form-input"  >
                     <span   class="gx-vertical-text-align">
@@ -60,8 +60,12 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
                   </td>                   
              </tr>            
           </thead>  
+        </table>
+      </div>
+      <div id="trace-search-results-content" class="gx-vertical-optional-scroll">      
+        <table class="table" style="width: 100% ;margin-top: 0px"> 
           <tbody id="search-result-body" >  
-             <tr id="search-result-row"  >
+             <tr id="search-result-row" class="gx-hidden" >
                   <td></td>  
                   <td></td>  
                   <td></td>
