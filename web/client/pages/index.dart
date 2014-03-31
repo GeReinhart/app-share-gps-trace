@@ -40,12 +40,7 @@ class IndexPage extends Page {
   
   void showPage( Parameters pageParameters) {
     super.showPage(pageParameters);
-    header.title = "La boussole" ;
-    organizeSpaces();
-    getAndShowElement("/f_index_text", "#${name}NW");
-    showBySelector( "#trace_searchNE");
-    showBySelector( "#${name}SW");
-    showBySelector("#trace_searchSE", hiddenClass: "gx-hidden-map");
+    window.location.href = "/#trace_search";
   }
   
   void hidePage() {

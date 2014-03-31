@@ -27,6 +27,21 @@
   position: absolute;
 }
 
+.gx-small-form-input{
+  width: 24px ;
+  height: 16px; 
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  line-height: 16px !important;
+} 
+
+.gx-vertical-text-align{
+  display:inline-block; 
+  vertical-align:middle; 
+}
+
 #map div {
   text-align:left;	
 }

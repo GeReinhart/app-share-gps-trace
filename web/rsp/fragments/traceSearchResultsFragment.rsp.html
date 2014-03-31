@@ -1,17 +1,52 @@
 [:page partOf="trails"]
+
+                        <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-ne-lat" />
+                        <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-ne-long" />
+                        <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-sw-lat" />
+                        <input type="hidden" class="search-form-inputs search-form-bounds-location" id="search-form-input-location-sw-long" />
+                        <input type="hidden" id="search-form-js-dart-bridge" />  
+
       <div id="trace-search-results-content" class="gx-vertical-optional-scroll">
-        <table class="table" style="width: 100% ;margin-top: 40px">  
+        <table class="table" style="width: 100% ;margin-top: 10px">  
           <thead>  
             <tr>  
               <th style="width: 10%" >Auteur</th>  
               <th style="width: *" >Trace</th>  
               <th style="width: 15%" >Activités</th>  
-              <th style="width: 10%" >Distance</th>  
-              <th style="width: 10%" >Dénivelé</th>
-              <th style="width: 10%" >Sommet</th>
-              <th style="width: 10%" >Pente</th>
-              <th style="width: 10%" >Difficulté</th>
+              <th style="width: 15%" >Distance</th>  
+              <th style="width: 15%" >Dénivelé</th>
+              <th style="width: 15%" >Sommet</th>
             </tr>  
+             <tr  >
+                  <td></td>
+                  <td  class="gx-small-form-input"  >
+                    <span   class="gx-vertical-text-align">
+                      <input  type="text"  style="width:100% ;  padding-left: 3px ; padding-right: 3px"  class="gx-small-form-input  search-form-input-text"  placeholder="">
+                    </span>
+                  </td>   
+                  <td></td>
+                  <td class="gx-small-form-input"  >
+                    <span class="gx-vertical-text-align">
+                      <input  type="text"    class="gx-small-form-input  search-form-input-length-gt"  placeholder="">
+                      à  <input  type="text" class="gx-small-form-input  search-form-input-length-lt"  placeholder="">
+                      km
+                    </span>
+                  </td>  
+                  <td class="gx-small-form-input"  >
+                    <span class="gx-vertical-text-align">
+                      <input  type="text"    class="gx-small-form-input  search-form-input-up-gt"  placeholder="">
+                      à  <input  type="text" class="gx-small-form-input  search-form-input-up-lt"  placeholder="">
+                      m
+                    </span>
+                  </td> 
+                  <td class="gx-small-form-input"  >
+                    <span class="gx-vertical-text-align">
+                      <input  type="text"    class="gx-small-form-input  search-form-input-upper-point-elevetion-gt"  placeholder="">
+                      à  <input  type="text" class="gx-small-form-input  search-form-input-upper-point-elevetion-lt"  placeholder="">
+                      m
+                    </span>
+                  </td>                   
+             </tr>            
           </thead>  
           <tbody id="search-result-body" >  
              <tr id="search-result-row"  >
@@ -19,8 +54,6 @@
                   <td></td>  
                   <td></td>
                   <td></td>  
-                  <td></td>
-                  <td></td>
                   <td></td>
                   <td></td>
              </tr>

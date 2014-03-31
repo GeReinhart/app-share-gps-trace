@@ -26,7 +26,7 @@ class TraceSearchPage extends Page {
   bool firstRequest = true ;
   bool initDone = false;
 
-  TraceSearchPage(PageContext context): super("trace_search",context,70,50,true){
+  TraceSearchPage(PageContext context): super("trace_search",context,99,50,true){
     description="Rechercher une trace gps";
     layout.centerMoved.listen((_){
       SpacesPositions positions = _ as SpacesPositions ;
@@ -167,8 +167,6 @@ class TraceSearchPage extends Page {
     searchResultCurrentRow.children[3].innerHtml = lightTrace.length;
     searchResultCurrentRow.children[4].innerHtml = lightTrace.up;
     searchResultCurrentRow.children[5].innerHtml = lightTrace.upperPointElevetion;
-    searchResultCurrentRow.children[6].innerHtml = lightTrace.inclinationUp;
-    searchResultCurrentRow.children[7].innerHtml = lightTrace.difficulty;
     searchResultBody.append(searchResultCurrentRow);
   }
   
@@ -254,10 +252,6 @@ class TraceSearchPage extends Page {
     form.upLt                  = (querySelector(".search-form-input-up-lt") as InputElement ).value ;  
     form.upperPointElevetionGt = (querySelector(".search-form-input-upper-point-elevetion-gt") as InputElement ).value ;  
     form.upperPointElevetionLt = (querySelector(".search-form-input-upper-point-elevetion-lt") as InputElement ).value ;  
-    form.inclinationUpGt       = (querySelector(".search-form-input-inclination-up-gt") as InputElement ).value ;  
-    form.inclinationUpLt       = (querySelector(".search-form-input-inclination-up-lt") as InputElement ).value ;  
-    form.difficultyGt          = (querySelector(".search-form-input-difficulty-gt") as InputElement ).value ;  
-    form.difficultyLt          = (querySelector(".search-form-input-difficulty-lt") as InputElement ).value ;  
      
    if(mapFilter){
       form.mapBoundNELat  = double.parse((querySelector('#search-form-input-location-ne-lat') as InputElement ).value);
