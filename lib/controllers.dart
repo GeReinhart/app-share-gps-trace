@@ -205,7 +205,7 @@ class TraceController extends ServerController with JsonFeatures{
     });
   }
 
-  Future jsonWatchPointCreate(HttpConnect connect){
+  Future jsonWatchPointCreateOrUpdate(HttpConnect connect){
     User user =  currentUser(connect.request.session);
     if (user == null  ){
       WatchPointForm watchPointForm = new WatchPointForm.empty();
@@ -224,7 +224,7 @@ class TraceController extends ServerController with JsonFeatures{
                                                watchPointForm.latitude, 
                                                watchPointForm.longitude);
         watchPoint.traceKey = watchPointForm.traceKey;
-        return _persistence.saveWatchPoint(watchPoint).then((_){
+        return _persistence.saveOrUpdateWatchPoint(watchPoint).then((_){
           return postJson(connect.response, watchPointForm);
         });
         

@@ -36,9 +36,13 @@ abstract class PersistenceLayer{
   
   Future<User> saveOrUpdateUser(User user);
 
-  Future<WatchPoint> saveWatchPoint(WatchPoint watchPoint);
+  Future<WatchPoint> saveOrUpdateWatchPoint(WatchPoint watchPoint);
   
   Future<List<WatchPoint>>  getWatchPointByTraceKey(String traceKey) ;
+
+  Future<WatchPoint>  getWatchPointByTraceKeyAndPosition(String traceKey, num lat, num long) ;
+  
+  Future deleteWatchPoint(String traceKey, num lat, num long);
 }
 
 
@@ -333,23 +337,59 @@ class MongoPersistence implements PersistenceLayer{
     }
   }
   
-  Future<WatchPoint> saveWatchPoint(WatchPoint watchPoint){
-    watchPoint.id = new ObjectId().toString();
-    return _watchPointCollection.insert(watchPoint.toJson()).then((_){
-      return watchPoint;
+  Future<WatchPoint> saveOrUpdateWatchPoint(WatchPoint watchPoint){
+    return getWatchPointByTraceKeyAndPosition(watchPoint.traceKey,watchPoint.latitude,watchPoint.longitude)
+             .then((loadedWatchPoint){
+        if(loadedWatchPoint == null){
+          watchPoint.id = new ObjectId().toString();
+          return _watchPointCollection.insert(watchPoint.toJson()).then((_){
+            return watchPoint;
+          });
+        }else{
+          watchPoint.id = loadedWatchPoint.id;
+          return _watchPointCollection.update(where.eq("_id", watchPoint.id),watchPoint.toJson()).then((_){
+            return watchPoint;
+          });          
+        }
     });
   }
   
   Future<List<WatchPoint>>  getWatchPointByTraceKey(String traceKey) {
     List<WatchPoint> watchPoints = new List();
-    
-    return _watchPointCollection.find(where.eq("traceKey", traceKey)).forEach((jsonUser){
-                WatchPoint watchPoint = new WatchPoint.fromJson(jsonUser);
+    return _watchPointCollection.find(where.eq("traceKey", traceKey)).forEach((jsonWP){
+                WatchPoint watchPoint = new WatchPoint.fromJson(jsonWP);
                 watchPoints.add(watchPoint);
               })
            .then((_) {
                 return watchPoints;
             });  
+  }
+  Future<WatchPoint> getWatchPointByTraceKeyAndPosition(String traceKey, num latitude, num longitude){
+    return _watchPointCollection.findOne(
+                  where.eq("traceKey", traceKey)
+                 .and( where.eq("latitude", latitude))
+                 .and( where.eq("longitude", longitude))
+                                  ).then((jsonWP){
+      if (jsonWP == null){
+        return null;
+      }else{
+        return new WatchPoint.fromJson(jsonWP);
+      }
+    });  
+  }
+
+  
+  Future deleteWatchPoint(String traceKey, num latitude, num longitude){
+    return getWatchPointByTraceKeyAndPosition(traceKey,latitude,longitude)
+             .then((loadedWatchPoint){
+        if(loadedWatchPoint == null){
+          return new Future.value();
+        }else{
+          return _watchPointCollection.remove(where.eq("_id",loadedWatchPoint.id)).then((_){
+            return new Future.value();          
+          });
+        }
+    });
   }
   
 }

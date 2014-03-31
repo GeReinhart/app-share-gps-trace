@@ -86,7 +86,7 @@ class WatchPointEditorWidget extends Widget with ModalWidget {
         }
       });
 
-      request.open("POST",  "/j_watch_point_create", async: true);
+      request.open("POST",  "/j_watch_point_create_or_update", async: true);
       
       String name= (querySelector("#${this.id}-name") as InputElement).value ;
       String description= (querySelector("#${this.id}-description") as TextAreaElement).value ;

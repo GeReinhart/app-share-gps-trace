@@ -297,8 +297,8 @@ main() {
           WatchPoint wp1 = new WatchPoint("Gex","water name", "water desc", "water", 12.89, 34.98);
           WatchPoint wp2 = new WatchPoint("Gex","water name2", "water desc2", "water", 77.89, 89.98);
           wp1.traceKey = traceKey;
-          return persitence.saveWatchPoint(wp1).then((_) {
-            return persitence.saveWatchPoint(wp2).then((_) {
+          return persitence.saveOrUpdateWatchPoint(wp1).then((_) {
+            return persitence.saveOrUpdateWatchPoint(wp2).then((_) {
               return persitence.getWatchPointByTraceKey(traceKey).then((wps) {
                 print("Test get WatchPoint ");
                 expect(wps.length, 1) ;
@@ -308,7 +308,32 @@ main() {
           });
         })         
         
-        .then((_){
+       .then((_){
+          return persitence.getWatchPointByTraceKeyAndPosition(traceKey, 12.89, 34.98).then((wp){
+            print("Test get WatchPoint by position ");
+            expect(wp.name, "water name") ;      
+          });
+       })
+       .then((_){
+          WatchPoint wp1 = new WatchPoint("Gex","water name update", "water desc", "water", 12.89, 34.98);
+          wp1.traceKey = traceKey;         
+          return persitence.saveOrUpdateWatchPoint(wp1).then((wp){
+            return persitence.getWatchPointByTraceKeyAndPosition(traceKey, 12.89, 34.98).then((wp){
+              print("Test update WatchPoint");
+              expect(wp.name, "water name update") ;      
+            });      
+          });
+       })        
+       .then((_){
+          return persitence.deleteWatchPoint(traceKey, 12.89, 34.98).then((wp){
+            return persitence.getWatchPointByTraceKeyAndPosition(traceKey, 12.89, 34.98).then((_){
+              print("Test delete WatchPoint");
+              expect(wp, null) ;      
+            });      
+          });
+       })         
+       
+       .then((_){
           return persitence.deleteTraceByKey(traceKey).then((_) {
             return persitence.getTraceByKey(traceKey).then((loadedTrace) {
               print("Test delete trace");
