@@ -17,7 +17,7 @@ Future loginWidget(HttpConnect connect, {loginId}) { //#2
   response.write(Rsp.nnx(loginId)); //#3
 
 
-  response.write("""" class="modal fade" tabindex="-1" role="dialog">
+  response.write("""" class="modal fade" tabindex="-1" role="dialog" style="z-index: 0">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

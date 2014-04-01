@@ -17,7 +17,7 @@ Future watchPointEditorWidget(HttpConnect connect, {watchPointEditorId}) { //#2
   response.write(Rsp.nnx(watchPointEditorId)); //#3
 
 
-  response.write("""" class="modal fade gx-hidden" tabindex="-1" role="dialog">
+  response.write("""" class="modal fade gx-hidden" tabindex="-1" role="dialog" style="z-index: 0">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

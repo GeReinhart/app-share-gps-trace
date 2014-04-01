@@ -9,10 +9,12 @@ class ModalWidget{
   }
   
   void showModalWidget(String id){
+    querySelector("#${id}").style.zIndex="10000";
     Modal.wire( querySelector("#${id}") ).show() ;
   }
 
   void hideModalWidget(String id){
+    querySelector("#${id}").style.zIndex="0";
     Modal.wire( querySelector("#${id}") ).hide() ;
   }
   
