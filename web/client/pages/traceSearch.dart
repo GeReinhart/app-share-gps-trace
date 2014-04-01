@@ -67,6 +67,24 @@ class TraceSearchPage extends Page {
       });
     });
     
+    querySelectorAll(".search-form-input-activity").forEach((e){
+      ImageElement activityImage = e as ImageElement;
+      activityImage.onClick.listen((_){
+        String css = activityImage.classes.firstWhere((c)=>  c != "search-form-input-activity" && c.startsWith("search-form-input-activity-" )) ;
+        String activity = css.substring("search-form-input-".length, css.length - 1) ;
+        String activitySelected =  e.attributes["activity-selected"] ;
+        if ( activitySelected == null   ){
+          activityImage.src = activityImage.src.replaceFirst("000000/1", "000000/3") ;
+          e.attributes["activity-selected"] = "true" ;
+        }else if (activitySelected == "false"){
+          activityImage.src = activityImage.src.replaceFirst("000000/1", "000000/3") ;
+          e.attributes["activity-selected"] = "true" ;
+        }else{
+          activityImage.src = activityImage.src.replaceFirst("000000/3", "000000/1") ;
+          e.attributes["activity-selected"] = "false" ;
+        }
+      });
+    });
     
     new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
     initDone = true;
@@ -241,11 +259,14 @@ class TraceSearchPage extends Page {
     SearchForm form =  new  SearchForm( );
     form.search = (querySelector(".search-form-input-text") as InputElement ).value ;
     querySelectorAll(".search-form-input-activity").forEach((e){
-      CheckboxInputElement  activity= e as CheckboxInputElement;
-      if (activity.checked){
-        form.addActivity(activity.name.substring("activity-".length, activity.name.length));
+      HtmlElement  activityElement= e as HtmlElement;
+      String css = activityElement.classes.firstWhere((c)=>  c != "search-form-input-activity" && c.startsWith("search-form-input-activity-" )) ;
+      String activity = css.substring("search-form-input-activity-".length, css.length ) ;
+      String activitySelected =  e.attributes["activity-selected"] ;
+      if ("true" == activitySelected){
+        form.addActivity(activity);
       }
-    }) ;
+    }) ; 
   
     form.lengthGt              = (querySelector(".search-form-input-length-gt") as InputElement ).value ;  
     form.lengthLt              = (querySelector(".search-form-input-length-lt") as InputElement ).value ;  

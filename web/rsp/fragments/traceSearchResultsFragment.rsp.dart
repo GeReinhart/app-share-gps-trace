@@ -22,21 +22,28 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
         <table  style="width: 100% ;margin-top: 0px ;  background-color: #CFCFCF">  
           <thead>  
             <tr>  
-              <th style="width: 10%" >Auteur</th>  
+              <th style="width: 10%; padding-top: 3px;" >Auteur</th>  
               <th style="width: *" >Trace</th>  
-              <th style="width: 15%" >Activités</th>  
-              <th style="width: 15%" >Distance</th>  
-              <th style="width: 15%" >Dénivelé</th>
-              <th style="width: 15%" >Sommet</th>
+              <th style="width: 18%" >Activités</th>  
+              <th style="width: 14%" >Distance</th>  
+              <th style="width: 14%" >Dénivelé</th>
+              <th style="width: 14%" >Sommet</th>
             </tr>  
-             <tr style="border-left-style: none;" >
+             <tr style="border-left-style: none" >
                   <td></td>
                   <td  class="gx-small-form-input"  >
                     <span   class="gx-vertical-text-align">
                       <input  type="text"  style="width:100% ;  padding-left: 3px ; padding-right: 3px"  class="gx-small-form-input  search-form-input-text"  placeholder="">
                     </span>
                   </td>   
-                  <td></td>
+                  <td>
+                     <img  class="gx-as-link search-form-input-activity search-form-input-activity-trek"         alt="randonnée"        src="/assets/img/icon/000000/1/hiking.png" />
+                     <img  class="gx-as-link search-form-input-activity search-form-input-activity-running"      alt="course à pied"    src="/assets/img/icon/000000/1/jogging.png" />
+                     <img  class="gx-as-link search-form-input-activity search-form-input-activity-bike"         alt="vélo de route"    src="/assets/img/icon/000000/1/cycling.png" />
+                     <img  class="gx-as-link search-form-input-activity search-form-input-activity-mountainbike" alt="vtt"              src="/assets/img/icon/000000/1/mountainbiking-3.png" />
+                     <img  class="gx-as-link search-form-input-activity search-form-input-activity-skitouring"   alt="ski de randonnée" src="/assets/img/icon/000000/1/nordicski.png" />
+                     <img  class="gx-as-link search-form-input-activity search-form-input-activity-snowshoe"     alt="raquettes"        src="/assets/img/icon/000000/1/snowshoeing.png" />
+                  </td>
                   <td class="gx-small-form-input"  >
                     <span class="gx-vertical-text-align">
                       <input  type="text"    class="gx-small-form-input  search-form-input-length-gt"  placeholder="">
@@ -68,10 +75,10 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
              <tr id="search-result-row" class="gx-hidden" >
               <td style="width: 10%" ></td>  
               <td style="width: *" ></td>  
-              <td style="width: 15%" ></td>  
-              <td style="width: 15%" ></td>  
-              <td style="width: 15%" ></td>
-              <td style="width: 15%" ></td>
+              <td style="width: 18%; text-align: center;" ></td>  
+              <td style="width: 14%; text-align: right; padding-right: 20px;" ></td>  
+              <td style="width: 14%; text-align: right; padding-right: 20px;" ></td>
+              <td style="width: 14%; text-align: right; padding-right: 20px;" ></td>
              </tr>
           </tbody>  
         </table>
