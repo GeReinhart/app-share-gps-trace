@@ -24,10 +24,10 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
             <tr>  
               <th style="width: 10%; padding-top: 3px;" >Auteur</th>  
               <th style="width: *" >Trace</th>  
-              <th style="width: 18%" >Activités</th>  
-              <th style="width: 14%" >Distance</th>  
-              <th style="width: 14%" >Dénivelé</th>
-              <th style="width: 14%" >Sommet</th>
+              <th style="width: 21%" >Activités</th>  
+              <th style="width: 13%" >Distance</th>  
+              <th style="width: 13%" >Dénivelé</th>
+              <th style="width: 13%" >Sommet</th>
             </tr>  
              <tr style="border-left-style: none" >
                   <td></td>
@@ -75,10 +75,10 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
              <tr id="search-result-row" class="gx-hidden" >
               <td style="width: 10%" ></td>  
               <td style="width: *" ></td>  
-              <td style="width: 18%; text-align: center;" ></td>  
-              <td style="width: 14%; text-align: right; padding-right: 20px;" ></td>  
-              <td style="width: 14%; text-align: right; padding-right: 20px;" ></td>
-              <td style="width: 14%; text-align: right; padding-right: 20px;" ></td>
+              <td style="width: 21%; text-align: center;" ></td>  
+              <td style="width: 13%; text-align: right; padding-right: 20px;" ></td>  
+              <td style="width: 13%; text-align: right; padding-right: 20px;" ></td>
+              <td style="width: 13%; text-align: right; padding-right: 20px;" ></td>
              </tr>
           </tbody>  
         </table>
