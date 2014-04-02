@@ -16,7 +16,7 @@ class RegisterWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
   bool hasFailed = false;
   
   RegisterWidget(String id): super(id){
-    initModalWidget();
+    initModalWidget(id);
     initLoginLogoutEventProducer();
     _initRegisterWidget();
   }

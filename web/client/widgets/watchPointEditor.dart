@@ -36,7 +36,7 @@ class WatchPointEditorWidget extends Widget with ModalWidget {
   
   
   WatchPointEditorWidget(String id): super(id){
-    initModalWidget();
+    initModalWidget(id);
     initWatchPointEditorEventProducer();
     _initRegisterWidget();
   }

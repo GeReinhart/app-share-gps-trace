@@ -17,7 +17,7 @@ class LoginWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
   
   
   LoginWidget(String id ): super(id){
-    initModalWidget();
+    initModalWidget(id);
     initLoginLogoutEventProducer();
     _initLoginWidget();
   }

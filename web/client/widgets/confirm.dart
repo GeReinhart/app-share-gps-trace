@@ -11,7 +11,7 @@ class ConfirmWidget extends Widget with ModalWidget, OKCancelEventProducer {
 
   
   ConfirmWidget(String id,  OkCancelCallBack callBack  ): super(id){
-    initModalWidget();
+    initModalWidget(id);
     initOKCancelEventProducer();
     _initConfirmWidget(callBack);
   }

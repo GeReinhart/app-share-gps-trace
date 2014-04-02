@@ -15,7 +15,7 @@ import '../actions.dart';
 
 class TraceSearchPage extends Page {
   static const TIMEOUT = const Duration(milliseconds: 1500);
-  
+  static const RESULT_LIST_HEADER_HEIGHT = 70;
   Map<String,LightTrace> resultsMap = new Map();
   Map<String,LightTrace> hiddenResultsMap = new Map();
   
@@ -30,8 +30,7 @@ class TraceSearchPage extends Page {
     description="Rechercher une trace gps";
     layout.centerMoved.listen((_){
       SpacesPositions positions = _ as SpacesPositions ;
-      moveMap(positions);
-      querySelector("#trace-search-results-content").style.height = "${positions.spaceNE_Height}px" ;
+      centerMoved(positions);
     });
     
     _initTraceSearchPage();
@@ -45,7 +44,7 @@ class TraceSearchPage extends Page {
     if(initDone){
       return;
     }
-    querySelector("#trace-search-results-content").style.height =  "${layout.postions.spaceNE_Height}px";
+    centerMoved(layout.postions);
     
     submitRequest(mapFilter:false);
     
@@ -88,6 +87,13 @@ class TraceSearchPage extends Page {
     
     new Timer(TIMEOUT, shouldUpdateSearchResultsDisplay);
     initDone = true;
+  }
+  
+  
+  void centerMoved(SpacesPositions spacesPositions ){
+    moveMap(spacesPositions);
+    querySelector("#trace-search-results-content").style.height = "${spacesPositions.spaceNE_Height - RESULT_LIST_HEADER_HEIGHT}px" ;
+    querySelector(".search-form-input-text").style.width = "${spacesPositions.spaceNE_Width * (1 - 0.12 - 0.18 - 0.18- 0.18) * 0.9}px" ;
   }
   
   void moveMap(SpacesPositions spacesPositions ){
@@ -180,12 +186,11 @@ class TraceSearchPage extends Page {
     
     
     searchResultCurrentRow.className = "search-results key-${lightTrace.keyJsSafe}" ;
-    searchResultCurrentRow.children[0].innerHtml = lightTrace.creator;
-    searchResultCurrentRow.children[1].innerHtml = lightTrace.title;
-    searchResultCurrentRow.children[2].append(activitiesLink) ;
-    searchResultCurrentRow.children[3].innerHtml = lightTrace.length;
-    searchResultCurrentRow.children[4].innerHtml = lightTrace.up;
-    searchResultCurrentRow.children[5].innerHtml = lightTrace.upperPointElevetion;
+    searchResultCurrentRow.children[0].append(activitiesLink) ;
+    searchResultCurrentRow.children[1].innerHtml = lightTrace.creator + " : " +  lightTrace.title;
+    searchResultCurrentRow.children[2].innerHtml = lightTrace.length;
+    searchResultCurrentRow.children[3].innerHtml = lightTrace.up;
+    searchResultCurrentRow.children[4].innerHtml = lightTrace.upperPointElevetion;
     searchResultBody.append(searchResultCurrentRow);
   }
   
