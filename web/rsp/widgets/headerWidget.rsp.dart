@@ -35,125 +35,165 @@ Future headerWidget(HttpConnect connect, {headerId}) { //#2
 
 
     response.write("""-left">
+
      <span id=\""""); //#7
-
-    response.write(Rsp.nnx(headerId)); //#8
-
-
-    response.write("""-menu" class='gx-as-link' >
-        <a title="Actions possibles" ><img id=\""""); //#8
 
     response.write(Rsp.nnx(headerId)); //#9
 
 
+    response.write("""-menu" class='gx-as-link' >
+        <a title="Actions possibles" ><img id=\""""); //#9
+
+    response.write(Rsp.nnx(headerId)); //#10
+
+
     response.write("""-menu-img" src='/assets/img/menu.png '  /></a>
      </span>
-     
-     <span id=\""""); //#9
+     <span id=\""""); //#10
 
     response.write(Rsp.nnx(headerId)); //#12
 
 
-    response.write("""-register" class='gx-as-link """); //#12
+    response.write("""-search" class='gx-as-link' >
+        <a title="Rechercher" ><img id=\""""); //#12
 
-    response.write(Rsp.nnx(currentUser(request.session) != null ? "gx-hidden" : "")); //#12
+    response.write(Rsp.nnx(headerId)); //#13
+
+
+    response.write("""-search-img" src='/assets/img/search.png '  /></a>
+     </span>     
+        
+   </div>
+
+   <div id=\""""); //#13
+
+    response.write(Rsp.nnx(headerId)); //#18
+
+
+    response.write("""-right">
+     <span id=\""""); //#18
+
+    response.write(Rsp.nnx(headerId)); //#19
+
+
+    response.write("""-register" class='gx-as-link """); //#19
+
+    response.write(Rsp.nnx(currentUser(request.session) != null ? "gx-hidden" : "")); //#19
 
 
     response.write("""' >
         <a title="S'enregister" ><img  alt="S'enregister" src='/assets/img/register.png'  /></a>
      </span>     
-     <span id=\""""); //#12
+     <span id=\""""); //#19
 
-    response.write(Rsp.nnx(headerId)); //#15
+    response.write(Rsp.nnx(headerId)); //#22
 
 
-    response.write("""-login" class='gx-as-link """); //#15
+    response.write("""-login" class='gx-as-link """); //#22
 
-    response.write(Rsp.nnx(currentUser(request.session) != null ? "gx-hidden" : "")); //#15
+    response.write(Rsp.nnx(currentUser(request.session) != null ? "gx-hidden" : "")); //#22
 
 
     response.write("""' >
         <a title="Se connecter" ><img  src='/assets/img/login.png '  /></a>
      </span>
-     <span id=\""""); //#15
+     <span id=\""""); //#22
 
-    response.write(Rsp.nnx(headerId)); //#18
+    response.write(Rsp.nnx(headerId)); //#25
 
 
-    response.write("""-logout" class='gx-as-link """); //#18
+    response.write("""-logout" class='gx-as-link """); //#25
 
-    response.write(Rsp.nnx(currentUser(request.session) == null ? "gx-hidden" : "")); //#18
+    response.write(Rsp.nnx(currentUser(request.session) == null ? "gx-hidden" : "")); //#25
 
 
     response.write("""' >
         <a title="Se déconnecter" ><img  src='/assets/img/logout.png '  /></a>
      </span>
+     <span id=\""""); //#25
 
-     <span id=\""""); //#18
-
-    response.write(Rsp.nnx(headerId)); //#22
+    response.write(Rsp.nnx(headerId)); //#28
 
 
-    response.write("""-user" class='gx-as-link """); //#22
+    response.write("""-user" class='gx-as-link """); //#28
 
-    response.write(Rsp.nnx(currentUser(request.session) != null &&  ! currentUser(request.session).admin  ?  "" : "gx-hidden")); //#22
+    response.write(Rsp.nnx(currentUser(request.session) != null &&  ! currentUser(request.session).admin  ?  "" : "gx-hidden")); //#28
 
 
     response.write("""' >
-        <a title='Utilisateur """); //#22
+        <a title='Utilisateur """); //#28
 
-    response.write(Rsp.nnx(currentUser(request.session) != null  ?  currentUser(request.session).login : "")); //#23
+    response.write(Rsp.nnx(currentUser(request.session) != null  ?  currentUser(request.session).login : "")); //#29
 
 
     response.write(""" (en construction)' ><img  src='/assets/img/user.png '  /></a>
      </span>
-     <span id=\""""); //#23
-
-    response.write(Rsp.nnx(headerId)); //#25
-
-
-    response.write("""-admin" class='gx-as-link """); //#25
-
-    response.write(Rsp.nnx(currentUser(request.session) != null &&   currentUser(request.session).admin  ?  "" : "gx-hidden")); //#25
-
-
-    response.write("""' >
-        <a title='Admin """); //#25
-
-    response.write(Rsp.nnx(currentUser(request.session) != null  ?  currentUser(request.session).login : "")); //#26
-
-
-    response.write(""" (en construction) ' ><img  src='/assets/img/admin.png '  /></a>
-     </span>     
-        
-   </div>
-
-   <div id=\""""); //#26
+     <span id=\""""); //#29
 
     response.write(Rsp.nnx(headerId)); //#31
 
 
-    response.write("""-right">
-     <span id=\""""); //#31
+    response.write("""-admin" class='gx-as-link """); //#31
 
-    response.write(Rsp.nnx(headerId)); //#32
+    response.write(Rsp.nnx(currentUser(request.session) != null &&   currentUser(request.session).admin  ?  "" : "gx-hidden")); //#31
+
+
+    response.write("""' >
+        <a title='Admin """); //#31
+
+    response.write(Rsp.nnx(currentUser(request.session) != null  ?  currentUser(request.session).login : "")); //#32
+
+
+    response.write(""" (en construction) ' ><img  src='/assets/img/admin.png '  /></a>
+     </span>     
+     <span id=\""""); //#32
+
+    response.write(Rsp.nnx(headerId)); //#34
+
+
+    response.write("""-back" class='gx-as-link' >
+        <a title="Page précedente (en construction)" ><img id=\""""); //#34
+
+    response.write(Rsp.nnx(headerId)); //#35
+
+
+    response.write("""-back-img" src='/assets/img/back.png' style="width: 32px" /></a>
+     </span>     
+     <span id=\""""); //#35
+
+    response.write(Rsp.nnx(headerId)); //#37
 
 
     response.write("""-pages" class='gx-as-link'  >
         <a title="Accès aux pages (en construction)" ><img  src='/assets/img/pages.png'  /></a>
      </span>
-     <span id=\""""); //#32
+     <span id=\""""); //#37
 
-    response.write(Rsp.nnx(headerId)); //#35
+    response.write(Rsp.nnx(headerId)); //#40
 
 
-    response.write("""-close" class='gx-as-link' >
-        <a title="Fermer la page courante (en construction)" ><img  src='/assets/img/close.png'  /></a>
-     </span>        
+    response.write("""-next" class='gx-as-link' >
+        <a title="Page suivante (en construction)" ><img id=\""""); //#40
+
+    response.write(Rsp.nnx(headerId)); //#41
+
+
+    response.write("""-next-img" src='/assets/img/next.png' style="width: 32px"  /></a>
+     </span>       
    </div>
-   
+
+     <span id=\""""); //#41
+
+    response.write(Rsp.nnx(headerId)); //#45
+
+
+    response.write("""-close" class='gx-as-link' style="position:absolute; z-index: 1000 ; right: 3px; top: 43px;" >
+        <a title="Fermer la page courante (en construction)" ><img  src='/assets/img/close.png'  /></a>
+     </span>
 </div>
-"""); //#35
+
+
+"""); //#45
 
     return new Future.value();
   }); //end-of-include

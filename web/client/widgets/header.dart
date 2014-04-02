@@ -47,7 +47,12 @@ class HeaderWidget extends Widget  {
         _menuWidget.toggleMenu();
       });
     });
-  
+    querySelectorAll("#${id}-search").forEach((e){
+      e.onClick.listen((e) {
+        window.location.href = "/#trace_search" ;
+      });
+    });
+    
     window.onResize.listen((_)=>_updateWidget());
   }
   
