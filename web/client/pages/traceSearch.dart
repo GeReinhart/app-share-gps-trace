@@ -90,6 +90,18 @@ class TraceSearchPage extends Page {
   }
   
   
+  List<ActionDescriptor> getActionsFor(String login, bool isAdmin){
+    List<ActionDescriptor> actions = new List<ActionDescriptor>();
+    
+      ActionDescriptor locate = new ActionDescriptor();
+      locate.name = "Centrer";
+      locate.description =  "Centrer la recherche autour de moi";
+      locate.launchAction = (params) =>  zoomOnEndUserLocation(); 
+      actions.add(locate);    
+
+    return actions;
+  }
+  
   void centerMoved(SpacesPositions spacesPositions ){
     moveMap(spacesPositions);
     querySelector("#trace-search-results-content").style.height = "${spacesPositions.spaceNE_Height - RESULT_LIST_HEADER_HEIGHT}px" ;
@@ -118,12 +130,18 @@ class TraceSearchPage extends Page {
       if (request.readyState == HttpRequest.DONE ) {
         waitingForResult = false;
         displaySearchResults(request,fitMapViewPortWithMarkers:firstRequest);
+        
+       // zoomOnEndUserLocation();
+        
         firstRequest=false;
       }
     });
     sendSearchRequest(request, mapFilter:mapFilter);
   }
   
+  void zoomOnEndUserLocation(){
+      js.context.searchMap.zoomOnEndUserLocation();
+  }
   void displaySearchResults(HttpRequest request, {fitMapViewPortWithMarkers:true}){
     if (request.responseText == null || request.responseText != null  && request.responseText.isEmpty){
       layout.stopLoading();

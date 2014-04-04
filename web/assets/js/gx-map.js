@@ -532,6 +532,10 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
         this.lastRightClickMarker.setOpacity(0) ;
      }
 
+     this.zoomOnEndUserLocation = function(){
+        this.map.locate({ setView:true , enableHighAccuracy :  true }) ; // maxZoom
+     }
+
      
  }
       
