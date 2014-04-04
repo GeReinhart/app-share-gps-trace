@@ -131,7 +131,7 @@ class TraceSearchPage extends Page {
         waitingForResult = false;
         displaySearchResults(request,fitMapViewPortWithMarkers:firstRequest);
         
-       // zoomOnEndUserLocation();
+        zoomOnEndUserLocation();
         
         firstRequest=false;
       }
