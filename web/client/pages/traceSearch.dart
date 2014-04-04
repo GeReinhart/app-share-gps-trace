@@ -150,6 +150,11 @@ class TraceSearchPage extends Page {
       if(firstRequest){
         _highlightTraceByKey(form.results.first.keyJsSafe);
       }
+      showBySelector("#trace-search-results-content");
+      hideBySelector("#trace-search-results-no-content");
+    }else{
+      hideBySelector("#trace-search-results-content");
+      showBySelector("#trace-search-results-no-content");     
     }
     layout.stopLoading();
   }

@@ -80,7 +80,30 @@ Future traceSearchResultsFragment(HttpConnect connect) { //#2
              </tr>
           </tbody>  
         </table>
-      </div>"""); //#2
+      </div>
+      <div id="trace-search-results-no-content" class="gx-hidden">      
+        <table style="width: 100% ;margin-top: 20px"> 
+          <tbody >  
+             <tr>
+              <td style="width: 20%; text-align: center;" ></td>  
+              <td style="width: *" >
+                 <div style="font-size: x-large;" >
+                    Aucun resultat.
+                 </div>
+                 <div style="font-size: x-large; margin: 20px;" >
+                    soit les critères de recherche sont trop restricifs
+                 </div>
+                 <div style="font-size: x-large;" >
+                    soit la zone géographique de recherche est trop précise 
+                 </div>
+              </td>  
+              <td style="width: 20%;" ></td>
+             </tr>
+          </tbody>  
+        </table>
+      </div>      
+      
+      """); //#2
 
   return new Future.value();
 }
