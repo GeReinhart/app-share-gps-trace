@@ -130,9 +130,9 @@ class TraceSearchPage extends Page {
       if (request.readyState == HttpRequest.DONE ) {
         waitingForResult = false;
         displaySearchResults(request,fitMapViewPortWithMarkers:firstRequest);
-        
-        zoomOnEndUserLocation();
-        
+        if (firstRequest){
+           zoomOnEndUserLocation();
+        }
         firstRequest=false;
       }
     });
