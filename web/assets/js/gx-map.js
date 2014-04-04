@@ -1,4 +1,3 @@
-
  function GxIconBuilder(){
 
     this.colors = ["24ab18","222da8","c71e1e","ff8922","a425b8"] ;
@@ -533,7 +532,7 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
      }
 
      this.zoomOnEndUserLocation = function(){
-        this.map.locate({ setView:true , enableHighAccuracy :  true, maxZoom : 9 }) ; // maxZoom
+        this.map.locate({ setView:true , enableHighAccuracy :  true, maxZoom : 11 }) ; 
      }
 
      
