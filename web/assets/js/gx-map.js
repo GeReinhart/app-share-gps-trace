@@ -532,7 +532,7 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
      }
 
      this.zoomOnEndUserLocation = function(){
-        this.map.locate({ setView:true , enableHighAccuracy :  true, maxZoom : 11 }) ; 
+        this.map.locate({ setView:true , enableHighAccuracy :  true, maxZoom : 12 }) ; 
      }
 
      
