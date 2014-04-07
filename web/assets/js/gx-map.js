@@ -354,6 +354,17 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
          this.map.on('contextmenu',function(e){
 	       me._listenRightClick(e);
          });
+
+         this.map.on('locationfound',function(e){
+           me.map.setView( e.latlng, 10 ) ;
+	       me.map.invalidateSize() ;
+         });
+         this.map.on('locationerror',function(e){
+           me.map.setView([45.174776, 5.541494], 6);
+	       me.map.invalidateSize() ;
+         });         
+         
+         
          this.lastRightClickMarker = L.marker([45.174776, 5.541494], {clickable:false}).addTo(this.map) ;
          this.lastRightClickMarker.setOpacity(0) ;
          
@@ -532,7 +543,7 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
      }
 
      this.zoomOnEndUserLocation = function(){
-        this.map.locate({ setView:true , enableHighAccuracy :  false, maxZoom : 10 }) ; 
+        this.map.locate({ setView:false , enableHighAccuracy:false }) ; 
      }
 
      
