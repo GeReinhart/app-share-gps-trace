@@ -44,7 +44,6 @@ part "../web/rsp/widgets/watchPointEditorWidget.rsp.dart";
 
 part "../web/rsp/fragments/indexTextFragment.rsp.dart";
 part "../web/rsp/fragments/indexButtonsFragment.rsp.dart";
-part "../web/rsp/fragments/disclaimerTextFragment.rsp.dart";
 part "../web/rsp/fragments/legalDisclaimerFragment.rsp.dart";
 part "../web/rsp/fragments/legalTermsFragment.rsp.dart";
 

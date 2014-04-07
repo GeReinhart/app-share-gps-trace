@@ -42,7 +42,7 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
         <div id="indexNW"         class="gx-hidden gx-vertical-optional-scroll" ></div>
         <div id="aboutNW"         class="gx-hidden gx-vertical-optional-scroll" ></div>
         <div id="trace_formNW"    class="gx-hidden gx-vertical-optional-scroll" ></div>
-        <div id="trace_detailsNW" class="gx-hidden gx-vertical-optional-scroll" >
+        <div id="trace_detailsNW" class="gx-hidden gx-vertical-optional-scroll trace_detailsNW" >
 """); //#17
 
         return Rsp.nnf(traceDisplayTextFragment(new HttpConnect.chain(connect))).then((_) { //include#22

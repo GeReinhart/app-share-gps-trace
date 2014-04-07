@@ -27,9 +27,15 @@ class TraceDetailsPage extends Page {
     _profile = new ProfileWidget("profile") ;
     
     layout.centerMoved.listen((_){
-      updateNWPostion("#${name}NW");
-      _moveMap( _ as SpacesPositions);
-      moveTraceViewers( _ as SpacesPositions);
+      SpacesPositions positions = _ as SpacesPositions ;
+      updateNWPostion(".${name}NW");
+      updateNWPostion(".trace-details-text");
+      querySelectorAll(".trace-details-statistics ").forEach((e){
+        e.style.width = "${positions.spaceNW_Width}px" ;   
+      });
+      
+      _moveMap(positions);
+      moveTraceViewers(positions);
     });
 
     _profile.profilePointSelection.listen((p){
@@ -214,17 +220,15 @@ class TraceDetailsPage extends Page {
         _displayData("trace-details-description",keyJsSafe,traceDetails.descriptionToRender) ;
         _displayData("trace-details-creator",keyJsSafe,traceDetails.creator) ;
         _displayData("trace-details-lastupdate",keyJsSafe,traceDetails.lastupdate) ;
+        _displayData("trace-details-lengthKmPart",keyJsSafe,"${traceDetails.lengthKmPart} km") ;
+        _displayData("trace-details-lengthMetersPart",keyJsSafe,"${traceDetails.lengthMetersPart} m") ;
+        _displayData("trace-details-up",keyJsSafe, "${traceDetails.up} m") ;
+        _displayData("trace-details-upperPointElevetion",keyJsSafe,"${traceDetails.upperPointElevetion} m") ;
         nwFragment.classes.remove("gx-hidden") ;
         loadingNW.stopLoading();
         
         
         Element swFragment  =_injectInDOMCloneEmptyElement("${name}SW",  keyJsSafe ) ;
-        _displayData("trace-details-lengthKmPart",keyJsSafe,"${traceDetails.lengthKmPart} km") ;
-        _displayData("trace-details-lengthMetersPart",keyJsSafe,"${traceDetails.lengthMetersPart} m") ;
-        _displayData("trace-details-up",keyJsSafe, "${traceDetails.up} m") ;
-        _displayData("trace-details-inclinationUp",keyJsSafe,"${traceDetails.inclinationUp} %") ;
-        _displayData("trace-details-upperPointElevetion",keyJsSafe,"${traceDetails.upperPointElevetion} m") ;
-        _displayData("trace-details-difficulty",keyJsSafe,"${traceDetails.difficulty} points") ;
         swFragment.classes.remove("gx-hidden") ;
         loadingSW.stopLoading();
         

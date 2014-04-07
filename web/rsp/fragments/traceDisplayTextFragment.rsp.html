@@ -1,9 +1,11 @@
 [:page partOf="trails"]
-               <div class="trace-details-activities trace-activities important-text" style="margin-top: 10px" >
+
+<div class="trace-details-text">
+               <div class="trace-details-activities trace-activities important-text" style="padding-top: 10px" >
                  ####traceRenderer.activities####
                </div>
-               <div id="trace-details-statistics"> 
-                    <table  class="table-layout" style="width: 100%" >
+               <div> 
+                    <table  class="table-layout trace-details-statistics" style="width: 100%" >
                         <tr>
                           <td  ><span  class="trace-details-lengthKmPart cell-text-large" >####traceAnalysisRenderer.lengthKmPart####</span>&nbsp;
                                 <span  class="trace-details-lengthMetersPart cell-text-small" >####traceAnalysisRenderer.lengthMetersPart####</span></td>
@@ -17,7 +19,7 @@
                         </tr>
                     </table>        
                </div>
-               <div class="trace-details-description" >
+               <div class="trace-details-description" style="margin-top: 10px" >
                  ####traceRenderer.description, encode: 'none'####
                </div>
                <div class="note-text" style="margin-top: 20px" >
@@ -30,3 +32,4 @@
                <div class="note-text" >
                  mise à jour le <span class="trace-details-lastupdate" >####traceRenderer.lastUpdateDate####</span>
                </div>
+</div>

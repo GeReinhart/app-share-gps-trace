@@ -8,7 +8,7 @@ class DisclaimerPage extends Page {
     description = "Mentions légales et conditions d'utilisation" ;
     layout.centerMoved.listen((_){
       updateNWPostion("#${name}NW");
-      updateNWPostion("#${name}NE");
+      updateNEPostion("#${name}NE");
     });
   }
   

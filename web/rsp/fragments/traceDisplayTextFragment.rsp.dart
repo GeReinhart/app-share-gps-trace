@@ -10,11 +10,14 @@ Future traceDisplayTextFragment(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""               <div class="trace-details-activities trace-activities important-text" style="margin-top: 10px" >
+  response.write("""
+
+<div class="trace-details-text">
+               <div class="trace-details-activities trace-activities important-text" style="padding-top: 10px" >
                  ####traceRenderer.activities####
                </div>
-               <div id="trace-details-statistics"> 
-                    <table  class="table-layout" style="width: 100%" >
+               <div> 
+                    <table  class="table-layout trace-details-statistics" style="width: 100%" >
                         <tr>
                           <td  ><span  class="trace-details-lengthKmPart cell-text-large" >####traceAnalysisRenderer.lengthKmPart####</span>&nbsp;
                                 <span  class="trace-details-lengthMetersPart cell-text-small" >####traceAnalysisRenderer.lengthMetersPart####</span></td>
@@ -28,7 +31,7 @@ Future traceDisplayTextFragment(HttpConnect connect) { //#2
                         </tr>
                     </table>        
                </div>
-               <div class="trace-details-description" >
+               <div class="trace-details-description" style="margin-top: 10px" >
                  ####traceRenderer.description, encode: 'none'####
                </div>
                <div class="note-text" style="margin-top: 20px" >
@@ -41,7 +44,7 @@ Future traceDisplayTextFragment(HttpConnect connect) { //#2
                <div class="note-text" >
                  mise à jour le <span class="trace-details-lastupdate" >####traceRenderer.lastUpdateDate####</span>
                </div>
-"""); //#2
+</div>"""); //#2
 
   return new Future.value();
 }
