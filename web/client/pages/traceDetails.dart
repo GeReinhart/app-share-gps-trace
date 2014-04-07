@@ -145,15 +145,7 @@ class TraceDetailsPage extends Page {
     if (traceProfileViewer != null && currentKey != null){
       _displayProfile(traceDetailsByKey[currentKey]) ;
     }
-    
-    Element traceStatisticsViewer = querySelector("#traceStatisticsViewer") ;
-    if (traceStatisticsViewer != null){
-      traceStatisticsViewer..style.position = 'absolute'
-      ..style.right  = (spacesPositions.spaceSW_Width  * 0.10 ).toString() + "px" 
-      ..style.top    = (spacesPositions.spaceSW_Height * 0.10 ).toString() + "px" 
-      ..style.width  = (spacesPositions.spaceSW_Width  * 0.70 ).toString() + "px" 
-      ..style.height = (spacesPositions.spaceSW_Height * 0.70 ).toString() + "px" ;
-    }
+
     
   }
 

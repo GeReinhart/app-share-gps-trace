@@ -10,14 +10,28 @@ Future traceDisplayTextFragment(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""               <div class="trace-details-activities trace-activities important-text" >
+  response.write("""               <div class="trace-details-activities trace-activities important-text" style="margin-top: 10px" >
                  ####traceRenderer.activities####
                </div>
-                         
+               <div id="trace-details-statistics"> 
+                    <table  class="table-layout" style="width: 100%" >
+                        <tr>
+                          <td  ><span  class="trace-details-lengthKmPart cell-text-large" >####traceAnalysisRenderer.lengthKmPart####</span>&nbsp;
+                                <span  class="trace-details-lengthMetersPart cell-text-small" >####traceAnalysisRenderer.lengthMetersPart####</span></td>
+                          <td class="trace-details-up cell-text-large" >####traceAnalysisRenderer.up#### m</td>
+                          <td class="trace-details-upperPointElevetion cell-text-large" >####traceAnalysisRenderer.upperPointElevetion#### m</td>
+                        </tr>
+                        <tr>
+                          <td class="cell-text-small" >de distance</td>
+                          <td class="cell-text-small" >de dénivelé positif</td>
+                          <td class="cell-text-small" >au sommet</td>
+                        </tr>
+                    </table>        
+               </div>
                <div class="trace-details-description" >
                  ####traceRenderer.description, encode: 'none'####
                </div>
-               <div class="note-text" >
+               <div class="note-text" style="margin-top: 20px" >
                  <a rel="license" target="_blank" href="http://creativecommons.org/licenses/by-nc-nd/3.0/fr/">
                      <img alt="Licence Creative Commons" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/fr/88x31.png" />
                  </a>

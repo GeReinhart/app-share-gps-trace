@@ -59,7 +59,7 @@ part "../web/rsp/fragments/traceSearchResultsFragment.rsp.dart";
 part "../web/rsp/fragments/traceSearchMapFragment.rsp.dart";
 
 part "../web/rsp/fragments/traceDisplayTextFragment.rsp.dart";
-part "../web/rsp/fragments/traceDisplayStatFragment.rsp.dart";
+part "../web/rsp/fragments/traceDisplayCommentsFragment.rsp.dart";
 part "../web/rsp/fragments/traceDisplayProfileFragment.rsp.dart";
 part "../web/rsp/fragments/traceDisplayMapFragment.rsp.dart";
 

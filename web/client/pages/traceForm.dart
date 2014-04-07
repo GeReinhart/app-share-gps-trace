@@ -68,15 +68,16 @@ class TraceFormPage extends Page {
     if ( _currentKey == null ){
       querySelector("#trace-form-submit").text = "Ajouter cette trace" ;
       header.title = "Ajout d'une trace" ;
-      organizeSpaces();
+      layout.organizeSpaces(20,80,showWestSpace:false );
       showBySelector(".trace-form-file-input");
       showBySelector(".trace-form-file-smoothing");
       showBySelector("#${name}SW");
       showBySelector("#${name}NW");
-      showBySelector("#trace_detailsNE");
-      showBySelector("#trace_detailsSE", hiddenClass: "gx-hidden-map");
+      hideBySelector("#trace_detailsNE");
+      hideBySelector("#trace_detailsSE", hiddenClass: "gx-hidden-map");
       
     }else{
+      layout.organizeSpaces(50,50,showWestSpace:false );
       _loadForm(_currentKey) ;
     }
   }

@@ -91,7 +91,7 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
         <div id="trace_detailsSW" class="gx-hidden gx-vertical-optional-scroll" >
 """); //#41
 
-                    return Rsp.nnf(traceDisplayStatFragment(new HttpConnect.chain(connect))).then((_) { //include#44
+                    return Rsp.nnf(traceDisplayCommentsFragment(new HttpConnect.chain(connect))).then((_) { //include#44
 
                       response.write("""        </div>
         <div id="trace_formSW" class="gx-hidden" >
