@@ -314,7 +314,11 @@ class TraceController extends ServerController with JsonFeatures{
           } catch(e) {
             print("Unable to delete ${tempFile}: ${e}");
           }
-        } );
+        } ).catchError((e){
+          print("Unable create the trace : ${e}");
+          traceForm.setError("server side error","");
+          return postJson(connect.response, traceForm);  
+        });
     
   }
   
@@ -511,9 +515,6 @@ class FragmentsController extends ServerController{
   Future indexText(HttpConnect connect){
     return indexTextFragment(connect);
   }
-  Future disclaimerText(HttpConnect connect){
-    return disclaimerTextFragment(connect);
-  }  
   Future legalDisclaimer(HttpConnect connect){
     return legalDisclaimerFragment(connect);
   }  

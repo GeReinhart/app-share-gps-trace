@@ -20,8 +20,6 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
                 <div class="form-inputs form-group form-search">
                     <input  type="text" class="form-control search-form-inputs search-form-input-text"  placeholder="">
                 </div>
-                
-                <span id="display"/>
              </td>
              <td style="width: 2%" ></td>
           </tr>
@@ -33,20 +31,20 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
                    <div>
 """); //#2
 
-  for (var activity in traceFormRenderer.activities.keys) { //for#22
+  for (var activity in traceFormRenderer.activities.keys) { //for#20
 
-    response.write("""                        <div><input type="checkbox"  class="search-form-inputs search-form-input-activity"  name=\""""); //#23
+    response.write("""                        <div><input type="checkbox"  class="search-form-inputs search-form-input-activity"  name=\""""); //#21
 
-    response.write(Rsp.nnx(activity)); //#23
+    response.write(Rsp.nnx(activity)); //#21
 
 
-    response.write(""""  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#23
+    response.write(""""  style="vertical-align: middle;"  >&nbsp;&nbsp;<span style="vertical-align: middle;"  >"""); //#21
 
-    response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#23
+    response.write(Rsp.nnx(traceFormRenderer.activities[activity])); //#21
 
 
     response.write("""</span></div>
-"""); //#23
+"""); //#21
   } //for
 
   response.write("""                   </div> 
@@ -144,7 +142,7 @@ Future searchForm(HttpConnect connect, {traceFormRenderer}) { //#2
         
         
         
-"""); //#25
+"""); //#23
 
   return new Future.value();
 }

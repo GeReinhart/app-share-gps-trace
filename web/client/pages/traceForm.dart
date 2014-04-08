@@ -216,7 +216,7 @@ class TraceFormPage extends Page {
     
     if(  ! traceForm.isSuccess){
       Element errorMessage = querySelector(errorMessageSelector) ;
-   
+      errorMessage.text = "Erreur inconnue coté serveur, la trace n'est pas ajoutée" ;
       switch (traceForm.error) {
         case TRACE_ERROR_TITLE_MIN_LENGTH:
           errorMessage.text = "Le titre de la trace doit être définie" ;
