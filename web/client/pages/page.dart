@@ -64,6 +64,7 @@ class PageContext {
   void set pagesController(PagesController pagesController){
     headerWidget.initEvents(userClientController, pagesController) ;
     _pagesController = pagesController ;
+    pagesController.userClientController = userClientController ;
   }
   
   PagesController get pagesController => _pagesController ;

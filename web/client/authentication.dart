@@ -19,8 +19,13 @@ class Authentication extends Object with LoginLogoutEventProducer{
   }
   
   void storeAuthentication(String login, bool isAdmin, String encryptedPassword){
-    _localStorage['login'] =  login;
-    _localStorage['encryptedPassword'] =  encryptedPassword;
+    if (login == null){
+      _localStorage.remove('login');
+      _localStorage.remove('encryptedPassword');
+    }else{
+      _localStorage['login'] =  login;
+      _localStorage['encryptedPassword'] =  encryptedPassword;
+    }
     this.login = login;
     this.isAdmin = isAdmin;
   }

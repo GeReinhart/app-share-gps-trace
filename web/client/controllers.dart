@@ -39,20 +39,20 @@ class PagesController extends ClientController{
   List<Page> _pages = new List<Page>();
   StreamController<UserActionsChangeEvent> _userActionsChangeEventStream ;
   StreamController<TraceChangeEvent> _traceChangeEventStream ;
-  Authentication _authentication ;
+  UserClientController userClientController;
   
   PagesController(){
     _userActionsChangeEventStream = new StreamController<UserActionsChangeEvent>.broadcast( sync: true);
     _traceChangeEventStream = new StreamController<TraceChangeEvent>.broadcast( sync: true);
-    _authentication = new Authentication();
-    _authentication.setLoginLogoutEventCallBack(loginLogoutEvent);
+
+   
     
     new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
   
   void init(List<Page> pages){
     _pages = pages ;
-    _authentication.authenticate();
+    
   }
   
   void setUserActionsChangeEventCallBack( UserActionsChangeCallBack callBack  ){
@@ -81,12 +81,9 @@ class PagesController extends ClientController{
   }
   
   void loginLogoutEvent(LoginLogoutEvent event){
-    if (event.isLogin){
-      _authentication.storeAuthentication(event.login, event.isAdmin, event.encryptedPassword) ;
-    }else{
-      _authentication.resetAuthentication();      
+    if (_currentPage != null){
+      _sendUserActionsChangeEvent(event.login, event.isAdmin, _currentPage) ;
     }
-    _sendUserActionsChangeEvent(event.login, event.isAdmin, _currentPage) ;
   }
   
   void _mayChangePage(){
@@ -110,7 +107,12 @@ class PagesController extends ClientController{
      return ;
    }  
    _showPage( targetPage,  pageParameters);
-   _sendUserActionsChangeEvent(_authentication.login,_authentication.isAdmin, targetPage) ;
+   User user = userClientController.connectedUser;
+   if (  user !=null ){
+     _sendUserActionsChangeEvent(user.login,user.admin, targetPage) ;
+   }else{
+     _sendUserActionsChangeEvent(null,false, targetPage) ;
+   }
    new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
   
@@ -142,6 +144,7 @@ class PagesController extends ClientController{
 
 class UserClientController extends ClientController with LoginLogoutEventProducer{
   
+  Authentication _authentication ;
   StreamController _loginLogoutEventStream ;
   User _connectedUser = null ;
   
@@ -156,8 +159,10 @@ class UserClientController extends ClientController with LoginLogoutEventProduce
   
   void loginLogoutEvent(LoginLogoutEvent event){
     if(event.isLogin){
+      _authentication.storeAuthentication(event.login, event.isAdmin, event.encryptedPassword) ;
       userLoggedAs(event.login, event.isAdmin,event.encryptedPassword) ;
     }else{
+      _authentication.resetAuthentication();      
       userLogout();
     }
   }
@@ -186,20 +191,13 @@ class UserClientController extends ClientController with LoginLogoutEventProduce
   
   
   void _init(){
-    _initConnectedUser();
+    _authentication = new Authentication();
+    _authentication.setLoginLogoutEventCallBack(loginLogoutEvent);
+    _authentication.authenticate();
     initLoginLogoutEventProducer();
   }
   
-  void _initConnectedUser() {
-    
-    Element userLogin = querySelector("[data-connected-user-login]") ;
-    Element userAdmin = querySelector("[data-connected-user-admin]") ;
-    if (userLogin != null){
-      _connectedUser = new User.withFields(  userLogin.attributes["data-connected-user-login"],
-                                             userLogin.attributes["data-connected-user-admin"] == "true" ) ;
-    }
-    
-  }
+
   
   void set loadingShower(LoadingShower loadingShower){
     this._loadingShower = loadingShower;

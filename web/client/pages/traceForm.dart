@@ -26,6 +26,7 @@ class TraceFormPage extends Page {
     super.initPage();
     _watchPointEditorWidget = new WatchPointEditorWidget("watchPointEditor");
     _watchPointEditorWidget.setWatchPointEditorEventCallBack(this.watchPointEditorEventCallBack);
+    
     HtmlDocument document = js.context.document;
     document.on['right_click_on_map'].listen((e ){
       if (this.isUpdate()){
@@ -34,12 +35,8 @@ class TraceFormPage extends Page {
           _watchPointEditorWidget.showWatchPointEditorModal( _currentKey, latLng.lat, latLng.lng) ;
       }
     });
-    
-    
   }
 
-  
-  
   
   bool canShowPage(Parameters pageParameters){
     if ( pageParameters.pageName == this.name){
@@ -99,7 +96,7 @@ class TraceFormPage extends Page {
       _asyncSubmitForm();
     });
     _gpsUploadFileWidget= new UploadFileWidget("uploadGpsFile");
-    
+    hideBySelector("#uploadGpsFile-info");
   }
   
  void _loadForm(String key){
@@ -194,16 +191,13 @@ class TraceFormPage extends Page {
     jsonMap["activityKeys"] = activities ;
     
     
-    querySelectorAll(".trace-form-file-input").forEach((e){
-      if ( e is FileUploadInputElement ){
-        FileUploadInputElement fileUploadInputElement = e as FileUploadInputElement ;
-        if (fileUploadInputElement.files.isNotEmpty){
-          File gpsFile = fileUploadInputElement.files.first;
-          jsonMap["gpsFileName"] = gpsFile.name ;
-          formData.appendBlob(fileUploadInputElement.name, gpsFile, gpsFile.name);
-        }
-      }
-    });    
+    FileUploadInputElement fileUploadInputElement = querySelector("#uploadGpsFile-input") as FileUploadInputElement ;
+    if (fileUploadInputElement.files.isNotEmpty){
+        File gpsFile = fileUploadInputElement.files.first;
+        jsonMap["gpsFileName"] = gpsFile.name ;
+        formData.appendBlob("gps-file", gpsFile, gpsFile.name);
+    }
+        
     TraceForm traceForm = new TraceForm.fromMap(jsonMap);
     
     traceForm.validate() ;

@@ -10,6 +10,7 @@ class UploadFileWidget extends Widget{
     FileUploadInputElement inputFile = querySelector("#${id}-input") as FileUploadInputElement ; 
     Element link = querySelector("#${id}-link");
     Element info = querySelector("#${id}-info");
+    ElementList infoList = querySelectorAll(".${id}-info");
     
     link.onClick.listen((e){
       inputFile.click();
@@ -18,6 +19,9 @@ class UploadFileWidget extends Widget{
     inputFile.onChange.listen((e){
       if (inputFile.files.isNotEmpty){
         info.text = inputFile.files.first.name ;
+        infoList.forEach((e){
+          e.text = inputFile.files.first.name ;
+        });
       }
     });
     

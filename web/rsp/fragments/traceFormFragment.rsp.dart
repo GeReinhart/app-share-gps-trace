@@ -60,30 +60,36 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
           </tr>
           <tr>
              <td  ></td>
-             <td colspan="2" style="width: 50% ; text-align: center;"  >
-                <div class="form-inputs" >
-                  <input  class="trace-form-file-input form-control"   name="gps-file" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
-                </div>  
-                
+             <td colspan="4" style="width: 80% ; text-align: left;"  >
+                <div class="trace-form-file-input">             
 """); //#25
 
-  return Rsp.nnf(uploadFileWidget(new HttpConnect.chain(connect), uploadFileId: "uploadGpsFile", uploadFileText: "Télécharger un fichier GPX")).then((_) { //include#37
+  return Rsp.nnf(uploadFileWidget(new HttpConnect.chain(connect), uploadFileId: "uploadGpsFile", uploadFileText: "Télécharger un fichier GPX")).then((_) { //include#34
 
-    response.write("""             </td>
-             <td colspan="2" style="width: 30% ; text-align: center;"  >
-                <div class="trace-form-file-smoothing form-inputs" >
-                   <select  name="smoothing" class="trace-form-input form-control">
-                    <option value="no">Aucun lissage</option>
-                    <option value="low">Lissage faible</option>
-                    <option value="medium">Lissage moyen</option>
-                    <option value="high">Lissage fort</option>
-                  </select>
-                </div>             
-             </td>             
+    response.write("""                </div>           
+             </td>
              <td  ></td>
           </tr> 
+          <tr>
+             <td  ></td>
+             <td colspan="4" style="width: 80% ; text-align: left;"  >
+                <div class="trace-form-file-input">  
+                Appliquer&nbsp;
+                <span class="trace-form-file-smoothing form-inputs" >
+                   <select  name="smoothing" class="trace-form-input form-control">
+                    <option value="no">aucun lissage</option>
+                    <option value="low">un lissage faible</option>
+                    <option value="medium">un lissage moyen</option>
+                    <option value="high">un lissage fort</option>
+                  </select>
+                </span>&nbsp;sur&nbsp; 
+                <span class="trace-form-file-smoothing">le fichier gpx</span>   
+                </div>          
+             </td>             
+             <td  ></td>
+          </tr>           
           </table>
-"""); //#38
+"""); //#35
 
     return new Future.value();
   }); //end-of-include
