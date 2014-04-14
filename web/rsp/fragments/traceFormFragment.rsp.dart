@@ -63,8 +63,13 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
              <td colspan="2" style="width: 50% ; text-align: center;"  >
                 <div class="form-inputs" >
                   <input  class="trace-form-file-input form-control"   name="gps-file" type="file" title="Télécharger un fichier gpx" placeholder="Télécharger un fichier gpx" />
-                </div>             
-             </td>
+                </div>  
+                
+"""); //#25
+
+  return Rsp.nnf(uploadFileWidget(new HttpConnect.chain(connect), uploadFileId: "uploadGpsFile", uploadFileText: "Télécharger un fichier GPX")).then((_) { //include#37
+
+    response.write("""             </td>
              <td colspan="2" style="width: 30% ; text-align: center;"  >
                 <div class="trace-form-file-smoothing form-inputs" >
                    <select  name="smoothing" class="trace-form-input form-control">
@@ -78,7 +83,8 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
              <td  ></td>
           </tr> 
           </table>
-"""); //#25
+"""); //#38
 
-  return new Future.value();
+    return new Future.value();
+  }); //end-of-include
 }

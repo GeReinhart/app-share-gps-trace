@@ -41,6 +41,7 @@ part "../web/rsp/widgets/loadingWidget.rsp.dart";
 part "../web/rsp/widgets/profileWidget.rsp.dart";
 part "../web/rsp/widgets/headerWidget.rsp.dart";
 part "../web/rsp/widgets/watchPointEditorWidget.rsp.dart";
+part "../web/rsp/widgets/uploadFileWidget.rsp.dart";
 
 part "../web/rsp/fragments/indexTextFragment.rsp.dart";
 part "../web/rsp/fragments/indexButtonsFragment.rsp.dart";
@@ -442,6 +443,7 @@ class UserServerController extends ServerController with JsonFeatures{
         password: password).then((_){
           return _persistence.getUserByLogin(login).then((user){
             form.admin = user.admin;
+            form.encryptedPassword = user.encryptedPassword;
             return form; 
           } );
         } ).catchError((ex) {
@@ -462,7 +464,9 @@ class UserServerController extends ServerController with JsonFeatures{
         new Map.from(connect.request.uri.queryParameters))
         .then((Map params) {
           LoginForm loginForm = new LoginForm.fromJson(params);
-          return _login(connect, loginForm.login, loginForm.password)
+          String password = loginForm.password != null ? loginForm.password : loginForm.encryptedPassword ;
+          
+          return _login(connect, loginForm.login, password)
                        .then((form){
                            postJson(connect.response, form.resetPassword());
                        });
@@ -492,6 +496,7 @@ class UserServerController extends ServerController with JsonFeatures{
               return _persistence.saveOrUpdateUser(user).then((_){
                 return _login(connect, registerForm.login, registerForm.password)
                     .then((form){
+                      registerForm.encryptedPassword = form.encryptedPassword;
                       postJson(connect.response, registerForm.resetPassword());
                     });
               });

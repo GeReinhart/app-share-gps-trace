@@ -1,0 +1,12 @@
+[:page partOf="trails" args="uploadFileId, uploadFileText"]
+
+  <div id="[=uploadFileId]" style="position:relative;" >
+    [=uploadFileText]
+      &nbsp;
+    <a id="[=uploadFileId]-link" class="gx-as-link" >  
+      <img src='/assets/img/upload.png' style="height: 27px" />
+      <input id="[=uploadFileId]-input" type="file" class="gx-hidden" ></input>
+    </a>
+    &nbsp;
+    <span id="[=uploadFileId]-info"></span>
+  </div>

@@ -91,21 +91,3 @@ class MenuWidget extends Widget{
   }
 }
 
-/*
-<div id="menu-when-anonymous" class="space-menu open" style="position: relative; top: 40px; z-index: 102;"> 
-<ul role="menu" class="dropdown-menu">
-<li role="presentation" class="dropdown-header">Traces gps</li>
-<li role="presentation"><a href="/#trace_search" tabindex="-1" role="menuitem">Rechercher</a></li>
-<li class="divider" role="presentation"></li>
-<li role="presentation" class="dropdown-header">Compte</li>
-<li role="presentation"><a id="menu-login" class="gx-as-link" tabindex="-1" role="menuitem">Se connecter</a></li>
-<li role="presentation"><a id="menu-register" class="gx-as-link" tabindex="-1" role="menuitem">S'enregistrer</a></li>
-</ul>
-</div>
-
-
-
-<div id="menu" style="position: relative; top: 40px;" class="open">
-      <ul role="menu" class="dropdown-menu"><li role="presentation" class="dropdown-header">Actions</li><li class="gx-as-link"><a role="menuitem" tabindex="-1">Rechercher une trace gps</a></li><li role="presentation" class="divider"></li><li role="presentation" class="dropdown-header">Page courante</li><li class="gx-as-link"><a role="menuitem" tabindex="-1">Téléchargement du fichier gpx</a></li></ul>
-</div>
-*/

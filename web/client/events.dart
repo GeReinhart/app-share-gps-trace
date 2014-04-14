@@ -18,11 +18,13 @@ class OKCancelEvent{
 class LoginLogoutEvent{
   
   String _login;
+  String _encryptedPassword;
   bool _admin  = false;
   bool _logout = false;
   
-  LoginLogoutEvent.justLoginAs(String login , bool admin){
+  LoginLogoutEvent.justLoginAs(String login, bool admin , String encryptedPassword){
     this._login = login;
+    this._encryptedPassword = encryptedPassword ;
     this._admin = admin;
   }
   
@@ -31,6 +33,7 @@ class LoginLogoutEvent{
   }
   
   String get login => _login ;
+  String get encryptedPassword => _encryptedPassword ;
   bool get isAdmin => _admin ;
   bool get isLogin => !_logout ;
   bool get isLogout => _logout ;
@@ -72,8 +75,8 @@ class LoginLogoutEventProducer{
     _loginLogoutEventStream.stream.listen((event) => callBack(event));
   }
   
-  void sendLoginEvent(String login, bool admin){
-    _loginLogoutEventStream.add(  new LoginLogoutEvent.justLoginAs(login,admin)  );
+  void sendLoginEvent(String login, bool admin, String encryptedPassword){
+    _loginLogoutEventStream.add(  new LoginLogoutEvent.justLoginAs(login,admin, encryptedPassword)  );
   }
 
   void sendLogoutEvent(){

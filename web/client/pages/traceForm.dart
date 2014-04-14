@@ -4,6 +4,7 @@ import "dart:convert";
 import 'page.dart';
 import '../forms.dart';
 import '../widgets/watchPointEditor.dart';
+import '../widgets/uploadFile.dart';
 import '../actions.dart';
 import 'package:js/js.dart' as js;
 
@@ -11,6 +12,7 @@ class TraceFormPage extends Page {
   
   String _currentKey ;
   WatchPointEditorWidget _watchPointEditorWidget ;
+  UploadFileWidget _gpsUploadFileWidget;
   
   TraceFormPage(PageContext context): super("trace_form",context,50,50,false){
     description = "Ajout d'une trace" ;
@@ -32,6 +34,8 @@ class TraceFormPage extends Page {
           _watchPointEditorWidget.showWatchPointEditorModal( _currentKey, latLng.lat, latLng.lng) ;
       }
     });
+    
+    
   }
 
   
@@ -94,6 +98,8 @@ class TraceFormPage extends Page {
     querySelector("#trace-form-submit").onClick.listen((e){
       _asyncSubmitForm();
     });
+    _gpsUploadFileWidget= new UploadFileWidget("uploadGpsFile");
+    
   }
   
  void _loadForm(String key){

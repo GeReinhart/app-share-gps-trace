@@ -14,7 +14,10 @@ class Authentication extends Authenticator {
   Authentication(this._persistence, this._crypto);
   
   Future login(HttpConnect connect, String login, String password) {
-    String encryptedPassword = _crypto.encryptPassword(password);    
+    String encryptedPassword = password ;
+    if (password.length != 64){
+      encryptedPassword = _crypto.encryptPassword(password);    
+    }
     return  _persistence.getUserByCredential(login, encryptedPassword)
         .then((user){
           if (user== null){

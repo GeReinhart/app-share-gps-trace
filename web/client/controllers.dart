@@ -5,6 +5,7 @@ import 'dart:async';
 import "actions.dart" ;
 import "events.dart" ;
 import "models.dart";
+import "authentication.dart" ;
 import "pages/page.dart";
 import "widgets/loading.dart";
 import "widgets/login.dart";
@@ -38,17 +39,20 @@ class PagesController extends ClientController{
   List<Page> _pages = new List<Page>();
   StreamController<UserActionsChangeEvent> _userActionsChangeEventStream ;
   StreamController<TraceChangeEvent> _traceChangeEventStream ;
-  String _currentUserLogin ;
-  bool _currentUserIsAdmin = false;
+  Authentication _authentication ;
   
   PagesController(){
     _userActionsChangeEventStream = new StreamController<UserActionsChangeEvent>.broadcast( sync: true);
     _traceChangeEventStream = new StreamController<TraceChangeEvent>.broadcast( sync: true);
+    _authentication = new Authentication();
+    _authentication.setLoginLogoutEventCallBack(loginLogoutEvent);
+    
     new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
   
   void init(List<Page> pages){
     _pages = pages ;
+    _authentication.authenticate();
   }
   
   void setUserActionsChangeEventCallBack( UserActionsChangeCallBack callBack  ){
@@ -78,13 +82,11 @@ class PagesController extends ClientController{
   
   void loginLogoutEvent(LoginLogoutEvent event){
     if (event.isLogin){
-      _currentUserLogin = event.login;
-      _currentUserIsAdmin = event.isAdmin;
+      _authentication.storeAuthentication(event.login, event.isAdmin, event.encryptedPassword) ;
     }else{
-      _currentUserLogin = null;
-      _currentUserIsAdmin = null;      
+      _authentication.resetAuthentication();      
     }
-    _sendUserActionsChangeEvent(_currentUserLogin,_currentUserIsAdmin, _currentPage) ;
+    _sendUserActionsChangeEvent(event.login, event.isAdmin, _currentPage) ;
   }
   
   void _mayChangePage(){
@@ -108,7 +110,7 @@ class PagesController extends ClientController{
      return ;
    }  
    _showPage( targetPage,  pageParameters);
-   _sendUserActionsChangeEvent(_currentUserLogin,_currentUserIsAdmin, targetPage) ;
+   _sendUserActionsChangeEvent(_authentication.login,_authentication.isAdmin, targetPage) ;
    new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
   
@@ -154,7 +156,7 @@ class UserClientController extends ClientController with LoginLogoutEventProduce
   
   void loginLogoutEvent(LoginLogoutEvent event){
     if(event.isLogin){
-      userLoggedAs(event.login, event.isAdmin) ;
+      userLoggedAs(event.login, event.isAdmin,event.encryptedPassword) ;
     }else{
       userLogout();
     }
@@ -177,9 +179,9 @@ class UserClientController extends ClientController with LoginLogoutEventProduce
     sendLogoutEvent();
   }
   
-  void userLoggedAs(String login, bool admin){
+  void userLoggedAs(String login, bool admin, String encryptedPassword){
     _connectedUser = new User.withFields(login, admin) ;
-    sendLoginEvent(login, admin);
+    sendLoginEvent(login, admin,encryptedPassword);
   }
   
   

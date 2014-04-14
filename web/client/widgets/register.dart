@@ -44,7 +44,7 @@ class RegisterWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
           stopLoading();
           if (form.isSuccess){
             hideModalWidget(id);
-            sendLoginEvent(form.login, form.isAdmin);
+            sendLoginEvent(form.login, form.isAdmin, form.encryptedPassword);
           }else {
             switch (form.error) {
               case REGISTER_ERROR_LOGIN_EXISTS:

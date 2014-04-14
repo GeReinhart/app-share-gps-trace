@@ -53,7 +53,7 @@ class LoginWidget extends Widget with ModalWidget, LoginLogoutEventProducer {
           if (form.isSuccess){
             hideModalWidget(id);
             stopLoading();
-            sendLoginEvent(form.login, form.isAdmin);
+            sendLoginEvent(form.login, form.isAdmin, form.encryptedPassword);
           }else {
             message.text = "Le login ou le mot de passe est incorrect" ;
           }

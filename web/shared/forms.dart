@@ -10,10 +10,13 @@ class LoginForm implements ToJson{
   String login;
   String _admin = "false";
   String password;
+  String encryptedPassword;
   String error = null;
 
   LoginForm(this.login,this.password);
 
+  LoginForm.withEncryptedPassword(this.login,this.password,this.encryptedPassword);
+  
   LoginForm.forLogout();
   
   LoginForm.fromJson(Map map) {
@@ -24,11 +27,13 @@ class LoginForm implements ToJson{
     login = map['login'];
     _admin = map['admin'];
     password = map['password'];
+    encryptedPassword = map['encryptedPassword'];
     error = map['error'];
   }
   
   Map toJson() {
-    return {'login': login,'admin': _admin,'password': password,'error':error};
+    return {'login': login,'admin': _admin,'password': password
+             ,'encryptedPassword': encryptedPassword ,'error':error};
   }
 
   LoginForm resetPassword(){
@@ -60,6 +65,7 @@ class RegisterForm implements ToJson{
   
   String login;
   String password;
+  String encryptedPassword;
   String passwordConfirm;
   String _admin = "false" ;
   String _success = "true" ;
@@ -75,6 +81,7 @@ class RegisterForm implements ToJson{
   void _fromMap(Map params){
     login = params["login"] ;
     password = params["password"] ;
+    encryptedPassword= params["encryptedPassword"];
     _admin = params["admin"] ;
     passwordConfirm = params["passwordConfirm"] ;
     _success = params["_success"] ;
@@ -85,6 +92,7 @@ class RegisterForm implements ToJson{
   Map toJson() {
     return {'login': login,
              'password': password,
+             'encryptedPassword': encryptedPassword,
              'admin': _admin,
              'passwordConfirm':passwordConfirm,
              '_success':_success,
