@@ -83,7 +83,7 @@ Future traceFormFragment(HttpConnect connect, {traceFormRenderer}) { //#2
                     <option value="high">un lissage fort</option>
                   </select>
                 </span>&nbsp;sur&nbsp; 
-                <span class="trace-form-file-smoothing">le fichier gpx</span>   
+                <span class="trace-form-file-smoothing uploadGpsFile-info">le fichier gpx</span>   
                 </div>          
              </td>             
              <td  ></td>
