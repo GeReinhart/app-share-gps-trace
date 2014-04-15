@@ -675,6 +675,9 @@ class TraceForm implements ToJson{
       if (gpsFileName == null ||  gpsFileName != null && gpsFileName.isEmpty ){
           setError( TRACE_ERROR_GPS_FILE_MISSING, "gpsFile") ;
       }
+      if (  gpsFileSizeInBytes > 1024 * 1024 * 4 ){
+          setError( TRACE_ERROR_GPS_FILE_TOO_BIG, "gpsFileTooBig") ;
+      }
     }
     return isSuccess ;
   }

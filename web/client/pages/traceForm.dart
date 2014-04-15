@@ -195,6 +195,7 @@ class TraceFormPage extends Page {
     if (fileUploadInputElement.files.isNotEmpty){
         File gpsFile = fileUploadInputElement.files.first;
         jsonMap["gpsFileName"] = gpsFile.name ;
+        jsonMap["gpsFileSizeInBytes"] = gpsFile.size ;
         formData.appendBlob("gps-file", gpsFile, gpsFile.name);
     }
         
