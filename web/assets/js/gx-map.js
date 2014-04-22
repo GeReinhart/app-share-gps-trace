@@ -140,6 +140,8 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
            }
 	   });
 	   
+	   return otherMarker;
+	   
 	}
 	
 	this.addMarker = function(map){
@@ -313,6 +315,9 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
     this.lastRightClick;
     this.lastRightClickMarker;
   
+    this.lastRightClickOnMarker;
+    this.currentMarker;
+
  	this.init = function() {
 
    		 var OSM			= new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {updateWhenIdle:true});
@@ -470,13 +475,32 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
 	this._addOtherMarker = function(targetMap,  key, type, name, title, lat, long ){
 	   if(key in this.traces){
 	     var trace = this.traces[key] ;
-	     trace.addOtherMarker(key, type, name, title, lat, long);
+	     var otherMarker = trace.addOtherMarker(key, type, name, title, lat, long);
+	     var me = this ;
+         otherMarker.on('contextmenu',function(e){
+	       me.currentMarker = otherMarker;
+	       me._listenRightClickOnMarker(e);
+         });
+	     
+	   }
+	}
+	
+	this.removeCurrentMarker = function(){
+	   if(this.currentMarker){
+	     this.currentMarker.setOpacity(0) ;
 	   }
 	}
 
 	this.addOtherMarkerToMap = function( key, type, name, title, lat, long ){
 	   this._addOtherMarker(this.map,  key, type, name, title, lat, long ) ;
 	} 
+
+     this._listenRightClickOnMarker = function(e){
+     	this.lastRightClickOnMarker = e ;
+        var event = new Event('right_click_on_marker');
+        
+        document.dispatchEvent(event);
+     }
 
 	 
 	this.removeAllMarkers = function(){
@@ -539,7 +563,9 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
      }
 
      this.hideRightClickMark = function(){
-        this.lastRightClickMarker.setOpacity(0) ;
+     	if (this.lastRightClickMarker){
+        	this.lastRightClickMarker.setOpacity(0) ;
+        }
      }
 
      this.zoomOnEndUserLocation = function(){

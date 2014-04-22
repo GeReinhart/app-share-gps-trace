@@ -13,6 +13,7 @@ import "../widgets/profile.dart" ;
 import "../events.dart" ;
 import '../actions.dart';
 
+
 class TraceDetailsPage extends Page {
 
   ConfirmWidget _deleteConfirm ;
@@ -198,6 +199,7 @@ class TraceDetailsPage extends Page {
    return input.replaceAll("/", "_").replaceAll("'", "-");
  }
   
+ 
  void _showPage(String key, bool onlyRefreshContent){
     
     String keyJsSafe = _transformJsSafe(key) ;
@@ -255,6 +257,8 @@ class TraceDetailsPage extends Page {
    return clone ;
  }
   
+
+ 
  void _displayData(String classSelector, String key, String data){
    bool first= true ;
    querySelectorAll(".${classSelector}").forEach((e){

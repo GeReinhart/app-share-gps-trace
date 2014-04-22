@@ -2,6 +2,7 @@ import "dart:html";
 import 'dart:async';
 import "dart:convert";
 import 'page.dart';
+import 'traceDetails.dart';
 import '../forms.dart';
 import '../widgets/watchPointEditor.dart';
 import '../widgets/uploadFile.dart';
@@ -13,6 +14,7 @@ class TraceFormPage extends Page {
   String _currentKey ;
   WatchPointEditorWidget _watchPointEditorWidget ;
   UploadFileWidget _gpsUploadFileWidget;
+  
   
   TraceFormPage(PageContext context): super("trace_form",context,50,50,false){
     description = "Ajout d'une trace" ;
@@ -29,12 +31,19 @@ class TraceFormPage extends Page {
     
     HtmlDocument document = js.context.document;
     document.on['right_click_on_map'].listen((e ){
-      if (this.isUpdate()){
+      if ( active && this.isUpdate()){
           js.context.traceDetailsMap.drawRightClickMark();
           var latLng = js.context.traceDetailsMap.lastRightClickMarker.getLatLng();
           _watchPointEditorWidget.showWatchPointEditorModal( _currentKey, latLng.lat, latLng.lng) ;
       }
     });
+    document.on['right_click_on_marker'].listen((e ){
+      if ( active &&  this.isUpdate()){
+          var latLng = js.context.traceDetailsMap.lastRightClickOnMarker.latlng;
+          _watchPointEditorWidget.showWatchPointEditorModal( _currentKey, latLng.lat, latLng.lng) ;
+      }
+    });
+  
   }
 
   
@@ -84,6 +93,7 @@ class TraceFormPage extends Page {
   }
   
   void hidePage() {
+    active = false;
     hideBySelector("#${name}NW");
     hideBySelector("#trace_detailsNE");
     hideBySelector("#${name}SW");
@@ -211,7 +221,7 @@ class TraceFormPage extends Page {
     
   }
   
-  bool _hideDisplayMessage(TraceForm traceForm) {
+  void _hideDisplayMessage(TraceForm traceForm) {
   
     String errorMessageSelector = "#trace-form-error-message";
     
@@ -244,10 +254,11 @@ class TraceFormPage extends Page {
   
   
   void watchPointEditorEventCallBack(WatchPointEditorEvent event){
-    js.context.traceDetailsMap.hideRightClickMark();
     if(!event.isCancel && event.form.isSuccess){
+      js.context.traceDetailsMap.removeCurrentMarker();
       context.pagesController.fireTraceChangeEvent(event.form.traceKey);
     }
+    js.context.traceDetailsMap.hideRightClickMark();
   }
   
 }

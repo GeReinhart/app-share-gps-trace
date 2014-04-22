@@ -75,10 +75,16 @@ Future watchPointEditorWidget(HttpConnect connect, {watchPointEditorId}) { //#2
   response.write(Rsp.nnx(watchPointEditorId)); //#26
 
 
-  response.write("""-btn-submit" type="submit" class="btn btn-primary btn-submit-register">Ajouter</button>
+  response.write("""-btn-delete" type="submit" class="btn btn-warning">Supprimer</button>
               <button id=\""""); //#26
 
   response.write(Rsp.nnx(watchPointEditorId)); //#27
+
+
+  response.write("""-btn-submit" type="submit" class="btn btn-primary">Ajouter</button>
+              <button id=\""""); //#27
+
+  response.write(Rsp.nnx(watchPointEditorId)); //#28
 
 
   response.write("""-btn-cancel" class="btn btn-default">Annuler</button>
@@ -86,7 +92,7 @@ Future watchPointEditorWidget(HttpConnect connect, {watchPointEditorId}) { //#2
         </div>
       </div>
     </div>         
-"""); //#27
+"""); //#28
 
   return new Future.value();
 }

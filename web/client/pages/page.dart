@@ -74,7 +74,7 @@ class PageContext {
 
 abstract class Page{
   
-  
+  bool active = false;
   String _name ;
   String description ;
   int _centerRightPercentPosition ;
@@ -219,6 +219,7 @@ abstract class Page{
 
   
   void showPage(Parameters pageParameters){
+    active= true;
   }
   
  
@@ -245,6 +246,7 @@ abstract class Page{
     hideBySelector("#${_name}NE");
     hideBySelector("#${_name}SW");
     hideBySelector("#${_name}SE");
+    active= false;
   }
   
   String        get name      => _name;

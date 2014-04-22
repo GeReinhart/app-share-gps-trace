@@ -74,9 +74,9 @@ void main() {
   pages.add(new IndexPage(pageContext));
   pages.add(new DisclaimerPage(pageContext));  
   pages.add(new AboutPage(pageContext));
-  pages.add(new TraceFormPage(pageContext));
   pages.add(new TraceSearchPage(pageContext));
   pages.add(new TraceDetailsPage(pageContext));
+  pages.add(new TraceFormPage(pageContext));
   
   pagesController.init(pages);
 }

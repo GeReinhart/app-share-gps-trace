@@ -223,12 +223,71 @@ class TraceController extends ServerController with JsonFeatures{
                                                watchPointForm.type, 
                                                watchPointForm.latitude, 
                                                watchPointForm.longitude);
-        watchPoint.traceKey = watchPointForm.traceKey;
-        return _persistence.saveOrUpdateWatchPoint(watchPoint).then((_){
-          return postJson(connect.response, watchPointForm);
-        });
-        
+        if ( watchPointForm.validate()){
+          watchPoint.traceKey = watchPointForm.traceKey;
+          return _persistence.saveOrUpdateWatchPoint(watchPoint).then((_){
+            return postJson(connect.response, watchPointForm);
+          });
+        }else{
+          return postJson(connect.response, watchPointForm);     
+        }
     });
+  }
+  
+  Future jsonWatchPointDelete(HttpConnect connect){
+     User user =  currentUser(connect.request.session);
+     if (user == null   ){
+       WatchPointForm watchPointForm = new WatchPointForm.empty();
+       watchPointForm.setError("forbiddenAction", "");
+       return postJson(connect.response, watchPointForm); 
+     }
+     return decodePostedJson(connect.request,
+         new Map.from(connect.request.uri.queryParameters))
+         .then((Map params) {
+
+         WatchPointForm watchPointForm = new WatchPointForm.fromJson(params );
+         return _persistence.getWatchPointByTraceKeyAndPosition(watchPointForm.traceKey, watchPointForm.latitude, watchPointForm.longitude).then((watchPoint){
+           
+           if(watchPoint == null){
+             watchPointForm.setError(WATCH_POINT_ERROR_NOT_FOUND, "");
+             return postJson(connect.response, watchPointForm);
+           }
+             
+           if (! user.admin && user.login != watchPoint.creator){
+             watchPointForm.setError("forbiddenAction", "");
+             return postJson(connect.response, watchPointForm); 
+           }
+             
+           return _persistence.deleteWatchPoint(watchPointForm.traceKey, watchPointForm.latitude, watchPointForm.longitude).then((watchPoint){
+             return postJson(connect.response, watchPointForm); 
+           });
+         }); 
+     });
+   }
+   
+  
+  
+  Future jsonWatchPointSelect(HttpConnect connect){
+    return decodePostedJson(connect.request,
+        new Map.from(connect.request.uri.queryParameters))
+        .then((Map params) {
+
+        WatchPointForm watchPointForm = new WatchPointForm.fromJson(params );
+        
+        return _persistence.getWatchPointByTraceKeyAndPosition(watchPointForm.traceKey, watchPointForm.latitude, watchPointForm.longitude).then((watchPoint){
+          
+          if(watchPoint == null){
+            watchPointForm.setError(WATCH_POINT_ERROR_NOT_FOUND, "");
+          }else{
+            watchPointForm.name = watchPoint.name ;
+            watchPointForm.type = watchPoint.type ;
+            watchPointForm.description = watchPoint.description ;
+          }
+          
+          return postJson(connect.response, watchPointForm);
+        }); 
+
+    });    
   }
   
   Future jsonTraceCreateOrUpdate(HttpConnect connect) {

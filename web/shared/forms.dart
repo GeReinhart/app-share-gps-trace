@@ -675,6 +675,9 @@ class TraceForm implements ToJson{
       if (gpsFileName == null ||  gpsFileName != null && gpsFileName.isEmpty ){
           setError( TRACE_ERROR_GPS_FILE_MISSING, "gpsFile") ;
       }
+      if (  gpsFileSizeInBytes > 1024 * 1024 * 4 ){
+          setError( TRACE_ERROR_GPS_FILE_TOO_BIG, "gpsFileTooBig") ;
+      }
     }
     return isSuccess ;
   }
@@ -709,6 +712,10 @@ class TraceForm implements ToJson{
   
 }
 
+
+const int WATCH_POINT_NAME_MIN_LENGTH = 5 ;
+const String WATCH_POINT_ERROR_NAME_MIN_LENGTH = "watch.point.error.nameMinLength" ;
+const String WATCH_POINT_ERROR_NOT_FOUND = "watch.point.error.not.found" ;
 
 class WatchPointForm implements ToJson{
   
@@ -755,6 +762,15 @@ class WatchPointForm implements ToJson{
       'error':error,
       'errorField':errorField
       };
+  }
+  
+  
+  bool validate(){
+    _success = "true" ;
+    if (name == null ||  name != null && name.length < WATCH_POINT_NAME_MIN_LENGTH ){
+      setError(  WATCH_POINT_ERROR_NAME_MIN_LENGTH , "name") ;
+    }
+    return isSuccess ;
   }
   
   void setError( String error, String errorField  ){

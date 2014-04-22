@@ -713,6 +713,10 @@ class TraceForm implements ToJson{
 }
 
 
+const int WATCH_POINT_NAME_MIN_LENGTH = 5 ;
+const String WATCH_POINT_ERROR_NAME_MIN_LENGTH = "watch.point.error.nameMinLength" ;
+const String WATCH_POINT_ERROR_NOT_FOUND = "watch.point.error.not.found" ;
+
 class WatchPointForm implements ToJson{
   
   String id;
@@ -758,6 +762,15 @@ class WatchPointForm implements ToJson{
       'error':error,
       'errorField':errorField
       };
+  }
+  
+  
+  bool validate(){
+    _success = "true" ;
+    if (name == null ||  name != null && name.length < WATCH_POINT_NAME_MIN_LENGTH ){
+      setError(  WATCH_POINT_ERROR_NAME_MIN_LENGTH , "name") ;
+    }
+    return isSuccess ;
   }
   
   void setError( String error, String errorField  ){
