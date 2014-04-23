@@ -87,13 +87,13 @@ class TraceDetailsPage extends Page {
   }
   
   void traceChangeCallBack(TraceChangeEvent event){
+    traceDetailsByKey.remove(event.key) ;
+    keys.remove(event.key);
     if (event.key == currentKey ){
       _showPage(currentKey,true);
-    }else{
-      traceDetailsByKey.remove(event.key) ;
-      keys.remove(event.key);
     }
   }
+  
   void deleteTrace(OKCancelEvent event) {
   
     if (event.cancel){
