@@ -41,12 +41,12 @@ function prefix-assets {
         done
 
 
+        mv -f "web/rsp/templates/assetsimports.html.prod" "web/rsp/templates/assetsimports.html"
+
         sed -i "s:gx-map.js:$prefixFile-gx-map.js:" "web/rsp/templates/assetsimports.html"
         sed -i "s:app-share-gps-trace.css:$prefixFile-app-share-gps-trace.css:" "web/rsp/templates/assetsimports.html"
 
         
-        mv -f "web/rsp/templates/assetsimports.html.prod" "web/rsp/templates/assetsimports.html"
-
 }
 
 function dart-2-js {
