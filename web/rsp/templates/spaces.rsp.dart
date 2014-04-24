@@ -69,10 +69,12 @@ Future spaces(HttpConnect connect, {w, nw, ne, sw, se}) { //#2
 
   	  </div>
 	</div>
-    <div class="space-center" >
-        <img style="cursor:move" height="180px" width="180px" src="/assets/img/compass_275.png"></img>
-    </div>
-</div>"""); //#28
+"""); //#28
 
-  return new Future.value();
+  return Rsp.nnf(centerWidget(new HttpConnect.chain(connect), centerId: "spaceCenter")).then((_) { //include#31
+
+    response.write("""</div>"""); //#32
+
+    return new Future.value();
+  }); //end-of-include
 }

@@ -42,6 +42,7 @@ part "../web/rsp/widgets/profileWidget.rsp.dart";
 part "../web/rsp/widgets/headerWidget.rsp.dart";
 part "../web/rsp/widgets/watchPointEditorWidget.rsp.dart";
 part "../web/rsp/widgets/uploadFileWidget.rsp.dart";
+part "../web/rsp/widgets/centerWidget.rsp.dart";
 
 part "../web/rsp/fragments/indexTextFragment.rsp.dart";
 part "../web/rsp/fragments/indexButtonsFragment.rsp.dart";

@@ -1,11 +1,12 @@
 import 'dart:html';
 import 'dart:async';
 import 'package:bootjack/bootjack.dart';
-import "events.dart";
+
 import "controllers.dart" ;
 import "widgets/persistentMenu.dart" ;
 import "widgets/menu.dart" ;
 import "widgets/loading.dart" ;
+import "widgets/center.dart" ;
 
 
 class SpacesLayout implements LoadingShower  {
@@ -22,19 +23,16 @@ class SpacesLayout implements LoadingShower  {
   String spacePersitentMenu = ".space-persitent-menu";
   String spaceLoading = ".space-loading";
   
-  int centerRightPercentPosition ;
-  int centerTopPercentPosition;
-  int centerSize ;
+  CenterPostion _centerPosition ;
+  
   int headerHeight;
 
-  double centerRight ;
-  double centerTop ;
-  
   bool _showWestSpace = false;
   
   UserClientController _userClientController ;
   SpacesPositions postions ;
   PersistentMenuWidget _persistentMenuWidget ;
+  CenterWidget _centerWidget ;
   
   MouseEvent _startMovingCenterPosition ;
   var _movingCenter = false;
@@ -42,19 +40,18 @@ class SpacesLayout implements LoadingShower  {
   StreamController centerMovedController = new StreamController.broadcast();
 
   
-  SpacesLayout(this._userClientController,  this.centerSize, this.centerRightPercentPosition,  this.centerTopPercentPosition, this.headerHeight){
-    _init();
+  SpacesLayout(this._userClientController,  int centerSize, int centerRightPercentPosition,  int centerTopPercentPosition, this.headerHeight){
+    _init( centerSize,  centerRightPercentPosition,  centerTopPercentPosition);
   }
 
   
   Stream get centerMoved => centerMovedController.stream;
   
-  void _init(){
+  void _init(int centerSize, int centerRightPercentPosition, int centerTopPercentPosition){
     _persistentMenuWidget = new PersistentMenuWidget("persistentMenu") ;
-
-    
-    centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
-    centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
+    _centerWidget = new CenterWidget("spaceCenter",centerSize,  centerRightPercentPosition,  centerTopPercentPosition ) ;
+    _centerWidget.setCenterChangeEventCallBack(_centerChangePostionEventCallBack);
+    _centerPosition = _centerWidget.centerPostion ;
     
     Dropdown.use();
     
@@ -64,44 +61,17 @@ class SpacesLayout implements LoadingShower  {
     window.onLoad.listen(updateSpaces);
     window.onResize.listen(updateSpaces);
 
-    querySelector(spaceCenter).onMouseDown.listen((mouseEvent) {
-      _startMovingCenterPosition = mouseEvent ;
-      _movingCenter = true ;
-      querySelector(spaceCenter + " img").attributes["src"] = "/assets/img/compass_275_red.png";
-    });
-
-    querySelector(spaceCenter).onMouseLeave.listen((mouseEvent) {
-      if (_movingCenter){
-        _movingCenter = false;
-        _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
-      }
-    });
-
-    querySelector(spaceCenter).onMouseUp.listen((mouseEvent) {
-      if (_movingCenter){
-        _movingCenter = false;
-        _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
-      }
-    });
-
-    window.onMouseOver.listen((mouseEvent) {
-      if (_movingCenter){
-        _movingCenter = false;
-        _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
-      }
-    });
-    
-    window.onMouseUp.listen((mouseEvent) {
-      if (_movingCenter){
-        _movingCenter = false;
-        _moveCenter( _startMovingCenterPosition.client, mouseEvent.client);
-      }
-    });
-
     window.onPageShow.listen((mouseEvent) {
       new Timer(new Duration(seconds: 1),_onPageShow);
     });
 
+  }
+  
+  
+  void _centerChangePostionEventCallBack(CenterPostion centerPosition){
+    _centerPosition = centerPosition;
+    _organizeSpaces();
+    loadingInTheCenter();
   }
   
   void _onPageShow(){
@@ -113,31 +83,14 @@ class SpacesLayout implements LoadingShower  {
 
   
   void organizeSpaces(int centerRightPercentPosition, int centerTopPercentPosition, {bool showWestSpace:false}){
-    centerRight = (window.innerWidth * centerRightPercentPosition / 100).toDouble() ;
-    centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
+    _centerWidget.moveCenter(centerRightPercentPosition, centerTopPercentPosition) ;
+    _centerPosition = _centerWidget.centerPostion;
     _showWestSpace = showWestSpace;
     _organizeSpaces();
     loadingInTheCenter();
   }
   
-  void _moveCenter(Point start, Point end){
-    double centerRightComputed =   -end.x + start.x  + centerRight ;
-    double centerTopComputed   =  end.y - start.y  + centerTop ;  ;
-    
-    if (centerRightComputed < centerSize /2 ){
-      centerRight = (centerSize/2).toDouble() ;
-    }else{
-      centerRight = centerRightComputed;
-    }
-    if ( centerTopComputed >  window.innerHeight - centerSize /2  ){
-      centerTop = (window.innerHeight - centerSize /2).toDouble()  ;       
-    }else{
-      centerTop = centerTopComputed ;
-    }
-    _organizeSpaces();
-    loadingInTheCenter();
-  }
-  
+ 
   void updateSpaces(Event event){
     _organizeSpaces();
     loadingInTheCenter();
@@ -146,9 +99,9 @@ class SpacesLayout implements LoadingShower  {
   void _organizeSpaces(){
 
     postions = new SpacesPositions();
-    postions.spaceW_Right = centerRight+1 ;
+    postions.spaceW_Right = _centerPosition.centerRight+1 ;
     postions.spaceW_Top = headerHeight.toDouble() ;
-    postions.spaceW_Width = window.innerWidth - centerRight-1 ;
+    postions.spaceW_Width = window.innerWidth - _centerPosition.centerRight-1 ;
     postions.spaceW_Height = window.innerHeight.toDouble() - headerHeight.toDouble();
 
     querySelector(spaceW) 
@@ -159,10 +112,10 @@ class SpacesLayout implements LoadingShower  {
     ..style.width  = (postions.spaceW_Width).toString() + "px"
     ..style.height = (postions.spaceW_Height).toString() + "px" ;
     
-    postions.spaceNW_Right = centerRight+1 ;
+    postions.spaceNW_Right = _centerPosition.centerRight+1 ;
     postions.spaceNW_Top = headerHeight.toDouble() ;
-    postions.spaceNW_Width = window.innerWidth - centerRight-1 ;
-    postions.spaceNW_Height = centerTop - headerHeight.toDouble() ;
+    postions.spaceNW_Width = window.innerWidth - _centerPosition.centerRight-1 ;
+    postions.spaceNW_Height = _centerPosition.centerTop - headerHeight.toDouble() ;
 
     querySelector(spaceNW) 
     ..style.position = 'absolute'
@@ -174,8 +127,8 @@ class SpacesLayout implements LoadingShower  {
 
     postions.spaceNE_Right = 0.0 ;
     postions.spaceNE_Top = headerHeight.toDouble() ;
-    postions.spaceNE_Width = centerRight ;
-    postions.spaceNE_Height = centerTop - headerHeight.toDouble() ;    
+    postions.spaceNE_Width = _centerPosition.centerRight ;
+    postions.spaceNE_Height = _centerPosition.centerTop - headerHeight.toDouble() ;    
     
     querySelector(spaceNE)
     ..style.position = 'absolute'
@@ -184,10 +137,10 @@ class SpacesLayout implements LoadingShower  {
     ..style.width  = (postions.spaceNE_Width).toString() + "px"
     ..style.height = (postions.spaceNE_Height).toString() + "px" ;
 
-    postions.spaceSW_Right = centerRight+1 ;
-    postions.spaceSW_Top = centerTop+1 ;
-    postions.spaceSW_Width = window.innerWidth - centerRight-1 ;
-    postions.spaceSW_Height = window.innerHeight - centerTop-1  ;       
+    postions.spaceSW_Right = _centerPosition.centerRight+1 ;
+    postions.spaceSW_Top = _centerPosition.centerTop+1 ;
+    postions.spaceSW_Width = window.innerWidth - _centerPosition.centerRight-1 ;
+    postions.spaceSW_Height = window.innerHeight - _centerPosition.centerTop-1  ;       
     
     querySelector(spaceSW)
     ..style.position = 'absolute'
@@ -198,9 +151,9 @@ class SpacesLayout implements LoadingShower  {
     ..style.height = (postions.spaceSW_Height).toString() + "px" ;  
     
     postions.spaceSE_Right = 0.0 ;
-    postions.spaceSE_Top = centerTop+1 ;
-    postions.spaceSE_Width = centerRight ;
-    postions.spaceSE_Height = window.innerHeight - centerTop-1  ;    
+    postions.spaceSE_Top = _centerPosition.centerTop+1 ;
+    postions.spaceSE_Width = _centerPosition.centerRight ;
+    postions.spaceSE_Height = window.innerHeight - _centerPosition.centerTop-1  ;    
     
     querySelector(spaceSE)
     ..style.position = 'absolute'
@@ -208,14 +161,6 @@ class SpacesLayout implements LoadingShower  {
     ..style.top    = (postions.spaceSE_Top).toString() + "px" 
     ..style.width  = (postions.spaceSE_Width).toString() + "px"
     ..style.height = (postions.spaceSE_Height).toString() + "px" ;   
-    
-    querySelector(spaceCenter)
-    ..style.position = 'absolute'
-    ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top = (centerTop    - centerSize /2      ).toString()+ "px"
-    ..style.width = centerSize.toString()+ "px"
-    ..style.height = centerSize.toString()+ "px" ;  
-    querySelector(spaceCenter + " img").attributes["src"] = "/assets/img/compass_275.png";
     
     var menuItemsNumber = 6;
     
@@ -233,10 +178,10 @@ class SpacesLayout implements LoadingShower  {
   void loadingInTheCenter() {
     querySelector(spaceLoading)
     ..style.position = 'absolute'
-    ..style.right = (centerRight  - centerSize /2 +2   ).toString() + "px"
-    ..style.top = (centerTop    - centerSize /2      ).toString()+ "px"
-    ..style.width = centerSize.toString()+ "px"
-    ..style.height = centerSize.toString()+ "px" ;
+    ..style.right = (_centerPosition.centerRight  - _centerPosition.centerSize /2 +2   ).toString() + "px"
+    ..style.top = (_centerPosition.centerTop    - _centerPosition.centerSize /2      ).toString()+ "px"
+    ..style.width = _centerPosition.centerSize.toString()+ "px"
+    ..style.height = _centerPosition.centerSize.toString()+ "px" ;
   }
   
   void showSpaces() {
