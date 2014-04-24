@@ -77,7 +77,7 @@ class CenterWidget extends Widget {
    
    Element actionsElement = querySelector("#${id}-actions");
    actionsElement.children.clear();
-   int imageSize = 32 ;
+   int imageSize = 25 ;
    if (actions.length >=1 ){
      actionsElement.children.add(_newActionElement(actions[0],imageSize, (_centerPosition.centerSize -imageSize) /2 +2, 0 ));
    }
