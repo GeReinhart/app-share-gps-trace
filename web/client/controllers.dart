@@ -132,6 +132,7 @@ class PagesController extends ClientController{
       if (page.canBeLaunchedFromMainMenu() && page.canBeLaunched(login, isAdmin)){
         ActionDescriptor action = new ActionDescriptor();
         action.name = page.name;
+        action.images = page.actionImages;
         action.description = page.description;
         action.launchAction = (params) => window.location.href = "/#${page.name}"; 
         actions.add(action);

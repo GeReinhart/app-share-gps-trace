@@ -18,7 +18,6 @@ class SpacesLayout implements LoadingShower  {
   String spaceNE  = ".space-north-east";
   String spaceSW  = ".space-south-west";
   String spaceSE  = ".space-south-east" ;
-  String spaceCenter = ".space-center"  ;
 
   String spacePersitentMenu = ".space-persitent-menu";
   String spaceLoading = ".space-loading";
@@ -33,9 +32,6 @@ class SpacesLayout implements LoadingShower  {
   SpacesPositions postions ;
   PersistentMenuWidget _persistentMenuWidget ;
   CenterWidget _centerWidget ;
-  
-  MouseEvent _startMovingCenterPosition ;
-  var _movingCenter = false;
   
   StreamController centerMovedController = new StreamController.broadcast();
 
@@ -212,7 +208,7 @@ class SpacesLayout implements LoadingShower  {
     querySelector(spaceLoading).style.zIndex = "10" ;
   }
 
-
+  CenterWidget get center => _centerWidget; 
 }
 
 class SpacesPositions{

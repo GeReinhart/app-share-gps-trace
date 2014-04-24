@@ -1,6 +1,8 @@
 import "dart:html";
 import "widget.dart" ;
 import 'dart:async';
+import "../controllers.dart" ;
+import "../actions.dart" ;
 
 typedef void CenterChangeCallBack(CenterPostion centerPosition);
 
@@ -27,6 +29,8 @@ class CenterPostion{
 class CenterWidget extends Widget {
   
   StreamController _centerChangeEventStream ;
+  List<ActionDescriptor> actions = new List<ActionDescriptor>(); 
+  
   
   MouseEvent _startMovingCenterPosition ;
   var _movingCenter = false;
@@ -52,6 +56,87 @@ class CenterWidget extends Widget {
     _centerPosition.centerTop = (window.innerHeight * centerTopPercentPosition / 100).toDouble() ;
     _changePositionOfTheCenter();
     
+  }
+  
+  void userActionsChangeEventCallBack(UserActionsChangeEvent event){
+   actions.clear();
+   if (event.currentPageMenu != null){
+     event.currentPageMenu.forEach( (action) {
+       if (action.images != null ){
+         actions.add(action) ;
+       }
+     }); 
+   }
+   if (event.mainApplicationMenu != null){
+     event.mainApplicationMenu.forEach( (action) {
+       if (action.images != null ){
+         actions.add(action) ;
+       }
+     }); 
+   }   
+   
+   Element actionsElement = querySelector("#${id}-actions");
+   actionsElement.children.clear();
+   int imageSize = 32 ;
+   if (actions.length >=1 ){
+     actionsElement.children.add(_newActionElement(actions[0],imageSize, (_centerPosition.centerSize -imageSize) /2 +2, 0 ));
+   }
+   if (actions.length >=2 ){
+     actionsElement.children.add(_newActionElement(actions[1],imageSize,
+                                                     (_centerPosition.centerSize -imageSize) /2 +2,
+                                                     (_centerPosition.centerSize -imageSize) +2 ));
+   }   
+   if (actions.length >=3 ){
+     actionsElement.children.add(_newActionElement(actions[2],imageSize,
+                                                     0,
+                                                     (_centerPosition.centerSize -imageSize) /2 +2 ));
+   }     
+   if (actions.length >=4 ){
+     actionsElement.children.add(_newActionElement(actions[3],imageSize,
+                                                      (_centerPosition.centerSize -imageSize) +2 ,
+                                                     (_centerPosition.centerSize -imageSize) /2 +2 ));
+   }   
+   if (actions.length >=5 ){
+     actionsElement.children.add(_newActionElement(actions[4],imageSize,
+                                                     (_centerPosition.centerSize -imageSize) /4 +2 ,
+                                                     (_centerPosition.centerSize -imageSize) /4 +2 ));
+   }   
+
+  
+  }
+  
+  
+  AnchorElement _newActionElement(ActionDescriptor action, num imageSize, num right, num top ){
+       AnchorElement link = new AnchorElement();
+       link.classes.add("gx-as-link");
+       link.title = action.description ;
+       ImageElement image = new ImageElement(src:action.images.image) ;
+       link.append(image);
+       image
+         ..style.position = 'absolute'
+         ..style.right = "${right}px"
+         ..style.top = "${top}px"
+         ..style.width =  "${imageSize}px"
+         ..style.height =  "${imageSize}px" ; 
+       
+       if (action.windowTarget != null){
+         link.target = action.windowTarget ;
+       }
+       if (action.nextPage != null){
+         link.href = action.nextPage ;
+       }
+       if(action.launchAction != null){
+         link.onClick.listen((event){
+           action.launchAction(null);
+         });
+       }  
+       link.onMouseEnter.listen((e){
+         image.src = action.images.imageOver;
+       });
+       link.onMouseLeave.listen((e){
+         image.src = action.images.image;
+       });   
+       return link;
   }
   
   void _changePositionOfTheCenter(){

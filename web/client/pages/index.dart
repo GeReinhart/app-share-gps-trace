@@ -69,6 +69,8 @@ void main() {
   PagesController pagesController = new PagesController();
   pageContext.pagesController = pagesController ;
   pageContext.userClientController.setLoginLogoutEventCallBack( pagesController.loginLogoutEvent  );
+  pageContext.pagesController.setUserActionsChangeEventCallBack(pageContext.layout.center.userActionsChangeEventCallBack);
+  
   
   List<Page> pages = new List<Page>();
   pages.add(new IndexPage(pageContext));

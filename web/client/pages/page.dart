@@ -80,6 +80,7 @@ abstract class Page{
   int _centerRightPercentPosition ;
   int _centerTopPercentPosition ;
   bool _showWestSpace;
+  ActionImages actionImages;
   Set<String> receivedFragments = new Set<String>();
   PageContext context ;
   

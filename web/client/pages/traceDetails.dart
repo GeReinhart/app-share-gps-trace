@@ -63,6 +63,7 @@ class TraceDetailsPage extends Page {
     
     ActionDescriptor download = new ActionDescriptor();
     download.name = "Téléchargement";
+    download.images =  new ActionImages("assets/img/download_blue.png", imageOver: "assets/img/download_red.png") ;
     download.description =  "Téléchargement du fichier gpx";
     download.windowTarget = "_blank" ;
     download.nextPage = "/trace.gpx/${currentKey}"; 
@@ -71,12 +72,14 @@ class TraceDetailsPage extends Page {
     if ( isAdmin ||  login != null &&  creator == login  ){
       ActionDescriptor update = new ActionDescriptor();
       update.name = "Modifier";
+      update.images =  new ActionImages("assets/img/trace_update_blue.png", imageOver: "assets/img/trace_update_red.png") ;
       update.description =  "Modifier la trace";
       update.nextPage = "/#trace_form/${currentKey}"; 
       actions.add(update);
       
       ActionDescriptor delete = new ActionDescriptor();
       delete.name = "Supprimer";
+      delete.images =  new ActionImages("assets/img/trace_delete_blue.png", imageOver: "assets/img/trace_delete_red.png") ;
       delete.description =  "Supprimer la trace";
       delete.launchAction = (params) =>  _deleteConfirm.showConfirmModal(); 
       actions.add(delete);    

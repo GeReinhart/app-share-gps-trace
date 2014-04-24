@@ -22,8 +22,14 @@ Future centerWidget(HttpConnect connect, {centerId}) { //#2
 
 
   response.write("""-img" style="cursor:move" height="180px" width="180px" src="/assets/img/compass_275.png"></img>
+        <div id=\""""); //#3
+
+  response.write(Rsp.nnx(centerId)); //#4
+
+
+  response.write("""-actions"  height="180px" width="180px" />
     </div>
-"""); //#3
+"""); //#4
 
   return new Future.value();
 }

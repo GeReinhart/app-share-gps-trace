@@ -18,6 +18,7 @@ class TraceFormPage extends Page {
   
   TraceFormPage(PageContext context): super("trace_form",context,50,50,false){
     description = "Ajout d'une trace" ;
+    actionImages =  new ActionImages("assets/img/trace_add_blue.png", imageOver: "assets/img/trace_add_red.png") ;
   }
   
   bool isUpdate(){

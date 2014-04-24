@@ -40,11 +40,26 @@ class Parameters{
     return pageParameters;
   }
   
-  
 }
+
+class ActionImages{
+  
+  String _image;
+  String _imageOver;
+  
+  ActionImages(String image,{  String imageOver:null  }){
+    this._image = image;
+    this._imageOver = imageOver == null ? image : imageOver  ;
+  }
+  
+  String get image => _image;
+  String get imageOver => _imageOver;
+}
+
 
 class ActionDescriptor{
   
+  ActionImages images;
   String name;
   String description;
   String windowTarget;
