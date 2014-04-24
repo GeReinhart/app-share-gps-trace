@@ -130,9 +130,16 @@ class CenterWidget extends Widget {
            action.launchAction(null);
          });
        }  
+       link.onMouseOver.listen((e){
+         image.src = action.images.imageOver;
+       });
+       
        link.onMouseEnter.listen((e){
          image.src = action.images.imageOver;
        });
+       link.onMouseOut.listen((e){
+         image.src = action.images.image;
+       });       
        link.onMouseLeave.listen((e){
          image.src = action.images.image;
        });   
