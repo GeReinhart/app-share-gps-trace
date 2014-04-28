@@ -28,7 +28,7 @@ class TraceSearchPage extends Page {
 
   TraceSearchPage(PageContext context): super("trace_search",context,99,50,true){
     description="Rechercher une trace gps";
-    actionImages =  new ActionImages("assets/img/search_blue.png", imageOver: "assets/img/search_red.png") ;
+    actionImages =  new ActionImages("assets/img/search.png", imageOver: "assets/img/search_blue.png") ;
     layout.centerMoved.listen((_){
       SpacesPositions positions = _ as SpacesPositions ;
       centerMoved(positions);
