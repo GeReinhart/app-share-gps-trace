@@ -96,7 +96,7 @@ class TraceSearchPage extends Page {
     
       ActionDescriptor locate = new ActionDescriptor();
       locate.name = "Centrer";
-      locate.images =  new ActionImages("assets/img/trace_locate_search_blue.png", imageOver: "assets/img/trace_locate_search_red.png") ;
+      locate.images =  new ActionImages("assets/img/trace_locate_search.png", imageOver: "assets/img/trace_locate_search_blue.png") ;
       locate.description =  "Centrer la recherche autour de moi";
       locate.launchAction = (params) =>  zoomOnEndUserLocation(); 
       actions.add(locate);    
