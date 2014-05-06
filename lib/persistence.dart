@@ -262,11 +262,19 @@ class MongoPersistence implements PersistenceLayer{
               trace.traceDataId = new ObjectId().toString();
               trace.key =  trace.buildKey();
               trace.creation();
-              return _traceCollection.insert(trace.toJson()).then((_){
-                return _traceDataCollection.insert(trace.traceData.toJson()).then((_){
-                  return trace;
+              
+              return getTraceByKey(trace.key).then((existingTrace){
+                if ( existingTrace != null ){
+                  throw("Already existing trace") ;   
+                }
+                return _traceCollection.insert(trace.toJson()).then((_){
+                  return _traceDataCollection.insert(trace.traceData.toJson()).then((_){
+                    return trace;
+                  });
                 });
+                
               });
+
       }else{
               trace.update();
               return _traceCollection.update(where.eq("_id", trace.id),   trace.toJson())

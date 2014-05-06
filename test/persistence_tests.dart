@@ -167,6 +167,30 @@ main() {
         })
 
         .then((_){
+          
+          File file = new File("test/resources/12590.gpx");
+          return traceAnalyser.buildTraceAnalysisFromGpxFile(file).then((traceAnalysis){
+            
+            Trace trace = new Trace.fromTraceAnalysis("Gex", traceAnalysis); 
+            trace.title = "Tour du Vercors - Autrans - Saint Nizier du Moucherotte";
+            traceKey = trace.buildKey() ;
+            
+            bool exceptionThrown = false ;
+            
+            return persitence.saveOrUpdateTrace(trace).then((trace) {
+                  return new Future.value();   
+                }).catchError((e){
+                    exceptionThrown = true;
+                }).then((_){
+                  print("Test cannot save twice the same trace");
+                  expect(exceptionThrown, true) ;  
+                  return new Future.value();   
+                });
+             });
+          
+        })
+        
+        .then((_){
           return persitence.getTracesByActivity("trek").then((traces) {
             print("Test get by traces by activity");
             expect(traces.length, 1) ;   
