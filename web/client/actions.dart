@@ -12,15 +12,21 @@ class Parameter{
 class Parameters{
   List<Parameter> parameters = new List<Parameter>() ;
   String pageName;
+  String anchor ;
   
   
   add(String key, String value){
     parameters.add( new Parameter(key,value) ) ;
   }
   
+  bool equals(Parameters other){
+    return other.anchor == anchor && other.pageName == pageName ;
+  }
+  
   static Parameters  buildFromAnchor(String anchor){
     Parameters pageParameters = new Parameters();
     
+    pageParameters.anchor = anchor;
     int startParameters = anchor.indexOf("?") ;
     if (startParameters == -1){
       pageParameters.pageName = anchor ;
@@ -39,6 +45,8 @@ class Parameters{
     }) ;
     return pageParameters;
   }
+  
+  
   
 }
 

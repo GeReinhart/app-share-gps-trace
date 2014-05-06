@@ -17,15 +17,20 @@ class HeaderWidget extends Widget  {
   String spaceMenu = ".space-menu";
   
   MenuWidget _menuWidget;
+  MenuWidget _pageLinksWidget;
+  PagesCursor _pagesCursor ;
   
   HeaderWidget(String id): super(id){
     _menuWidget = new MenuWidget("menu") ;
+    _pageLinksWidget = new MenuWidget("pageLinks") ;
+    _pagesCursor = new PagesCursor();
     _updateWidget();
   }
   
   void initEvents(UserClientController userClientController, PagesController pagesController){
     
     pagesController.setUserActionsChangeEventCallBack(this.userActionsChangeEvent);
+    pagesController.setPageChangeEventCallBack(this.pageChangeEvent);
     userClientController.setLoginLogoutEventCallBack(this.loginLogoutEvent) ;
     querySelectorAll("#${id}-login").forEach((e){
       e.onClick.listen((e) {
@@ -45,6 +50,11 @@ class HeaderWidget extends Widget  {
     querySelectorAll("#${id}-menu").forEach((e){
       e.onClick.listen((e) {
         _menuWidget.toggleMenu();
+      });
+    });
+    querySelectorAll("#${id}-pages").forEach((e){
+      e.onClick.listen((e) {
+        _pageLinksWidget.toggleMenu();
       });
     });
     querySelectorAll("#${id}-search").forEach((e){
@@ -123,8 +133,13 @@ class HeaderWidget extends Widget  {
           ..position = "relative" ;
    }) ;                                         
             
-   querySelector("#${_menuWidget.id}").style..position= "relative" 
-                                            ..top= "${HEIGHT}px"  ;
+   querySelector("#${_menuWidget.id}").style..position= "absolute" 
+                ..left= "3px" 
+                ..top= "${HEIGHT}px"  ;
+
+   querySelector("#${_pageLinksWidget.id}").style..position= "absolute"
+                ..right= "500px" 
+                ..top= "${HEIGHT}px"  ;
   }
   
   void set title(String value) {
@@ -174,4 +189,61 @@ class HeaderWidget extends Widget  {
   void userActionsChangeEvent(UserActionsChangeEvent event) {
       _menuWidget.resetMenu(event.mainApplicationMenu,event.currentPageMenu) ;
   }
+  
+  void pageChangeEvent(PageChangeEvent event){
+    if (event.shouldBeInPageList){
+      if (event.displayed){
+       _pagesCursor.addPageLink( new PageLink(event.title,event.url) ); 
+      }
+      if (event.removed){
+       _pagesCursor.removePageLink( event.url ); 
+      }
+      _pageLinksWidget.resetMenu(_pagesCursor.actions, null);
+      
+    }
+  }
+  
+}
+
+
+class PageLink{
+  String title;
+  String url;
+  
+  PageLink(this.title, this.url);
+  
+  ActionDescriptor get action {
+    ActionDescriptor action = new ActionDescriptor();
+    String displayedTitle = title ;
+    if(title.length > 45){
+      displayedTitle = title.substring(0,44) + "..." ;
+    }
+    
+    action.name = title;
+    action.description = displayedTitle;
+    action.launchAction = (params) => window.location.href = url; 
+    return action; 
+  }
+}
+
+
+class PagesCursor {
+  List<PageLink> _pageLinks = new  List<PageLink>();
+  
+  void addPageLink(PageLink pageLink){
+    if ( !  _pageLinks.any( (pageLinkLoop)=> pageLinkLoop.url == pageLink.url) ) {
+      _pageLinks.add(pageLink);
+    }
+  }
+  
+  void removePageLink(String url){
+    _pageLinks.removeWhere((pageLinkLoop)=> pageLinkLoop.url == url) ;
+  }
+  
+  List<ActionDescriptor> get actions{
+    List<ActionDescriptor> actions = new List<ActionDescriptor>();
+    _pageLinks.forEach((pageLink)=> actions.add(pageLink.action) ) ;
+    return actions;
+  }
+    
 }

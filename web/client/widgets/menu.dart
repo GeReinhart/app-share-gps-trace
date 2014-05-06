@@ -33,19 +33,19 @@ class MenuWidget extends Widget{
     }
   }
   
-  void resetMenu(List<ActionDescriptor> mainApplicationMenu, List<ActionDescriptor> currentPageMenu) {
+  void resetMenu(List<ActionDescriptor> firstSection, List<ActionDescriptor> secondSection) {
     
     Element menu = querySelector("#${id} ul");
     menu.children.clear();
     
-    if (  mainApplicationMenu!= null){
-      mainApplicationMenu.forEach((action){
+    if (  firstSection!= null){
+      firstSection.forEach((action){
         menu.append(_buildItemMenu(action)) ;
       });
     }
-    if (  currentPageMenu != null && currentPageMenu.isNotEmpty){
+    if (  secondSection != null && secondSection.isNotEmpty){
       menu.append(_buildDivider()) ;
-      currentPageMenu.forEach((action){
+      secondSection.forEach((action){
         menu.append(_buildItemMenu(action)) ;
       });
     }

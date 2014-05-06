@@ -52,6 +52,8 @@ class TraceDetailsPage extends Page {
   
   bool canBeLaunched(String login, bool isAdmin ) => true;
   
+  bool shouldBeInPageList() => true;
+  
   bool canBeLaunchedFromMainMenu()=> false;
   
   List<ActionDescriptor> getActionsFor(String login, bool isAdmin){
@@ -184,6 +186,7 @@ class TraceDetailsPage extends Page {
       showBySelector("#${name}NE");
       _displayMap( traceDetails );
       _updateDeleteConfirmText( traceDetails);
+      sendPageChangeEvent(traceDetails.title, "/#${pageParameters.anchor}" ) ;
     }else{
       _showPage( key,false);       
     }
@@ -203,7 +206,7 @@ class TraceDetailsPage extends Page {
  }
   
  
- void _showPage(String key, bool onlyRefreshContent){
+ void _showPage(String key,  bool onlyRefreshContent){
     
     String keyJsSafe = _transformJsSafe(key) ;
     loadingNW.startLoading();
@@ -244,7 +247,7 @@ class TraceDetailsPage extends Page {
           showBySelector("#${name}NE");
         }
         
-        
+        sendPageChangeEvent(traceDetails.title, "/#${this.name}/${key}" ) ;
 
       }
     });

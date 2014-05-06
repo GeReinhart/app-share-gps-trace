@@ -165,7 +165,7 @@ Future headerWidget(HttpConnect connect, {headerId}) { //#2
 
 
     response.write("""-pages" class='gx-as-link'  >
-        <a title="Accès aux pages (en construction)" ><img  src='/assets/img/pages.png'  /></a>
+        <a title="Accès aux pages" ><img  src='/assets/img/pages.png'  /></a>
      </span>
      <span id=\""""); //#37
 
@@ -187,14 +187,22 @@ Future headerWidget(HttpConnect connect, {headerId}) { //#2
     response.write(Rsp.nnx(headerId)); //#45
 
 
-    response.write("""-close" class='gx-as-link' style="position:absolute; z-index: 1000 ; right: 3px; top: 43px;" >
+    response.write("""-close" class='gx-as-link' style="position:absolute; z-index: 500 ; right: 3px; top: 43px;" >
         <a title="Fermer la page courante (en construction)" ><img  src='/assets/img/close.png'  /></a>
      </span>
-</div>
-
-
 """); //#45
 
-    return new Future.value();
+    return Rsp.nnf(menuWidget(new HttpConnect.chain(connect), menuId: "menu")).then((_) { //include#48
+
+      return Rsp.nnf(menuWidget(new HttpConnect.chain(connect), menuId: "pageLinks")).then((_) { //include#49
+
+        response.write("""</div>
+
+
+"""); //#50
+
+        return new Future.value();
+      }); //end-of-include
+    }); //end-of-include
   }); //end-of-include
 }

@@ -39,20 +39,20 @@ class PagesController extends ClientController{
   List<Page> _pages = new List<Page>();
   StreamController<UserActionsChangeEvent> _userActionsChangeEventStream ;
   StreamController<TraceChangeEvent> _traceChangeEventStream ;
+  StreamController<PageChangeEvent> _pageChangeEventStream ;
   UserClientController userClientController;
   
   PagesController(){
     _userActionsChangeEventStream = new StreamController<UserActionsChangeEvent>.broadcast( sync: true);
     _traceChangeEventStream = new StreamController<TraceChangeEvent>.broadcast( sync: true);
-
-   
+    _pageChangeEventStream = new StreamController<PageChangeEvent>.broadcast( sync: true);
     
     new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
   
   void init(List<Page> pages){
     _pages = pages ;
-    
+    _pages.forEach((page)=>  page.setPageChangeEventCallBack(  this._forwardPageChangeEvent )   ) ;
   }
   
   void setUserActionsChangeEventCallBack( UserActionsChangeCallBack callBack  ){
@@ -61,6 +61,10 @@ class PagesController extends ClientController{
   
   void setTraceChangeEventCallBack( TraceChangeCallBack callBack  ){
     _traceChangeEventStream.stream.listen((event) => callBack(event));
+  }
+  
+  void setPageChangeEventCallBack( PageChangeCallBack callBack  ){
+    _pageChangeEventStream.stream.listen((event) => callBack(event));
   }
   
   void _sendUserActionsChangeEvent(String login, bool isAdmin, Page page){
@@ -74,6 +78,10 @@ class PagesController extends ClientController{
     TraceChangeEvent traceChangeEvent = new TraceChangeEvent();
     traceChangeEvent.key = key;
     _traceChangeEventStream.add(  traceChangeEvent  );
+  }
+
+  void _forwardPageChangeEvent(PageChangeEvent event ){
+    _pageChangeEventStream.add(  event );
   }
   
   void fireTraceChangeEvent(String key){
@@ -102,7 +110,7 @@ class PagesController extends ClientController{
                                      orElse: () => defaultPage );
    
    
-   if (targetPage == _currentPage){
+   if (targetPage == _currentPage && pageParameters.equals(_currentPage.pageParameters) ){
      new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
      return ;
    }  
@@ -117,7 +125,7 @@ class PagesController extends ClientController{
   }
   
   void _showPage(Page targetPage, Parameters pageParameters){
-    if( _currentPage != null  ){
+   if( _currentPage != null  ){
       _currentPage.hidePage(); 
    }
    _currentPage = targetPage ;

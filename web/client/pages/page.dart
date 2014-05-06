@@ -1,5 +1,6 @@
 
 import "dart:html";
+import 'dart:async';
 import '../spaces.dart';
 import "../widgets/sharedWidgets.dart" ;
 import "../widgets/login.dart" ;
@@ -82,7 +83,9 @@ abstract class Page{
   bool _showWestSpace;
   ActionImages actionImages;
   Set<String> receivedFragments = new Set<String>();
+  StreamController<PageChangeEvent> _pageChangeEventStream ;
   PageContext context ;
+  Parameters pageParameters;
   
   Page( this._name, this.context, this._centerRightPercentPosition, this._centerTopPercentPosition,this._showWestSpace ){
     _init();
@@ -91,6 +94,8 @@ abstract class Page{
 
   void _init(){ 
 
+    _pageChangeEventStream = new StreamController<PageChangeEvent>.broadcast( sync: true);
+    
     context.loginModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
     context.registerModal.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
     context.logoutWidget.setLoginLogoutEventCallBack( this.loginLogoutEvent ) ;
@@ -203,6 +208,8 @@ abstract class Page{
     return _htmlValidator;
   }
   
+  bool shouldBeInPageList() => false;
+
   void showLoginModal(){
     context.loginModal.showLoginModal();
   }
@@ -221,8 +228,16 @@ abstract class Page{
   
   void showPage(Parameters pageParameters){
     active= true;
+    this.pageParameters = pageParameters;
   }
   
+  void setPageChangeEventCallBack( PageChangeCallBack callBack  ){
+    _pageChangeEventStream.stream.listen((event) => callBack(event));
+  }
+  
+  void sendPageChangeEvent(String title, String url ){
+    _pageChangeEventStream.add(  new PageChangeEvent(title, url, shouldBeInPageList()) );
+  }
  
   bool canBeLaunched(String login, bool isAdmin );
   

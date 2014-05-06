@@ -1,9 +1,24 @@
 
 import 'dart:async';
 
-
 typedef void OkCancelCallBack(OKCancelEvent event);
 typedef void LoginLogoutCallBack(LoginLogoutEvent event);
+typedef void PageChangeCallBack(PageChangeEvent event);
+
+
+class PageChangeEvent{
+  bool displayed = true ;
+  bool removed = false ;
+  bool shouldBeInPageList = false ;
+  String url ;
+  String title ;
+  PageChangeEvent(this.title, this.url, this.shouldBeInPageList);
+  
+  PageChangeEvent.remove(this.url){
+    removed = true ;
+    displayed = false;
+  }
+}
 
 class OKCancelEvent{
   bool _ok ;

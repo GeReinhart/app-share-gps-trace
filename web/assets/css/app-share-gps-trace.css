@@ -47,6 +47,14 @@
   padding: 4px;
 }
 
+.dropdown-menu {
+  min-width: none;
+  width: 450px;
+}
+
+
+
+
 #map div {
   text-align:left;	
 }
