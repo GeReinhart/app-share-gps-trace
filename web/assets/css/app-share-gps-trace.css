@@ -42,6 +42,11 @@
   vertical-align:middle; 
 }
 
+.table th,
+.table td {
+  padding: 4px;
+}
+
 #map div {
   text-align:left;	
 }
