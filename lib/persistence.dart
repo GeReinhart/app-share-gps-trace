@@ -10,7 +10,7 @@ abstract class PersistenceLayer{
 
   void close();
 
-  Future<List<Trace>>  getTraces({limit:25}) ;
+  Future<List<Trace>>  getTraces({limit:50}) ;
   
   Future<List<Trace>>  getTracesByCreator(String creator) ;
 
