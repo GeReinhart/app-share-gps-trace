@@ -236,7 +236,7 @@ abstract class Page{
   }
   
   void sendPageChangeEvent(String title, String url ){
-    _pageChangeEventStream.add(  new PageChangeEvent(title, url, shouldBeInPageList()) );
+    _pageChangeEventStream.add(  new PageChangeEvent(this,this.pageParameters,title, url, shouldBeInPageList()) );
   }
  
   bool canBeLaunched(String login, bool isAdmin );

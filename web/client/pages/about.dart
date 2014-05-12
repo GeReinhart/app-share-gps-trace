@@ -28,6 +28,7 @@ class AboutPage extends Page {
     getAndShowElement("/f_about_dev", "#${name}NE");
     getAndShowElement("/f_about_feedbacks", "#${name}SW");
     getAndShowElement("/f_about_author", "#${name}SE");
+    sendPageChangeEvent(description, "#${name}" ) ;
   }
 }
 

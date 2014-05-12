@@ -1,5 +1,7 @@
 
 import 'dart:async';
+import "pages/page.dart";
+import "actions.dart";
 
 typedef void OkCancelCallBack(OKCancelEvent event);
 typedef void LoginLogoutCallBack(LoginLogoutEvent event);
@@ -7,16 +9,26 @@ typedef void PageChangeCallBack(PageChangeEvent event);
 
 
 class PageChangeEvent{
+  Page page ;
+  Parameters pageParameters ;
   bool displayed = true ;
   bool removed = false ;
+  bool toBeRemoved = false ;
   bool shouldBeInPageList = false ;
   String url ;
   String title ;
-  PageChangeEvent(this.title, this.url, this.shouldBeInPageList);
+  PageChangeEvent(this.page, this.pageParameters, this.title, this.url, this.shouldBeInPageList);
   
-  PageChangeEvent.remove(this.url){
-    removed = true ;
+  PageChangeEvent.remove(this.page,this.url){
     displayed = false;
+    removed = false ;
+    toBeRemoved = true ;
+  }
+  
+  PageChangeEvent.hasBeenRemoved(this.page,this.url){
+    displayed = false;
+    removed = true ;
+    toBeRemoved = false ;
   }
 }
 

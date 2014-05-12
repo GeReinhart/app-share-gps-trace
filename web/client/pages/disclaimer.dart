@@ -22,5 +22,6 @@ class DisclaimerPage extends Page {
     organizeSpaces();
     getAndShowElement("/f_legal_disclaimer", "#${name}NW");
     getAndShowElement("/f_legal_terms", "#${name}NE");
+    sendPageChangeEvent(description, "#${name}" ) ;
   }
 }

@@ -41,6 +41,7 @@ class IndexPage extends Page {
   void showPage( Parameters pageParameters) {
     super.showPage(pageParameters);
     window.location.href = "/#trace_search";
+    sendPageChangeEvent(description, "#${name}" ) ;
   }
   
   void hidePage() {
@@ -80,6 +81,6 @@ void main() {
   pages.add(new TraceDetailsPage(pageContext));
   pages.add(new TraceFormPage(pageContext));
   
-  pagesController.init(pages);
+  pagesController.init(pages,pageContext);
 }
 

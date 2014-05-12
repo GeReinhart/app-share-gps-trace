@@ -333,6 +333,7 @@ class TraceSearchPage extends Page {
     showBySelector("#${name}SE", hiddenClass: "gx-hidden-map");
     _initTraceSearchPage();
     js.context.searchMap.refreshTiles();
+    sendPageChangeEvent(description, "#${name}" ) ;
   }
   
   void hidePage() {

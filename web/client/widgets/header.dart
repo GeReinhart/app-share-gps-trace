@@ -18,12 +18,17 @@ class HeaderWidget extends Widget  {
   
   MenuWidget _menuWidget;
   MenuWidget _pageLinksWidget;
-  PagesCursor _pagesCursor ;
+  AvailablePages _availablePages ;
+  
+  PageChangeEvent _lastPageChangeEvent;
+  StreamController<PageChangeEvent> _pageChangeEventStream ;
+  
   
   HeaderWidget(String id): super(id){
     _menuWidget = new MenuWidget("menu") ;
     _pageLinksWidget = new MenuWidget("pageLinks") ;
-    _pagesCursor = new PagesCursor();
+    _availablePages = new AvailablePages();
+    _pageChangeEventStream = new StreamController<PageChangeEvent>.broadcast( sync: true);
     _updateWidget();
   }
   
@@ -60,6 +65,13 @@ class HeaderWidget extends Widget  {
     querySelectorAll("#${id}-search").forEach((e){
       e.onClick.listen((e) {
         window.location.href = "/#trace_search" ;
+      });
+    });
+    querySelectorAll("#${id}-close").forEach((e){
+      e.onClick.listen((e) {
+        if (_lastPageChangeEvent != null){
+          _sendPageToBeClosedEvent(_lastPageChangeEvent);
+        }
       });
     });
     
@@ -186,19 +198,40 @@ class HeaderWidget extends Widget  {
     }
   }
   
+
+  
   void userActionsChangeEvent(UserActionsChangeEvent event) {
       _menuWidget.resetMenu(event.mainApplicationMenu,event.currentPageMenu) ;
   }
+
+  void setPageChangeEventCallBack( PageChangeCallBack callBack  ){
+    _pageChangeEventStream.stream.listen((event) => callBack(event));
+  }
+  
+  void _sendPageToBeClosedEvent(PageChangeEvent event ){
+    event.toBeRemoved = true;
+    event.displayed = false;
+    _pageChangeEventStream.add(  event );
+  }
   
   void pageChangeEvent(PageChangeEvent event){
+
+    _lastPageChangeEvent = event;
+    if (event.displayed){
+      if(event.shouldBeInPageList){
+        showBySelector("#${id}-close");
+      }else{
+        hideBySelector("#${id}-close");
+      }
+    }
     if (event.shouldBeInPageList){
       if (event.displayed){
-       _pagesCursor.addPageLink( new PageLink(event.title,event.url) ); 
+       _availablePages.addPageLink( new PageLink(event.title,event.url) ); 
       }
       if (event.removed){
-       _pagesCursor.removePageLink( event.url ); 
+       _availablePages.removePageLink( event.url ); 
       }
-      _pageLinksWidget.resetMenu(_pagesCursor.actions, null);
+      _pageLinksWidget.resetMenu(_availablePages.actions, null);
       
     }
   }
@@ -227,7 +260,7 @@ class PageLink{
 }
 
 
-class PagesCursor {
+class AvailablePages {
   List<PageLink> _pageLinks = new  List<PageLink>();
   
   void addPageLink(PageLink pageLink){

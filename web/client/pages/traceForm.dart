@@ -91,6 +91,7 @@ class TraceFormPage extends Page {
       layout.organizeSpaces(50,50,showWestSpace:false );
       _loadForm(_currentKey) ;
     }
+    sendPageChangeEvent(description, "#${name}" ) ;
   }
   
   void hidePage() {

@@ -37,6 +37,7 @@ class PagesController extends ClientController{
   
   Page _currentPage = null ;
   List<Page> _pages = new List<Page>();
+  PagesCursor _pagesCursor = new PagesCursor();
   StreamController<UserActionsChangeEvent> _userActionsChangeEventStream ;
   StreamController<TraceChangeEvent> _traceChangeEventStream ;
   StreamController<PageChangeEvent> _pageChangeEventStream ;
@@ -50,9 +51,12 @@ class PagesController extends ClientController{
     new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
   
-  void init(List<Page> pages){
+  void init(List<Page> pages,PageContext pageContext){
     _pages = pages ;
-    _pages.forEach((page)=>  page.setPageChangeEventCallBack(  this._forwardPageChangeEvent )   ) ;
+    _pages.forEach((page){
+      page.setPageChangeEventCallBack(  this.pageChangeEvent )   ;
+    }) ;
+    pageContext.headerWidget.setPageChangeEventCallBack(this.pageChangeEvent);
   }
   
   void setUserActionsChangeEventCallBack( UserActionsChangeCallBack callBack  ){
@@ -80,7 +84,19 @@ class PagesController extends ClientController{
     _traceChangeEventStream.add(  traceChangeEvent  );
   }
 
-  void _forwardPageChangeEvent(PageChangeEvent event ){
+  void pageChangeEvent(PageChangeEvent event){
+    if (event.displayed && event.shouldBeInPageList){
+      _pagesCursor.addPage( new PageDescriptor(event.page,event.pageParameters, event.title, event.url) ) ;
+    }
+    if (event.toBeRemoved){
+      _pagesCursor.removePage( event.url ) ;
+      if (_pagesCursor.cursor != null){
+        window.location.href = _pagesCursor.cursor.url ;
+      }else{
+        window.location.href = "/#trace_search" ;
+      }
+      event.removed = true;
+    }
     _pageChangeEventStream.add(  event );
   }
   
@@ -115,12 +131,8 @@ class PagesController extends ClientController{
      return ;
    }  
    _showPage( targetPage,  pageParameters);
-   User user = userClientController.connectedUser;
-   if (  user !=null ){
-     _sendUserActionsChangeEvent(user.login,user.admin, targetPage) ;
-   }else{
-     _sendUserActionsChangeEvent(null,false, targetPage) ;
-   }
+
+   
    new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
   }
   
@@ -130,6 +142,12 @@ class PagesController extends ClientController{
    }
    _currentPage = targetPage ;
    _currentPage.showPage(pageParameters); 
+   User user = userClientController.connectedUser;
+   if (  user !=null ){
+     _sendUserActionsChangeEvent(user.login,user.admin, targetPage) ;
+   }else{
+     _sendUserActionsChangeEvent(null,false, targetPage) ;
+   }
   }
   
   
@@ -150,6 +168,40 @@ class PagesController extends ClientController{
   }
   
 }
+
+class PageDescriptor{
+  Page page;
+  Parameters pageParameters ;
+  String title;
+  String url;
+  
+  PageDescriptor(this.page,this.pageParameters,this.title,this.url);
+}
+
+class PagesCursor {
+  List<PageDescriptor> _pages = new  List<PageDescriptor>();
+  PageDescriptor cursor ;
+  
+  void addPage(PageDescriptor page){
+    if ( !  _pages.any( (pageLoop)=> pageLoop.url == page.url) ) {
+      _pages.add(page);
+    }
+    cursor = page ;
+  }
+  
+  void removePage(String url){
+    _pages.removeWhere((pageLinkLoop)=> pageLinkLoop.url == url) ;
+    
+    if (_pages.isNotEmpty){
+      cursor = _pages.last;
+    }else{
+      cursor = null ;
+    }
+  }
+}
+
+
+
 
 class UserClientController extends ClientController with LoginLogoutEventProducer{
   
