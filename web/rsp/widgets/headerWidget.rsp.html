@@ -31,19 +31,19 @@
      <span id="[=headerId]-admin" class='gx-as-link [=currentUser(request.session) != null &&   currentUser(request.session).admin  ?  "" : "gx-hidden"]' >
         <a title='Admin [=currentUser(request.session) != null  ?  currentUser(request.session).login : ""] (en construction) ' ><img  src='/assets/img/admin.png '  /></a>
      </span>     
-     <span id="[=headerId]-back" class='gx-as-link' >
-        <a title="Page précedente (en construction)" ><img id="[=headerId]-back-img" src='/assets/img/back.png' style="width: 32px" /></a>
+     <span id="[=headerId]-previous" class='gx-as-link' >
+        <a title="Page précedente" ><img id="[=headerId]-back-img" src='/assets/img/back.png' style="width: 32px" /></a>
      </span>     
      <span id="[=headerId]-pages" class='gx-as-link'  >
         <a title="Accès aux pages" ><img  src='/assets/img/pages.png'  /></a>
      </span>
      <span id="[=headerId]-next" class='gx-as-link' >
-        <a title="Page suivante (en construction)" ><img id="[=headerId]-next-img" src='/assets/img/next.png' style="width: 32px"  /></a>
+        <a title="Page suivante" ><img id="[=headerId]-next-img" src='/assets/img/next.png' style="width: 32px"  /></a>
      </span>       
    </div>
 
      <span id="[=headerId]-close" class='gx-as-link' style="position:absolute; z-index: 500 ; right: 3px; top: 43px;" >
-        <a title="Fermer la page courante (en construction)" ><img  src='/assets/img/close.png'  /></a>
+        <a title="Fermer la page courante" ><img  src='/assets/img/close.png'  /></a>
      </span>
      [:include menuWidget menuId="menu" /]
      [:include menuWidget menuId="pageLinks" /]

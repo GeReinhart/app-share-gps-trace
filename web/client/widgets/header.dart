@@ -70,10 +70,33 @@ class HeaderWidget extends Widget  {
     querySelectorAll("#${id}-close").forEach((e){
       e.onClick.listen((e) {
         if (_lastPageChangeEvent != null){
-          _sendPageToBeClosedEvent(_lastPageChangeEvent);
+          _availablePages.removePageLink( _lastPageChangeEvent.url ); 
+          _lastPageChangeEvent.toBeRemoved = true;
+          _lastPageChangeEvent.displayed = false;
+          _pageChangeEventStream.add(  _lastPageChangeEvent );
         }
       });
     });
+    querySelectorAll("#${id}-previous").forEach((e){
+      e.onClick.listen((e) {
+        if (_lastPageChangeEvent != null){
+          _lastPageChangeEvent.toGoPrevious = true;
+          _lastPageChangeEvent.toGoNext = false;
+          _lastPageChangeEvent.displayed = false;
+          _pageChangeEventStream.add(  _lastPageChangeEvent );
+        }
+      });
+    });    
+    querySelectorAll("#${id}-next").forEach((e){
+      e.onClick.listen((e) {
+        if (_lastPageChangeEvent != null){
+          _lastPageChangeEvent.toGoPrevious = false;
+          _lastPageChangeEvent.toGoNext = true;
+          _lastPageChangeEvent.displayed = false;
+          _pageChangeEventStream.add(  _lastPageChangeEvent );
+        }
+      });
+    });    
     
     window.onResize.listen((_)=>_updateWidget());
   }
@@ -208,11 +231,7 @@ class HeaderWidget extends Widget  {
     _pageChangeEventStream.stream.listen((event) => callBack(event));
   }
   
-  void _sendPageToBeClosedEvent(PageChangeEvent event ){
-    event.toBeRemoved = true;
-    event.displayed = false;
-    _pageChangeEventStream.add(  event );
-  }
+
   
   void pageChangeEvent(PageChangeEvent event){
 

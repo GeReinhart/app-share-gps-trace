@@ -151,8 +151,8 @@ Future headerWidget(HttpConnect connect, {headerId}) { //#2
     response.write(Rsp.nnx(headerId)); //#34
 
 
-    response.write("""-back" class='gx-as-link' >
-        <a title="Page précedente (en construction)" ><img id=\""""); //#34
+    response.write("""-previous" class='gx-as-link' >
+        <a title="Page précedente" ><img id=\""""); //#34
 
     response.write(Rsp.nnx(headerId)); //#35
 
@@ -173,7 +173,7 @@ Future headerWidget(HttpConnect connect, {headerId}) { //#2
 
 
     response.write("""-next" class='gx-as-link' >
-        <a title="Page suivante (en construction)" ><img id=\""""); //#40
+        <a title="Page suivante" ><img id=\""""); //#40
 
     response.write(Rsp.nnx(headerId)); //#41
 
@@ -188,7 +188,7 @@ Future headerWidget(HttpConnect connect, {headerId}) { //#2
 
 
     response.write("""-close" class='gx-as-link' style="position:absolute; z-index: 500 ; right: 3px; top: 43px;" >
-        <a title="Fermer la page courante (en construction)" ><img  src='/assets/img/close.png'  /></a>
+        <a title="Fermer la page courante" ><img  src='/assets/img/close.png'  /></a>
      </span>
 """); //#45
 

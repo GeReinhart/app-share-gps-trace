@@ -14,6 +14,8 @@ class PageChangeEvent{
   bool displayed = true ;
   bool removed = false ;
   bool toBeRemoved = false ;
+  bool toGoPrevious = false ;
+  bool toGoNext = false ;
   bool shouldBeInPageList = false ;
   String url ;
   String title ;
@@ -30,6 +32,7 @@ class PageChangeEvent{
     removed = true ;
     toBeRemoved = false ;
   }
+  
 }
 
 class OKCancelEvent{

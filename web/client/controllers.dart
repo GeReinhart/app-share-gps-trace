@@ -85,19 +85,41 @@ class PagesController extends ClientController{
   }
 
   void pageChangeEvent(PageChangeEvent event){
+    
+    PageDescriptor originalPageCursor =  _pagesCursor.cursor ;
+    
     if (event.displayed && event.shouldBeInPageList){
       _pagesCursor.addPage( new PageDescriptor(event.page,event.pageParameters, event.title, event.url) ) ;
+      _pagesCursor.displayPage( event.url ) ;
     }
+    
     if (event.toBeRemoved){
       _pagesCursor.removePage( event.url ) ;
-      if (_pagesCursor.cursor != null){
+      event.url = _pagesCursor.cursor.url ;
+      event.toBeRemoved = false ;
+      event.removed = false;
+      event.displayed = false;
+    }
+    if (event.toGoNext){
+      _pagesCursor.goNextPage( event.url ) ;
+      event.url = _pagesCursor.cursor.url ;
+      event.toGoNext = false ;
+    }
+    if (event.toGoPrevious){
+      _pagesCursor.goPreviousPage( event.url ) ;
+      event.url = _pagesCursor.cursor.url ;
+      event.toGoPrevious = false ;
+    }
+    
+    
+    if (originalPageCursor !=_pagesCursor.cursor){
+      if (_pagesCursor.cursor != null ){
         window.location.href = _pagesCursor.cursor.url ;
       }else{
         window.location.href = "/#trace_search" ;
       }
-      event.removed = true;
+      _pageChangeEventStream.add(  event );
     }
-    _pageChangeEventStream.add(  event );
   }
   
   void fireTraceChangeEvent(String key){
@@ -178,6 +200,8 @@ class PageDescriptor{
   PageDescriptor(this.page,this.pageParameters,this.title,this.url);
 }
 
+typedef int MoveCursor(int currentIndex) ; 
+
 class PagesCursor {
   List<PageDescriptor> _pages = new  List<PageDescriptor>();
   PageDescriptor cursor ;
@@ -198,6 +222,32 @@ class PagesCursor {
       cursor = null ;
     }
   }
+  
+  void goNextPage(String url) {
+    _moveCursor( url, (index)=>(index+1)) ;
+  }
+
+  void goPreviousPage(String url) {
+    _moveCursor( url, (index)=>(index-1)) ;
+  }
+
+  void displayPage(String url) {
+    _moveCursor( url, (index)=>(index)) ;
+  }
+  
+  void _moveCursor(String url, MoveCursor move ) {
+    PageDescriptor currentPage = _pages.firstWhere((pageLinkLoop)=> pageLinkLoop.url == url) ;
+    if (currentPage != null){
+      int currentPageIndex = _pages.indexOf(currentPage) ;
+      int nextCurrentPageIndex  = move(currentPageIndex)  ;
+      if ( nextCurrentPageIndex < _pages.length && nextCurrentPageIndex >= 0  ){
+        cursor = _pages[nextCurrentPageIndex] ;
+      }
+    }
+    
+  }
+  
+
 }
 
 
