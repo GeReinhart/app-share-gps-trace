@@ -74,6 +74,13 @@ class TraceSearchPage extends Page {
         String css = activityImage.classes.firstWhere((c)=>  c != "search-form-input-activity" && c.startsWith("search-form-input-activity-" )) ;
         String activity = css.substring("search-form-input-".length, css.length - 1) ;
         String activitySelected =  e.attributes["activity-selected"] ;
+        
+        querySelectorAll(".search-form-input-activity").forEach((e){
+            ImageElement activityImage = e as ImageElement;
+            e.attributes["activity-selected"] = "false" ;
+            activityImage.src = activityImage.src.replaceFirst("000000/3", "000000/1") ;
+        });
+        
         if ( activitySelected == null   ){
           activityImage.src = activityImage.src.replaceFirst("000000/1", "000000/3") ;
           e.attributes["activity-selected"] = "true" ;
