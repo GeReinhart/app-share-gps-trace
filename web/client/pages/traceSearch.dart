@@ -342,6 +342,13 @@ class TraceSearchPage extends Page {
     (querySelector(".search-form-input-up-lt") as InputElement ).value = form.upLt ;  
     (querySelector(".search-form-input-upper-point-elevetion-gt") as InputElement ).value = form.upperPointElevetionGt ;  
     (querySelector(".search-form-input-upper-point-elevetion-lt") as InputElement ).value = form.upperPointElevetionLt ;
+    if (form.activities.length == 1){
+      querySelectorAll(".search-form-input-activity-${form.activities[0]}").forEach((e){
+        ImageElement activityImage = e as ImageElement;
+        e.attributes["activity-selected"] = "true" ;
+        activityImage.src = activityImage.src.replaceFirst("000000/1", "000000/3") ;
+      });
+    }
     
     if (form.hasBounds){
       (querySelector('#search-form-input-location-ne-lat') as InputElement ).value = form.mapBoundNELat.toString()  ;
