@@ -22,7 +22,7 @@ Future aboutDevFragment(HttpConnect connect) { //#2
            <h3>15 mai 2014 : Possibilité d'enregister une recherche par l'url</h3>
                <ul>
                  <li>les critères des recherches sont stockés dans l'url</li>
-                 <li>une recherche peut être ajouté comme favoris dans le navigateur</li>
+                 <li>une recherche peut être ajoutée comme favoris dans le navigateur</li>
                  <li>par exemple : <a target="_blank" href="http://www.la-boussole.info/#trace_search?s=rando des nuls&c=&a=trek&lg=&ll=&ug=&ul=&sg=&sl=&eg=&el=&nea=45.64860838388028&neo=9.591064453125&swa=44.315987905196906&swo=2.9827880859375">"les randos des nuls"</a>  </li>
                </ul>
 
