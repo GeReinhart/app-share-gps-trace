@@ -144,6 +144,8 @@ class PagesController extends ClientController{
   
   void _mayChangePage(){
    
+
+    
    Page targetPage = null ;
    Page defaultPage = _pages.first; 
    if ( !window.location.href.contains("#") ){
@@ -151,6 +153,8 @@ class PagesController extends ClientController{
    }
    
    String anchor =  window.location.href.substring(window.location.href.indexOf("#")+1) ;
+   
+   
    Parameters pageParameters = Parameters.buildFromAnchor(anchor);
    
    
@@ -158,7 +162,11 @@ class PagesController extends ClientController{
                                      orElse: () => defaultPage );
    
    
-   if (targetPage == _currentPage && pageParameters.equals(_currentPage.pageParameters) ){
+   if (
+         targetPage == _currentPage &&  pageParameters.equals(_currentPage.pageParameters)
+     ||  _currentPage != null && window.location.href.contains("?")
+         
+       ){
      new Timer(PAGE_CHANGE_CHECK_TIMEOUT, _mayChangePage);
      return ;
    }  

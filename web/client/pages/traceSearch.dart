@@ -289,7 +289,7 @@ class TraceSearchPage extends Page {
   void sendSearchRequest(HttpRequest request, {mapFilter:true,queryFilter:false}){
     request.open("POST",  "/j_trace_search", async: true);
     SearchForm form = buildSearchFormFromPage(mapFilter:mapFilter);
-    if (!queryFilter){
+    if (!queryFilter  && window.location.href.contains("/#trace_search") ){
         window.location.href = "/#trace_search?${form.toUrlQuery()}";
     }
     request.send(JSON.encode(form.toJson()));
