@@ -95,31 +95,41 @@ class PagesController extends ClientController{
     
     if (event.toBeRemoved){
       _pagesCursor.removePage( event.url ) ;
-      event.url = _pagesCursor.cursor.url ;
-      event.toBeRemoved = false ;
-      event.removed = false;
-      event.displayed = false;
+      if (  _pagesCursor.cursor!= null ){
+        event.url = _pagesCursor.cursor.url ;
+        event.toBeRemoved = false ;
+        event.removed = false;
+        event.displayed = false;
+      }
     }
     if (event.toGoNext){
       _pagesCursor.goNextPage( event.url ) ;
       event.url = _pagesCursor.cursor.url ;
+      event.displayed = true;
       event.toGoNext = false ;
     }
     if (event.toGoPrevious){
       _pagesCursor.goPreviousPage( event.url ) ;
       event.url = _pagesCursor.cursor.url ;
+      event.displayed = true;
       event.toGoPrevious = false ;
     }
     
     
-    if (originalPageCursor !=_pagesCursor.cursor){
-      if (_pagesCursor.cursor != null ){
-        window.location.href = _pagesCursor.cursor.url ;
-      }else{
-        window.location.href = "/#trace_search" ;
-      }
+    if ( !event.shouldBeInPageList ){
       _pageChangeEventStream.add(  event );
+    }else{
+      if (originalPageCursor !=_pagesCursor.cursor){
+        if (_pagesCursor.cursor != null ){
+          window.location.href = _pagesCursor.cursor.url ;
+        }else{
+          window.location.href = "/#trace_search" ;
+        }
+        _pageChangeEventStream.add(  event );
+      }
     }
+    
+    
   }
   
   void fireTraceChangeEvent(String key){

@@ -12,9 +12,41 @@ Future aboutDevFragment(HttpConnect connect) { //#2
 
   response.write("""
 
-           <h2>Derriere la scène</h2>
-           <div class="text-warning  form-error-message" >En construction : texte présentant les enjeux techniques de construction et d'évolution de l'application.</div>
+           <h2>Fonctionnalités</h2>
 
+           <h3>A venir</h3>
+               <ul>
+                 <li>ajout de commentaires pour une trace</li>
+                 <li>critères de recherche dans l'url pour pouvoir les sauvegarder</li>
+               </ul>
+
+
+           <h3>14 mai 2014 : Navigation dans les traces</h3>
+               <ul>
+                 <li>accès aux traces ouvertes dans le menu en haut à droite</li>
+                 <li>passage à la trace suivante</li>
+                 <li>passage à la trace précédente</li>
+                 <li>suppression de la trace courante</li>
+               </ul>
+
+           <h3>26 avril 2014 : Bouton actions au centre</h3>
+               <ul>
+                 <li>possibilité d'effectuer les principales actions depuis la boussole elle même</li>
+               </ul>
+
+           <h3>22 avril 2014 : Marqueurs</h3>
+               <ul>
+                 <li>possibilité d'ajouter/modifier/supprimer un marqueur sur une trace</li>
+                 <li>marqueur : point d'eau, refuge, bivouac...</li>
+               </ul>
+
+
+           <h3>15 avril 2014 : Première version stable</h3>
+               <ul>
+                 <li>ajout d'une trace au format GPX</li>
+                 <li>recherche évoluée de traces</li>
+                 <li>visualisation de trace</li>
+               </ul>
 """); //#2
 
   return new Future.value();
