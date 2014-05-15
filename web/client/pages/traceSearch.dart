@@ -47,7 +47,8 @@ class TraceSearchPage extends Page {
     }
     centerMoved(layout.postions);
     
-    submitRequest(mapFilter:false);
+    bool queryFilter = _fillInputFieldsWithUrlQuery();
+    submitRequest(mapFilter:false,queryFilter:queryFilter);
     
     querySelectorAll(".search-form-inputs").onChange.listen((e){
       lastTimeFiltersChange = new DateTime.now();
@@ -124,27 +125,27 @@ class TraceSearchPage extends Page {
     }
   }
   
-  void submitRequest({mapFilter:true}){
+  void submitRequest({mapFilter:true,queryFilter:false}){
     HttpRequest request = new HttpRequest();
   
     layout.startLoading();
     request.onReadyStateChange.listen((_) {
       if (request.readyState == HttpRequest.DONE ) {
         waitingForResult = false;
-        displaySearchResults(request,fitMapViewPortWithMarkers:firstRequest);
-        if (firstRequest){
+        displaySearchResults(request,fitMapViewPortWithMarkers:firstRequest,queryFilter:queryFilter);
+        if (firstRequest && !queryFilter){
            zoomOnEndUserLocation();
         }
         firstRequest=false;
       }
     });
-    sendSearchRequest(request, mapFilter:mapFilter);
+    sendSearchRequest(request, mapFilter:mapFilter, queryFilter:queryFilter);
   }
   
   void zoomOnEndUserLocation(){
       js.context.searchMap.zoomOnEndUserLocation();
   }
-  void displaySearchResults(HttpRequest request, {fitMapViewPortWithMarkers:true}){
+  void displaySearchResults(HttpRequest request, {fitMapViewPortWithMarkers:true,queryFilter:false}){
     if (request.responseText == null || request.responseText != null  && request.responseText.isEmpty){
       layout.stopLoading();
       return ;   
@@ -164,10 +165,10 @@ class TraceSearchPage extends Page {
         String gpxUrl = "/trace.gpx/${lightTrace.key}";   
         js.context.searchMap.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.mainActivity , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
         });
-      if (fitMapViewPortWithMarkers){
+      if (fitMapViewPortWithMarkers && !queryFilter){
         js.context.searchMap.fitMapViewPortWithMarkers();
       }
-      if(firstRequest){
+      if(firstRequest && !queryFilter){
         _highlightTraceByKey(form.results.first.keyJsSafe);
       }
       showBySelector("#trace-search-results-content");
@@ -278,9 +279,12 @@ class TraceSearchPage extends Page {
   }
   
   
-  void sendSearchRequest(HttpRequest request, {mapFilter:true}){
+  void sendSearchRequest(HttpRequest request, {mapFilter:true,queryFilter:false}){
     request.open("POST",  "/j_trace_search", async: true);
     SearchForm form = buildSearchFormFromPage(mapFilter:mapFilter);
+    if (!queryFilter){
+        window.location.href = "/#trace_search?${form.toUrlQuery()}";
+    }
     request.send(JSON.encode(form.toJson()));
     waitingForResult = true;
   }
@@ -313,6 +317,34 @@ class TraceSearchPage extends Page {
     }
   
     return form;
+  }
+  
+  bool _fillInputFieldsWithUrlQuery(){
+    if (!window.location.href.contains("?")){
+      return false;
+    }
+    List<String> values = window.location.href.split("?") ;
+    if (values.length != 2){
+      return false;
+    }
+    SearchForm form = new SearchForm.fromUrlQuery(values[1]) ;
+    (querySelector(".search-form-input-text") as InputElement ).value = form.search ;
+    (querySelector(".search-form-input-length-gt") as InputElement ).value = form.lengthGt ;  
+    (querySelector(".search-form-input-length-lt") as InputElement ).value = form.lengthLt ;  
+    (querySelector(".search-form-input-up-gt") as InputElement ).value = form.upGt ;  
+    (querySelector(".search-form-input-up-lt") as InputElement ).value = form.upLt ;  
+    (querySelector(".search-form-input-upper-point-elevetion-gt") as InputElement ).value = form.upperPointElevetionGt ;  
+    (querySelector(".search-form-input-upper-point-elevetion-lt") as InputElement ).value = form.upperPointElevetionLt ;
+    
+    if (form.hasBounds){
+      (querySelector('#search-form-input-location-ne-lat') as InputElement ).value = form.mapBoundNELat.toString()  ;
+      (querySelector('#search-form-input-location-ne-long')as InputElement ).value=  form.mapBoundNELong.toString() ;
+      (querySelector('#search-form-input-location-sw-lat') as InputElement ).value = form.mapBoundSWLat.toString() ;
+      (querySelector('#search-form-input-location-sw-long')as InputElement ).value=  form.mapBoundSWLong.toString() ;
+      js.context.searchMap.fitBounds(form.mapBoundNELat ,form.mapBoundNELong,form.mapBoundSWLat,form.mapBoundSWLong ) ;
+    }
+    
+    return true;
   }
   
   

@@ -535,6 +535,14 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
 	     }
 	 }
 
+     this.fitBounds = function (neLat,neLong,swLat,swLong){
+         this.map.fitBounds([
+			    [neLat, neLong],
+			    [swLat, swLong]
+			]);
+         this.map.invalidateSize() ;
+     }
+
      this.getBounds = function (){
          return this.map.getBounds();
      }

@@ -169,16 +169,12 @@ class SearchForm  implements ToJson{
   
   String lengthGt;
   String upGt ;
-  String inclinationUpGt;
   String startPointElevetionGt;
   String upperPointElevetionGt;
-  String difficultyGt;
   String lengthLt;
   String upLt ;
-  String inclinationUpLt;
   String startPointElevetionLt;
   String upperPointElevetionLt;
-  String difficultyLt;
   
   double mapBoundNELat ;
   double mapBoundNELong ;
@@ -192,23 +188,23 @@ class SearchForm  implements ToJson{
   SearchForm.fromMap(Map jsonMap){
     _fromMap(jsonMap);
   }
+
+  SearchForm.fromUrlQuery(String query){
+    _fromUrlQuery(query);
+  }
   
   bool equals( SearchForm other){
     if ( ! _stringEquals(search, other.search) ) return false ;
     if ( ! _stringEquals(creator, other.creator) ) return false ;
     if ( ! _stringEquals(_activities, other._activities) ) return false ;
     if ( ! _stringEquals(lengthGt, other.lengthGt) ) return false ;
-    if ( ! _stringEquals(inclinationUpGt, other.inclinationUpGt) ) return false ;
     if ( ! _stringEquals(startPointElevetionGt, other.startPointElevetionGt) ) return false ;
     if ( ! _stringEquals(upperPointElevetionGt, other.upperPointElevetionGt) ) return false ;
 
-    if ( ! _stringEquals(difficultyGt, other.difficultyGt) ) return false ;
     if ( ! _stringEquals(lengthLt, other.lengthLt) ) return false ;
     if ( ! _stringEquals(upLt, other.upLt) ) return false ;
-    if ( ! _stringEquals(inclinationUpLt, other.inclinationUpLt) ) return false ;
     if ( ! _stringEquals(startPointElevetionLt, other.startPointElevetionLt) ) return false ;
     if ( ! _stringEquals(upperPointElevetionLt, other.upperPointElevetionLt) ) return false ;
-    if ( ! _stringEquals(difficultyLt, other.difficultyLt) ) return false ;
 
     if ( ! _doubleEquals(mapBoundNELat, other.mapBoundNELat) ) return false ;
     if ( ! _doubleEquals(mapBoundNELong, other.mapBoundNELong) ) return false ;
@@ -256,16 +252,12 @@ class SearchForm  implements ToJson{
 
     lengthGt = jsonMap["lengthGt"] ;
     upGt = jsonMap["upGt"] ;
-    inclinationUpGt = jsonMap["inclinationUpGt"] ;
     startPointElevetionGt = jsonMap["startPointElevetionGt"] ;
     upperPointElevetionGt = jsonMap["upperPointElevetionGt"] ;
-    difficultyGt = jsonMap["difficultyGt"] ;
     lengthLt = jsonMap["lengthLt"] ;
     upLt = jsonMap["upLt"] ;
-    inclinationUpLt = jsonMap["inclinationUpLt"] ;
     startPointElevetionLt = jsonMap["startPointElevetionLt"] ;
     upperPointElevetionLt = jsonMap["upperPointElevetionLt"] ;
-    difficultyLt = jsonMap["difficultyLt"] ;
         
     mapBoundNELat = jsonMap["mapBoundNELat"] ;
     mapBoundNELong = jsonMap["mapBoundNELong"] ;
@@ -287,22 +279,61 @@ class SearchForm  implements ToJson{
              'activities': _activities,
              'lengthGt': lengthGt,             
              'upGt': upGt,             
-             'inclinationUpGt': inclinationUpGt,             
              'startPointElevetionGt': startPointElevetionGt,             
              'upperPointElevetionGt': upperPointElevetionGt,             
-             'difficultyGt': difficultyGt,             
              'lengthLt': lengthLt,             
              'upLt': upLt,             
-             'inclinationUpLt': inclinationUpLt,             
              'startPointElevetionLt': startPointElevetionLt,             
              'upperPointElevetionLt': upperPointElevetionLt,             
-             'difficultyLt': difficultyLt,  
              'mapBoundNELat': mapBoundNELat,               
              'mapBoundNELong': mapBoundNELong,               
              'mapBoundSWLat': mapBoundSWLat,               
              'mapBoundSWLong': mapBoundSWLong,               
              'results':results};
   }
+  
+  void _fromUrlQuery(String query){
+    if (query == null || query.isEmpty){
+      return;
+    }
+    query.split("&").forEach((p){
+      List<String> values = p.split("=") ;
+      if (values.length == 2){
+        String v = values[1] ;
+        switch (values[0]) {
+          case 's'  : search                     = v;     break;
+          case 'c'  : creator                    = v;     break;
+          case 'a'  : _activities                = v;     break;           
+          case 'lg' : lengthGt                   = v;     break;    
+          case 'll' : lengthLt                   = v;     break;             
+          case 'ug' : upGt                       = v;     break;             
+          case 'ul' : upLt                       = v;     break;             
+          case 'sg' : startPointElevetionGt      = v;     break;             
+          case 'sl' : startPointElevetionLt      = v;     break;   
+          case 'eg' : upperPointElevetionGt      = v;     break;             
+          case 'el' : upperPointElevetionLt      = v;     break;   
+          case 'nea': mapBoundNELat      = double.parse(v,null);     break; 
+          case 'neo': mapBoundNELong     = double.parse(v,null);     break; 
+          case 'swa': mapBoundSWLat      = double.parse(v,null);     break; 
+          case 'swo': mapBoundSWLong      = double.parse(v,null);     break; 
+        }
+      }
+    });
+  }
+  
+  String toUrlQuery(){
+    return "s=${_v(search)}&c=${_v(creator)}&a=${_v(_activities)}"
+                + "&lg=${_v(lengthGt)}&ll=${_v(lengthLt)}"
+                + "&ug=${_v(upGt)}&ul=${_v(upLt)}"
+                + "&sg=${_v(startPointElevetionGt)}&sl=${_v(startPointElevetionLt)}"
+                + "&eg=${_v(upperPointElevetionGt)}&el=${_v(upperPointElevetionLt)}"
+                + "&nea=${_d(mapBoundNELat)}&neo=${_d(mapBoundNELong)}"
+                + "&swa=${_d(mapBoundSWLat)}&swo=${_d(mapBoundSWLong)}"
+                ;
+  }
+  
+  String _v(String value)=> value == null ? "" : value ;
+  String _d(num value)=> value == null ? "" : value.toString() ;
   
   void addActivity(String activity){
     if(_activities != null && _activities.isNotEmpty){
@@ -319,6 +350,8 @@ class SearchForm  implements ToJson{
       return new List<String>();
     }
   }
+  
+  bool get hasBounds =>     mapBoundNELat != null && mapBoundNELong != null && mapBoundSWLat != null && mapBoundSWLong != null ;
   
 }
 

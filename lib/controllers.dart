@@ -142,16 +142,12 @@ class TraceController extends ServerController with JsonFeatures{
                         
             filters.lengthGt = castToNum(form.lengthGt,1000) ;
             filters.upGt  = castToNum(form.upGt,1) ;
-            filters.inclinationUpGt = castToNum(form.inclinationUpGt,1);
             filters.startPointElevetionGt = castToNum(form.startPointElevetionGt,1);
             filters.upperPointElevetionGt = castToNum(form.upperPointElevetionGt,1);
-            filters.difficultyGt = castToNum(form.difficultyGt,1);
             filters.lengthLt = castToNum(form.lengthLt,1000);
             filters.upLt  = castToNum(form.upLt,1);
-            filters.inclinationUpLt = castToNum(form.inclinationUpLt,1);
             filters.startPointElevetionLt = castToNum(form.startPointElevetionLt,1);
             filters.upperPointElevetionLt = castToNum(form.upperPointElevetionLt,1);
-            filters.difficultyLt = castToNum(form.difficultyLt,1);
             
             filters.mapBoundNELat = form.mapBoundNELat ;
             filters.mapBoundNELong  = form.mapBoundNELong ;
