@@ -172,7 +172,7 @@ class TraceSearchPage extends Page {
         String gpxUrl = "/trace.gpx/${lightTrace.key}";   
         js.context.searchMap.addMarkerToMap( lightTrace.keyJsSafe, lightTrace.mainActivity , lightTrace.titleJsSafe, lightTrace.startPointLatitude,lightTrace.startPointLongitude,gpxUrl );
         });
-      if (fitMapViewPortWithMarkers && !queryFilter){
+      if (fitMapViewPortWithMarkers || queryFilter){
         js.context.searchMap.fitMapViewPortWithMarkers();
       }
       if(firstRequest && !queryFilter){

@@ -14,11 +14,12 @@ class TraceFormPage extends Page {
   String _currentKey ;
   WatchPointEditorWidget _watchPointEditorWidget ;
   UploadFileWidget _gpsUploadFileWidget;
+  TraceDetailsPage _traceDetailsPage ;
   
-  
-  TraceFormPage(PageContext context): super("trace_form",context,50,50,false){
+  TraceFormPage(PageContext context, TraceDetailsPage traceDetailsPage): super("trace_form",context,50,50,false){
     description = "Ajout d'une trace" ;
     actionImages =  new ActionImages("assets/img/trace_add.png", imageOver: "assets/img/trace_add_blue.png") ;
+    this._traceDetailsPage = traceDetailsPage;
   }
   
   bool isUpdate(){
@@ -55,6 +56,9 @@ class TraceFormPage extends Page {
     if(pageParameters.pageName.startsWith(this.name) && _extractKey(pageParameters.pageName) != null ){
       return true;
     }
+    if(pageParameters.pageName.startsWith("trace_update") ){
+      return true; 
+    }
     return false ;
   }
   
@@ -84,11 +88,14 @@ class TraceFormPage extends Page {
       showBySelector(".trace-form-file-smoothing");
       showBySelector("#${name}SW");
       showBySelector("#${name}NW");
+      hideBySelector("#trace-form-update-message");
+      
       hideBySelector("#trace_detailsNE");
       hideBySelector("#trace_detailsSE", hiddenClass: "gx-hidden-map");
       
     }else{
       layout.organizeSpaces(50,50,showWestSpace:false );
+      showBySelector("#trace-form-update-message");
       _loadForm(_currentKey) ;
     }
     sendPageChangeEvent(description, "#${name}" ) ;
@@ -98,6 +105,8 @@ class TraceFormPage extends Page {
     active = false;
     hideBySelector("#${name}NW");
     hideBySelector("#trace_detailsNE");
+    hideBySelector("#trace_detailsNW");
+    hideBySelector("#trace_detailsSW");
     hideBySelector("#${name}SW");
     hideBySelector("#trace_detailsSE", hiddenClass: "gx-hidden-map");
     js.context.traceDetailsMap.hideRightClickMark();
@@ -162,7 +171,8 @@ class TraceFormPage extends Page {
         TraceForm traceForm = new TraceForm.fromMap(JSON.decode(request.responseText));
         if( traceForm.isSuccess  ){
           context.pagesController.fireTraceChangeEvent(traceForm.key);
-          window.location.href = "/#trace_details/${traceForm.key}" ;
+          _traceDetailsPage.showPageByKey(traceForm.key, true, needToSendPageChangeEvent:false);
+          window.location.href = "/#trace_update/${traceForm.key}" ;
         }else{
           _hideDisplayMessage(traceForm) ;
         }

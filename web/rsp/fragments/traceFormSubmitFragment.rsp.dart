@@ -27,7 +27,14 @@ Future traceFormSubmitFragment(HttpConnect connect) { //#2
              </td>
              <td style="width: 10%;"  ></td>
           </tr>    
-                                     
+          <tr style="height: 20px"><td colspan="4" /></tr>
+          <tr >
+             <td style="width: 10%;"  ></td>
+             <td colspan="2" style="width: * ;   >
+                <div id="trace-form-update-message"  class="alert alert-info">Possibilité d'ajouter des marqueurs sur la carte par un simple click droit.</div>
+             </td>
+             <td style="width: 10%;"  ></td>
+          </tr>                                       
           </table>
 
 

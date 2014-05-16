@@ -95,7 +95,7 @@ class TraceDetailsPage extends Page {
     traceDetailsByKey.remove(event.key) ;
     keys.remove(event.key);
     if (event.key == currentKey ){
-      _showPage(currentKey,true);
+      showPageByKey(currentKey,true);
     }
   }
   
@@ -188,7 +188,7 @@ class TraceDetailsPage extends Page {
       _updateDeleteConfirmText( traceDetails);
       sendPageChangeEvent(traceDetails.title, "/#${pageParameters.anchor}" ) ;
     }else{
-      _showPage( key,false);       
+      showPageByKey( key,false);       
     }
   }
  
@@ -206,7 +206,7 @@ class TraceDetailsPage extends Page {
  }
   
  
- void _showPage(String key,  bool onlyRefreshContent){
+ void showPageByKey(String key,  bool onlyRefreshContent, {needToSendPageChangeEvent:true}){
     
     String keyJsSafe = _transformJsSafe(key) ;
     loadingNW.startLoading();
@@ -246,9 +246,9 @@ class TraceDetailsPage extends Page {
         if(!onlyRefreshContent){
           showBySelector("#${name}NE");
         }
-        
-        sendPageChangeEvent(traceDetails.title, "/#${this.name}/${key}" ) ;
-
+        if(needToSendPageChangeEvent){
+          sendPageChangeEvent(traceDetails.title, "/#${this.name}/${key}" ) ;
+        }
       }
     });
     request.open("GET",  "/j_trace_details/${key}", async: true);
@@ -303,6 +303,7 @@ class TraceDetailsPage extends Page {
    _profile.show(traceDetails);
  }
  
+
  void hidePage() {
     String keyJsSafe = _transformJsSafe(currentKey) ;
     hideBySelector("#${name}SE", hiddenClass: "gx-hidden-map");

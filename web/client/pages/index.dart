@@ -78,8 +78,9 @@ void main() {
   pages.add(new DisclaimerPage(pageContext));  
   pages.add(new AboutPage(pageContext));
   pages.add(new TraceSearchPage(pageContext));
-  pages.add(new TraceDetailsPage(pageContext));
-  pages.add(new TraceFormPage(pageContext));
+  TraceDetailsPage traceDetailsPage = new TraceDetailsPage(pageContext);
+  pages.add(traceDetailsPage);
+  pages.add(new TraceFormPage(pageContext,traceDetailsPage));
   
   pagesController.init(pages,pageContext);
 }
