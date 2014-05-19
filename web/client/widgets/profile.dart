@@ -1,5 +1,5 @@
 import "dart:html";
-import "dart:svg";
+import "dart:svg" hide ImageElement;
 import 'dart:async';
 import "widget.dart" ;
 import "../forms.dart";
@@ -21,6 +21,10 @@ class ProfileWidget extends Widget {
   ProfilePoint _profilePointToBeFired ; 
   
   StreamController<ProfilePoint> _profilePointSelectionController = new StreamController<ProfilePoint>.broadcast();
+  
+  int _lowestElevetion = 0;
+  int _heighestElevetion = 0;
+  int _skyElevetionInMeters = 0;
   
   ProfileWidget(String id) : super(id){
     querySelector("#${id}").style.backgroundColor = COLOR_DEFAULT ;
@@ -48,17 +52,17 @@ class ProfileWidget extends Widget {
     
     var svgGroup = new SvgElement.tag("g");
     
-    int lowestElevetion      = _getLowestPoint();
-    int heighestElevetion    = _getHeighestPoint();
-    int skyElevetionInMeters = _getSkyElevetion() ;
+    _lowestElevetion      = _getLowestPoint();
+    _heighestElevetion    = _getHeighestPoint();
+    _skyElevetionInMeters = _getSkyElevetion() ;
 
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> skyElevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "none",COLOR_SKY,0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.elevetionInMeters , lowestElevetion,skyElevetionInMeters ,  "black", "black",1));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.getSnowInMeters(skyElevetionInMeters)-1 , lowestElevetion,skyElevetionInMeters ,  "none", "white",0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.scatteredInMeters-1  , lowestElevetion,skyElevetionInMeters ,  "none", "#C2A385",0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.thornyInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "none", "#4C8033",0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.leafyInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "none", "#99FF66",0));    
-    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.meadowInMeters-1 , lowestElevetion,skyElevetionInMeters ,  "none", "#FFE066",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> _skyElevetionInMeters , _lowestElevetion,_skyElevetionInMeters ,  "none",COLOR_SKY,0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.elevetionInMeters , _lowestElevetion,_skyElevetionInMeters ,  "black", "black",1));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.getSnowInMeters(_skyElevetionInMeters)-1 , _lowestElevetion,_skyElevetionInMeters ,  "none", "white",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.scatteredInMeters-1  , _lowestElevetion,_skyElevetionInMeters ,  "none", "#C2A385",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.thornyInMeters-1 , _lowestElevetion,_skyElevetionInMeters ,  "none", "#4C8033",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.leafyInMeters-1 , _lowestElevetion,_skyElevetionInMeters ,  "none", "#99FF66",0));    
+    svgGroup.nodes.add(_buildProfileFragment( (p)=> p.meadowInMeters-1 , _lowestElevetion,_skyElevetionInMeters ,  "none", "#FFE066",0));    
     
     SvgElement svg = new SvgElement.tag('svg');
     svg.nodes.add(svgGroup);
@@ -81,47 +85,68 @@ class ProfileWidget extends Widget {
   }
   
   void _listenToMouse(){
-
+    querySelectorAll(".profile").forEach((profileElement){
+      profileElement.onMouseMove.listen((e){
+        _callMoveCursor(e);
+      });
+    }) ;
+    querySelectorAll("#spaceCenter-img").forEach((profileElement){
+      profileElement.onMouseMove.listen((e){
+        _callMoveCursor(e);
+      });
+    }) ;
+  }
+  
+  void _callMoveCursor(MouseEvent e){
+    if (_traceDetails == null){
+      return;
+    }
     
-    Element profileElement = querySelector("#${id}") ;
+    num clientX =  e.client.x - ( window.innerWidth - width - right)  ;  
+    num distance = ( clientX / width * _traceDetails.length ).toInt() ;
+    int index = _getIndexFromDistance( distance);
+    if (  index >= 0 && index < _traceDetails.profilePoints.length  ){
+      _currentProfilePoint = _traceDetails.profilePoints[index] ;
+      _profilePointToBeFired = _currentProfilePoint ;
+      _moveCursor(clientX, _currentProfilePoint) ;
+    }
+  }
+  
+  
+  void _moveCursor( num clientX, ProfilePoint point){
 
-    profileElement.onMouseMove.listen((e){
-      
-      if (_traceDetails == null){
-        return;
-      }
-      
-      Element verticalLineElement = querySelector("#${id}-vertical-line") ;
+    int valueX =   point.elevetionInMeters  ;
+    int valueY =   point.distanceInMeters  ;
+    String elevetion = "${valueX}m" ;
+    String distance = "${(valueY/1000).truncate()}km&nbsp;${( valueY- (valueY/1000).truncate()*1000)}m " ;
+    
+    Element _cursorElement = querySelector("#${id}-cursor") ;
+    Element _cursorElementDistance = querySelector("#${id}-cursor-distance") ;
+    Element _cursorElementElevetion = querySelector("#${id}-cursor-elevetion") ;
+    ImageElement _cursorElementImg = querySelector("#${id}-cursor-img") ;
+    _cursorElementDistance.setInnerHtml(distance,validator: buildNodeValidatorBuilderForSafeHtml())  ;
+    _cursorElementElevetion.setInnerHtml(elevetion,validator: buildNodeValidatorBuilderForSafeHtml())  ;
+    
+    int cursorWidth = 80;
+    int cursorHeight = 36 + 37;
+    num yPosition = _getYPosition( point.elevetionInMeters, _lowestElevetion, _skyElevetionInMeters);
+    
+    _cursorElement.style.position = 'relative';
+    _cursorElement.style.zIndex = '1001';
+    _cursorElement.style.width = "${cursorWidth}px";
+    _cursorElement.style.height = "${cursorHeight}px";
+    _cursorElement.style.left = "${clientX - cursorWidth/2}px";
+    _cursorElement.style.top = "${yPosition - cursorHeight}px"; ;
 
-      var clientX =  e.client.x - ( window.innerWidth - width - right)  ;  
-      
-      verticalLineElement.style.position = 'absolute';
-      verticalLineElement.style.zIndex = '1000';
-      verticalLineElement.style.width = '1px';
-      verticalLineElement.style.backgroundColor = 'black';
-      
-      num distance = ( clientX / width * _traceDetails.length ).toInt() ;
-      int index = _getIndexFromDistance( distance);
-      if (  index >= 0 && index < _traceDetails.profilePoints.length  ){
-        
-        _currentProfilePoint = _traceDetails.profilePoints[index] ;
-        _profilePointToBeFired = _currentProfilePoint ;
-        
-        int valueX =   _currentProfilePoint.elevetionInMeters  ;
-        int valueY =   _currentProfilePoint.distanceInMeters  ;
-        var elevetion = "${valueX}m" ;
-        var distance = "${(valueY/1000).truncate()}km&nbsp;${( valueY- (valueY/1000).truncate()*1000)}m " ;
-
-        verticalLineElement.style.left = "${clientX}px";
-        verticalLineElement.style.top = "${top}px"; ;
-        verticalLineElement.style.height = "${height}px";
-        verticalLineElement.setInnerHtml("<span style='border-style: solid; border-width:1px; background-color:white; '  >&nbsp;${distance}&nbsp;${elevetion}&nbsp;</span>",
-            validator: buildNodeValidatorBuilderForSafeHtml());
-        
-        
-      }
-
-  });
+    _cursorElementDistance.style.width = "${cursorWidth}px";
+    _cursorElementElevetion.style.width = "${cursorWidth}px";
+    
+    _cursorElementImg.src =_traceDetails.mainIconUrl ;
+    _cursorElementImg.style.left = "24px";
+    _cursorElementImg.style.width = "32px";
+    _cursorElementImg.style.height = "37px";
+    
+    
   }
   
   int _getIndexFromDistance(num distance){

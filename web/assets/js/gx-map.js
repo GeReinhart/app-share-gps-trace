@@ -114,6 +114,7 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
 	this.title = title;
 	this.gpxUrl= gpxUrl;
 	this.startMarker = L.marker([startLat, startLong], {icon: icon}) ;
+	this.mainIcon=icon;
     this.gpxTrackColor ;
 	this.gpxTrack ;
     this.popup ;
@@ -469,6 +470,13 @@ function GxTrace(key,  title, startLat, startLong, gpxUrl, icon,iconBuilder) {
 	     this.traces[key] = trace ;
 	   }
 	}
+
+    this.getMainIconByTraceKey = function(key){
+       if(key in this.traces){
+	     var trace = this.traces[key] ;
+	     return trace.mainIcon ;
+	   }
+    }
 
 	this.addMarkerToMap = function( key, activity, title, startLat, startLong, gpx ){
 	   this._addMarker(this.map,  key, activity, title, startLat, startLong, gpx ) ;

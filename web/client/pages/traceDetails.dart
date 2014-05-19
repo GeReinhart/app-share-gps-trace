@@ -291,7 +291,7 @@ class TraceDetailsPage extends Page {
  
    js.context.traceDetailsMap.addOtherMarkerToMap(traceDetails.keyJsSafe, "end", "Arrivée","", traceDetails.endPointLatitude,traceDetails.endPointLongitude);
    js.context.traceDetailsMap.addOtherMarkerToMap(traceDetails.keyJsSafe, "start", "Départ","", traceDetails.startPointLatitude,traceDetails.startPointLongitude);
-
+   
    if (traceDetails.watchPoints != null){
      traceDetails.watchPoints.forEach( (wp){
        js.context.traceDetailsMap.addOtherMarkerToMap(traceDetails.keyJsSafe, wp.type, wp.name, wp.description, wp.latitude, wp.longitude);
@@ -305,6 +305,8 @@ class TraceDetailsPage extends Page {
  }
  
  void _displayProfile(TraceDetails traceDetails){
+   
+   traceDetails.mainIconUrl = js.context.traceDetailsMap.getMainIconByTraceKey(traceDetails.keyJsSafe).options.iconUrl ;
    _profile.show(traceDetails);
  }
  

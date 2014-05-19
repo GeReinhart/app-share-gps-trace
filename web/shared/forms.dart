@@ -427,6 +427,7 @@ class TraceDetails implements ToJson{
   String title ;
   String description ;
   String lastupdate ;
+  String mainIconUrl ;
   List<String> activityKeys ;
   String activities ;
   num length;

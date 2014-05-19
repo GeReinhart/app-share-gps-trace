@@ -15,13 +15,36 @@ Future profileWidget(HttpConnect connect, {profileId}) { //#2
   response.write(Rsp.nnx(profileId)); //#2
 
 
-  response.write("""-vertical-line" class= gx-absolute-position"  >&nbsp;</div>
-<div id=\""""); //#2
+  response.write("""-cursor"  class="profile" >
+  <span id=\""""); //#2
 
   response.write(Rsp.nnx(profileId)); //#3
 
 
-  response.write(""""  class="gx-no-scroll gx-absolute-position" ></div>"""); //#3
+  response.write("""-cursor-distance" class="profile" style="position:absolute; top: 0px;  left:0px; text-align: center; color: white;" ></span><br/>
+  <span id=\""""); //#3
+
+  response.write(Rsp.nnx(profileId)); //#4
+
+
+  response.write("""-cursor-elevetion" class="profile" style="position:absolute; top: 18px; left:0px; text-align: center; color: white;" ></span><br/>
+  <img id=\""""); //#4
+
+  response.write(Rsp.nnx(profileId)); //#5
+
+
+  response.write("""-cursor-img" class="profile" style="position:absolute; top: 36px; " />
+</div>
+
+<div id=\""""); //#5
+
+  response.write(Rsp.nnx(profileId)); //#8
+
+
+  response.write(""""  class="gx-no-scroll gx-absolute-position profile" ></div>
+
+
+"""); //#8
 
   return new Future.value();
 }
