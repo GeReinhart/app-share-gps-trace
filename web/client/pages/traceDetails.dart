@@ -83,12 +83,17 @@ class TraceDetailsPage extends Page {
       delete.name = "Supprimer";
       delete.images =  new ActionImages("assets/img/trace_delete.png", imageOver: "assets/img/trace_delete_blue.png") ;
       delete.description =  "Supprimer la trace";
-      delete.launchAction = (params) =>  _deleteConfirm.showConfirmModal(); 
+      delete.launchAction = (params) =>  showDeleteConfirmModal(); 
       actions.add(delete);    
     
     }
 
     return actions;
+  }
+  
+  
+  void showDeleteConfirmModal(){
+    _deleteConfirm.showConfirmModal();
   }
   
   void traceChangeCallBack(TraceChangeEvent event){

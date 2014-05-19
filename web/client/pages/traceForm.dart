@@ -101,6 +101,37 @@ class TraceFormPage extends Page {
     sendPageChangeEvent(description, "#${name}" ) ;
   }
   
+  String _creatorFromKey(String key){
+    return  key.substring(0, key.indexOf("/") );
+  }
+  
+  List<ActionDescriptor> getActionsFor(String login, bool isAdmin){
+    
+    List<ActionDescriptor> actions = new List<ActionDescriptor>();
+    if (!isUpdate()){
+      return actions ;
+    }
+    String creator = _creatorFromKey(_currentKey) ;
+    
+    ActionDescriptor view = new ActionDescriptor();
+    view.name = "Voir";
+    view.images =  new ActionImages("assets/img/view.png", imageOver: "assets/img/view_blue.png") ;
+    view.description =  "Voir la trace";
+    view.nextPage = "/#trace_details/${_currentKey}"; 
+    actions.add(view);
+    
+    if ( isAdmin ||  login != null &&  creator == login  ){
+      ActionDescriptor delete = new ActionDescriptor();
+      delete.name = "Supprimer";
+      delete.images =  new ActionImages("assets/img/trace_delete.png", imageOver: "assets/img/trace_delete_blue.png") ;
+      delete.description =  "Supprimer la trace";
+      delete.launchAction = (params) =>  _traceDetailsPage.showDeleteConfirmModal(); 
+      actions.add(delete);    
+    }
+
+    return actions;
+  }
+  
   void hidePage() {
     active = false;
     hideBySelector("#${name}NW");

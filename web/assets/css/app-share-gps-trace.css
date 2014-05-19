@@ -62,9 +62,8 @@
 
 body { 
   float:left;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: sans-serif,"Helvetica Neue", Helvetica, Arial ;
   font-size: large;
-  
 }
 
 a:link {color:black;} 
