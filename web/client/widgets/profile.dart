@@ -91,6 +91,7 @@ class ProfileWidget extends Widget {
         });
         watchPointElements.children.add(currentWatchPointElement);
         Element textElement = currentWatchPointElement.children[0];
+        textElement.style.width = "${PROFILE_DECORATOR_WIDTH}px";
         textElement.text = watchPointData.name ;
         textElement.onMouseMove.listen((e){
           _callMoveCursor(e);
