@@ -54,7 +54,7 @@ Future profileWidget(HttpConnect connect, {profileId}) { //#2
 
 
   response.write("""-watchpoint-template profile" >
-  <span class="profile" style="position:absolute; top: 0px;  left:0px; text-align: center; color: white;" ></span>
+  <span class="profile" style="position:absolute; top: 0px;  left:0px; text-align: center; color: #b3b3b3;" ></span>
   <img class="profile" style="position:absolute; top: 36px; " />
 </div>
 

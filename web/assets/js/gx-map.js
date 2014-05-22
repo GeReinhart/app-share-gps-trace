@@ -25,7 +25,8 @@
                          "end":"stop.png",
                          "water":"drinkingwater.png",
                          "step":"flag-export.png",
-                         "camp":"tents.png"
+                         "camp":"tents.png",
+                         "refuge":"home-2.png"
 
                         } ;
 

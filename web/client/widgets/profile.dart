@@ -11,7 +11,7 @@ typedef int ElevetionValue(ProfilePoint profilePoint);
 class ProfileWidget extends Widget {
   
   static int SKY_HEIGHT_IN_METERS = 500 ; 
-  static int PROFILE_DECORATOR_WIDTH  = 80;
+  static int PROFILE_DECORATOR_WIDTH  = 120;
   static int PROFILE_DECORATOR_HEIGHT = 73;
   static String COLOR_SKY = "#5B6DE3"; 
   static String COLOR_DEFAULT = "white"; 
@@ -181,9 +181,9 @@ class ProfileWidget extends Widget {
     decoratorElement.style.height = "${PROFILE_DECORATOR_HEIGHT}px";
     decoratorElement.style.left = "${positionX - PROFILE_DECORATOR_WIDTH/2}px";
     decoratorElement.style.top =  "${positionY - PROFILE_DECORATOR_HEIGHT}px"; ;
-    
-    imageElement.style.left   = "24px";
-    imageElement.style.width  = "32px";
+    int imageWidth = 32 ;
+    imageElement.style.left   = "${(PROFILE_DECORATOR_WIDTH - imageWidth) / 2 }px";
+    imageElement.style.width  = "${imageWidth}px";
     imageElement.style.height = "37px";
   }
   
