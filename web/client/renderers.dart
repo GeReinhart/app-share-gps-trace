@@ -149,6 +149,7 @@ class TraceRenderer extends LigthTraceRenderer{
     if (this.watchPoints != null){
       this.watchPoints.forEach((p){
         WatchPointData wp= new WatchPointData(p.name,p.description,p.type,p.latitude,p.longitude);
+        wp.distance = p.distance;
         traceDetails.watchPoints.add(wp);
       });    
     }

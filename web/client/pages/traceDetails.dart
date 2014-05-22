@@ -6,6 +6,7 @@ import 'package:js/js.dart' as js;
 
 import 'page.dart';
 import "../controllers.dart" ;
+
 import "../spaces.dart";
 import "../forms.dart";
 import "../widgets/confirm.dart" ;
@@ -22,6 +23,7 @@ class TraceDetailsPage extends Page {
   List<String> keys = new List<String>();
   Map<String,TraceDetails> traceDetailsByKey = new Map<String,TraceDetails>();
   String currentKey = null;
+  
   
   TraceDetailsPage(PageContext context): super("trace_details",context,65,40,false){
     _deleteConfirm = new ConfirmWidget("deleteTraceConfirmModal", deleteTrace);

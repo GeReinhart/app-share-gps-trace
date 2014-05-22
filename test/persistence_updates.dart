@@ -6,7 +6,8 @@ import "package:gps_trace/gps_trace.dart";
 import '../lib/models.dart' ;
 import '../lib/persistence.dart' ;
 
-const String mongoUrl = "mongodb://127.0.0.1/test-traces-persitence" ;
+//const String mongoUrl = "mongodb://127.0.0.1/test-traces-persitence" ;
+const String mongoUrl = "mongodb://la-boussole-app:FD0LzbFp6t7KJ75@ds049558.mongolab.com:49558/heroku_app18544190";
 main() {
   
   TraceAnalyser traceAnalyser = new TraceAnalyser();

@@ -464,17 +464,17 @@ class TraceDetails implements ToJson{
     startPointLatitude = jsonMap['startPointLatitude'] ;  
     startPointLongitude = jsonMap['startPointLongitude'] ;  
     gpxUrl = jsonMap['gpxUrl'] ;  
-    List<String> profilePointsAsString = JSON.decode( jsonMap['profilePoints'] ) ;  
+    List<Map> profilePointsAsMap = JSON.decode( jsonMap['profilePoints'] ) ;  
     profilePoints = new List<ProfilePoint>();
-    if(profilePointsAsString != null){
-      profilePointsAsString.forEach((p){
+    if(profilePointsAsMap != null){
+      profilePointsAsMap.forEach((p){
         profilePoints.add( new ProfilePoint.fromMap(p) ) ;
       });
     }
-    List<String> watchPointsAsString = JSON.decode( jsonMap['watchPoints'] ) ;  
+    List<Map> watchPointsAsMap = JSON.decode( jsonMap['watchPoints'] ) ;  
     watchPoints = new List<WatchPointData>();
-    if(watchPointsAsString != null){
-      watchPointsAsString.forEach((p){
+    if(watchPointsAsMap != null){
+      watchPointsAsMap.forEach((p){
         watchPoints.add( new WatchPointData.fromMap(p) ) ;
       });
     }    
@@ -545,7 +545,7 @@ class WatchPointData implements ToJson{
   
   num latitude;
   num longitude;
-  num distance;
+  List<num> distance = new List<num>();
   
   WatchPointData(  this.name, this.description, this.type, this.latitude, this.longitude);
 
@@ -555,7 +555,10 @@ class WatchPointData implements ToJson{
     type = map['type'];
     latitude = map['latitude'];
     longitude = map['longitude'];
-    distance = map['distance'];
+    distance =  map['distance'] ;
+    if (distance == null){
+      distance = new List<num>();
+    }
   }
   
   Map toJson() {
@@ -765,7 +768,7 @@ class WatchPointForm implements ToJson{
   
   num latitude;
   num longitude;
-  num distance;
+  List<num> distance = new List<num>();
   
   String _success = "true" ;
   String error = null;
@@ -784,6 +787,9 @@ class WatchPointForm implements ToJson{
     latitude = map['latitude'];
     longitude = map['longitude'];
     distance = map['distance'];
+    if (distance == null){
+      distance = new List<num>();
+    }
     _success = map["_success"] ;
     error = map["error"] ;
     errorField = map["errorField"] ;

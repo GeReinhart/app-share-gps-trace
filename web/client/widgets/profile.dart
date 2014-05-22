@@ -3,7 +3,7 @@ import "dart:svg" hide ImageElement;
 import 'dart:async';
 import "widget.dart" ;
 import "../forms.dart";
-
+import "../images.dart" ;
 
 typedef int ElevetionValue(ProfilePoint profilePoint);
 
@@ -11,12 +11,15 @@ typedef int ElevetionValue(ProfilePoint profilePoint);
 class ProfileWidget extends Widget {
   
   static int SKY_HEIGHT_IN_METERS = 500 ; 
+  static int PROFILE_DECORATOR_WIDTH  = 80;
+  static int PROFILE_DECORATOR_HEIGHT = 73;
   static String COLOR_SKY = "#5B6DE3"; 
   static String COLOR_DEFAULT = "white"; 
   static const PROFILE_SELECTION_REFRESH_TIME = const Duration(milliseconds: 250);
   
   TraceDetails _traceDetails ;
   ProfilePoint _currentProfilePoint ;
+  ImageUrlProvider imageUrlProvider = new ImageUrlProvider();
   
   ProfilePoint _profilePointToBeFired ; 
   
@@ -74,6 +77,36 @@ class ProfileWidget extends Widget {
     querySelector("#${id}").nodes.add(svg);
     
     querySelector("#${id}").style.backgroundColor = COLOR_SKY ;
+    
+    DivElement watchPointElements = querySelector("#${id}-watchpoints");
+    watchPointElements.children.clear();
+    DivElement watchPoint = querySelector(".${id}-watchpoint-template");
+    
+    traceDetails.watchPoints.forEach((watchPointData){
+      watchPointData.distance.forEach((distance){
+
+        DivElement currentWatchPointElement =  watchPoint.clone(true);
+        currentWatchPointElement.onMouseMove.listen((e){
+          _callMoveCursor(e);
+        });
+        watchPointElements.children.add(currentWatchPointElement);
+        Element textElement = currentWatchPointElement.children[0];
+        textElement.text = watchPointData.name ;
+        textElement.onMouseMove.listen((e){
+          _callMoveCursor(e);
+        });        
+        ImageElement imageElement = currentWatchPointElement.children[1] ;
+        imageElement.onMouseMove.listen((e){
+          _callMoveCursor(e);
+        });  
+        imageElement.src = imageUrlProvider.buildUrlForWatchPoint(watchPointData.type) ;
+        
+        ProfilePoint point = _getPointFromDistance(distance);
+        _moveProfileDecorator( currentWatchPointElement, imageElement,  point) ;
+        
+      });
+    });
+    
   }
   
   void _mayFireProfilePointSelection(){
@@ -101,66 +134,73 @@ class ProfileWidget extends Widget {
     if (_traceDetails == null){
       return;
     }
-    
-    num clientX =  e.client.x - ( window.innerWidth - width - right)  ;  
-    num distance = ( clientX / width * _traceDetails.length ).toInt() ;
-    int index = _getIndexFromDistance( distance);
-    if (  index >= 0 && index < _traceDetails.profilePoints.length  ){
-      _currentProfilePoint = _traceDetails.profilePoints[index] ;
-      _profilePointToBeFired = _currentProfilePoint ;
-      _moveCursor(clientX, _currentProfilePoint) ;
+    num positionX =  e.client.x - ( window.innerWidth - width - right)  ;  
+    num distance = _positionXToDistance(positionX) ;
+    ProfilePoint point = _getPointFromDistance( distance);
+    if ( point != null  ){
+      _currentProfilePoint = point ;
+      _profilePointToBeFired = point ;
+      _moveCursor(point) ;
     }
   }
   
-  
-  void _moveCursor( num clientX, ProfilePoint point){
+  num _positionXToDistance(num positionX){
+    return ( positionX / width * _traceDetails.length ).toInt() ;
+  }
 
-    int valueX =   point.elevetionInMeters  ;
-    int valueY =   point.distanceInMeters  ;
-    String elevetion = "${valueX}m" ;
-    String distance = "${(valueY/1000).truncate()}km&nbsp;${( valueY- (valueY/1000).truncate()*1000)}m " ;
+  num _distanceToPositionX(num distance){
+    return  width * distance /  _traceDetails.length  ;
+  }
+  
+  void _moveCursor( ProfilePoint point){
+    int elevetion =   point.elevetionInMeters  ;
+    int distance =   point.distanceInMeters  ;
+    String labelElevetion = "${elevetion}m" ;
+    String labelDistance = "${(distance/1000).truncate()}km&nbsp;${( distance- (distance/1000).truncate()*1000)}m " ;
     
-    Element _cursorElement = querySelector("#${id}-cursor") ;
+    DivElement _cursorElement = querySelector("#${id}-cursor") ;
     Element _cursorElementDistance = querySelector("#${id}-cursor-distance") ;
     Element _cursorElementElevetion = querySelector("#${id}-cursor-elevetion") ;
     ImageElement _cursorElementImg = querySelector("#${id}-cursor-img") ;
-    _cursorElementDistance.setInnerHtml(distance,validator: buildNodeValidatorBuilderForSafeHtml())  ;
-    _cursorElementElevetion.setInnerHtml(elevetion,validator: buildNodeValidatorBuilderForSafeHtml())  ;
     
-    int cursorWidth = 80;
-    int cursorHeight = 36 + 37;
-    num yPosition = _getYPosition( point.elevetionInMeters, _lowestElevetion, _skyElevetionInMeters);
-    
-    _cursorElement.style.position = 'relative';
-    _cursorElement.style.zIndex = '1001';
-    _cursorElement.style.width = "${cursorWidth}px";
-    _cursorElement.style.height = "${cursorHeight}px";
-    _cursorElement.style.left = "${clientX - cursorWidth/2}px";
-    _cursorElement.style.top = "${yPosition - cursorHeight}px"; ;
-
-    _cursorElementDistance.style.width = "${cursorWidth}px";
-    _cursorElementElevetion.style.width = "${cursorWidth}px";
-    
+    _cursorElementDistance.setInnerHtml(labelDistance,validator: buildNodeValidatorBuilderForSafeHtml())  ;
+    _cursorElementElevetion.setInnerHtml(labelElevetion,validator: buildNodeValidatorBuilderForSafeHtml())  ;
+    _cursorElementDistance.style.width = "${PROFILE_DECORATOR_WIDTH}px";
+    _cursorElementElevetion.style.width = "${PROFILE_DECORATOR_WIDTH}px";
     _cursorElementImg.src =_traceDetails.mainIconUrl ;
-    _cursorElementImg.style.left = "24px";
-    _cursorElementImg.style.width = "32px";
-    _cursorElementImg.style.height = "37px";
-    
-    
+    _moveProfileDecorator( _cursorElement, _cursorElementImg,  point) ;
   }
   
-  int _getIndexFromDistance(num distance){
+  
+  void _moveProfileDecorator(DivElement decoratorElement, ImageElement imageElement, ProfilePoint point){
+    num positionY = _getPositionY( point.elevetionInMeters, _lowestElevetion, _skyElevetionInMeters);
+    num positionX = _distanceToPositionX(point.distance) ;
+    decoratorElement.style.position = 'absolute';
+    decoratorElement.style.zIndex = '1001';
+    decoratorElement.style.width = "${PROFILE_DECORATOR_WIDTH}px";
+    decoratorElement.style.height = "${PROFILE_DECORATOR_HEIGHT}px";
+    decoratorElement.style.left = "${positionX - PROFILE_DECORATOR_WIDTH/2}px";
+    decoratorElement.style.top =  "${positionY - PROFILE_DECORATOR_HEIGHT}px"; ;
+    
+    imageElement.style.left   = "24px";
+    imageElement.style.width  = "32px";
+    imageElement.style.height = "37px";
+  }
+  
+  ProfilePoint _getPointFromDistance(num distance){
     int index = 0;
     List<ProfilePoint> profilePoints = _traceDetails.profilePoints;
     for (int i = 0 ; i< profilePoints.length; i++){
       if (profilePoints[i].distance < distance){
         index = i;
       }else{
-        return index;
+        return profilePoints[index];
       }
     }
-    
-    return index ;
+    if(index == 0){
+      return null;
+    }
+    return profilePoints[index];
   }
   
   SvgElement _buildProfileFragment( ElevetionValue elevetionValue,
@@ -171,8 +211,8 @@ class ProfileWidget extends Widget {
 
     String points = "M0,${height} "  ;
     for (var i = 0; i < _traceDetails.profilePoints.length; i++) {
-      num x = _getXPosition(i);
-      num y = _getYPosition(elevetionValue(_traceDetails.profilePoints[i]),lowestElevetion,heighestElevetion ) ;
+      num x = _getPositionX(i);
+      num y = _getPositionY(elevetionValue(_traceDetails.profilePoints[i]),lowestElevetion,heighestElevetion ) ;
       points += "L${x},${y} " ;
     }
     points += "L${width},${height} Z" ;
@@ -215,12 +255,12 @@ class ProfileWidget extends Widget {
     return heighestElevetion;
   }
   
-  num _getXPosition( int profilePointIndex){
+  num _getPositionX( int profilePointIndex){
     num numberOfAvailablePixels = width ;
     return ( _traceDetails.profilePoints[profilePointIndex].distance * numberOfAvailablePixels /_traceDetails.length);
   }
   
-  num _getYPosition( int elevetion, int lowestElevetion, int heighestElevetion){
+  num _getPositionY( int elevetion, int lowestElevetion, int heighestElevetion){
     num elevetionRange = heighestElevetion - lowestElevetion + SKY_HEIGHT_IN_METERS;
     num numberOfAvailablePixels = height ;
     return height - ( (elevetion - lowestElevetion ) * numberOfAvailablePixels /elevetionRange);

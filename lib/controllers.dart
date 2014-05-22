@@ -222,9 +222,19 @@ class TraceController extends ServerController with JsonFeatures{
                                                watchPointForm.longitude);
         if ( watchPointForm.validate()){
           watchPoint.traceKey = watchPointForm.traceKey;
-          return _persistence.saveOrUpdateWatchPoint(watchPoint).then((_){
-            return postJson(connect.response, watchPointForm);
+          
+          return _persistence.getTraceByKey(watchPoint.traceKey).then( (trace){
+            TracePoint tracePoint = new TracePoint.basic(watchPoint.latitude, watchPoint.longitude);
+            List<TracePoint> closestPoints =  trace.traceAnalysis.closePointsFrom(tracePoint,50);
+            if (closestPoints.isNotEmpty){
+              closestPoints.forEach((point)=> watchPoint.distance.add(point.distance.round()));
+            }
+            return _persistence.saveOrUpdateWatchPoint(watchPoint).then((_){
+              return postJson(connect.response, watchPointForm);
+            });
+            
           });
+
         }else{
           return postJson(connect.response, watchPointForm);     
         }

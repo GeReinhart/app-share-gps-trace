@@ -1,5 +1,6 @@
 
 import "package:gps_trace/gps_trace.dart";
+import 'dart:convert';
 
 class Trace {
   
@@ -279,7 +280,7 @@ class WatchPoint {
   
   num latitude;
   num longitude;
-  num distance;
+  List<num> distance = new List<num>();
   
   WatchPoint( this.creator, this.name, this.description, this.type, this.latitude, this.longitude);
 
@@ -293,6 +294,9 @@ class WatchPoint {
     latitude = map['latitude'];
     longitude = map['longitude'];
     distance = map['distance'];
+    if (distance == null){
+      distance = new List<num>();
+    }
   }
   
   Map toJson() {
