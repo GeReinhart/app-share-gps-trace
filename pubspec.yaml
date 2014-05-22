@@ -7,7 +7,7 @@ dependencies:
   gps_trace:
     git:
       url: git://github.com/GeReinhart/dart-gps-trace.git
-      ref: 0.1.7
+      ref: 0.1.0
   bootjack: "0.6.1+7"
   dquery: "0.5.3+5"
   browser: "0.9.0"

@@ -20,7 +20,8 @@ class ImageUrlProvider{
                        "start":"parking.png",
                        "end":"stop.png",
                        "water":"drinkingwater.png",
-                       "step":"flag-export.png"
+                       "step":"flag-export.png",
+                       "camp":"tents.png"
                       } ;
   
   String buildUrlForWatchPoint(String watchPointType){
