@@ -10,13 +10,13 @@ abstract class PersistenceLayer{
 
   void close();
 
-  Future<List<Trace>>  getTraces({limit:50}) ;
+  Future<List<Trace>>  getTraces({num limit:100}) ;
   
   Future<List<Trace>>  getTracesByCreator(String creator) ;
 
   Future<List<Trace>>  getTracesByActivity(String activity) ;
 
-  Future<List<Trace>>  getTracesByFilters(SearchFilters filters,{limit:25}) ;
+  Future<List<Trace>>  getTracesByFilters(SearchFilters filters,{num limit:100}) ;
   
   Future<Trace>  getTraceById(String id) ;
   
@@ -97,7 +97,7 @@ class MongoPersistence implements PersistenceLayer{
     return _mongodb.close();
   }
   
-  Future<List<Trace>> getTraces({limit:25}) {
+  Future<List<Trace>> getTraces({num limit:100}) {
     
     List<Trace> traces = new List();
     
@@ -136,7 +136,7 @@ class MongoPersistence implements PersistenceLayer{
               });
   }
 
-  Future<List<Trace>>  getTracesByFilters(SearchFilters filters, {limit:25}) {
+  Future<List<Trace>>  getTracesByFilters(SearchFilters filters, {num limit:100}) {
     
     List<Trace> traces = new List();
     SelectorBuilder selector = where.exists("key").sortBy('lastUpdateDate', descending: true).limit(limit) ;

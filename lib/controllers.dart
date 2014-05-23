@@ -225,7 +225,7 @@ class TraceController extends ServerController with JsonFeatures{
           
           return _persistence.getTraceByKey(watchPoint.traceKey).then( (trace){
             TracePoint tracePoint = new TracePoint.basic(watchPoint.latitude, watchPoint.longitude);
-            List<TracePoint> closestPoints =  trace.traceAnalysis.closePointsFrom(tracePoint,50,distanceMinBetween2ClosePoints:120);
+            List<TracePoint> closestPoints =  trace.traceAnalysis.closePointsFrom(tracePoint,200);
             if (closestPoints.isNotEmpty){
               closestPoints.forEach((point)=> watchPoint.distance.add(point.distance.round()));
             }
