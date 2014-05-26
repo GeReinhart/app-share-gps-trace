@@ -298,7 +298,7 @@ class MongoPersistence implements PersistenceLayer{
   }
 
   Future<User> getUserByLogin(String login){
-    return _userCollection.findOne(where.eq("login", login))
+    return _userCollection.findOne(where.match("login", login, caseInsensitive: true))
               .then((jsonUser) {
                 if (jsonUser == null){
                   return null ;
@@ -309,7 +309,7 @@ class MongoPersistence implements PersistenceLayer{
   }
   
   Future<User> getUserByCredential(String login, String password) {
-    return _userCollection.findOne(where.eq("login", login)
+    return _userCollection.findOne(where.match("login", login, caseInsensitive: true)
                                             .and(where.eq("encryptedPassword", password)))
                 .then((jsonUser) {
                   if (jsonUser == null){

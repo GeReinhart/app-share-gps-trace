@@ -55,7 +55,7 @@ Future registerWidget(HttpConnect connect, {registerId}) { //#2
   response.write(Rsp.nnx(registerId)); //#21
 
 
-  response.write("""-error-message" class="text-warning" ></div>
+  response.write("""-error-message" class="text-warning" style="text-align: left;" ></div>
               <button id=\""""); //#21
 
   response.write(Rsp.nnx(registerId)); //#22

@@ -42,24 +42,24 @@ Future loginWidget(HttpConnect connect, {loginId}) { //#2
                 </div>        
           </div>
           <div class="modal-footer">
-            <button id=\""""); //#14
+            <div id=\""""); //#14
 
   response.write(Rsp.nnx(loginId)); //#18
 
 
-  response.write("""-btn-login" type="submit" class="btn btn-primary">Se connecter</button>
+  response.write("""-error-message" class="text-warning" style="text-align: left;"  ></div>
             <button id=\""""); //#18
 
   response.write(Rsp.nnx(loginId)); //#19
 
 
-  response.write("""-btn-cancel" class="btn btn-default">Annuler</button>
-             <div id=\""""); //#19
+  response.write("""-btn-login" type="submit" class="btn btn-primary">Se connecter</button>
+            <button id=\""""); //#19
 
   response.write(Rsp.nnx(loginId)); //#20
 
 
-  response.write("""-error-message" class="text-warning" ></div>
+  response.write("""-btn-cancel" class="btn btn-default">Annuler</button>
           </div>
         </div>
       </div>

@@ -73,7 +73,7 @@ class TraceDetailsPage extends Page {
     download.nextPage = "/trace.gpx/${currentKey}"; 
     actions.add(download);
     
-    if ( isAdmin ||  login != null &&  creator == login  ){
+    if ( isAdmin ||  login != null &&  creator == login.toLowerCase()  ){
       ActionDescriptor update = new ActionDescriptor();
       update.name = "Modifier";
       update.images =  new ActionImages("assets/img/trace_update.png", imageOver: "assets/img/trace_update_blue.png") ;
