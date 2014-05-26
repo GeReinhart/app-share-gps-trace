@@ -26,7 +26,7 @@ class TraceSearchPage extends Page {
   bool firstRequest = true ;
   bool initDone = false;
 
-  TraceSearchPage(PageContext context): super("trace_search",context,95,50,true){
+  TraceSearchPage(PageContext context): super("trace_search",context,97,50,true){
     description="Rechercher une trace gps";
     actionImages =  new ActionImages("assets/img/search.png", imageOver: "assets/img/search_blue.png") ;
     layout.centerMoved.listen((_){
