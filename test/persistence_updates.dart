@@ -6,8 +6,7 @@ import "package:gps_trace/gps_trace.dart";
 import '../lib/models.dart' ;
 import '../lib/persistence.dart' ;
 
-//const String mongoUrl = "mongodb://127.0.0.1/test-traces-persitence" ;
-const String mongoUrl = "mongodb://la-boussole-app:FD0LzbFp6t7KJ75@ds049558.mongolab.com:49558/heroku_app18544190";
+const String mongoUrl = "mongodb://127.0.0.1/test-traces-persitence" ;
 main() {
   
   TraceAnalyser traceAnalyser = new TraceAnalyser();
@@ -37,10 +36,12 @@ main() {
                 return persitence.getTraceByKey(trace.key).then( (traceWithPoints) {
                   print( "Compute analysis for " + traceWithPoints.key ) ; 
                   TraceRawData rawData=  new TraceRawData.fromPoints( traceWithPoints.points );
-                  TraceAnalysis newTrace = new TraceAnalysis.fromRawData(rawData);
+                  SmoothingLevel smoothingLevel = SmoothingLevel.fromString(trace.smoothing);
+                  SmoothingParameters smoothingParameters = SmoothingParameters.get(smoothingLevel) ;
+                  TraceAnalysis newTrace =traceAnalyser.buildTraceAnalysisFromRawData(rawData,smoothingParameters:smoothingParameters ) ;
                   trace.up = newTrace.up ;
                   trace.difficulty = newTrace.difficulty ;
-                  trace.inclinationUp = newTrace.inclinationUp ;  
+                  trace.inclinationUp = newTrace.inclinationUp.round() ;  
                   print( "Saving analysis for " + trace.key + " with difficulty ${newTrace.difficulty} " ) ; 
                   return persitence.saveOrUpdateTrace(trace);                  
                 } );
