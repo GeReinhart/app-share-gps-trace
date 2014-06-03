@@ -12,6 +12,15 @@ main() {
   
   TraceAnalyser traceAnalyser = new TraceAnalyser();
 
+  Future<TraceAnalysis> buildTraceAnalysisFromGpxFile(File gpxFile,{bool applyPurge: false,
+    int idealMaxPointNumber:3500, 
+    SmoothingParameters smoothingParameters:null}){
+    return gpxFile.readAsString().then((gpxFileContent) {
+      return traceAnalyser.buildTraceAnalysisFromGpxFileContent(gpxFileContent,applyPurge: applyPurge,
+           idealMaxPointNumber:idealMaxPointNumber, 
+           smoothingParameters:smoothingParameters);
+    });
+  }
   
   test('Persistence tests', () {
 
@@ -127,7 +136,7 @@ main() {
         .then((_){
           
           File file = new File("test/resources/12590.gpx");
-          return traceAnalyser.buildTraceAnalysisFromGpxFile(file).then((traceAnalysis){
+          return buildTraceAnalysisFromGpxFile(file).then((traceAnalysis){
             
             TracePoint firstPoint = traceAnalysis.points[0] ; 
             Trace trace = new Trace.fromTraceAnalysis("Gex", traceAnalysis); 
@@ -169,7 +178,7 @@ main() {
         .then((_){
           
           File file = new File("test/resources/12590.gpx");
-          return traceAnalyser.buildTraceAnalysisFromGpxFile(file).then((traceAnalysis){
+          return buildTraceAnalysisFromGpxFile(file).then((traceAnalysis){
             
             Trace trace = new Trace.fromTraceAnalysis("Gex", traceAnalysis); 
             trace.title = "Tour du Vercors - Autrans - Saint Nizier du Moucherotte";
