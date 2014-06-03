@@ -363,7 +363,7 @@ class TraceController extends ServerController with JsonFeatures{
     SmoothingParameters smoothingParameters = SmoothingParameters.get( SmoothingLevel.fromString(traceForm.smoothing ));
     return file.writeAsBytes(fileUploaded.content, mode: FileMode.WRITE)
         .then((_) {
-          return  _traceAnalyser.buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
+          return  buildTraceAnalysisFromGpxFile(file,applyPurge:true,smoothingParameters:smoothingParameters ).then((traceAnalysis){
             
             Trace trace = new Trace.fromTraceAnalysis(user.login, traceAnalysis); 
             trace.title = traceForm.title ;
@@ -387,6 +387,16 @@ class TraceController extends ServerController with JsonFeatures{
           return postJson(connect.response, traceForm);  
         });
     
+  }
+  
+  Future<TraceAnalysis> buildTraceAnalysisFromGpxFile(File gpxFile,{bool applyPurge: false,
+    int idealMaxPointNumber:3500, 
+    SmoothingParameters smoothingParameters:null}){
+    return gpxFile.readAsString().then((gpxFileContent) {
+      return _traceAnalyser.buildTraceAnalysisFromGpxFileContent(gpxFileContent,applyPurge: applyPurge,
+           idealMaxPointNumber:idealMaxPointNumber, 
+           smoothingParameters:smoothingParameters);
+    });
   }
   
   Future _jsonTraceUpdate(HttpConnect connect,  TraceForm traceForm ) {

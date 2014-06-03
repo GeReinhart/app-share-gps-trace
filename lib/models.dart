@@ -88,7 +88,9 @@ class Trace {
   
   TraceAnalysis get traceAnalysis{
     if(_traceAnalysis == null){
-      _traceAnalysis = _traceData.toTraceAnalysis()  ;
+      _traceAnalysis = _traceData.toTraceAnalysis(smoothingParameters:smoothingParameters)  ;
+      _traceAnalysis.up = this.up;
+      _traceAnalysis.length = this.length;
     }
     return _traceAnalysis;
   }
@@ -96,7 +98,7 @@ class Trace {
   TraceData     get traceData => _traceData;  
   set traceData(value) {
     _traceData = value;
-    _traceAnalysis = _traceData.toTraceAnalysis()  ;
+    _traceAnalysis = traceAnalysis  ;
     _traceData.id = value.id;
     _setTraceAnalysisData(_traceAnalysis);
   } 
@@ -115,6 +117,8 @@ class Trace {
   }
   
   String        get traceDataId => _traceDataId;
+  
+  SmoothingParameters get smoothingParameters => SmoothingParameters.get(SmoothingLevel.fromString(smoothing)) ;
   
   set traceDataId(value) {
     _traceDataId = value;
@@ -200,7 +204,6 @@ class TraceData{
   String eleArray = "" ;  
   List<TracePoint> _points ;
   
-  
   TraceData.fromTraceAnalysis(TraceAnalysis traceAnalysis){
     for (var iter = traceAnalysis.points.iterator; iter.moveNext();) {
       TracePoint point = iter.current;
@@ -221,9 +224,12 @@ class TraceData{
     return {'_id': id,'latArray': latArray, 'longArray': longArray, 'eleArray': eleArray};
   }
   
-  TraceAnalysis toTraceAnalysis(){
+  TraceAnalysis toTraceAnalysis({bool applyPurge: false,
+                                    int idealMaxPointNumber:3500, 
+                                      SmoothingParameters smoothingParameters:null}){
+   
     TraceRawData data = new TraceRawData.fromPoints(points);
-    return new TraceAnalysis.fromRawData(data);
+    return new TraceAnalysis.fromRawData(data) ;
   }
   
   List<TracePoint> get points{
