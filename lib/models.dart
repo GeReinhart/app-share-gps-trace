@@ -89,8 +89,12 @@ class Trace {
   TraceAnalysis get traceAnalysis{
     if(_traceAnalysis == null){
       _traceAnalysis = _traceData.toTraceAnalysis(smoothingParameters:smoothingParameters)  ;
-      _traceAnalysis.up = this.up;
-      _traceAnalysis.length = this.length;
+      if (this.up!= null){
+        _traceAnalysis.up = this.up;
+      }
+      if (this.length!= null){
+        _traceAnalysis.length = this.length;
+      }
     }
     return _traceAnalysis;
   }
