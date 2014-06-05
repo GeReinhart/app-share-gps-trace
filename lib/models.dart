@@ -1,6 +1,5 @@
 
 import "package:gps_trace/gps_trace.dart";
-import 'dart:convert';
 
 class Trace {
   
@@ -316,6 +315,54 @@ class WatchPoint {
   
   
 }
+
+
+class CommentTargetType{
+  static final  String TRACE = "trace" ;
+}
+
+class Comment {
+  
+  String id;
+
+  String creator ;
+  
+  String targetKey;
+  
+  String targetType;
+
+  String content;
+  
+  int _creationDateInMilliseconds ;
+  int _lastUpdateDateInMilliseconds ;
+  
+  Comment( this.creator, this.targetKey, this.targetType, this.content);
+
+  Comment.fromJson(Map map) {
+    id = map['_id'];
+    creator = map['creator'];
+    targetKey = map['targetKey'];
+    targetType = map['targetType'];
+    content = map['content'];
+    _creationDateInMilliseconds = map['creationDate'];
+    _lastUpdateDateInMilliseconds = map['lastUpdateDate'];    
+  }
+  
+  Map toJson() {
+    return {'_id': id,'creator': creator,'targetKey': targetKey,'targetType': targetType, 'content': content, 
+      'creationDate': _creationDateInMilliseconds, 'lastUpdateDate': _lastUpdateDateInMilliseconds};
+  }
+  
+  void creation(){
+    this._creationDateInMilliseconds = new DateTime.now().millisecondsSinceEpoch;
+    this._lastUpdateDateInMilliseconds = this._creationDateInMilliseconds;
+  }
+  
+  void update(){
+    this._lastUpdateDateInMilliseconds = new DateTime.now().millisecondsSinceEpoch;
+  }
+}
+
 
 
 class User {

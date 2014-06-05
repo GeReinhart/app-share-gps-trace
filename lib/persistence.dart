@@ -43,6 +43,13 @@ abstract class PersistenceLayer{
   Future<WatchPoint>  getWatchPointByTraceKeyAndPosition(String traceKey, num lat, num long) ;
   
   Future deleteWatchPoint(String traceKey, num lat, num long);
+  
+  Future<Comment> saveOrUpdateComment(Comment comment);
+  
+  Future<List<Comment>>  getCommentByTraceKey(String traceKey) ;
+  
+  Future<Comment>  deleteCommentById(String id) ;
+  
 }
 
 
@@ -75,6 +82,7 @@ class MongoPersistence implements PersistenceLayer{
   DbCollection _traceCollection;
   DbCollection _traceDataCollection;
   DbCollection _watchPointCollection;
+  DbCollection _commentCollection;
   
   MongoPersistence(mongoUrl){
     _mongodb = new Db(mongoUrl);
@@ -82,6 +90,7 @@ class MongoPersistence implements PersistenceLayer{
     _traceCollection = _mongodb.collection('traces');
     _traceDataCollection = _mongodb.collection('traceDatas');
     _watchPointCollection = _mongodb.collection('watchPoints');
+    _commentCollection = _mongodb.collection('comments');
   }
 
   Future open(){
@@ -249,7 +258,10 @@ class MongoPersistence implements PersistenceLayer{
          }
          Trace trace = new Trace.fromJson(jsonTrace);
          return _traceDataCollection.remove(where.eq("_id", trace.traceDataId)).then((_){
-                    return _traceCollection.remove(where.eq("key", key));          
+                    return _traceCollection.remove(where.eq("key", key)).then((_){
+                         return _commentCollection.remove(where.eq("targetKey", key)
+                                                           .and(where.eq("targetType", CommentTargetType.TRACE)));
+                    });          
           });
          
     });
@@ -397,6 +409,49 @@ class MongoPersistence implements PersistenceLayer{
             return new Future.value();          
           });
         }
+    });
+  }
+  
+  
+  Future<Comment> saveOrUpdateComment(Comment comment){
+    if(comment.id == null){
+      comment.id = new ObjectId().toString();
+      comment.creation();
+            return _commentCollection.insert(comment.toJson()).then((_){
+                return comment;
+            });
+    }else{
+      comment.update();
+            return _commentCollection.update(where.eq("_id", comment.id),   comment.toJson())
+               .catchError((e) {
+                      print("Unable to save comment ${comment.toJson()}: ${e}"); 
+                      return comment;                         
+               }).then((savedComment) {
+                      return comment;
+              });
+    }
+  }
+  
+  Future<List<Comment>>  getCommentByTraceKey(String traceKey) {
+    List<Comment> comments = new List();
+    return _commentCollection.find(where.sortBy('creationDate', descending: true)
+                                    .eq("targetKey", traceKey)
+                                    .and(where.eq("targetType", CommentTargetType.TRACE)
+                                           
+                                  )
+                       ).forEach((jsonComment){
+                Comment comment = new Comment.fromJson(jsonComment);
+                comments.add(comment);
+              })
+           .then((_) {
+                return comments;
+     });
+  }
+  
+  
+  Future deleteCommentById(String id){
+    return _commentCollection.find(where.eq("_id",id)).forEach((_){
+      return _commentCollection.remove(where.eq("_id",id)) ;
     });
   }
   

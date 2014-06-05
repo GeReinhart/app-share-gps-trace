@@ -366,11 +366,48 @@ main() {
           });
        })         
        
+       
+       .then((_){
+          Comment comment1 = new Comment("Gex",traceKey, CommentTargetType.TRACE, "comment 1") ;
+          Comment comment2 = new Comment("Gex",traceKey, CommentTargetType.TRACE, "comment 2") ;
+          return persitence.saveOrUpdateComment(comment1).then((_) {
+            
+            comment1.content = "comment 1 updated" ;
+            return persitence.saveOrUpdateComment(comment1).then((_) {
+             return persitence.saveOrUpdateComment(comment2).then((_) {
+              return persitence.getCommentByTraceKey(traceKey).then((comments) {
+                print("Test save and  get Comment ");
+                expect(comments.length, 2) ;
+                expect(comments[0].content,  "comment 2") ;
+                expect(comments[1].content,  "comment 1 updated") ;
+                
+                return persitence.deleteCommentById(comment1.id).then((_){
+                  return persitence.getCommentByTraceKey(traceKey).then((comments) {
+                    print("Test delete comment ");
+                    expect(comments.length, 1) ;       
+                    expect(comments[0].content,  "comment 2") ;
+                  });
+                });
+                
+              });
+             });    
+            });  
+          });
+        }) 
+       
+       
        .then((_){
           return persitence.deleteTraceByKey(traceKey).then((_) {
             return persitence.getTraceByKey(traceKey).then((loadedTrace) {
               print("Test delete trace");
               expect(loadedTrace, null) ;   
+              
+              return persitence.getCommentByTraceKey(traceKey).then((comments) {
+                expect(comments.length, 0) ;
+              });
+              
+              
+              
             });  
           });
         }) 
