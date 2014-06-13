@@ -822,3 +822,123 @@ class WatchPointForm implements ToJson{
   bool get isSuccess => _success == "true" ;
   
 }
+
+
+const int COMMENT_CONTENT_MIN_LENGTH = 1 ;
+const String COMMENT_CONTENT_ERROR_MIN_LENGTH = "comment.error.contentMinLength" ;
+
+
+class CommentForm implements ToJson{
+  
+  String id;
+
+  String creator ;
+  
+  String targetKey;
+  
+  String targetType;
+
+  String content;
+  
+  int _creationDateInMilliseconds ;
+  int _lastUpdateDateInMilliseconds ;
+  
+  String _success = "true" ;
+  String error = null;
+  String errorField = null;
+  
+  CommentForm.empty();
+  
+  CommentForm.trace(  this.creator, this.targetKey, this.content){
+    targetType = "trace" ;
+  }
+
+  CommentForm.traceWithTime(  this.creator, this.targetKey, this.content, this._creationDateInMilliseconds,  this._lastUpdateDateInMilliseconds ){
+     targetType = "trace" ;
+   }
+  
+  CommentForm.fromJson(Map map) {
+    id = map['_id'];
+    creator = map['creator'];
+    targetKey = map['targetKey'];
+    targetType = map['targetType'];
+    content = map['content'];
+    _creationDateInMilliseconds = map['creationDateInMilliseconds'];
+    _lastUpdateDateInMilliseconds = map['lastUpdateDateInMilliseconds'];
+    _success = map["_success"] ;
+    error = map["error"] ;
+    errorField = map["errorField"] ;
+  }
+  
+  Map toJson() {
+    return {'_id': id,
+      'creator': creator,
+      'targetKey': targetKey,
+      'targetType': targetType, 
+      'content': content, 
+      'creationDateInMilliseconds': _creationDateInMilliseconds, 
+      'lastUpdateDateInMilliseconds': _lastUpdateDateInMilliseconds, 
+      '_success': _success,
+      'error':error,
+      'errorField':errorField
+      };
+  }
+  
+  
+  bool validate(){
+    _success = "true" ;
+    if (content == null ||  content != null && content.length < COMMENT_CONTENT_MIN_LENGTH ){
+      setError(  COMMENT_CONTENT_ERROR_MIN_LENGTH , "content") ;
+    }
+    return isSuccess ;
+  }
+  
+  void setError( String error, String errorField  ){
+    _success = "false";
+    this.error = error;
+    this.errorField = errorField;
+  }
+  
+  bool get isSuccess => _success == "true" ;
+  
+}
+
+
+
+class CommentsForm implements ToJson{
+  
+  String targetKey;
+  
+  String targetType;
+  
+  List<CommentForm> comments = new List<CommentForm>() ;
+
+  CommentsForm.empty();
+  
+  CommentsForm.trace(  this.targetKey){
+    targetType = "trace" ;
+  }
+
+  CommentsForm.fromJson(Map map) {
+    targetKey = map['targetKey'];
+    targetType = map['targetType'];
+    List<Map> commentsAsMap = JSON.decode( map['comments'] ) ;  
+    comments = new List<CommentForm>();
+    if(commentsAsMap != null){
+      commentsAsMap.forEach((c){
+        comments.add( new CommentForm.fromJson(c) ) ;
+      });
+    }
+  }
+  
+  Map toJson() {
+    return {
+      'targetKey': targetKey,
+      'targetType': targetType, 
+      'comments': JSON.encode( comments ),
+      };
+  }
+
+  
+}
+

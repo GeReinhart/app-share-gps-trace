@@ -375,14 +375,14 @@ main() {
             comment1.content = "comment 1 updated" ;
             return persitence.saveOrUpdateComment(comment1).then((_) {
              return persitence.saveOrUpdateComment(comment2).then((_) {
-              return persitence.getCommentByTraceKey(traceKey).then((comments) {
+              return persitence.getCommentsByKey(traceKey,CommentTargetType.TRACE).then((comments) {
                 print("Test save and  get Comment ");
                 expect(comments.length, 2) ;
                 expect(comments[0].content,  "comment 2") ;
                 expect(comments[1].content,  "comment 1 updated") ;
                 
                 return persitence.deleteCommentById(comment1.id).then((_){
-                  return persitence.getCommentByTraceKey(traceKey).then((comments) {
+                  return persitence.getCommentsByKey(traceKey,CommentTargetType.TRACE).then((comments) {
                     print("Test delete comment ");
                     expect(comments.length, 1) ;       
                     expect(comments[0].content,  "comment 2") ;
@@ -402,7 +402,7 @@ main() {
               print("Test delete trace");
               expect(loadedTrace, null) ;   
               
-              return persitence.getCommentByTraceKey(traceKey).then((comments) {
+              return persitence.getCommentsByKey(traceKey,CommentTargetType.TRACE).then((comments) {
                 expect(comments.length, 0) ;
               });
               

@@ -46,7 +46,9 @@ abstract class PersistenceLayer{
   
   Future<Comment> saveOrUpdateComment(Comment comment);
   
-  Future<List<Comment>>  getCommentByTraceKey(String traceKey) ;
+  Future<List<Comment>>  getCommentsByKey(String traceKey,String traceType) ;
+
+  Future<Comment>  getCommentById(String id) ;
   
   Future<Comment>  deleteCommentById(String id) ;
   
@@ -431,12 +433,19 @@ class MongoPersistence implements PersistenceLayer{
               });
     }
   }
+ 
+  Future<Comment>  getCommentById(String id) {
+    return _commentCollection.findOne(where.eq("_id", id))
+          .then((jsonUser) {
+            return new Comment.fromJson(jsonUser);
+          });
+  }
   
-  Future<List<Comment>>  getCommentByTraceKey(String traceKey) {
+  Future<List<Comment>>  getCommentsByKey(String traceKey,String traceType) {
     List<Comment> comments = new List();
     return _commentCollection.find(where.sortBy('creationDate', descending: true)
                                     .eq("targetKey", traceKey)
-                                    .and(where.eq("targetType", CommentTargetType.TRACE)
+                                    .and(where.eq("targetType", traceType)
                                            
                                   )
                        ).forEach((jsonComment){

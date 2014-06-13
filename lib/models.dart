@@ -361,6 +361,9 @@ class Comment {
   void update(){
     this._lastUpdateDateInMilliseconds = new DateTime.now().millisecondsSinceEpoch;
   }
+  
+  int get creationDateInMilliseconds => _creationDateInMilliseconds;
+  int get lastUpdateDateInMilliseconds => _lastUpdateDateInMilliseconds; 
 }
 
 

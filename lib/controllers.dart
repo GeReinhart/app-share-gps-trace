@@ -296,6 +296,54 @@ class TraceController extends ServerController with JsonFeatures{
     });    
   }
   
+  
+  Future jsonCommentCreateOrUpdate(HttpConnect connect){
+    User user =  currentUser(connect.request.session);
+    if (user == null  ){
+      CommentForm commentForm = new CommentForm.empty();
+      commentForm.setError("forbiddenAction", "");
+      return postJson(connect.response, commentForm); 
+    }
+    return decodePostedJson(connect.request,
+        new Map.from(connect.request.uri.queryParameters))
+        .then((Map params) {
+
+        CommentForm commentForm = new CommentForm.fromJson(params );
+        Comment comment = new Comment(user.login,
+                                      commentForm.targetKey, 
+                                      commentForm.targetType, 
+                                      commentForm.content);
+        if ( commentForm.validate()){
+            return _persistence.saveOrUpdateComment(comment).then((commentSaved){
+              commentForm.id = commentSaved.id;
+              return postJson(connect.response, commentForm);  
+            });
+        }else{
+          return postJson(connect.response, commentForm);     
+        }
+    });
+  }
+  
+  Future jsonCommentsSelect(HttpConnect connect){
+    return decodePostedJson(connect.request,
+        new Map.from(connect.request.uri.queryParameters))
+        .then((Map params) {
+      CommentsForm commentsForm = new CommentsForm.fromJson(params );
+
+      return _persistence.getCommentsByKey(commentsForm.targetKey,commentsForm.targetType).then((comments){
+        CommentsForm filledCommentsForm = new CommentsForm.trace(commentsForm.targetKey);
+        
+        comments.forEach((comment){
+          CommentForm commentForm = new CommentForm.traceWithTime(comment.creator, comment.targetKey, comment.content, comment.creationDateInMilliseconds, comment.lastUpdateDateInMilliseconds);
+          
+          filledCommentsForm.comments.add(  commentForm) ;
+        });
+      });
+      
+    });
+  }  
+  
+  
   Future jsonTraceCreateOrUpdate(HttpConnect connect) {
 
     User user =  currentUser(connect.request.session);
