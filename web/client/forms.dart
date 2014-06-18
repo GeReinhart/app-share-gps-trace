@@ -1,6 +1,6 @@
 
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 
 abstract class ToJson{
   Map toJson() ;
@@ -849,7 +849,7 @@ class CommentForm implements ToJson{
   
   CommentForm.empty();
   
-  CommentForm.trace(  this.creator, this.targetKey, this.content){
+  CommentForm.trace(   this.targetKey, this.content){
     targetType = "trace" ;
   }
 
@@ -900,7 +900,15 @@ class CommentForm implements ToJson{
   }
   
   bool get isSuccess => _success == "true" ;
-  
+ 
+  String get lastUpdateDate{
+    if(_lastUpdateDateInMilliseconds != null){
+      DateTime date  = new DateTime.fromMillisecondsSinceEpoch(_lastUpdateDateInMilliseconds);
+      var formatter = new DateFormat('dd/MM/yyyy HH:mm');
+      return formatter.format(date);
+    }
+    return "" ;
+  }
 }
 
 

@@ -88,7 +88,7 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
                     response.write("""        </div>        
         <div id="aboutSW"      class="gx-hidden gx-vertical-optional-scroll" ></div>
-        <div id="trace_detailsSW" class="gx-hidden gx-vertical-optional-scroll" >
+        <div id="trace_detailsSW" class="gx-hidden" >
 """); //#41
 
                     return Rsp.nnf(traceDisplayCommentsFragment(new HttpConnect.chain(connect))).then((_) { //include#44
@@ -136,20 +136,23 @@ Future index(HttpConnect connect, {lightTraceRenderers,traceFormRenderer}) { //#
 
                                   return Rsp.nnf(watchPointEditorWidget(new HttpConnect.chain(connect), watchPointEditorId: "watchPointEditor")).then((_) { //include#64
 
-                                    response.write("""    
-"""); //#65
+                                    return Rsp.nnf(commentEditorWidget(new HttpConnect.chain(connect), commentEditorId: "commentEditor")).then((_) { //include#65
 
-                                    return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#66
+                                      response.write("""     
+"""); //#66
 
-                                      response.write("""    
+                                      return Rsp.nnf(sharedWidgets(new HttpConnect.chain(connect), sharedWidgetsId: "sharedWidgets")).then((_) { //include#67
+
+                                        response.write("""    
     <script type="application/dart" src="/client/pages/index.dart"></script>
     <script src="/packages/browser/dart.js"></script>
     <script src="/packages/browser/interop.js"></script>    
   </body>
 </html>
-"""); //#67
+"""); //#68
 
-                                      return new Future.value();
+                                        return new Future.value();
+                                      }); //end-of-include
                                     }); //end-of-include
                                   }); //end-of-include
                                 }); //end-of-include

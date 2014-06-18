@@ -42,6 +42,7 @@ part '../web/rsp/widgets/headerWidget.rsp.dart';
 part '../web/rsp/widgets/watchPointEditorWidget.rsp.dart';
 part '../web/rsp/widgets/uploadFileWidget.rsp.dart';
 part '../web/rsp/widgets/centerWidget.rsp.dart';
+part '../web/rsp/widgets/commentEditorWidget.rsp.dart';
 
 part '../web/rsp/fragments/indexTextFragment.rsp.dart';
 part '../web/rsp/fragments/indexButtonsFragment.rsp.dart';
@@ -153,7 +154,7 @@ class TraceController extends ServerController with JsonFeatures{
             filters.mapBoundSWLat  = form.mapBoundSWLat ;
             filters.mapBoundSWLong  = form.mapBoundSWLong ;
             
-            return  _persistence.getTracesByFilters(filters).then((traces){
+            return  _persistence.getTracesByFilters(filters, limit: 1000).then((traces){
               form.results = new List();
               if (traces != null){
                 traces.forEach((trace){
@@ -324,6 +325,8 @@ class TraceController extends ServerController with JsonFeatures{
     });
   }
   
+  
+  
   Future jsonCommentsSelect(HttpConnect connect){
     return decodePostedJson(connect.request,
         new Map.from(connect.request.uri.queryParameters))
@@ -338,6 +341,8 @@ class TraceController extends ServerController with JsonFeatures{
           
           filledCommentsForm.comments.add(  commentForm) ;
         });
+        
+        return postJson(connect.response, filledCommentsForm); 
       });
       
     });

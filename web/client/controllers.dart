@@ -55,6 +55,8 @@ class PagesController extends ClientController{
     _pages = pages ;
     _pages.forEach((page){
       page.setPageChangeEventCallBack(  this.pageChangeEvent )   ;
+      pageContext.userClientController.setLoginLogoutEventCallBack( page.loginLogoutEvent  );
+      
     }) ;
     pageContext.headerWidget.setPageChangeEventCallBack(this.pageChangeEvent);
   }

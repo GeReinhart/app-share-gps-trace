@@ -11,6 +11,7 @@ import "../spaces.dart";
 import "../forms.dart";
 import "../widgets/confirm.dart" ;
 import "../widgets/profile.dart" ;
+import "../widgets/commentEditor.dart" ;
 import "../events.dart" ;
 import '../actions.dart';
 
@@ -19,6 +20,7 @@ class TraceDetailsPage extends Page {
 
   ConfirmWidget _deleteConfirm ;
   ProfileWidget _profile ;
+  CommentEditorWidget _commentEditor;
   
   List<String> keys = new List<String>();
   Map<String,TraceDetails> traceDetailsByKey = new Map<String,TraceDetails>();
@@ -28,14 +30,25 @@ class TraceDetailsPage extends Page {
   TraceDetailsPage(PageContext context): super("trace_details",context,65,40,false){
     _deleteConfirm = new ConfirmWidget("deleteTraceConfirmModal", deleteTrace);
     _profile = new ProfileWidget("profile") ;
+    _commentEditor = new CommentEditorWidget("commentEditor") ;
     
     layout.centerMoved.listen((_){
       SpacesPositions positions = _ as SpacesPositions ;
       updateNWPostion(".${name}NW");
+      updateSWPostion(".${name}SW");
+      querySelectorAll(".trace-details-comments-section").forEach((e){
+        e.style.height = "${layout.postions.spaceSW_Height}px" ;
+        e.style.width = "${layout.postions.spaceSW_Width}px" ;
+      });
+      querySelectorAll(".trace-details-comments-div ").forEach((e){
+        e.style.height = "${positions.spaceSW_Height - 80}px" ;   
+      });
+      
       updateNWPostion(".trace-details-text");
       querySelectorAll(".trace-details-statistics ").forEach((e){
         e.style.width = "${positions.spaceNW_Width}px" ;   
       });
+      
       
       _moveMap(positions);
       moveTraceViewers(positions);
@@ -48,6 +61,9 @@ class TraceDetailsPage extends Page {
     });
     
     context.pagesController.setTraceChangeEventCallBack(traceChangeCallBack);
+    _commentEditor.setCommentEditorEventCallBack(_commentEditorEventCallBack);
+    
+
     
   }
   
@@ -192,6 +208,7 @@ class TraceDetailsPage extends Page {
       _displayProfile( traceDetails );
       showBySelector("#${name}NE");
       _displayMap( traceDetails );
+      _updateComments();
       _updateDeleteConfirmText( traceDetails);
       sendPageChangeEvent(traceDetails.title, "/#${pageParameters.anchor}" ) ;
     }else{
@@ -244,6 +261,10 @@ class TraceDetailsPage extends Page {
         
         
         Element swFragment  =_injectInDOMCloneEmptyElement("${name}SW",  keyJsSafe ) ;
+        
+        Element comments = swFragment.querySelector("#trace-details-comments") ;
+        comments.id = "trace-details-comments_${keyJsSafe}";
+        
         swFragment.classes.remove("gx-hidden") ;
         loadingSW.stopLoading();
         
@@ -256,6 +277,10 @@ class TraceDetailsPage extends Page {
         if(needToSendPageChangeEvent){
           sendPageChangeEvent(traceDetails.title, "/#${this.name}/${key}" ) ;
         }
+        _updateComments();
+        querySelectorAll(".trace-details-add-comment-btn").onClick.listen((e){
+          _commentEditor.showCommentEditorModal(currentKey, "trace") ;
+        });
       }
     });
     request.open("GET",  "/j_trace_details/${key}", async: true);
@@ -321,7 +346,57 @@ class TraceDetailsPage extends Page {
     hideBySelector("#${name}SW_${keyJsSafe}");
  }
  
- 
+ void loginLogoutEvent(LoginLogoutEvent event) {
+   if (event.isLogin){
+     showBySelector(".trace-details-add-comment-btn");
+   }
+   if(event.isLogout){
+      hideBySelector(".trace-details-add-comment-btn");
+   }
+ }
+  
+  void _commentEditorEventCallBack(CommentEditorEvent event) {
+    if (! event.isCancel ){
+       _updateComments();      
+    }
+  }
+  
+  void _updateComments() {
+  
+    HttpRequest request = new HttpRequest();
+       
+       request.onReadyStateChange.listen((_) {
+         
+         if (request.readyState == HttpRequest.DONE ) {
+
+           CommentsForm form = new CommentsForm.fromJson(JSON.decode(request.responseText));
+           String keyJsSafe = _transformJsSafe(currentKey) ;
+           Element commentsElement = querySelector("#trace-details-comments_${keyJsSafe}");
+           Element commentElementTemplate = commentsElement.children.first;
+           List oldComments = new List();  
+           oldComments.addAll(commentsElement.children);
+           oldComments.forEach((element){
+             if ( element!=commentElementTemplate ){
+               element.remove();
+             }
+           });
+           
+           form.comments.forEach((comment){
+             Element commentElementCurrentRow = commentElementTemplate.clone(true) ;
+             commentElementCurrentRow.classes.remove("gx-hidden");
+             commentElementCurrentRow.querySelector(".trace-details-comment-creator").text = comment.creator ;
+             commentElementCurrentRow.querySelector(".trace-details-comment-date").text = comment.lastUpdateDate ;
+             commentElementCurrentRow.querySelector(".trace-details-comment-content").text = comment.content ;
+
+             commentsElement.nodes.add(commentElementCurrentRow);
+           });
+           
+         }
+       });
+       request.open("POST",  "/j_comment_select", async: true);
+       CommentsForm form = new CommentsForm.trace(currentKey);
+       request.send(JSON.encode(form.toJson()));  
+  }
 }
 
 

@@ -1,0 +1,22 @@
+[:page partOf="trails" args="commentEditorId"]
+
+    <div id="[=commentEditorId]" class="modal fade gx-hidden" tabindex="-1" role="dialog" style="z-index: 0">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Commentaire</h3>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                  <textarea  id="[=commentEditorId]-content" class="form-control" style="width: 90%" rows="5" placeholder="Commentaire" ></textarea>
+              </div>        
+          </div>
+          <div class="modal-footer">
+              <div id="[=commentEditorId]-error-message" class="text-warning" ></div>
+              <button id="[=commentEditorId]-btn-delete" type="submit" class="btn btn-warning">Supprimer</button>
+              <button id="[=commentEditorId]-btn-submit" type="submit" class="btn btn-primary">Ajouter</button>
+              <button id="[=commentEditorId]-btn-cancel" class="btn btn-default">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>         

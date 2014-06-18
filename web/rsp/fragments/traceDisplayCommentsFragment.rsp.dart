@@ -10,12 +10,27 @@ Future traceDisplayCommentsFragment(HttpConnect connect) { //#2
   if (!Rsp.init(connect, "text/html; charset=utf-8"))
     return new Future.value();
 
-  response.write("""
-
-           <div class="text-warning  form-error-message" style="margin-top: 20px"  >En construction : commentaires, photos, note.</div>
-
-
-"""); //#2
+  response.write("""<div class="trace-details-comments-section" style="margin-top: 20px"  >
+  <div>
+    <button type="submit" class="gx-hidden trace-details-add-comment-btn btn btn-primary">Faire un commentaire sur la trace</button>
+  </div>
+  <div style="margin-top: 20px" class="trace-details-comments-div gx-vertical-optional-scroll" >
+        <table class="table" style="width: 100%"> 
+          <tbody id="trace-details-comments" >  
+             <tr class="gx-hidden" >
+              <td style="width: 12%; text-align: center;" >
+                 <div class="trace-details-comment-creator" ></div>
+                 <br/>
+                 <div class="trace-details-comment-date small-text"></div>
+              </td>  
+              <td style="width: *" >
+                 <div class="trace-details-comment-content"></div>
+              </td>  
+             </tr>
+          </tbody>  
+        </table>
+  </div>
+</div>        """); //#2
 
   return new Future.value();
 }

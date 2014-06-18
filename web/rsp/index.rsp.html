@@ -40,7 +40,7 @@
            [:include indexButtonsFragment  /]
         </div>        
         <div id="aboutSW"      class="gx-hidden gx-vertical-optional-scroll" ></div>
-        <div id="trace_detailsSW" class="gx-hidden gx-vertical-optional-scroll" >
+        <div id="trace_detailsSW" class="gx-hidden" >
            [:include traceDisplayCommentsFragment  /]
         </div>
         <div id="trace_formSW" class="gx-hidden" >
@@ -62,7 +62,8 @@
     
     [:include confirmWidget confirmId="deleteTraceConfirmModal" confirmTitle="Confirmation" confirmText="Je confirme la suppression définitive de la trace XXXXXXXXXXXXXXX"   /]
     [:include watchPointEditorWidget watchPointEditorId="watchPointEditor"   /]
-    
+    [:include commentEditorWidget commentEditorId="commentEditor"   /]
+     
     [:include sharedWidgets sharedWidgetsId="sharedWidgets" /]
     
     <script type="application/dart" src="/client/pages/index.dart"></script>
