@@ -101,11 +101,11 @@ class CommentEditorWidget extends Widget with ModalWidget {
   }
   
 
-  void showCommentEditorModal(  String targetKey, String _targetType, {String content:""}){
+  void showCommentEditorModal(  String targetKey, String _targetType, {String content:null}){
     _targetKey = targetKey ;
     _targetType = _targetType ;
     
-    querySelector("#${this.id}-content").text = content ;
+    (querySelector("#${this.id}-content") as TextAreaElement).value = content ;
     querySelector("#${this.id}-btn-submit").text =  content== null ?  "Ajouter" : "Modifier" ;
     hideBySelector("#${this.id}-btn-delete") ;
     
