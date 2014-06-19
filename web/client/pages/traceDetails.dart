@@ -21,6 +21,7 @@ class TraceDetailsPage extends Page {
   ConfirmWidget _deleteConfirm ;
   ProfileWidget _profile ;
   CommentEditorWidget _commentEditor;
+  LoginLogoutEvent _lastLoginLogout;
   
   List<String> keys = new List<String>();
   Map<String,TraceDetails> traceDetailsByKey = new Map<String,TraceDetails>();
@@ -347,6 +348,7 @@ class TraceDetailsPage extends Page {
  }
  
  void loginLogoutEvent(LoginLogoutEvent event) {
+   _lastLoginLogout = event;
    if (event.isLogin){
      showBySelector(".trace-details-add-comment-btn");
    }
@@ -387,6 +389,15 @@ class TraceDetailsPage extends Page {
              commentElementCurrentRow.querySelector(".trace-details-comment-creator").text = comment.creator ;
              commentElementCurrentRow.querySelector(".trace-details-comment-date").text = comment.lastUpdateDate ;
              commentElementCurrentRow.querySelector(".trace-details-comment-content").text = comment.content ;
+             Element updateElement = commentElementCurrentRow.querySelector(".trace-details-comment-update");
+             if ( _lastLoginLogout!= null && _lastLoginLogout.isLogin &&
+                   (_lastLoginLogout.login == comment.creator || _lastLoginLogout.isAdmin)){
+               updateElement.onClick.listen((e){
+                   _commentEditor.showCommentEditorModal(currentKey, "trace", commentId: comment.id, content:comment.content) ;
+               });
+             }else{
+               updateElement.remove();
+             }
 
              commentsElement.nodes.add(commentElementCurrentRow);
            });

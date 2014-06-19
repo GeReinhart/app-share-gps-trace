@@ -314,6 +314,7 @@ class TraceController extends ServerController with JsonFeatures{
                                       commentForm.targetKey, 
                                       commentForm.targetType, 
                                       commentForm.content);
+        comment.id = commentForm.id;
         if ( commentForm.validate()){
             return _persistence.saveOrUpdateComment(comment).then((commentSaved){
               commentForm.id = commentSaved.id;
@@ -325,7 +326,34 @@ class TraceController extends ServerController with JsonFeatures{
     });
   }
   
-  
+  Future jsonCommentDelete(HttpConnect connect) {
+    
+    User user =  currentUser(connect.request.session);
+    if (user == null  ){
+      return  forbiddenAction(connect) ;
+    }
+    
+    return decodePostedJson(connect.request,
+        new Map.from(connect.request.uri.queryParameters))
+        .then((Map params) {
+
+          final CommentForm form = new CommentForm.fromJson(params );
+
+          return _persistence.getCommentById(form.id).then((comment){
+            if ( comment == null ){
+              return forbiddenAction(connect) ;
+            }
+            if (user.login == comment.creator || user.admin  ){
+              return _persistence.deleteCommentById(form.id).then((_){
+                return postJson(connect.response, form); 
+              });              
+            }else{
+              return forbiddenAction(connect) ;
+            }
+            return postJson(connect.response, form); 
+          });
+    });
+  }
   
   Future jsonCommentsSelect(HttpConnect connect){
     return decodePostedJson(connect.request,
@@ -338,7 +366,7 @@ class TraceController extends ServerController with JsonFeatures{
         
         comments.forEach((comment){
           CommentForm commentForm = new CommentForm.traceWithTime(comment.creator, comment.targetKey, comment.content, comment.creationDateInMilliseconds, comment.lastUpdateDateInMilliseconds);
-          
+          commentForm.id = comment.id ;
           filledCommentsForm.comments.add(  commentForm) ;
         });
         

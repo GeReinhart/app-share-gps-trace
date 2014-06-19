@@ -32,9 +32,7 @@ class CommentEditorWidget extends Widget with ModalWidget {
   
   String _targetKey;
   String _targetType;
-  num _latitude;
-  num _longitude;
-  
+  String _commentId;
   
   CommentEditorWidget(String id): super(id){
     initModalWidget(id);
@@ -58,6 +56,9 @@ class CommentEditorWidget extends Widget with ModalWidget {
   void _initRegisterWidget(){
     querySelector("#${this.id}-btn-submit").onClick.listen((e) {
       _callSaveOrUpdateComment();
+    });
+    querySelector("#${this.id}-btn-delete").onClick.listen((e) {
+      _callDeleteComment();
     });
     querySelector("#${this.id}-btn-cancel").onClick.listen((e) {
       hideModalWidget(id);
@@ -97,17 +98,50 @@ class CommentEditorWidget extends Widget with ModalWidget {
       String content= (querySelector("#${this.id}-content") as TextAreaElement).value ;
       
       CommentForm form = new CommentForm.trace(_targetKey, content);
+      form.id = _commentId ;
       request.send(JSON.encode(form.toJson()));      
   }
   
+  void _callDeleteComment(){
+      
+      startLoading();
+      HttpRequest request = new HttpRequest();
+      
+      request.onReadyStateChange.listen((_) {
+        
+        if (request.readyState == HttpRequest.DONE ) {
 
-  void showCommentEditorModal(  String targetKey, String _targetType, {String content:null}){
+          CommentForm form = new CommentForm.fromJson(JSON.decode(request.responseText));
+          var message = querySelector("#${this.id}-error-message");
+          stopLoading();
+          if (form.isSuccess){
+            message.text = "" ;
+            hideModalWidget(id);
+            sendCommentEditorEvent(true,false, form);
+          }
+        }
+      });
+
+      request.open("POST",  "/j_comment_delete", async: true);
+      CommentForm form = new CommentForm.trace(_targetKey, "");
+      form.id = _commentId ;
+      request.send(JSON.encode(form.toJson()));      
+  }
+  
+  void showCommentEditorModal(  String targetKey, String targetType, {String commentId:null, String content:null}){
     _targetKey = targetKey ;
-    _targetType = _targetType ;
+    _targetType = targetType ;
+    _commentId = commentId ;
     
     (querySelector("#${this.id}-content") as TextAreaElement).value = content ;
-    querySelector("#${this.id}-btn-submit").text =  content== null ?  "Ajouter" : "Modifier" ;
-    hideBySelector("#${this.id}-btn-delete") ;
+    
+    if (_commentId == null){
+      querySelector("#${this.id}-btn-submit").text =  "Ajouter"  ;
+      hideBySelector("#${this.id}-btn-delete") ;
+    }else{
+      querySelector("#${this.id}-btn-submit").text =  "Modifier"  ;
+      showBySelector("#${this.id}-btn-delete") ;
+    }
     
     showModalWidget(id);
   }

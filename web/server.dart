@@ -62,6 +62,7 @@ class TracesServer{
           "/j_watch_point_select": _traceController.jsonWatchPointSelect,
           "/j_watch_point_delete": _traceController.jsonWatchPointDelete,
           "/j_comment_create_or_update": _traceController.jsonCommentCreateOrUpdate,
+          "/j_comment_delete": _traceController.jsonCommentDelete,
           "/j_comment_select": _traceController.jsonCommentsSelect,
           
           
