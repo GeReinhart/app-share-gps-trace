@@ -16,8 +16,15 @@ Future aboutDevFragment(HttpConnect connect) { //#2
 
            <h3>A venir</h3>
                <ul>
+                 <li>exploiter la notion de temps des traces GPS</li>
+                 <li>pouvoir donner une note à une trace</li>
                  <li>ajout de photos pour une trace</li>
+                 <li>...</li>
+                 <li>course poursuite virtuelle</li>
+                 <li>suivi de coureur</li>
                </ul>
+
+           <h3>23 juin 2014 : Permettre des retours utilisateurs</h3>
 
            <h3>20 juin 2014 : Ajout de commentaire à une trace</h3>
 
