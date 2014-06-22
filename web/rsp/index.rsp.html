@@ -39,7 +39,9 @@
         <div id="indexSW"      class="gx-hidden gx-vertical-optional-scroll" >
            [:include indexButtonsFragment  /]
         </div>        
-        <div id="aboutSW"      class="gx-hidden gx-vertical-optional-scroll" ></div>
+        <div id="aboutSW"      class="gx-hidden gx-vertical-optional-scroll" >
+            [:include aboutFeedbacksFragment  /]
+        </div>
         <div id="trace_detailsSW" class="gx-hidden" >
            [:include traceDisplayCommentsFragment  /]
         </div>
@@ -63,6 +65,7 @@
     [:include confirmWidget confirmId="deleteTraceConfirmModal" confirmTitle="Confirmation" confirmText="Je confirme la suppression définitive de la trace XXXXXXXXXXXXXXX"   /]
     [:include watchPointEditorWidget watchPointEditorId="watchPointEditor"   /]
     [:include commentEditorWidget commentEditorId="commentEditor"   /]
+    [:include commentEditorWidget commentEditorId="feedbackEditor"   /]
      
     [:include sharedWidgets sharedWidgetsId="sharedWidgets" /]
     

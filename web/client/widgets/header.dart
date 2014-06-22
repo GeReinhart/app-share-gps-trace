@@ -2,6 +2,7 @@ import "dart:html";
 import 'dart:async';
 
 import "widget.dart" ;
+import "commentEditor.dart" ;
 import "menu.dart" ;
 import "../pages/page.dart" ;
 import "modal.dart" ;
@@ -99,6 +100,15 @@ class HeaderWidget extends Widget  {
     });    
     
     window.onResize.listen((_)=>_updateWidget());
+  }
+  
+  
+  void initFeedBacks(CommentEditorWidget commentEditor){
+    querySelectorAll("#${id}-feedback").forEach((e){
+      e.onClick.listen((e) {
+        commentEditor.showCommentEditorModal("feedback", "feedback", header:"Retour utilisateur", placeHolder:"Retour utilisateur (sera visible à la page À Propos, merci du retour)");
+      });
+    });
   }
   
   void _updateWidget(){
@@ -205,10 +215,12 @@ class HeaderWidget extends Widget  {
       showBySelector("#${id}-register" );
       hideBySelector("#${id}-user" );
       hideBySelector("#${id}-admin" );
+      hideBySelector("#${id}-feedback" );
     }else{
       hideBySelector("#${id}-login" );
       showBySelector("#${id}-logout" );
       hideBySelector("#${id}-register" );
+      showBySelector("#${id}-feedback" );
       if (admin){
         hideBySelector("#${id}-user" );
         showBySelector("#${id}-admin" ); 

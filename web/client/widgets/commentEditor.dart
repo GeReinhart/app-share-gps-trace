@@ -97,7 +97,10 @@ class CommentEditorWidget extends Widget with ModalWidget {
       
       String content= (querySelector("#${this.id}-content") as TextAreaElement).value ;
       
-      CommentForm form = new CommentForm.trace(_targetKey, content);
+      CommentForm form = new CommentForm.empty();
+      form.targetKey = _targetKey;
+      form.targetType = _targetType ;
+      form.content = content;
       form.id = _commentId ;
       request.send(JSON.encode(form.toJson()));      
   }
@@ -128,7 +131,7 @@ class CommentEditorWidget extends Widget with ModalWidget {
       request.send(JSON.encode(form.toJson()));      
   }
   
-  void showCommentEditorModal(  String targetKey, String targetType, {String commentId:null, String content:null}){
+  void showCommentEditorModal(  String targetKey, String targetType, {String header:null, String placeHolder: null, String commentId:null, String content:null}){
     _targetKey = targetKey ;
     _targetType = targetType ;
     _commentId = commentId ;
@@ -143,6 +146,12 @@ class CommentEditorWidget extends Widget with ModalWidget {
       showBySelector("#${this.id}-btn-delete") ;
     }
     
+    if (header != null){
+      querySelector("#${this.id}-header").text = header ; 
+    }
+    if (placeHolder != null){
+      querySelector("#${this.id}-content").attributes["placeholder"] = placeHolder ; 
+    }    
     showModalWidget(id);
   }
   

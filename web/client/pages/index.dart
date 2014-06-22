@@ -75,13 +75,16 @@ void main() {
   
   List<Page> pages = new List<Page>();
   pages.add(new IndexPage(pageContext));
-  pages.add(new DisclaimerPage(pageContext));  
-  pages.add(new AboutPage(pageContext));
+  pages.add(new DisclaimerPage(pageContext));
+  AboutPage about = new AboutPage(pageContext); 
+  pages.add(about);
   pages.add(new TraceSearchPage(pageContext));
   TraceDetailsPage traceDetailsPage = new TraceDetailsPage(pageContext);
   pages.add(traceDetailsPage);
   pages.add(new TraceFormPage(pageContext,traceDetailsPage));
   
   pagesController.init(pages,pageContext);
+  
+  pageContext.headerWidget.initFeedBacks(about.feedbackEditor);
 }
 

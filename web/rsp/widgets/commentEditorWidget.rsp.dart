@@ -21,11 +21,16 @@ Future commentEditorWidget(HttpConnect connect, {commentEditorId}) { //#2
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h3>Commentaire</h3>
+            <h3 id=\""""); //#3
+
+  response.write(Rsp.nnx(commentEditorId)); //#7
+
+
+  response.write("""-header"  >Commentaire</h3>
           </div>
           <div class="modal-body">
               <div class="form-group">
-                  <textarea  id=\""""); //#3
+                  <textarea  id=\""""); //#7
 
   response.write(Rsp.nnx(commentEditorId)); //#11
 
